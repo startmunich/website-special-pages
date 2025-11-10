@@ -217,12 +217,72 @@ export default function Home() {
   const spotlightStartups = companies.filter(company => company.isSpotlight)
 
   return (
-    <main className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-12 text-center">
-          <p className="text-[#d0006f] font-bold text-sm tracking-wider uppercase mb-3">WANNA LEARN MORE?</p>
-          <h1 className="text-5xl md:text-7xl font-black text-[#00002c] tracking-tight uppercase mb-2">Our Startups</h1>
+    <>
+      {/* Header */}
+      <header className="bg-[#00002c] border-b-2 border-[#00002c]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-white flex items-center justify-center">
+                  <span className="text-[#00002c] font-black text-xl">S</span>
+                </div>
+                <div>
+                  <p className="text-white font-black text-lg leading-none uppercase">START</p>
+                  <p className="text-white text-xs leading-none uppercase tracking-wider">MUNICH</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <nav className="hidden md:flex items-center space-x-8">
+              <a href="#" className="text-white hover:text-[#d0006f] font-bold text-sm uppercase tracking-wide transition-colors">
+                Home
+              </a>
+              <a href="#" className="text-white hover:text-[#d0006f] font-bold text-sm uppercase tracking-wide transition-colors">
+                About Us
+              </a>
+              <a href="#" className="text-white hover:text-[#d0006f] font-bold text-sm uppercase tracking-wide transition-colors">
+                For Students
+              </a>
+              <a href="#" className="text-white hover:text-[#d0006f] font-bold text-sm uppercase tracking-wide transition-colors">
+                For Partners
+              </a>
+              <a href="#" className="text-white hover:text-[#d0006f] font-bold text-sm uppercase tracking-wide transition-colors">
+                Events
+              </a>
+              <a href="#" className="text-white hover:text-[#d0006f] font-bold text-sm uppercase tracking-wide transition-colors">
+                Jobs
+              </a>
+              <a href="#" className="text-white hover:text-[#d0006f] font-bold text-sm uppercase tracking-wide transition-colors">
+                Donate
+              </a>
+            </nav>
+
+            {/* Apply Button */}
+            <div className="hidden md:block">
+              <button className="bg-[#d0006f] hover:bg-[#a0005a] text-white font-bold text-sm px-6 py-2 uppercase tracking-wide transition-colors border-2 border-[#d0006f] hover:border-[#a0005a]">
+                Apply Now
+              </button>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button className="text-white hover:text-[#d0006f] font-bold">
+                ☰
+              </button>
+            </div>
+          </div>
         </div>
+      </header>
+
+      <main className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-12 text-center">
+            <p className="text-[#d0006f] font-bold text-sm tracking-wider uppercase mb-3">WANNA LEARN MORE?</p>
+            <h1 className="text-5xl md:text-7xl font-black text-[#00002c] tracking-tight uppercase mb-2">Our Startups</h1>
+          </div>
 
         {/* Statistics Section */}
         <div className="mb-12 bg-white border-2 border-[#00002c] p-8">
@@ -455,5 +515,6 @@ export default function Home() {
         )}
       </div>
     </main>
+    </>
   )
 }
