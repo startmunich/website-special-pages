@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
@@ -30,302 +30,37 @@ interface Company {
   milestones?: string
 }
 
-// Parse CSV data
-const companies: Company[] = [
-  {
-    id: 1,
-    name: "MOMENTO",
-    website: "linkedin.com/company/momentovita",
-    summary: "Italian Food - catering & (hopefully soon) store",
-    description: "Italian Food - catering & (hopefully soon) store. Achieved profitability on day 1 with 5-figure revenue in first operative month.",
-    logoUrl: "https://media.licdn.com/dms/image/v2/D4D0BAQHB2dnRyA57TQ/company-logo_200_200/B4DZf2P79uGgAQ-/0/1752183062836?e=1762387200&v=beta&t=cY2QnT6Uo6f-0lXDrA9aP0DRQ97YTEQwsGVLW60KAFM",
-    foundingYear: 2024,
-    category: ["Food & Beverage"],
-    totalRaised: "€0",
-    employees: 0,
-    isSpotlight: true,
-    milestones: "profitability on day 1, 5-figure revenue in first operative month",
-    founders: [
-      {
-        name: "Filippo Heller",
-        role: "Founder",
-        batch: "Placeholder",
-        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/1.jpg",
-        linkedinUrl: "https://de.linkedin.com/in/filippo-heller-65211515b"
-      }
-    ]
-  },
-  {
-    id: 2,
-    name: "ELIVA",
-    website: "eliva.ai",
-    summary: "Product Consulting for E-Commerce Websites",
-    description: "Eliva AI is an AI chatbot that provides customer service and product consultancy. It helps customers with personalized recommendations and support throughout their shopping experience. Currently at MVP stage.",
-    logoUrl: "https://www.eliva.ai/assets/logo-white.png",
-    foundingYear: 2025,
-    category: ["SaaS", "AI", "Ecommerce"],
-    totalRaised: "€0",
-    employees: 0,
-    isSpotlight: true,
-    milestones: "MVP",
-    founders: [
-      {
-        name: "Finn Kesper",
-        role: "CEO",
-        batch: "Placeholder",
-        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/2.jpg",
-        linkedinUrl: "https://de.linkedin.com/in/finnkesper"
-      }
-    ]
-  },
-  {
-    id: 3,
-    name: "Moon Home",
-    website: "moon-home.de",
-    summary: "Webshop (Kitchen Products)",
-    description: "Moon Home is an online shop specializing in the sale of sustainable and fairly produced products for the kitchen and home. Shop launch planned for 1st March 2025.",
-    logoUrl: "https://moon-home.de/cdn/shop/files/Moon-Logo.jpg?v=1727103048&width=180",
-    foundingYear: 2024,
-    category: ["E-Commerce", "Sustainability"],
-    totalRaised: "€0",
-    employees: 0,
-    isSpotlight: true,
-    milestones: "Shop Launch planned for 1st March 2025",
-    founders: [
-      {
-        name: "Finn Kesper",
-        role: "CEO",
-        batch: "Placeholder",
-        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/2.jpg",
-        linkedinUrl: "https://de.linkedin.com/in/finnkesper"
-      }
-    ]
-  },
-  {
-    id: 4,
-    name: "Productlane",
-    website: "productlane.com",
-    summary: "Customer Support for modern companies",
-    description: "Productlane is a B2B customer support and feedback system deeply integrated with Linear. It consolidates all customer communications (email, chat, Slack) into a single inbox, automatically links feedback to development tickets for prioritization, and provides a unified portal, knowledge base, and Changelog to enhance the customer experience. Almost profitable with very good growing MRR.",
-    logoUrl: "https://www.insightplatforms.com/wp-content/uploads/2024/02/Productlane-Logo-Square-Insight-Platforms.png",
-    foundingYear: 2023,
-    category: ["SaaS", "Customer Support", "Product Management"],
-    totalRaised: "€775,000",
-    employees: 0,
-    investmentRound: "Pre-Seed",
-    milestones: "Almost profitable, very good growing MRR",
-    founders: [
-      {
-        name: "Raphael Fleckenstein",
-        role: "Founder",
-        batch: "START Munich",
-        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/3.jpg",
-        linkedinUrl: "https://de.linkedin.com/in/raphaelfleckenstein"
-      }
-    ]
-  },
-  {
-    id: 5,
-    name: "OneTutor",
-    website: "onetutor.ai",
-    summary: "Intelligent Tutoring System for Universities",
-    description: "OneTutor is an AI-powered educational platform that acts as a personalized tutor for university students and educators. It focuses on active learning, offering course-specific materials, interactive quizzes, and a 24/7 available AI chat for instant answers, all tailored to the content of a student's course. The service is often available for free to students and faculty through campus licenses with partner universities. Currently serving 2,500+ users.",
-    logoUrl: "https://onetutor.ai/onetutor.svg",
-    foundingYear: 2025,
-    category: ["EdTech", "AI", "SaaS"],
-    totalRaised: "€0",
-    employees: 0,
-    milestones: "2,5k users",
-    founders: [
-      {
-        name: "Jann Winter",
-        role: "Co-Founder, CRO",
-        batch: "Placeholder",
-        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/4.jpg",
-        linkedinUrl: "https://www.linkedin.com/in/jannwinter/"
-      }
-    ]
-  },
-  {
-    id: 6,
-    name: "Datagon AI",
-    website: "datagon.ai",
-    summary: "Optimize industrial production processes",
-    description: "Manex AI provides AI-powered 'Manufacturing Optimization Agents' (like Qualitatio) for the industrial sector. The solution steers production processes end-to-end, helping manufacturers predict defects, reduce testing, and lower warranty costs by providing deep, real-time insights into the entire production line.",
-    logoUrl: "https://cdn.prod.website-files.com/67a23f0101102488e87e1340/6819df1622bdca6d479a1139_Logo%20White.png",
-    foundingYear: 2023,
-    category: ["AI", "SaaS", "Manufacturing"],
-    totalRaised: "€500,000",
-    employees: 0,
-    investmentRound: "Pre-Seed",
-    milestones: "First licenses",
-    founders: [
-      {
-        name: "Fabian Gruber",
-        role: "CPO, Co-Founder",
-        batch: "Placeholder",
-        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/5.jpg",
-        linkedinUrl: "https://www.linkedin.com/in/fabian-gruber-333897153/"
-      }
-    ]
-  },
-  {
-    id: 7,
-    name: "wahl.chat",
-    website: "wahl.chat",
-    summary: "Making political information accessible",
-    description: "wahl.chat is a political education and comparison tool that uses an interactive AI chatbot to help users understand politics. Users can select one or more political parties and ask the AI questions about their stances and programs. The service also includes a 'Wahl Swiper' to help users find a suitable party, effectively making political information interactive and accessible. 150,000 active users in just over a month with >1,000,000 page views.",
-    logoUrl: "https://wahl.chat/images/logo.webp",
-    foundingYear: 2025,
-    category: ["Gov-Tech", "EdTech", "AI", "Civic Tech", "nonprofit"],
-    totalRaised: "€0",
-    employees: 0,
-    milestones: "150,000 active Users in just over a month, >1,000,000 page views",
-    founders: [
-      {
-        name: "Robin Frasch",
-        role: "Co-Founder",
-        batch: "Placeholder",
-        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/6.jpg",
-        linkedinUrl: "https://www.linkedin.com/in/robin-frasch/"
-      }
-    ]
-  },
-  {
-    id: 8,
-    name: "AR-Physics",
-    website: "arphysics.de",
-    summary: "AR-based physics education app",
-    description: "AR-Physics is an EdTech startup that provides a mobile application to revolutionize science learning. The app uses Augmented Reality (AR) to visualize complex physics concepts and experiments in a user's real environment. It also offers interactive, gamified quizzes and an AI-powered system to generate custom learning content across various scientific disciplines. Winner of Startup Teens Westfalen Challenge 2024 and National Challenge 2024 (Education).",
-    logoUrl: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/83/18/a5/8318a5ce-883a-5b5f-0ffd-ed79e5e8fb88/AppIcon-0-0-1x_U007epad-0-1-0-85-220.jpeg/1200x600wa.png",
-    foundingYear: 2024,
-    category: ["EdTech", "SaaS", "Augmented Reality"],
-    totalRaised: "€0",
-    employees: 0,
-    milestones: "Winner of Startup Teens Westfalen Challenge 2024, Winner of Startup Teens National Challenge 2024 (Education)",
-    founders: [
-      {
-        name: "Jost Reelsen",
-        role: "CEO, Co-Founder",
-        batch: "Placeholder",
-        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/7.jpg",
-        linkedinUrl: "https://www.linkedin.com/in/jost-reelsen-615ba2297/"
-      }
-    ]
-  },
-  {
-    id: 9,
-    name: "Not Today Row",
-    website: "nottodayrow.com",
-    summary: "Non-Profit to row across the Atlantic",
-    description: "Not Today Row is an expedition consisting of two friends, Janik and Danny, who rowed 3,000 miles across the Atlantic Ocean to raise awareness and money for children's education. They support two specific charities: Ozeankind e.V. (focused on plastic pollution education) and the Bali Children's Project (focused on education for children in need). Funded journey with 200k budget, crossed Atlantic in rowing boat, and raised 4K for charity.",
-    logoUrl: "https://nottodayrow.com/wp-content/uploads/2021/07/2021_NotToday_Logo_black_Main.png",
-    foundingYear: 2021,
-    category: ["Charity", "nonprofit"],
-    totalRaised: "€0",
-    employees: 0,
-    milestones: "Funded Journey with 200k budget, Crossed Atlantic in rowing boat, Raised 4K for charity",
-    founders: [
-      {
-        name: "Janik Prottung",
-        role: "Founder, CEO",
-        batch: "Placeholder",
-        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/8.jpg",
-        linkedinUrl: "https://www.linkedin.com/in/janikprottung/"
-      }
-    ]
-  },
-  {
-    id: 10,
-    name: "floxform",
-    website: "floxform.com",
-    summary: "We enable Mass Customization in Additive Manufacturing",
-    description: "floxform enables Mass Customization in Additive Manufacturing. Founded in 2020 with idea and proof of concept, built the software from 2021-2023, and started to get into the market in 2024.",
-    logoUrl: "https://ui-avatars.com/api/?name=floxform&size=300&background=00002c&color=fff&bold=true&font-size=0.4",
-    foundingYear: 2020,
-    category: ["Manufacturing", "SaaS"],
-    totalRaised: "€0",
-    employees: 0,
-    milestones: "2020 - idea and proof of concept, 2021-2023 - building the software, 2024 - started to get into the market",
-    founders: [
-      {
-        name: "Philipp Hirte",
-        role: "CEO, Founder",
-        batch: "Placeholder",
-        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/9.jpg"
-      }
-    ]
-  },
-  {
-    id: 11,
-    name: "PUNKU.AI",
-    website: "punku.ai",
-    summary: "AI Agents for SMEs",
-    description: "PUNKU.AI provides AI Agents for SMEs. Raised €225,000 in Pre-Seed funding.",
-    logoUrl: "https://ui-avatars.com/api/?name=PUNKU.AI&size=300&background=00002c&color=fff&bold=true&font-size=0.4",
-    foundingYear: 2023,
-    category: ["AI", "SaaS"],
-    totalRaised: "€225,000",
-    employees: 0,
-    investmentRound: "Pre-Seed",
-    founders: [
-      {
-        name: "Daniel Quiroga",
-        role: "Founder",
-        batch: "Placeholder",
-        imageUrl: "https://ui-avatars.com/api/?name=Daniel+Quiroga&size=80&background=0891b2&color=fff"
-      }
-    ]
-  },
-  {
-    id: 12,
-    name: "frischluft Fensterbrett",
-    website: "frischluft-fensterbrett.com",
-    summary: "Unique home furniture solution for room ventilation",
-    description: "frischluft Fensterbrett sells a unique home furniture solution that helps you to ventilate your room. Achieved >100k€ Revenue, >4000 Customers, 100 Million Social Media Impressions with 100k Followers.",
-    logoUrl: "https://ui-avatars.com/api/?name=frischluft&size=300&background=00002c&color=fff&bold=true&font-size=0.4",
-    foundingYear: 2023,
-    category: ["E-Commerce", "Home & Living"],
-    totalRaised: "€0",
-    employees: 0,
-    milestones: ">100k€ Revenue, >4000 Customer, 100 Mio Social Media Impressions with 100k Followers",
-    founders: [
-      {
-        name: "Benedikt Hartmann",
-        role: "Co-Founder",
-        batch: "Placeholder",
-        imageUrl: "https://ui-avatars.com/api/?name=Benedikt+Hartmann&size=80&background=ec4899&color=fff"
-      }
-    ]
-  },
-  {
-    id: 13,
-    name: "TradeRepublic",
-    website: "traderepublic.com",
-    summary: "Leading European investment platform",
-    description: "TradeRepublic is a leading European investment platform providing commission-free trading services.",
-    logoUrl: "https://ui-avatars.com/api/?name=Trade+Republic&size=300&background=00002c&color=fff&bold=true&font-size=0.4",
-    foundingYear: 2016,
-    category: ["FinTech", "Investment"],
-    totalRaised: "€0",
-    employees: 0,
-    companyLinkedin: "https://www.linkedin.com/company/trade-republic/",
-    founders: [
-      {
-        name: "Thomas Pischke",
-        role: "Co-Founder & CTO",
-        batch: "Placeholder",
-        imageUrl: "https://ui-avatars.com/api/?name=Thomas+Pischke&size=80&background=8b5cf6&color=fff"
-      }
-    ]
+// Fetch companies from API
+async function fetchCompanies(): Promise<Company[]> {
+  try {
+    const response = await fetch('/api/startups');
+    if (!response.ok) throw new Error('Failed to fetch startups');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching startups:', error);
+    return [];
   }
-]
+}
+
 
 export default function StartupsPage() {
+  const [companies, setCompanies] = useState<Company[]>([])
+  const [loading, setLoading] = useState(true)
   const [selectedBatch, setSelectedBatch] = useState<string>("all")
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
   const [selectedYear, setSelectedYear] = useState<string>("all")
   const [expandedCards, setExpandedCards] = useState<Set<number>>(new Set())
+
+  // Load companies on mount
+  useEffect(() => {
+    const loadCompanies = async () => {
+      setLoading(true)
+      const data = await fetchCompanies()
+      setCompanies(data.length > 0 ? data : fallbackCompanies)
+      setLoading(false)
+    }
+    loadCompanies()
+  }, [])
 
   // Extract unique batches from all founders
   const allBatches = Array.from(
@@ -386,6 +121,16 @@ export default function StartupsPage() {
 
   // Get spotlight startups
   const spotlightStartups = companies.filter(company => company.isSpotlight).slice(0, 3)
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-2xl font-bold text-[#00002c]">Loading startups...</p>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
