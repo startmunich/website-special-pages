@@ -50,7 +50,7 @@ const companies: Company[] = [
         name: "Filippo Heller",
         role: "Founder",
         batch: "Placeholder",
-        imageUrl: "/FounderPics/1.jpg",
+        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/1.jpg",
         linkedinUrl: "https://de.linkedin.com/in/filippo-heller-65211515b"
       }
     ]
@@ -73,7 +73,7 @@ const companies: Company[] = [
         name: "Finn Kesper",
         role: "CEO",
         batch: "Placeholder",
-        imageUrl: "/FounderPics/2.jpg",
+        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/2.jpg",
         linkedinUrl: "https://de.linkedin.com/in/finnkesper"
       }
     ]
@@ -96,7 +96,7 @@ const companies: Company[] = [
         name: "Finn Kesper",
         role: "CEO",
         batch: "Placeholder",
-        imageUrl: "/FounderPics/2.jpg",
+        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/2.jpg",
         linkedinUrl: "https://de.linkedin.com/in/finnkesper"
       }
     ]
@@ -119,7 +119,7 @@ const companies: Company[] = [
         name: "Raphael Fleckenstein",
         role: "Founder",
         batch: "START Munich",
-        imageUrl: "/FounderPics/3.jpg",
+        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/3.jpg",
         linkedinUrl: "https://de.linkedin.com/in/raphaelfleckenstein"
       }
     ]
@@ -141,7 +141,7 @@ const companies: Company[] = [
         name: "Jann Winter",
         role: "Co-Founder, CRO",
         batch: "Placeholder",
-        imageUrl: "/FounderPics/4.jpg",
+        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/4.jpg",
         linkedinUrl: "https://www.linkedin.com/in/jannwinter/"
       }
     ]
@@ -164,7 +164,7 @@ const companies: Company[] = [
         name: "Fabian Gruber",
         role: "CPO, Co-Founder",
         batch: "Placeholder",
-        imageUrl: "/FounderPics/5.jpg",
+        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/5.jpg",
         linkedinUrl: "https://www.linkedin.com/in/fabian-gruber-333897153/"
       }
     ]
@@ -186,7 +186,7 @@ const companies: Company[] = [
         name: "Robin Frasch",
         role: "Co-Founder",
         batch: "Placeholder",
-        imageUrl: "/FounderPics/6.jpg",
+        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/6.jpg",
         linkedinUrl: "https://www.linkedin.com/in/robin-frasch/"
       }
     ]
@@ -208,7 +208,7 @@ const companies: Company[] = [
         name: "Jost Reelsen",
         role: "CEO, Co-Founder",
         batch: "Placeholder",
-        imageUrl: "/FounderPics/7.jpg",
+        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/7.jpg",
         linkedinUrl: "https://www.linkedin.com/in/jost-reelsen-615ba2297/"
       }
     ]
@@ -230,7 +230,7 @@ const companies: Company[] = [
         name: "Janik Prottung",
         role: "Founder, CEO",
         batch: "Placeholder",
-        imageUrl: "/FounderPics/8.jpg",
+        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/8.jpg",
         linkedinUrl: "https://www.linkedin.com/in/janikprottung/"
       }
     ]
@@ -252,7 +252,7 @@ const companies: Company[] = [
         name: "Philipp Hirte",
         role: "CEO, Founder",
         batch: "Placeholder",
-        imageUrl: "/FounderPics/9.jpg"
+        imageUrl: "https://raw.githubusercontent.com/startmunich/WebsiteOurStartups/main/FounderPics/9.jpg"
       }
     ]
   },
