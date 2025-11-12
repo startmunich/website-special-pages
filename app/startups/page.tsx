@@ -279,11 +279,18 @@ export default function StartupsPage() {
                   <div className="md:flex">
                     {/* Logo Section */}
                     <div className="md:flex-shrink-0 flex items-center justify-center p-8 md:w-64">
-                      <img
-                        src={company.logoUrl}
-                        alt={`${company.name} logo`}
-                        className="w-full object-contain"
-                      />
+                      <a 
+                        href={`https://${company.website}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full"
+                      >
+                        <img
+                          src={company.logoUrl}
+                          alt={`${company.name} logo`}
+                          className="w-full object-contain hover:opacity-80 transition-opacity cursor-pointer"
+                        />
+                      </a>
                     </div>
 
                     {/* Content Section */}
@@ -292,14 +299,6 @@ export default function StartupsPage() {
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1">
                             <CardTitle className="text-3xl font-black text-[#00002c] tracking-tight uppercase mb-1">{company.name}</CardTitle>
-                            <a 
-                              href={`https://${company.website}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-[#d0006f] hover:text-[#a0005a] hover:underline font-semibold text-base"
-                            >
-                              {company.website}
-                            </a>
                           </div>
                         </div>
                         <div className="flex flex-wrap items-center gap-2 mt-3">
@@ -365,24 +364,29 @@ export default function StartupsPage() {
                             <div className="flex flex-wrap gap-5">
                               {company.founders.map((founder, index) => (
                                 <div key={index} className="flex items-center gap-3">
-                                  <img
-                                    src={founder.imageUrl}
-                                    alt={founder.name}
-                                    className="w-14 h-14 object-cover border-2 border-gray-200"
-                                  />
+                                  {founder.linkedinUrl ? (
+                                    <a 
+                                      href={founder.linkedinUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="block"
+                                    >
+                                      <img
+                                        src={founder.imageUrl}
+                                        alt={founder.name}
+                                        className="w-14 h-14 object-cover border-2 border-gray-200 hover:opacity-80 transition-opacity cursor-pointer"
+                                      />
+                                    </a>
+                                  ) : (
+                                    <img
+                                      src={founder.imageUrl}
+                                      alt={founder.name}
+                                      className="w-14 h-14 object-cover border-2 border-gray-200"
+                                    />
+                                  )}
                                   <div>
                                     <p className="font-bold text-gray-900 text-base">{founder.name}</p>
                                     <p className="text-sm font-bold text-[#d0006f] uppercase tracking-wide">{founder.role}</p>
-                                    {founder.linkedinUrl && (
-                                      <a 
-                                        href={founder.linkedinUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-xs text-blue-600 hover:underline"
-                                      >
-                                        LinkedIn →
-                                      </a>
-                                    )}
                                   </div>
                                 </div>
                               ))}
