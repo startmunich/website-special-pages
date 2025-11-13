@@ -66,7 +66,7 @@ export default function StartupsPage() {
   const [selectedYear, setSelectedYear] = useState<string>("all")
   const [expandedCards, setExpandedCards] = useState<Set<number>>(new Set())
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 5 // Reduced to approximate 3000px height (about 5-6 cards)
+  const itemsPerPage = 7 // Reduced to approximate 3000px height (about 5-6 cards)
 
   // Load companies on mount
   useEffect(() => {
