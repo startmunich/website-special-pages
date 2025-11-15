@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Script from "next/script"
@@ -180,71 +180,156 @@ export default function StartupsPage() {
         `}
       </Script>
       
-      <main className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-12 text-center">
-            <p className="text-[#d0006f] font-bold text-sm tracking-wider uppercase mb-3">WANNA LEARN MORE?</p>
-            <h1 className="text-5xl md:text-7xl font-black text-[#00002c] tracking-tight uppercase mb-2">Our Startups</h1>
+      <main className="min-h-screen bg-[#00002c]">
+        {/* Hero Section with Gradient Background */}
+        <div className="relative overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-20 -left-20 w-72 h-72 bg-[#d0006f] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob"></div>
+            <div className="absolute top-40 -right-20 w-72 h-72 bg-[#d0006f] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
+            <div className="absolute -bottom-20 left-1/2 w-72 h-72 bg-[#d0006f] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-4000"></div>
           </div>
 
-          {/* Statistics Section */}
-          <div className="mb-12 bg-white border-2 border-[#00002c] p-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div>
-                <p className="text-5xl font-black text-[#00002c] mb-2">{totalStartups}</p>
-                <p className="text-sm font-bold text-gray-600 uppercase tracking-wide">Startups</p>
+          {/* Main Content */}
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            {/* Header Section */}
+            <div className="mb-20 text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#d0006f]/10 border border-[#d0006f]/30 rounded-full mb-6">
+                <div className="w-2 h-2 bg-[#d0006f] rounded-full animate-pulse"></div>
+                <p className="text-[#d0006f] font-semibold text-xs tracking-widest uppercase">OUR STARTUPS</p>
               </div>
-              <div>
-                <p className="text-5xl font-black text-[#d0006f] mb-2">€{(totalRaised / 1000000).toFixed(1)}M+</p>
-                <p className="text-sm font-bold text-gray-600 uppercase tracking-wide">Total Raised</p>
-              </div>
-              <div>
-                <p className="text-5xl font-black text-[#00002c] mb-2">{totalEmployees || "N/A"}</p>
-                <p className="text-sm font-bold text-gray-600 uppercase tracking-wide">Employees</p>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight mb-6 leading-tight">
+                START Munich
+                <br />
+                <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
+                  Startups
+                </span>
+              </h1>
+              <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+                Discover the innovative companies built by our community of ambitious student entrepreneurs
+              </p>
+            </div>
+
+            {/* Statistics Section - Enhanced */}
+            <div className="mb-16 relative">
+              {/* Background Card */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl border border-white/10"></div>
+              
+              <div className="relative py-16 px-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                  {/* Stat 1 - Companies Founded */}
+                  <div className="group text-center">
+                    <div className="relative inline-block mb-4">
+                      <div className="absolute inset-0 bg-[#d0006f] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                      <div className="relative">
+                        <div className="flex items-baseline justify-center gap-1 mb-2">
+                          <span className="text-7xl md:text-8xl font-black text-white group-hover:scale-110 transition-transform duration-300 inline-block">
+                            {totalStartups}
+                          </span>
+                          <span className="text-3xl font-bold text-[#d0006f] mb-4">+</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-sm font-bold text-gray-300 uppercase tracking-widest">Companies</p>
+                      <p className="text-xs text-gray-500">Founded by our alumni</p>
+                    </div>
+                    <div className="mt-4 h-1 w-16 bg-gradient-to-r from-transparent via-[#d0006f] to-transparent mx-auto opacity-50"></div>
+                  </div>
+
+                  {/* Stat 2 - Total Funding */}
+                  <div className="group text-center border-x border-white/10 md:border-x md:border-white/10">
+                    <div className="relative inline-block mb-4">
+                      <div className="absolute inset-0 bg-[#d0006f] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                      <div className="relative">
+                        <div className="flex items-baseline justify-center gap-1 mb-2">
+                          <span className="text-4xl font-bold text-[#d0006f]">€</span>
+                          <span className="text-7xl md:text-8xl font-black bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300 inline-block">
+                            {(totalRaised / 1000000).toFixed(1)}
+                          </span>
+                          <span className="text-4xl font-bold text-[#d0006f] mb-4">M</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-sm font-bold text-gray-300 uppercase tracking-widest">Total Funding</p>
+                      <p className="text-xs text-gray-500">Publicly communicated</p>
+                    </div>
+                    <div className="mt-4 h-1 w-16 bg-gradient-to-r from-transparent via-[#d0006f] to-transparent mx-auto opacity-50"></div>
+                  </div>
+
+                  {/* Stat 3 - Employees */}
+                  <div className="group text-center">
+                    <div className="relative inline-block mb-4">
+                      <div className="absolute inset-0 bg-[#d0006f] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                      <div className="relative">
+                        <div className="flex items-baseline justify-center gap-1 mb-2">
+                          <span className="text-7xl md:text-8xl font-black text-white group-hover:scale-110 transition-transform duration-300 inline-block">
+                            {totalEmployees || "300"}
+                          </span>
+                          <span className="text-3xl font-bold text-[#d0006f] mb-4">+</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-sm font-bold text-gray-300 uppercase tracking-widest">Employees</p>
+                      <p className="text-xs text-gray-500">Current workforce</p>
+                    </div>
+                    <div className="mt-4 h-1 w-16 bg-gradient-to-r from-transparent via-[#d0006f] to-transparent mx-auto opacity-50"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Content Below Hero */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Spotlight Section */}
-          <div className="mb-12">
-            <h2 className="text-3xl font-black text-[#00002c] mb-6 uppercase tracking-tight">Spotlight Startups</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {spotlightStartups.map((company) => (
-                <div key={company.id} className="overflow-hidden transition-all duration-300 border-2 border-[#00002c] hover:border-[#d0006f]">
-                  <a 
+          {spotlightStartups.length > 0 && (
+            <div className="mb-16">
+              <div className="mb-10">
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                  Featured Startups
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {spotlightStartups.map((company, index) => (
+                  <a
+                    key={company.id}
                     href={`https://${company.website}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block"
+                    className="group block bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300"
                   >
                     <div className="flex justify-center items-center bg-white p-8 h-48">
                       <img
                         src={company.logoUrl}
                         alt={`${company.name} logo`}
-                        className="max-w-full max-h-full w-auto h-auto object-contain hover:opacity-80 transition-opacity cursor-pointer"
+                        className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-white mb-2">{company.name}</h3>
+                      <p className="text-sm text-gray-400 leading-relaxed">{company.summary}</p>
+                    </div>
                   </a>
-                  <div className="bg-[#d0006f] p-6">
-                    <h3 className="text-xl font-black text-white uppercase tracking-tight mb-2">{company.name}</h3>
-                    <p className="text-sm text-white/90">{company.summary}</p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Filter Section */}
-          <div className="mb-12 bg-[#00002c] p-8 border-2 border-[#00002c]">
-            <h2 className="text-2xl font-black text-white mb-6 uppercase tracking-tight">Filters</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="mb-12 p-6 bg-white/5 border border-white/10 rounded-lg">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Batch Filter */}
               <div>
-                <label htmlFor="batch-filter" className="block text-sm font-bold text-white mb-3 uppercase tracking-wide">
+                <label htmlFor="batch-filter" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
                   Batch
                 </label>
                 <Select value={selectedBatch} onValueChange={setSelectedBatch}>
-                  <SelectTrigger className="w-full border-[#00002c] focus:ring-[#d0006f]">
+                  <SelectTrigger className="w-full bg-white/5 border-white/20 text-white focus:ring-1 focus:ring-white/30 hover:bg-white/10 transition-all">
                     <SelectValue placeholder="Select batch" />
                   </SelectTrigger>
                   <SelectContent>
@@ -260,11 +345,11 @@ export default function StartupsPage() {
 
               {/* Category Filter */}
               <div>
-                <label htmlFor="category-filter" className="block text-sm font-bold text-white mb-3 uppercase tracking-wide">
+                <label htmlFor="category-filter" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
                   Category
                 </label>
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="w-full border-[#00002c] focus:ring-[#d0006f]">
+                  <SelectTrigger className="w-full bg-white/5 border-white/20 text-white focus:ring-1 focus:ring-white/30 hover:bg-white/10 transition-all">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -280,11 +365,11 @@ export default function StartupsPage() {
 
               {/* Founding Year Filter */}
               <div>
-                <label htmlFor="year-filter" className="block text-sm font-bold text-white mb-3 uppercase tracking-wide">
+                <label htmlFor="year-filter" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
                   Founded
                 </label>
                 <Select value={selectedYear} onValueChange={setSelectedYear}>
-                  <SelectTrigger className="w-full border-[#00002c] focus:ring-[#d0006f]">
+                  <SelectTrigger className="w-full bg-white/5 border-white/20 text-white focus:ring-1 focus:ring-white/30 hover:bg-white/10 transition-all">
                     <SelectValue placeholder="Select year" />
                   </SelectTrigger>
                   <SelectContent>
@@ -306,7 +391,7 @@ export default function StartupsPage() {
                     setSelectedCategory("all")
                     setSelectedYear("all")
                   }}
-                  className="w-full px-6 py-3 text-sm font-bold text-white bg-[#d0006f] hover:bg-[#a0005a] transition-colors uppercase tracking-wide border-2 border-[#d0006f] hover:border-[#a0005a]"
+                  className="w-full px-4 py-2.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 transition-all rounded border border-white/20 hover:border-white/30"
                 >
                   Clear Filters
                 </button>
@@ -314,159 +399,163 @@ export default function StartupsPage() {
             </div>
           </div>
 
-          {/* Company List */}
-          <div className="space-y-6">
-            {paginatedCompanies.map((company) => {
+          {/* Company List - Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {paginatedCompanies.map((company, index) => {
               const isExpanded = expandedCards.has(company.id)
               return (
-                <Card key={company.id} className="overflow-hidden transition-all duration-300 border-2 border-[#00002c] hover:border-[#d0006f]">
-                  <div className="md:flex">
-                    {/* Logo Section */}
-                    <div className="md:flex-shrink-0 flex items-center justify-center p-8 md:w-64">
-                      <a 
-                        href={`https://${company.website}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center w-full h-48"
-                      >
-                        <img
-                          src={company.logoUrl}
-                          alt={`${company.name} logo`}
-                          className="max-w-full max-h-full w-auto h-auto object-contain hover:opacity-80 transition-opacity cursor-pointer"
-                        />
-                      </a>
+                <div
+                  key={company.id}
+                  className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300"
+                >
+                  {/* Logo Section */}
+                  <a 
+                    href={`https://${company.website}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block"
+                  >
+                    <div className="flex items-center justify-center bg-white p-8 h-48">
+                      <img
+                        src={company.logoUrl}
+                        alt={`${company.name} logo`}
+                        className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  </a>
+
+                  {/* Content Section */}
+                  <div className="p-6">
+                    <div className="mb-4">
+                      <h3 className="text-2xl font-semibold text-white mb-2 leading-tight">
+                        {company.name}
+                      </h3>
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {company.category.slice(0, 2).map((cat, idx) => (
+                          <span
+                            key={idx}
+                            className="inline-flex items-center px-2 py-1 text-xs font-medium bg-white/10 text-gray-300 rounded"
+                          >
+                            {cat}
+                          </span>
+                        ))}
+                      </div>
                     </div>
 
-                    {/* Content Section */}
-                    <div className="flex-1">
-                      <CardHeader className="pb-3 pt-5">
-                        <div className="flex items-start justify-between gap-4">
-                          <div className="flex-1">
-                            <CardTitle className="text-3xl font-black text-[#00002c] tracking-tight uppercase mb-1">{company.name}</CardTitle>
-                          </div>
-                        </div>
-                        <div className="flex flex-wrap items-center gap-2 mt-3">
-                          <span className="text-sm font-bold text-gray-700 uppercase tracking-wide">Founded {company.foundingYear}</span>
-                          {company.totalRaised && company.totalRaised !== "€0" && (
-                            <>
-                              <span className="text-gray-400 font-bold">•</span>
-                              <span className="text-sm font-bold text-[#d0006f] uppercase tracking-wide">Raised {company.totalRaised}</span>
-                            </>
-                          )}
-                          {company.investmentRound && (
-                            <>
-                              <span className="text-gray-400 font-bold">•</span>
-                              <span className="text-sm font-bold text-gray-700 uppercase tracking-wide">{company.investmentRound}</span>
-                            </>
-                          )}
-                          <span className="text-gray-400 font-bold">•</span>
-                          <div className="flex flex-wrap gap-2">
-                            {company.category.map((cat, idx) => (
-                              <span
-                                key={idx}
-                                className="inline-flex items-center px-2.5 py-0.5 text-xs font-bold bg-[#00002c] text-white uppercase tracking-wide"
-                              >
-                                {cat}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </CardHeader>
-
-                      <CardContent className="pt-2 pb-5">
-                        {/* Description with expand/collapse */}
-                        <div className="mb-6">
-                          <CardDescription className="text-base leading-relaxed text-gray-700">
-                            {isExpanded ? company.description : getPreviewText(company.description)}
-
-                            {isExpanded && company.milestones && (
-                              <div className="mb-6 mt-4">
-                                <p className="text-base text-gray-700 mb-2">Milestones:</p>
-                                <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
-                                  {company.milestones.split('-').filter(m => m.trim()).map((milestone, idx) => (
-                                    <li key={idx}>{milestone.trim()}</li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-
-                          </CardDescription>
-                          {getPreviewText(company.description) !== company.description && (
-                            <button 
-                              className="text-[#d0006f] hover:text-[#a0005a] font-bold text-sm mt-2 uppercase tracking-wide"
-                              onClick={() => toggleCard(company.id)}
-                            >
-                              {isExpanded ? '↑ Show Less' : '↓ Read More'}
-                            </button>
-                          )}
-                        </div>
-
-                        {/* Founders and Programmes Section */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          {/* Founders Section */}
-                          {company.founders.length > 0 && (
-                            <div>
-                              <h3 className="text-sm font-black text-[#00002c] mb-4 uppercase tracking-wider">
-                                {company.founders.length > 1 ? 'Founders' : 'Founder'}
-                              </h3>
-                              <div className="flex flex-wrap gap-5">
-                                {company.founders.map((founder, index) => (
-                                  <div key={index} className="flex items-center gap-3">
-                                    {founder.linkedinUrl ? (
-                                      <a 
-                                        href={founder.linkedinUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="block"
-                                      >
-                                        <img
-                                          src={founder.imageUrl}
-                                          alt={founder.name}
-                                          className="w-14 h-14 object-cover border-2 border-gray-200 hover:opacity-80 transition-opacity cursor-pointer"
-                                        />
-                                      </a>
-                                    ) : (
-                                      <img
-                                        src={founder.imageUrl}
-                                        alt={founder.name}
-                                        className="w-14 h-14 object-cover border-2 border-gray-200"
-                                      />
-                                    )}
-                                    <div>
-                                      <p className="font-bold text-gray-900 text-base">{founder.name}</p>
-                                      <p className="text-sm font-bold text-[#d0006f] uppercase tracking-wide">{founder.role}</p>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Programmes Section */}
-                          {company.supportingPrograms && (
-                            <div>
-                              <h3 className="text-sm font-black text-[#00002c] mb-4 uppercase tracking-wider">
-                                Programmes
-                              </h3>
-                              <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
-                                {company.supportingPrograms.split(',').filter(p => p.trim()).map((program, idx) => (
-                                  <li key={idx}>{program.trim()}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      </CardContent>
+                    <div className="mb-4">
+                      <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">
+                        {isExpanded ? company.description : getPreviewText(company.description)}
+                      </p>
+                      {getPreviewText(company.description) !== company.description && (
+                        <button 
+                          className="text-white/70 hover:text-white text-xs mt-2 underline"
+                          onClick={() => toggleCard(company.id)}
+                        >
+                          {isExpanded ? 'Show less' : 'Read more'}
+                        </button>
+                      )}
                     </div>
+
+                    {/* Metadata */}
+                    <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-500 mb-4">
+                      <span>Founded {company.foundingYear}</span>
+                      {company.totalRaised && company.totalRaised !== "€0" && (
+                        <>
+                          <span>•</span>
+                          <span>{company.totalRaised} raised</span>
+                        </>
+                      )}
+                      {company.investmentRound && (
+                        <>
+                          <span>•</span>
+                          <span>{company.investmentRound}</span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Founders Section */}
+                    {company.founders.length > 0 && (
+                      <div className="pt-4 border-t border-white/10">
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+                          {company.founders.length > 1 ? 'Founders' : 'Founder'}
+                        </p>
+                        <div className="flex flex-wrap gap-3">
+                          {company.founders.map((founder, founderIdx) => (
+                            <div key={founderIdx} className="flex items-center gap-2">
+                              {founder.linkedinUrl ? (
+                                <a 
+                                  href={founder.linkedinUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="block"
+                                >
+                                  <img
+                                    src={founder.imageUrl}
+                                    alt={founder.name}
+                                    className="w-10 h-10 rounded-full object-cover border border-white/20 hover:border-white/40 transition-all"
+                                  />
+                                </a>
+                              ) : (
+                                <img
+                                  src={founder.imageUrl}
+                                  alt={founder.name}
+                                  className="w-10 h-10 rounded-full object-cover border border-white/20"
+                                />
+                              )}
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-white truncate">{founder.name}</p>
+                                <p className="text-xs text-gray-500 truncate">{founder.role}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Expanded Content */}
+                    {isExpanded && (
+                      <>
+                        {company.milestones && (
+                          <div className="mt-4 pt-4 border-t border-white/10">
+                            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Milestones</p>
+                            <ul className="list-none text-xs text-gray-400 space-y-1">
+                              {company.milestones.split('-').filter(m => m.trim()).map((milestone, idx) => (
+                                <li key={idx} className="flex items-start gap-2">
+                                  <span className="text-[#d0006f] mt-0.5">•</span>
+                                  <span>{milestone.trim()}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {company.supportingPrograms && (
+                          <div className="mt-4 pt-4 border-t border-white/10">
+                            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Programmes</p>
+                            <ul className="list-none text-xs text-gray-400 space-y-1">
+                              {company.supportingPrograms.split(',').filter(p => p.trim()).map((program, idx) => (
+                                <li key={idx} className="flex items-start gap-2">
+                                  <span className="text-[#d0006f] mt-0.5">•</span>
+                                  <span>{program.trim()}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </>
+                    )}
                   </div>
-                </Card>
+                </div>
               )
             })}
           </div>
 
           {filteredCompanies.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No companies found matching the selected filters.</p>
+            <div className="text-center py-20">
+              <div className="inline-block p-12 bg-white/5 border border-white/20 rounded-lg">
+                <p className="text-xl font-semibold text-white mb-2">No Results Found</p>
+                <p className="text-gray-400 text-sm">Try adjusting your filters to see more startups</p>
+              </div>
             </div>
           )}
 
@@ -476,7 +565,7 @@ export default function StartupsPage() {
               <button
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="px-6 py-3 text-sm font-bold text-white bg-[#00002c] hover:bg-[#d0006f] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors uppercase tracking-wide border-2 border-[#00002c] hover:border-[#d0006f] disabled:border-gray-300"
+                className="px-6 py-2 text-sm font-medium text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all rounded border border-white/20"
               >
                 ← Previous
               </button>
@@ -486,10 +575,10 @@ export default function StartupsPage() {
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
-                    className={`px-4 py-2 text-sm font-bold uppercase tracking-wide border-2 transition-colors ${
+                    className={`w-10 h-10 text-sm font-medium rounded transition-all ${
                       currentPage === page
-                        ? 'bg-[#d0006f] text-white border-[#d0006f]'
-                        : 'bg-white text-[#00002c] border-[#00002c] hover:bg-[#00002c] hover:text-white'
+                        ? 'bg-white text-[#00002c]'
+                        : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
                     }`}
                   >
                     {page}
@@ -500,14 +589,35 @@ export default function StartupsPage() {
               <button
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="px-6 py-3 text-sm font-bold text-white bg-[#00002c] hover:bg-[#d0006f] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors uppercase tracking-wide border-2 border-[#00002c] hover:border-[#d0006f] disabled:border-gray-300"
+                className="px-6 py-2 text-sm font-medium text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all rounded border border-white/20"
               >
                 Next →
               </button>
             </div>
           )}
-      </div>
-    </main>
+        </div>
+
+        {/* Footer CTA Section */}
+        <div className="border-t border-white/10 mt-20 py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              Join Our Community
+            </h2>
+            <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
+              Be part of Munich's most vibrant student entrepreneur ecosystem
+            </p>
+            <a 
+              href="https://www.startmunich.de/apply"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-3 text-base font-medium text-[#00002c] bg-white hover:bg-gray-100 transition-all rounded group"
+            >
+              Apply Now
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </a>
+          </div>
+        </div>
+      </main>
     </>
   )
 }
