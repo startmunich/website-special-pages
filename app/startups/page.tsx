@@ -68,6 +68,12 @@ export default function StartupsPage() {
   const [expandedCards, setExpandedCards] = useState<Set<number>>(new Set())
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 9 // Reduced to approximate 3000px height (about 5-6 cards)
+  
+  // Animation states for numbers
+  const [animatedStartups, setAnimatedStartups] = useState(0)
+  const [animatedFunding, setAnimatedFunding] = useState(0)
+  const [animatedEmployees, setAnimatedEmployees] = useState(0)
+  const hasAnimatedRef = useRef(false)
 
   // Load companies on mount
   useEffect(() => {
@@ -152,7 +158,52 @@ export default function StartupsPage() {
   const spotlightStartups = companies.filter(company => company.isSpotlight).slice(0, 3)
   
   // Get Y Combinator startups
-  const yCombinatorStartups = companies.filter(company => company.isYCombinator).slice(0, 6)
+  const yCombinatorStartups = companies.filter(company => company.isYCombinator).slice(0, 3)
+
+  // Animate numbers on component mount
+  useEffect(() => {
+    if (!loading && !hasAnimatedRef.current && totalStartups > 0) {
+      hasAnimatedRef.current = true
+      
+      let startupsCurrent = 0
+      let fundingCurrent = 0
+      let employeesCurrent = 0
+      
+      const fundingTarget = totalRaised / 1000000
+      const employeesTarget = totalEmployees || 300
+      
+      const duration = 1500 // 1.5 seconds
+      const steps = 60
+      const interval = duration / steps
+      
+      const startupsIncrement = totalStartups / steps
+      const fundingIncrement = fundingTarget / steps
+      const employeesIncrement = employeesTarget / steps
+      
+      let step = 0
+      
+      const timer = setInterval(() => {
+        step++
+        
+        startupsCurrent += startupsIncrement
+        fundingCurrent += fundingIncrement
+        employeesCurrent += employeesIncrement
+        
+        if (step >= steps) {
+          setAnimatedStartups(totalStartups)
+          setAnimatedFunding(fundingTarget)
+          setAnimatedEmployees(employeesTarget)
+          clearInterval(timer)
+        } else {
+          setAnimatedStartups(startupsCurrent)
+          setAnimatedFunding(fundingCurrent)
+          setAnimatedEmployees(employeesCurrent)
+        }
+      }, interval)
+
+      return () => clearInterval(timer)
+    }
+  }, [loading, totalStartups, totalRaised, totalEmployees])
 
   if (loading) {
     return (
@@ -185,102 +236,122 @@ export default function StartupsPage() {
       </Script>
       
       <main className="min-h-screen bg-[#00002c]">
-        {/* Hero Section with Gradient Background */}
-        <div className="relative overflow-hidden">
-          {/* Animated Background Elements */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-20 -left-20 w-72 h-72 bg-[#d0006f] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob"></div>
-            <div className="absolute top-40 -right-20 w-72 h-72 bg-[#d0006f] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
-            <div className="absolute -bottom-20 left-1/2 w-72 h-72 bg-[#d0006f] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-4000"></div>
+        {/* Hero Section with Full-Width Image */}
+        <div className="relative w-full h-[70vh] overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <img
+              src="/hero-image.jpg"
+              alt="START Munich Community"
+              className="w-full h-full object-cover"
+            />
+            {/* Dark Overlay */}
+            <div className="absolute inset-0 bg-[#00002c]/60"></div>
           </div>
 
-          {/* Main Content */}
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            {/* Header Section */}
-            <div className="mb-20 text-center">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#d0006f]/10 border border-[#d0006f]/30 rounded-full mb-6">
-                <div className="w-2 h-2 bg-[#d0006f] rounded-full animate-pulse"></div>
-                <p className="text-[#d0006f] font-semibold text-xs tracking-widest uppercase">OUR STARTUPS</p>
+          {/* Content Overlay */}
+          <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="h-full flex items-center justify-between gap-12">
+              {/* Left Side - Heading */}
+              <div className="flex-1 max-w-2xl">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#d0006f]/20 border border-[#d0006f]/40 rounded-full mb-6 backdrop-blur-sm">
+                  <div className="w-2 h-2 bg-[#d0006f] rounded-full animate-pulse"></div>
+                  <p className="text-[#d0006f] font-semibold text-xs tracking-widest uppercase">OUR STARTUPS</p>
+                </div>
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6 leading-tight">
+                  START Munich
+                  <br />
+                  <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
+                    Startups
+                  </span>
+                </h1>
+                <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+                  Discover the innovative companies built by our community of ambitious student entrepreneurs
+                </p>
               </div>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight mb-6 leading-tight">
-                START Munich
-                <br />
-                <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
-                  Startups
-                </span>
-              </h1>
-              <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-                Discover the innovative companies built by our community of ambitious student entrepreneurs
-              </p>
+
+              {/* Right Side - Statistics */}
+              <div className="hidden lg:flex flex-col gap-6 mr-8 min-w-[280px]">
+                {/* Stat 1 - Companies Founded */}
+                <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#d0006f]/20 w-full">
+                  <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition-all"></div>
+                  <div className="relative text-center">
+                    <div className="flex items-baseline justify-center gap-2 mb-3">
+                      <span className="text-6xl font-black bg-gradient-to-br from-white to-gray-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-[#d0006f] transition-all duration-300">
+                        {Math.floor(animatedStartups)}
+                      </span>
+                      <span className="text-3xl font-bold text-[#d0006f] animate-pulse">+</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="w-8 h-0.5 bg-gradient-to-r from-[#d0006f] to-transparent"></div>
+                      <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Companies</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stat 2 - Total Funding */}
+                <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#d0006f]/20">
+                  <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition-all"></div>
+                  <div className="relative text-center">
+                    <div className="flex items-baseline justify-center gap-1 mb-3">
+                      <span className="text-2xl font-bold text-[#d0006f]">€</span>
+                      <span className="text-6xl font-black bg-gradient-to-br from-white to-gray-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-[#d0006f] transition-all duration-300">
+                        {animatedFunding.toFixed(1)}
+                      </span>
+                      <span className="text-3xl font-bold text-[#d0006f]">M</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="w-8 h-0.5 bg-gradient-to-r from-[#d0006f] to-transparent"></div>
+                      <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Funding</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stat 3 - Employees */}
+                <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#d0006f]/20">
+                  <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition-all"></div>
+                  <div className="relative text-center">
+                    <div className="flex items-baseline justify-center gap-2 mb-3">
+                      <span className="text-6xl font-black bg-gradient-to-br from-white to-gray-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-[#d0006f] transition-all duration-300">
+                        {Math.floor(animatedEmployees)}
+                      </span>
+                      <span className="text-3xl font-bold text-[#d0006f] animate-pulse">+</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="w-8 h-0.5 bg-gradient-to-r from-[#d0006f] to-transparent"></div>
+                      <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Employees</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
 
-            {/* Statistics Section - Enhanced */}
-            <div className="mb-16 relative">
-              {/* Background Card */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl border border-white/10"></div>
-              
-              <div className="relative py-16 px-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                  {/* Stat 1 - Companies Founded */}
-                  <div className="group text-center">
-                    <div className="relative inline-block mb-4">
-                      <div className="absolute inset-0 bg-[#d0006f] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
-                      <div className="relative">
-                        <div className="flex items-baseline justify-center gap-1 mb-2">
-                          <span className="text-7xl md:text-8xl font-black text-white group-hover:scale-110 transition-transform duration-300 inline-block">
-                            {totalStartups}
-                          </span>
-                          <span className="text-3xl font-bold text-[#d0006f] mb-4">+</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-sm font-bold text-gray-300 uppercase tracking-widest">Companies</p>
-                      <p className="text-xs text-gray-500">Founded by our alumni</p>
-                    </div>
-                    <div className="mt-4 h-1 w-16 bg-gradient-to-r from-transparent via-[#d0006f] to-transparent mx-auto opacity-50"></div>
+          {/* Mobile Statistics - Below Image */}
+          <div className="lg:hidden absolute bottom-0 left-0 right-0 backdrop-blur-md bg-[#00002c]/80 border-t border-white/10">
+            <div className="max-w-7xl mx-auto px-4 py-6">
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <div className="flex items-baseline justify-center gap-1 mb-1">
+                    <span className="text-3xl font-black text-white">{Math.floor(animatedStartups)}</span>
+                    <span className="text-lg font-bold text-[#d0006f]">+</span>
                   </div>
-
-                  {/* Stat 2 - Total Funding */}
-                  <div className="group text-center border-x border-white/10 md:border-x md:border-white/10">
-                    <div className="relative inline-block mb-4">
-                      <div className="absolute inset-0 bg-[#d0006f] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
-                      <div className="relative">
-                        <div className="flex items-baseline justify-center gap-1 mb-2">
-                          <span className="text-4xl font-bold text-[#d0006f]">€</span>
-                          <span className="text-7xl md:text-8xl font-black bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300 inline-block">
-                            {(totalRaised / 1000000).toFixed(1)}
-                          </span>
-                          <span className="text-4xl font-bold text-[#d0006f] mb-4">M</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-sm font-bold text-gray-300 uppercase tracking-widest">Total Funding</p>
-                      <p className="text-xs text-gray-500">Publicly communicated</p>
-                    </div>
-                    <div className="mt-4 h-1 w-16 bg-gradient-to-r from-transparent via-[#d0006f] to-transparent mx-auto opacity-50"></div>
+                  <p className="text-xs font-bold text-gray-300 uppercase">Companies</p>
+                </div>
+                <div>
+                  <div className="flex items-baseline justify-center gap-1 mb-1">
+                    <span className="text-sm font-bold text-[#d0006f]">€</span>
+                    <span className="text-3xl font-black text-white">{animatedFunding.toFixed(1)}</span>
+                    <span className="text-lg font-bold text-[#d0006f]">M</span>
                   </div>
-
-                  {/* Stat 3 - Employees */}
-                  <div className="group text-center">
-                    <div className="relative inline-block mb-4">
-                      <div className="absolute inset-0 bg-[#d0006f] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
-                      <div className="relative">
-                        <div className="flex items-baseline justify-center gap-1 mb-2">
-                          <span className="text-7xl md:text-8xl font-black text-white group-hover:scale-110 transition-transform duration-300 inline-block">
-                            {totalEmployees || "300"}
-                          </span>
-                          <span className="text-3xl font-bold text-[#d0006f] mb-4">+</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-sm font-bold text-gray-300 uppercase tracking-widest">Employees</p>
-                      <p className="text-xs text-gray-500">Current workforce</p>
-                    </div>
-                    <div className="mt-4 h-1 w-16 bg-gradient-to-r from-transparent via-[#d0006f] to-transparent mx-auto opacity-50"></div>
+                  <p className="text-xs font-bold text-gray-300 uppercase">Funding</p>
+                </div>
+                <div>
+                  <div className="flex items-baseline justify-center gap-1 mb-1">
+                    <span className="text-3xl font-black text-white">{Math.floor(animatedEmployees)}</span>
+                    <span className="text-lg font-bold text-[#d0006f]">+</span>
                   </div>
+                  <p className="text-xs font-bold text-gray-300 uppercase">Employees</p>
                 </div>
               </div>
             </div>
@@ -288,19 +359,15 @@ export default function StartupsPage() {
         </div>
 
         {/* Content Below Hero */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
           {/* Growth Champions Section */}
           {spotlightStartups.length > 0 && (
             <div className="mb-16">
-              <div className="mb-10 flex items-center gap-4">
+              <div className="mb-10">
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
                   Growth Champions
                 </h2>
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-yellow-500/10 border border-yellow-500/30 rounded-full">
-                  <span className="text-yellow-400 text-xl font-bold">🏆</span>
-                  <span className="text-xs font-semibold text-yellow-400 uppercase tracking-wider">Featured</span>
-                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {spotlightStartups.map((company, index) => (
@@ -309,7 +376,7 @@ export default function StartupsPage() {
                     href={`https://${company.website}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group block bg-gradient-to-br from-yellow-500/5 to-yellow-500/10 hover:from-yellow-500/10 hover:to-yellow-500/15 border border-yellow-500/20 hover:border-yellow-500/40 rounded-lg overflow-hidden transition-all duration-300"
+                    className="group block bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300"
                   >
                     <div className="flex justify-center items-center bg-white p-8 h-48">
                       <img
@@ -334,14 +401,10 @@ export default function StartupsPage() {
           {/* Y Combinator Section */}
           {yCombinatorStartups.length > 0 && (
             <div className="mb-16">
-              <div className="mb-10 flex items-center gap-4">
+              <div className="mb-10">
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
                   Y Combinator Alumni
                 </h2>
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-500/10 border border-orange-500/30 rounded-full">
-                  <span className="text-orange-400 text-xl font-bold">Y</span>
-                  <span className="text-xs font-semibold text-orange-400 uppercase tracking-wider">YC</span>
-                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {yCombinatorStartups.map((company, index) => (
@@ -350,7 +413,7 @@ export default function StartupsPage() {
                     href={`https://${company.website}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group block bg-gradient-to-br from-orange-500/5 to-orange-500/10 hover:from-orange-500/10 hover:to-orange-500/15 border border-orange-500/20 hover:border-orange-500/40 rounded-lg overflow-hidden transition-all duration-300"
+                    className="group block bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300"
                   >
                     <div className="flex justify-center items-center bg-white p-8 h-48">
                       <img
