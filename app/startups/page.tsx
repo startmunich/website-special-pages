@@ -26,6 +26,7 @@ interface Company {
   totalRaised?: string
   employees?: number
   isSpotlight?: boolean
+  isYCombinator?: boolean
   companyLinkedin?: string
   investmentRound?: string
   milestones?: string
@@ -149,6 +150,9 @@ export default function StartupsPage() {
 
   // Get spotlight startups
   const spotlightStartups = companies.filter(company => company.isSpotlight).slice(0, 3)
+  
+  // Get Y Combinator startups
+  const yCombinatorStartups = companies.filter(company => company.isYCombinator).slice(0, 6)
 
   if (loading) {
     return (
@@ -286,13 +290,17 @@ export default function StartupsPage() {
         {/* Content Below Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Spotlight Section */}
+          {/* Growth Champions Section */}
           {spotlightStartups.length > 0 && (
             <div className="mb-16">
-              <div className="mb-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
-                  Featured Startups
+              <div className="mb-10 flex items-center gap-4">
+                <h2 className="text-3xl md:text-4xl font-bold text-white">
+                  Growth Champions
                 </h2>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-yellow-500/10 border border-yellow-500/30 rounded-full">
+                  <span className="text-yellow-400 text-xl font-bold">🏆</span>
+                  <span className="text-xs font-semibold text-yellow-400 uppercase tracking-wider">Featured</span>
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {spotlightStartups.map((company, index) => (
@@ -301,7 +309,7 @@ export default function StartupsPage() {
                     href={`https://${company.website}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group block bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300"
+                    className="group block bg-gradient-to-br from-yellow-500/5 to-yellow-500/10 hover:from-yellow-500/10 hover:to-yellow-500/15 border border-yellow-500/20 hover:border-yellow-500/40 rounded-lg overflow-hidden transition-all duration-300"
                   >
                     <div className="flex justify-center items-center bg-white p-8 h-48">
                       <img
@@ -311,7 +319,51 @@ export default function StartupsPage() {
                       />
                     </div>
                     <div className="p-6">
-                      <h3 className="text-xl font-semibold text-white mb-2">{company.name}</h3>
+                      <div className="flex items-start justify-between mb-2">
+                        <h3 className="text-xl font-semibold text-white">{company.name}</h3>
+                        <span className="text-yellow-400 text-xs font-bold px-2 py-1 bg-yellow-500/20 rounded">★</span>
+                      </div>
+                      <p className="text-sm text-gray-400 leading-relaxed">{company.summary}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Y Combinator Section */}
+          {yCombinatorStartups.length > 0 && (
+            <div className="mb-16">
+              <div className="mb-10 flex items-center gap-4">
+                <h2 className="text-3xl md:text-4xl font-bold text-white">
+                  Y Combinator Alumni
+                </h2>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-500/10 border border-orange-500/30 rounded-full">
+                  <span className="text-orange-400 text-xl font-bold">Y</span>
+                  <span className="text-xs font-semibold text-orange-400 uppercase tracking-wider">YC</span>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {yCombinatorStartups.map((company, index) => (
+                  <a
+                    key={company.id}
+                    href={`https://${company.website}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block bg-gradient-to-br from-orange-500/5 to-orange-500/10 hover:from-orange-500/10 hover:to-orange-500/15 border border-orange-500/20 hover:border-orange-500/40 rounded-lg overflow-hidden transition-all duration-300"
+                  >
+                    <div className="flex justify-center items-center bg-white p-8 h-48">
+                      <img
+                        src={company.logoUrl}
+                        alt={`${company.name} logo`}
+                        className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <div className="flex items-start justify-between mb-2">
+                        <h3 className="text-xl font-semibold text-white">{company.name}</h3>
+                        <span className="text-orange-400 text-xs font-bold px-2 py-1 bg-orange-500/20 rounded">YC</span>
+                      </div>
                       <p className="text-sm text-gray-400 leading-relaxed">{company.summary}</p>
                     </div>
                   </a>

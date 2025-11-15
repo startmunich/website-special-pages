@@ -22,6 +22,7 @@ interface Company {
   totalRaised?: string
   employees?: number
   isSpotlight?: boolean
+  isYCombinator?: boolean
   companyLinkedin?: string
   investmentRound?: string
   milestones?: string
@@ -58,6 +59,12 @@ const SPOTLIGHT_STARTUPS = [
   'Productlane',
   'OneTutor',
   'Manex AI'
+];
+
+// Define Y Combinator startups by name
+const YCOMBINATOR_STARTUPS = [
+  'Productlane',
+  // Add more Y Combinator companies here
 ];
 
 // Parse CSV data
@@ -130,6 +137,12 @@ export function parseStartupsCSV(): Company[] {
       // Determine if spotlight (based on predefined list)
       const isSpotlight = SPOTLIGHT_STARTUPS.includes(startupName);
       
+      // Determine if Y Combinator (based on predefined list or supportingPrograms)
+      const isYCombinator = YCOMBINATOR_STARTUPS.includes(startupName) || 
+                            supportingPrograms.toLowerCase().includes('y combinator') ||
+                            supportingPrograms.toLowerCase().includes('ycombinator') ||
+                            supportingPrograms.toLowerCase().includes('yc');
+      
       companies.push({
         id: i,
         name: startupName,
@@ -143,6 +156,7 @@ export function parseStartupsCSV(): Company[] {
         totalRaised: investmentSize !== '€0' ? investmentSize : undefined,
         employees: 0, // Not in CSV
         isSpotlight: isSpotlight,
+        isYCombinator: isYCombinator,
         companyLinkedin: companyLinkedin || undefined,
         investmentRound: investmentRound || undefined,
         milestones: milestones || undefined,
