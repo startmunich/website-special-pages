@@ -259,7 +259,7 @@ export default function StartupsPage() {
               </div>
 
               {/* Right Side - Statistics */}
-              <div className="hidden lg:flex flex-col gap-6 mr-8 min-w-[280px]">
+              <div className="hidden lg:flex flex-col gap-6 min-w-[280px] mt-11 mb-11 ml-auto mr-20">
                 {/* Stat 1 - Companies Founded */}
                 <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#d0006f]/20 w-full">
                   <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition-all"></div>
@@ -317,8 +317,8 @@ export default function StartupsPage() {
 
           {/* Mobile Statistics - Below Image */}
           <div className="lg:hidden absolute bottom-0 left-0 right-0 backdrop-blur-md bg-[#00002c]/80 border-t border-white/10">
-            <div className="max-w-7xl mx-auto px-4 py-6">
-              <div className="grid grid-cols-3 gap-4 text-center">
+            <div className="max-w-7xl mx-auto px-4 py-10">
+              <div className="grid grid-cols-3 gap-8 text-center">
                 <div>
                   <div className="flex items-baseline justify-center gap-1 mb-1">
                     <span className="text-3xl font-black text-white">{Math.floor(animatedStartups)}</span>
