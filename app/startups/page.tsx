@@ -68,6 +68,7 @@ export default function StartupsPage() {
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 12 // Reduced to approximate 3000px height (about 5-6 cards)
+  const modalRef = useRef<HTMLDivElement>(null)
   
   // Animation states for numbers
   const [animatedStartups, setAnimatedStartups] = useState(0)
@@ -134,20 +135,16 @@ export default function StartupsPage() {
     setCurrentPage(1)
   }, [selectedBatch, selectedCategory, selectedYear])
 
-  // Scroll to top and lock body when modal opens
+  // Scroll modal into view when opened
   useEffect(() => {
-    if (selectedCompany) {
-      // Scroll window to top
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-      // Lock body scroll
-      document.body.style.overflow = 'hidden'
-    } else {
-      // Unlock body scroll
-      document.body.style.overflow = 'unset'
-    }
-    
-    return () => {
-      document.body.style.overflow = 'unset'
+    if (selectedCompany && modalRef.current) {
+      // Small delay to ensure modal is rendered
+      setTimeout(() => {
+        modalRef.current?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center'
+        })
+      }, 50)
     }
   }, [selectedCompany])
 
@@ -741,7 +738,8 @@ export default function StartupsPage() {
       {/* Startup Details Modal */}
       {selectedCompany && (
         <div 
-          className="fixed top-0 left-0 right-0 bottom-0 bg-black/80 backdrop-blur-sm z-[9999] overflow-y-auto animate-fadeIn"
+          ref={modalRef}
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto animate-fadeIn"
           onClick={() => setSelectedCompany(null)}
           style={{ position: 'fixed' }}
         >
