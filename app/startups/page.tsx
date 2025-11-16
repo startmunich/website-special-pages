@@ -435,6 +435,57 @@ export default function StartupsPage() {
             </div>
           )}
 
+          {/* Join Our Startups - Innovative CTA Section */}
+          <div className="mb-16 relative">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#d0006f]/20 via-[#00002c] to-[#d0006f]/10 border border-[#d0006f]/30 p-1">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#d0006f]/20 via-transparent to-[#d0006f]/20 animate-pulse"></div>
+              
+              <div className="relative bg-[#00002c] rounded-xl p-8 md:p-12">
+                {/* Floating animated orbs */}
+                <div className="absolute top-10 right-10 w-32 h-32 bg-[#d0006f]/30 rounded-full blur-3xl animate-blob"></div>
+                <div className="absolute bottom-10 left-10 w-40 h-40 bg-[#d0006f]/20 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+                
+                <div className="relative flex flex-col md:flex-row items-center justify-between gap-8">
+                  {/* Left Side - Content */}
+                  <div className="flex-1 text-center md:text-left">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#d0006f]/20 border border-[#d0006f]/40 rounded-full mb-4">
+                      <div className="w-2 h-2 bg-[#d0006f] rounded-full animate-pulse"></div>
+                      <span className="text-[#d0006f] font-bold text-xs tracking-widest uppercase">We're Hiring</span>
+                    </div>
+                    
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+                      Join the{" "}
+                      <span className="bg-gradient-to-r from-[#d0006f] via-pink-400 to-[#d0006f] bg-clip-text text-transparent animate-pulse">
+                        Next Big Thing
+                      </span>
+                    </h2>
+                    
+                    <p className="text-lg text-gray-300 mb-6 max-w-2xl leading-relaxed">
+                      Our startups are looking for talented individuals to join their teams. 
+                      Explore open positions and be part of building innovative products that matter.
+                    </p>
+                  </div>
+
+                  {/* Right Side - CTA Button */}
+                  <div className="flex-shrink-0">
+                    <a
+                      href="https://jobs.startmunich.de"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#d0006f] to-pink-600 hover:from-[#d0006f] hover:to-[#d0006f] text-white font-bold text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#d0006f]/50 overflow-hidden"
+                    >
+                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
+                      <span className="relative">Explore Jobs</span>
+                      <svg className="relative w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Filter Section */}
           <div className="mb-12 p-6 bg-white/5 border border-white/10 rounded-lg">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
