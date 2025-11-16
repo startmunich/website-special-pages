@@ -68,7 +68,6 @@ export default function StartupsPage() {
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 12 // Reduced to approximate 3000px height (about 5-6 cards)
-  const modalRef = useRef<HTMLDivElement>(null)
   
   // Animation states for numbers
   const [animatedStartups, setAnimatedStartups] = useState(0)
@@ -135,16 +134,14 @@ export default function StartupsPage() {
     setCurrentPage(1)
   }, [selectedBatch, selectedCategory, selectedYear])
 
-  // Scroll modal into view when opened
+  // Scroll modal to top when company is selected
   useEffect(() => {
-    if (selectedCompany && modalRef.current) {
-      // Small delay to ensure modal is rendered
-      setTimeout(() => {
-        modalRef.current?.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'center'
-        })
-      }, 50)
+    if (selectedCompany) {
+      // Scroll the modal container to top
+      const modalContainer = document.querySelector('.fixed.inset-0.overflow-y-auto')
+      if (modalContainer) {
+        modalContainer.scrollTop = 0
+      }
     }
   }, [selectedCompany])
 
@@ -738,14 +735,14 @@ export default function StartupsPage() {
       {/* Startup Details Modal */}
       {selectedCompany && (
         <div 
-          ref={modalRef}
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto animate-fadeIn"
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 overflow-y-auto animate-fadeIn"
           onClick={() => setSelectedCompany(null)}
         >
-          <div 
-            className="bg-[#00002c] border border-white/20 rounded-2xl max-w-4xl w-full my-8 relative animate-scaleIn"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="min-h-screen flex items-center justify-center p-4">
+            <div 
+              className="bg-[#00002c] border border-white/20 rounded-2xl max-w-4xl w-full my-8 relative animate-scaleIn"
+              onClick={(e) => e.stopPropagation()}
+            >
             {/* Close Button */}
             <button
               onClick={() => setSelectedCompany(null)}
@@ -933,6 +930,7 @@ export default function StartupsPage() {
                 )}
               </div>
             </div>
+          </div>
           </div>
         </div>
       )}
