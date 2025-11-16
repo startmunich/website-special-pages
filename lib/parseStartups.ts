@@ -54,20 +54,15 @@ function getFounderImagePath(founderName: string): string {
   return `https://ui-avatars.com/api/?name=${encodeURIComponent(founderName)}&size=80&background=4f46e5&color=fff`;
 }
 
-// Define spotlight startups by name
-const SPOTLIGHT_STARTUPS = [
-  'Productlane',
-  'OneTutor',
-  'Manex AI'
-];
-
-// Define Y Combinator startups by name
-const YCOMBINATOR_STARTUPS = [
-  'Productlane',
-  // Add more Y Combinator companies here
-];
-
-// Parse CSV data
+/**
+ * Parse CSV data from StartupsList.csv
+ * 
+ * CSV Columns:
+ * - Column 17 (index): "Featured Startup" - Set to "Yes" to show in Growth Champions section
+ * - Column 18 (index): "Y Combinator Alumni" - Set to "Yes" to show in Y Combinator Alumni section
+ * 
+ * To add a startup to these sections, simply edit the CSV and set the appropriate column to "Yes"
+ */
 export function parseStartupsCSV(): Company[] {
   const csvPath = path.join(process.cwd(), 'public', 'StartupsList.csv');
   
@@ -118,6 +113,8 @@ export function parseStartupsCSV(): Company[] {
       const investmentSize = values[14] || '€0';
       const milestones = values[15] || '';
       const companyLinkedin = values[16] || '';
+      const isFeaturedStartup = values[17]?.toLowerCase() === 'yes' || values[17]?.toLowerCase() === 'true';
+      const isYCAlumni = values[18]?.toLowerCase() === 'yes' || values[18]?.toLowerCase() === 'true';
       
       // Skip if no startup name
       if (!startupName || startupName === 'Startup Name') continue;
@@ -134,14 +131,9 @@ export function parseStartupsCSV(): Company[] {
         });
       }
       
-      // Determine if spotlight (based on predefined list)
-      const isSpotlight = SPOTLIGHT_STARTUPS.includes(startupName);
-      
-      // Determine if Y Combinator (based on predefined list or supportingPrograms)
-      const isYCombinator = YCOMBINATOR_STARTUPS.includes(startupName) || 
-                            supportingPrograms.toLowerCase().includes('y combinator') ||
-                            supportingPrograms.toLowerCase().includes('ycombinator') ||
-                            supportingPrograms.toLowerCase().includes('yc');
+      // Use CSV columns for spotlight and Y Combinator status
+      const isSpotlight = isFeaturedStartup;
+      const isYCombinator = isYCAlumni;
       
       companies.push({
         id: i,
