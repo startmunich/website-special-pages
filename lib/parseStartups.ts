@@ -4,7 +4,7 @@ import path from 'path';
 interface Founder {
   name: string
   role: string
-  batch: string
+  batch: string[]
   imageUrl: string
   linkedinUrl?: string
 }
@@ -114,7 +114,9 @@ export function parseStartupsCSV(): Company[] {
       const milestones = values[15] || '';
       const companyLinkedin = values[16] || '';
       const isFeaturedStartup = values[17]?.toLowerCase() === 'yes' || values[17]?.toLowerCase() === 'true';
-      const isYCAlumni = values[18]?.toLowerCase() === 'yes' || values[18]?.toLowerCase() === 'true';
+      const batchString = values[18] || '';
+      const batch = batchString ? batchString.split(',').map(b => b.trim()).filter(b => b) : [];
+      const isYCAlumni = values[19]?.toLowerCase() === 'yes' || values[19]?.toLowerCase() === 'true';
       
       // Skip if no startup name
       if (!startupName || startupName === 'Startup Name') continue;
@@ -125,7 +127,7 @@ export function parseStartupsCSV(): Company[] {
         founders.push({
           name: memberName,
           role: role,
-          batch: supportingPrograms || 'START Munich',
+          batch: batch,
           imageUrl: getFounderImagePath(memberName),
           linkedinUrl: memberLinkedin || undefined
         });

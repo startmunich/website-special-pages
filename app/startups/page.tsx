@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Script from "next/script"
@@ -8,7 +9,7 @@ import Script from "next/script"
 interface Founder {
   name: string
   role: string
-  batch: string
+  batch: string[]
   imageUrl: string
   linkedinUrl?: string
 }
@@ -65,10 +66,9 @@ export default function StartupsPage() {
   const [selectedBatch, setSelectedBatch] = useState<string>("all")
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
   const [selectedYear, setSelectedYear] = useState<string>("all")
-  const [selectedCompany, setSelectedCompany] = useState<Company | null>(null)
+  const [selectedProgram, setSelectedProgram] = useState<string>("all")
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 12 // Reduced to approximate 3000px height (about 5-6 cards)
-  const modalRef = useRef<HTMLDivElement>(null)
   
   // Animation states for numbers
   const [animatedStartups, setAnimatedStartups] = useState(0)
@@ -91,10 +91,10 @@ export default function StartupsPage() {
   const allBatches = Array.from(
     new Set(
       companies.flatMap(company => 
-        company.founders.map(founder => founder.batch)
+        company.founders.flatMap(founder => founder.batch)
       )
     )
-  ).sort()
+  ).filter(batch => batch).sort()
 
   // Extract unique categories
   const allCategories = Array.from(
@@ -110,10 +110,20 @@ export default function StartupsPage() {
     )
   ).sort()
 
+  // Extract unique supporting programs
+  const allPrograms = Array.from(
+    new Set(
+      companies
+        .map(company => company.supportingPrograms)
+        .filter((program): program is string => program !== undefined && program.trim() !== '')
+        .flatMap(program => program.split(',').map(p => p.trim()))
+    )
+  ).sort()
+
   // Filter companies based on all selected filters
   const filteredCompanies = companies.filter(company => {
     const matchesBatch = selectedBatch === "all" || 
-      company.founders.some(founder => founder.batch === selectedBatch)
+      company.founders.some(founder => founder.batch.includes(selectedBatch))
     
     const matchesCategory = selectedCategory === "all" || 
       company.category.some(cat => cat.toLowerCase().includes(selectedCategory.toLowerCase()))
@@ -121,7 +131,13 @@ export default function StartupsPage() {
     const matchesYear = selectedYear === "all" || 
       company.foundingYear.toString() === selectedYear
 
-    return matchesBatch && matchesCategory && matchesYear
+    const matchesProgram = selectedProgram === "all" || 
+      (company.supportingPrograms && 
+       company.supportingPrograms.split(',').some(program => 
+         program.trim().toLowerCase().includes(selectedProgram.toLowerCase())
+       ))
+
+    return matchesBatch && matchesCategory && matchesYear && matchesProgram
   })
 
   // Pagination calculations
@@ -133,22 +149,7 @@ export default function StartupsPage() {
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1)
-  }, [selectedBatch, selectedCategory, selectedYear])
-
-  // Handle modal opening and closing - prevent background scrolling only
-  useEffect(() => {
-    if (selectedCompany) {
-      // Prevent background scrolling when modal is open
-      document.body.style.overflow = 'hidden'
-    } else {
-      // Re-enable scrolling when modal is closed
-      document.body.style.overflow = 'unset'
-    }
-    
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [selectedCompany])
+  }, [selectedBatch, selectedCategory, selectedYear, selectedProgram])
 
   // Calculate total statistics
   const totalStartups = companies.length
@@ -262,7 +263,7 @@ export default function StartupsPage() {
                   <div className="w-2 h-2 bg-[#d0006f] rounded-full animate-pulse"></div>
                   <p className="text-[#d0006f] font-semibold text-xs tracking-widest uppercase">OUR STARTUPS</p>
                 </div>
-                <h1 className="text-5xl md:text-6xl lg:text-8xl font-black text-white mb-6">
+                <h1 className="text-5xl md:text-6xl lg:text-8xl font-black text-white mb-6 h1-big">
                   START MUNICH
                   <br />
                   <span className="outline-text">
@@ -375,10 +376,12 @@ export default function StartupsPage() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {spotlightStartups.map((company, index) => (
-                  <div
+                  <Link
                     key={company.id}
-                    onClick={() => setSelectedCompany(company)}
-                    className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer"
+                    href={`/startup-details/${company.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block"
                   >
                     <div className="flex justify-center items-center bg-white p-8 h-48">
                       <img
@@ -394,7 +397,7 @@ export default function StartupsPage() {
                       </div>
                       <p className="text-sm text-gray-400 leading-relaxed">{company.summary}</p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -410,10 +413,12 @@ export default function StartupsPage() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {yCombinatorStartups.map((company, index) => (
-                  <div
+                  <Link
                     key={company.id}
-                    onClick={() => setSelectedCompany(company)}
-                    className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer"
+                    href={`/startup-details/${company.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block"
                   >
                     <div className="flex justify-center items-center bg-white p-8 h-48">
                       <img
@@ -429,7 +434,7 @@ export default function StartupsPage() {
                       </div>
                       <p className="text-sm text-gray-400 leading-relaxed">{company.summary}</p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -488,7 +493,7 @@ export default function StartupsPage() {
 
           {/* Filter Section */}
           <div className="mb-12 p-6 bg-white/5 border border-white/10 rounded-lg">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
               {/* Batch Filter */}
               <div>
                 <label htmlFor="batch-filter" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
@@ -549,6 +554,26 @@ export default function StartupsPage() {
                 </Select>
               </div>
 
+              {/* Supporting Programs Filter */}
+              <div>
+                <label htmlFor="program-filter" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
+                  Programs
+                </label>
+                <Select value={selectedProgram} onValueChange={setSelectedProgram}>
+                  <SelectTrigger className="w-full bg-white/5 border-white/20 text-white focus:ring-1 focus:ring-white/30 hover:bg-white/10 transition-all">
+                    <SelectValue placeholder="Select program" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Programs</SelectItem>
+                    {allPrograms.map((program) => (
+                      <SelectItem key={program} value={program}>
+                        {program}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               {/* Clear Filters Button */}
               <div className="flex items-end">
                 <button
@@ -556,6 +581,7 @@ export default function StartupsPage() {
                     setSelectedBatch("all")
                     setSelectedCategory("all")
                     setSelectedYear("all")
+                    setSelectedProgram("all")
                   }}
                   className="w-full px-4 py-2.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 transition-all rounded border border-white/20 hover:border-white/30"
                 >
@@ -569,10 +595,12 @@ export default function StartupsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {paginatedCompanies.map((company, index) => {
               return (
-                <div
+                <Link
                   key={company.id}
-                  onClick={() => setSelectedCompany(company)}
-                  className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer"
+                  href={`/startup-details/${company.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block"
                 >
                   {/* Logo Section */}
                   <div className="flex items-center justify-center bg-white p-8 h-48">
@@ -663,7 +691,7 @@ export default function StartupsPage() {
                       </div>
                     )}
                   </div>
-                </div>
+                </Link>
               )
             })}
           </div>
@@ -736,208 +764,6 @@ export default function StartupsPage() {
           </div>
         </div>
       </main>
-
-      {/* Startup Details Modal */}
-      {selectedCompany && (
-        <div 
-          ref={modalRef}
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn"
-          onClick={() => setSelectedCompany(null)}
-        >
-          <div 
-            className="bg-[#00002c] border border-white/20 rounded-2xl max-w-4xl w-full max-h-[90vh] relative animate-scaleIn overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedCompany(null)}
-              className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full transition-all"
-            >
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            {/* Modal Content */}
-            <div className="p-8">
-              {/* Header with Logo */}
-              <div className="flex flex-col md:flex-row gap-6 mb-6">
-                <div className="flex-shrink-0 bg-white rounded-lg p-6 w-full md:w-48 h-48 flex items-center justify-center">
-                  <img
-                    src={selectedCompany.logoUrl}
-                    alt={`${selectedCompany.name} logo`}
-                    className="max-w-full max-h-full w-auto h-auto object-contain"
-                  />
-                </div>
-                
-                <div className="flex-1">
-                  <h2 className="text-4xl font-bold text-white mb-3">{selectedCompany.name}</h2>
-                  
-                  {/* Categories */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {selectedCompany.category.map((cat, idx) => (
-                      <span
-                        key={idx}
-                        className="inline-flex items-center px-3 py-1 text-xs font-medium bg-[#d0006f]/20 text-[#d0006f] border border-[#d0006f]/40 rounded-full"
-                      >
-                        {cat}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Quick Info */}
-                  <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-400 mb-4">
-                    <span>Founded {selectedCompany.foundingYear}</span>
-                    {selectedCompany.totalRaised && selectedCompany.totalRaised !== "€0" && (
-                      <>
-                        <span>•</span>
-                        <span>{selectedCompany.totalRaised} raised</span>
-                      </>
-                    )}
-                    {selectedCompany.investmentRound && (
-                      <>
-                        <span>•</span>
-                        <span>{selectedCompany.investmentRound}</span>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Website Link */}
-                  <a
-                    href={`https://${selectedCompany.website}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-[#d0006f] hover:text-pink-400 font-medium transition-colors"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                    Visit Website
-                  </a>
-                </div>
-              </div>
-
-              {/* Description */}
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-white mb-3">About</h3>
-                <p className="text-gray-300 leading-relaxed">{selectedCompany.description}</p>
-              </div>
-
-              {/* Founders */}
-              {selectedCompany.founders.length > 0 && (
-                <div className="mb-6 pb-6 border-b border-white/10">
-                  <h3 className="text-lg font-semibold text-white mb-4">
-                    {selectedCompany.founders.length > 1 ? 'Founders' : 'Founder'}
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {selectedCompany.founders.map((founder, idx) => (
-                      <div key={idx} className="flex items-center gap-4 p-4 bg-white/5 rounded-lg">
-                        {founder.linkedinUrl ? (
-                          <a
-                            href={founder.linkedinUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex-shrink-0"
-                          >
-                            <img
-                              src={founder.imageUrl}
-                              alt={founder.name}
-                              className="w-16 h-16 rounded-full object-cover border-2 border-white/20 hover:border-[#d0006f] transition-all"
-                            />
-                          </a>
-                        ) : (
-                          <img
-                            src={founder.imageUrl}
-                            alt={founder.name}
-                            className="w-16 h-16 rounded-full object-cover border-2 border-white/20"
-                          />
-                        )}
-                        <div className="flex-1 min-w-0">
-                          <p className="text-base font-semibold text-white mb-1">{founder.name}</p>
-                          <p className="text-sm text-gray-400 mb-1">{founder.role}</p>
-                          <p className="text-xs text-gray-500">{founder.batch}</p>
-                        </div>
-                        {founder.linkedinUrl && (
-                          <a
-                            href={founder.linkedinUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#d0006f] hover:text-pink-400 transition-colors"
-                          >
-                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                            </svg>
-                          </a>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Milestones */}
-              {selectedCompany.milestones && (
-                <div className="mb-6 pb-6 border-b border-white/10">
-                  <h3 className="text-lg font-semibold text-white mb-4">Milestones</h3>
-                  <ul className="space-y-2">
-                    {selectedCompany.milestones.split('-').filter(m => m.trim()).map((milestone, idx) => (
-                      <li key={idx} className="flex items-start gap-3 text-gray-300">
-                        <span className="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-[#d0006f]"></span>
-                        <span>{milestone.trim()}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Supporting Programs */}
-              {selectedCompany.supportingPrograms && (
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-white mb-4">Supporting Programs</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedCompany.supportingPrograms.split(',').filter(p => p.trim()).map((program, idx) => (
-                      <span
-                        key={idx}
-                        className="px-3 py-1.5 text-sm bg-white/5 text-gray-300 border border-white/10 rounded-lg"
-                      >
-                        {program.trim()}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Footer Links */}
-              <div className="flex flex-wrap gap-4 pt-6 border-t border-white/10">
-                <a
-                  href={`https://${selectedCompany.website}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 min-w-[200px] flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-[#d0006f] to-pink-600 hover:from-[#d0006f] hover:to-[#d0006f] text-white font-semibold rounded-xl transition-all hover:scale-105"
-                >
-                  Visit Website
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
-                {selectedCompany.companyLinkedin && (
-                  <a
-                    href={selectedCompany.companyLinkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-all"
-                  >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                    </svg>
-                    LinkedIn
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   )
 }

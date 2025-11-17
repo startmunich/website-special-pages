@@ -74,14 +74,20 @@
     @apply bg-background text-foreground;
     font-family: Avenirnextltpro, sans-serif;
   }
-  h1 {
+  .h1-small {
+    -webkit-text-stroke: 4px white;
+    paint-order: stroke fill;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+  .h1-big {
     -webkit-text-stroke: 7px white;
     paint-order: stroke fill;
     letter-spacing: 0.09em;
     text-transform: uppercase;
   }
   h2 {
-    -webkit-text-stroke: 3px white;
+    -webkit-text-stroke: 2px white;
     paint-order: stroke fill;
     letter-spacing: 0.09em;
     text-transform: uppercase;
