@@ -135,25 +135,43 @@ export default function StartupsPage() {
     setCurrentPage(1)
   }, [selectedBatch, selectedCategory, selectedYear])
 
-  // Track scroll position for modal positioning in iframe
-  const [modalScrollPosition, setModalScrollPosition] = useState(0)
+  // Track initial scroll position for returning after modal closes
+  const [initialScrollPosition, setInitialScrollPosition] = useState(0)
 
-  // Capture scroll position when opening modal
+  // Handle modal opening and closing with smooth scrolling
   useEffect(() => {
     if (selectedCompany) {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-      setModalScrollPosition(scrollTop)
-      // Prevent background scrolling
-      document.body.style.overflow = 'hidden'
+      // Store current scroll position
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop
+      setInitialScrollPosition(currentScrollTop)
+      
+      // Scroll to top smoothly for modal
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+      
+      // Prevent background scrolling after scroll animation
+      setTimeout(() => {
+        document.body.style.overflow = 'hidden'
+      }, 500) // Wait for smooth scroll to complete
     } else {
-      // Re-enable scrolling when modal closes
+      // Re-enable scrolling and return to original position
       document.body.style.overflow = 'unset'
+      
+      // Small delay to ensure modal is unmounted before scrolling
+      setTimeout(() => {
+        window.scrollTo({
+          top: initialScrollPosition,
+          behavior: 'smooth'
+        })
+      }, 100)
     }
     
     return () => {
       document.body.style.overflow = 'unset'
     }
-  }, [selectedCompany])
+  }, [selectedCompany, initialScrollPosition])
 
   // Calculate total statistics
   const totalStartups = companies.length
@@ -746,14 +764,10 @@ export default function StartupsPage() {
       {selectedCompany && (
         <div 
           ref={modalRef}
-          className="absolute left-0 right-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn"
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto animate-fadeIn"
           onClick={() => setSelectedCompany(null)}
-          style={{ 
-            top: `${modalScrollPosition}px`,
-            minHeight: '100vh'
-          }}
         >
-          <div className="min-h-screen flex items-center justify-center p-4">
+          <div className="min-h-full flex items-center justify-center p-4">
             <div 
               className="bg-[#00002c] border border-white/20 rounded-2xl max-w-4xl w-full my-8 relative animate-scaleIn"
               onClick={(e) => e.stopPropagation()}
