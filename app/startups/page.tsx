@@ -134,14 +134,20 @@ export default function StartupsPage() {
     setCurrentPage(1)
   }, [selectedBatch, selectedCategory, selectedYear])
 
-  // Scroll modal to top when company is selected
+  // Scroll to top and lock body when modal opens
   useEffect(() => {
     if (selectedCompany) {
-      // Scroll the modal container to top
-      const modalContainer = document.querySelector('.fixed.inset-0.overflow-y-auto')
-      if (modalContainer) {
-        modalContainer.scrollTop = 0
-      }
+      // Scroll window to top
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      // Lock body scroll
+      document.body.style.overflow = 'hidden'
+    } else {
+      // Unlock body scroll
+      document.body.style.overflow = 'unset'
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset'
     }
   }, [selectedCompany])
 
@@ -735,10 +741,11 @@ export default function StartupsPage() {
       {/* Startup Details Modal */}
       {selectedCompany && (
         <div 
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 overflow-y-auto animate-fadeIn"
+          className="fixed top-0 left-0 right-0 bottom-0 bg-black/80 backdrop-blur-sm z-[9999] overflow-y-auto animate-fadeIn"
           onClick={() => setSelectedCompany(null)}
+          style={{ position: 'fixed' }}
         >
-          <div className="min-h-screen flex items-center justify-center p-4">
+          <div className="min-h-full flex items-start justify-center p-4 pt-8">
             <div 
               className="bg-[#00002c] border border-white/20 rounded-2xl max-w-4xl w-full my-8 relative animate-scaleIn"
               onClick={(e) => e.stopPropagation()}
