@@ -243,125 +243,112 @@ export default function StartupsPage() {
       <main className="min-h-screen bg-[#00002c]">
         {/* Hero Section with Full-Width Image */}
         <div className="relative w-full overflow-hidden">
-          {/* Background Image */}
+          {/* Background Image + Overlay */}
           <div className="absolute inset-0">
             <img
               src="/hero-image.jpg"
               alt="START Munich Community"
               className="w-full h-full object-cover"
             />
-            {/* Dark Overlay */}
             <div className="absolute inset-0 bg-[#00002c]/60"></div>
           </div>
 
           {/* Content Overlay */}
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div className="flex items-center justify-between gap-12">
-              {/* Left Side - Heading */}
-              <div className="flex-1 max-w-2xl">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-12">
+              {/* Left Side */}
+              <div className="flex-1 max-w-2xl text-center lg:text-left">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#d0006f]/20 border border-[#d0006f]/40 rounded-full mb-6 backdrop-blur-sm">
                   <div className="w-2 h-2 bg-[#d0006f] rounded-full animate-pulse"></div>
-                  <p className="text-[#d0006f] font-semibold text-xs tracking-widest uppercase">OUR STARTUPS</p>
+                  <p className="text-[#d0006f] font-semibold text-xs tracking-widest uppercase">
+                    OUR STARTUPS
+                  </p>
                 </div>
-                <h1 className="text-5xl md:text-6xl lg:text-8xl font-black text-white mb-6 h1-big">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6">
                   START MUNICH
                   <br />
-                  <span className="outline-text">
-                    STARTUPS
-                  </span>
+                  <span className="outline-text">STARTUPS</span>
                 </h1>
-                <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed">
                   Discover the innovative companies built by our community of ambitious student entrepreneurs
                 </p>
               </div>
 
-              {/* Right Side - Statistics */}
-              <div className="hidden lg:flex flex-col gap-6 min-w-[280px] mt-11 mb-11 ml-auto mr-20">
-                {/* Stat 1 - Companies Founded */}
-                <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#d0006f]/20 w-full">
-                  <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition-all"></div>
+              {/* Desktop Stats */}
+              <div className="hidden lg:flex flex-col gap-6 min-w-[280px] mt-6 lg:mt-11 ml-auto">
+                {/** Stat 1 **/}
+                <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition transform hover:scale-105 w-full">
+                  <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition"></div>
                   <div className="relative text-center">
                     <div className="flex items-baseline justify-center gap-2 mb-3">
-                      <span className="text-6xl font-black bg-gradient-to-br from-white to-gray-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-[#d0006f] transition-all duration-300">
+                      <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
                         {Math.floor(animatedStartups)}
                       </span>
                       <span className="text-3xl font-bold text-[#d0006f] animate-pulse">+</span>
                     </div>
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="w-8 h-0.5 bg-gradient-to-r from-[#d0006f] to-transparent"></div>
-                      <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Companies</p>
-                    </div>
+                    <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Companies</p>
                   </div>
                 </div>
 
-                {/* Stat 2 - Total Funding */}
-                <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#d0006f]/20">
-                  <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition-all"></div>
+                {/** Stat 2 **/}
+                <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition transform hover:scale-105">
+                  <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition"></div>
                   <div className="relative text-center">
                     <div className="flex items-baseline justify-center gap-1 mb-3">
                       <span className="text-2xl font-bold text-[#d0006f]">€</span>
-                      <span className="text-6xl font-black bg-gradient-to-br from-white to-gray-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-[#d0006f] transition-all duration-300">
+                      <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
                         {animatedFunding.toFixed(1)}
                       </span>
                       <span className="text-3xl font-bold text-[#d0006f]">M</span>
                     </div>
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="w-8 h-0.5 bg-gradient-to-r from-[#d0006f] to-transparent"></div>
-                      <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Funding</p>
-                    </div>
+                    <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Funding</p>
                   </div>
                 </div>
 
-                {/* Stat 3 - Employees */}
-                <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#d0006f]/20">
-                  <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition-all"></div>
+                {/** Stat 3 **/}
+                <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition transform hover:scale-105">
+                  <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition"></div>
                   <div className="relative text-center">
                     <div className="flex items-baseline justify-center gap-2 mb-3">
-                      <span className="text-6xl font-black bg-gradient-to-br from-white to-gray-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-[#d0006f] transition-all duration-300">
+                      <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
                         {Math.floor(animatedEmployees)}
                       </span>
                       <span className="text-3xl font-bold text-[#d0006f] animate-pulse">+</span>
                     </div>
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="w-8 h-0.5 bg-gradient-to-r from-[#d0006f] to-transparent"></div>
-                      <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Employees</p>
-                    </div>
+                    <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Employees</p>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Mobile Statistics - Below Image */}
-          <div className="lg:hidden absolute bottom-0 left-0 right-0 backdrop-blur-md bg-[#00002c]/80 border-t border-white/10">
-            <div className="max-w-7xl mx-auto px-4 py-10">
-              <div className="grid grid-cols-3 gap-8 text-center">
-                <div>
-                  <div className="flex items-baseline justify-center gap-1 mb-1">
-                    <span className="text-3xl font-black text-white">{Math.floor(animatedStartups)}</span>
-                    <span className="text-lg font-bold text-[#d0006f]">+</span>
-                  </div>
-                  <p className="text-xs font-bold text-gray-300 uppercase">Companies</p>
-                </div>
-                <div>
-                  <div className="flex items-baseline justify-center gap-1 mb-1">
-                    <span className="text-sm font-bold text-[#d0006f]">€</span>
-                    <span className="text-3xl font-black text-white">{animatedFunding.toFixed(1)}</span>
-                    <span className="text-lg font-bold text-[#d0006f]">M</span>
-                  </div>
-                  <p className="text-xs font-bold text-gray-300 uppercase">Funding</p>
-                </div>
-                <div>
-                  <div className="flex items-baseline justify-center gap-1 mb-1">
-                    <span className="text-3xl font-black text-white">{Math.floor(animatedEmployees)}</span>
-                    <span className="text-lg font-bold text-[#d0006f]">+</span>
-                  </div>
-                  <p className="text-xs font-bold text-gray-300 uppercase">Employees</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Mobile Stats (static, below hero) */}
+        <div className="lg:hidden bg-[#00002c]/80 backdrop-blur-md border-t border-white/10 mt-4">
+          <div className="max-w-7xl mx-auto px-4 py-6">
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <p className="text-2xl font-black text-white">
+                  {Math.floor(animatedStartups)}+
+                </p>
+                <p className="text-xs font-bold text-gray-300 uppercase">Companies</p>
+              </div>
+              <div>
+                <p className="text-2xl font-black text-white">
+                  €{animatedFunding.toFixed(1)}M
+                </p>
+                <p className="text-xs font-bold text-gray-300 uppercase">Funding</p>
+              </div>
+              <div>
+                <p className="text-2xl font-black text-white">
+                  {Math.floor(animatedEmployees)}+
+                </p>
+                <p className="text-xs font-bold text-gray-300 uppercase">Employees</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
         {/* Content Below Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
