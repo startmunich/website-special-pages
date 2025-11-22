@@ -68,6 +68,7 @@ export default function StartupsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
   const [selectedYear, setSelectedYear] = useState<string>("all")
   const [selectedProgram, setSelectedProgram] = useState<string>("all")
+  const [searchQuery, setSearchQuery] = useState<string>("")
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 12 // Reduced to approximate 3000px height (about 5-6 cards)
   
@@ -138,7 +139,10 @@ export default function StartupsPage() {
          program.trim().toLowerCase().includes(selectedProgram.toLowerCase())
        ))
 
-    return matchesBatch && matchesCategory && matchesYear && matchesProgram
+    const matchesSearch = searchQuery === "" || 
+      company.name.toLowerCase().includes(searchQuery.toLowerCase())
+
+    return matchesBatch && matchesCategory && matchesYear && matchesProgram && matchesSearch
   })
 
   // Pagination calculations
@@ -150,7 +154,7 @@ export default function StartupsPage() {
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1)
-  }, [selectedBatch, selectedCategory, selectedYear, selectedProgram])
+  }, [selectedBatch, selectedCategory, selectedYear, selectedProgram, searchQuery])
 
   // Calculate total statistics
   const totalStartups = companies.length
@@ -570,12 +574,28 @@ export default function StartupsPage() {
                     setSelectedCategory("all")
                     setSelectedYear("all")
                     setSelectedProgram("all")
+                    setSearchQuery("")
                   }}
                   className="w-full px-4 py-2.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 transition-all rounded border border-white/20 hover:border-white/30"
                 >
                   Clear Filters
                 </button>
               </div>
+            </div>
+
+            {/* Search Bar */}
+            <div className="mt-4">
+              <label htmlFor="search-input" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
+                Search by Name
+              </label>
+              <input
+                id="search-input"
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Type startup name..."
+                className="w-full px-4 py-2.5 bg-white/5 border border-white/20 text-white placeholder-gray-500 focus:ring-1 focus:ring-white/30 hover:bg-white/10 transition-all rounded focus:outline-none"
+              />
             </div>
           </div>
 
