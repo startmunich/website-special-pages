@@ -142,19 +142,89 @@ export async function PUT(
   try {
     const formData = await request.json();
 
+    // Process base64 images - upload to NocoDB storage first
+    let memberPictureUrl = formData.memberPicture;
+    let companyLogoUrl = formData.companyLogo;
+
+    // Upload member picture to NocoDB storage if it's a base64 image
+    if (formData.memberPicture && formData.memberPicture.startsWith('data:image/')) {
+      try {
+        const base64Data = formData.memberPicture.split(',')[1];
+        const mimeType = formData.memberPicture.match(/data:(.*?);/)?.[1] || 'image/png';
+        const extension = mimeType.split('/')[1];
+        const filename = `member_${Date.now()}.${extension}`;
+        
+        const binaryString = Buffer.from(base64Data, 'base64');
+        const uploadFormData = new FormData();
+        const blob = new Blob([binaryString], { type: mimeType });
+        uploadFormData.append('file', blob, filename);
+        
+        const uploadResponse = await fetch(
+          `${NOCODB_BASE_URL}/api/v1/db/storage/upload`,
+          {
+            method: 'POST',
+            headers: {
+              'xc-token': NOCODB_API_TOKEN,
+            },
+            body: uploadFormData,
+          }
+        );
+        
+        if (uploadResponse.ok) {
+          const uploadResult = await uploadResponse.json();
+          memberPictureUrl = uploadResult; // Store entire upload response
+        }
+      } catch (uploadError) {
+        console.error('Error uploading member picture:', uploadError);
+      }
+    }
+
+    // Upload company logo to NocoDB storage if it's a base64 image
+    if (formData.companyLogo && formData.companyLogo.startsWith('data:image/')) {
+      try {
+        const base64Data = formData.companyLogo.split(',')[1];
+        const mimeType = formData.companyLogo.match(/data:(.*?);/)?.[1] || 'image/png';
+        const extension = mimeType.split('/')[1];
+        const filename = `logo_${Date.now()}.${extension}`;
+        
+        const binaryString = Buffer.from(base64Data, 'base64');
+        const uploadFormData = new FormData();
+        const blob = new Blob([binaryString], { type: mimeType });
+        uploadFormData.append('file', blob, filename);
+        
+        const uploadResponse = await fetch(
+          `${NOCODB_BASE_URL}/api/v1/db/storage/upload`,
+          {
+            method: 'POST',
+            headers: {
+              'xc-token': NOCODB_API_TOKEN,
+            },
+            body: uploadFormData,
+          }
+        );
+        
+        if (uploadResponse.ok) {
+          const uploadResult = await uploadResponse.json();
+          companyLogoUrl = uploadResult; // Store entire upload response
+        }
+      } catch (uploadError) {
+        console.error('Error uploading company logo:', uploadError);
+      }
+    }
+
     // Map form data to NocoDB field names
     const nocoDBRecord = {
       "Startup Name": formData.startupName,
       "Company Website": formData.companyWebsite,
       "Short Description": formData.shortDescription,
       "Description Long": formData.descriptionLong,
-      "Company Logo": formData.companyLogo,
+      "Company Logo": companyLogoUrl || null,
       "Founding Year": parseInt(formData.foundingYear) || new Date().getFullYear(),
       "Chategory": formData.chategory,
       "STARTMunich Member": formData.startMunichMember,
       "Company Role": formData.companyRole,
       "Batch": formData.batch,
-      "Member Picture": formData.memberPicture,
+      "Member Picture": memberPictureUrl || null,
       "Member Linkedin": formData.memberLinkedin,
       "Investment Size €": formData.investmentSize,
       "Employees": formData.employees ? parseInt(formData.employees) : null,

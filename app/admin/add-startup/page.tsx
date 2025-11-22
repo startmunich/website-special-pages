@@ -8,6 +8,10 @@ export default function AddStartupPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+  const [memberPictureFile, setMemberPictureFile] = useState<File | null>(null)
+  const [companyLogoFile, setCompanyLogoFile] = useState<File | null>(null)
+  const [memberPicturePreview, setMemberPicturePreview] = useState<string | null>(null)
+  const [companyLogoPreview, setCompanyLogoPreview] = useState<string | null>(null)
 
   const [formData, setFormData] = useState({
     startupName: "",
@@ -37,6 +41,50 @@ export default function AddStartupPage() {
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: 'memberPicture' | 'companyLogo') => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setError('Please select an image file')
+      return
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image size must be less than 5MB')
+      return
+    }
+
+    if (fieldName === 'memberPicture') {
+      setMemberPictureFile(file)
+      // Create preview
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setMemberPicturePreview(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    } else {
+      setCompanyLogoFile(file)
+      // Create preview
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setCompanyLogoPreview(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const convertFileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onloadend = () => resolve(reader.result as string)
+      reader.onerror = reject
+      reader.readAsDataURL(file)
+    })
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -44,12 +92,23 @@ export default function AddStartupPage() {
     setSuccess(false)
 
     try {
+      // Prepare form data with uploaded images
+      const submitData = { ...formData }
+      
+      // Convert uploaded files to base64 if present
+      if (memberPictureFile) {
+        submitData.memberPicture = await convertFileToBase64(memberPictureFile)
+      }
+      if (companyLogoFile) {
+        submitData.companyLogo = await convertFileToBase64(companyLogoFile)
+      }
+
       const response = await fetch('/api/startups/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submitData),
       })
 
       if (!response.ok) {
@@ -57,8 +116,22 @@ export default function AddStartupPage() {
         throw new Error(errorData.error || 'Failed to add startup')
       }
 
+      const result = await response.json()
+      console.log('Startup added successfully:', result)
+      
       setSuccess(true)
-      // Reset form
+      
+      // Show record details
+      if (result.recordId) {
+        console.log(`✅ Record ID ${result.recordId} created in NocoDB`)
+        console.log(`View in NocoDB: https://ndb.startmunich.de/nc/mf0gbvfzl1wkaha`)
+      }
+      
+      // Reset form and files
+      setMemberPictureFile(null)
+      setCompanyLogoFile(null)
+      setMemberPicturePreview(null)
+      setCompanyLogoPreview(null)
       setFormData({
         startupName: "",
         companyWebsite: "",
@@ -103,6 +176,17 @@ export default function AddStartupPage() {
         {success && (
           <div className="mb-6 p-4 bg-green-500/20 border border-green-500/40 rounded-lg">
             <p className="text-green-400 font-medium">✓ Startup added successfully!</p>
+            <p className="text-green-300 text-sm mt-2">
+              The startup has been saved to the database. Check your NocoDB table to see it.
+            </p>
+            <a 
+              href="https://ndb.startmunich.de"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-400 text-sm underline mt-2 inline-block"
+            >
+              Open NocoDB →
+            </a>
           </div>
         )}
 
@@ -150,19 +234,23 @@ export default function AddStartupPage() {
                 />
               </div>
 
-              <div>
+              <div className="md:col-span-2">
                 <label htmlFor="companyLogo" className="block text-sm font-medium text-gray-300 mb-2">
-                  Company Logo URL
+                  Company Logo
                 </label>
                 <input
-                  type="url"
+                  type="file"
                   id="companyLogo"
-                  name="companyLogo"
-                  value={formData.companyLogo}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#d0006f]"
-                  placeholder="https://example.com/logo.png"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, 'companyLogo')}
+                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#d0006f] file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#d0006f] file:text-white hover:file:bg-[#d0006f]/90 file:cursor-pointer"
                 />
+                <p className="text-xs text-gray-400 mt-1">Max size: 5MB. Accepted formats: JPG, PNG, GIF, SVG</p>
+                {companyLogoPreview && (
+                  <div className="mt-3 p-4 bg-white rounded-lg">
+                    <img src={companyLogoPreview} alt="Logo preview" className="max-h-32 max-w-full object-contain mx-auto" />
+                  </div>
+                )}
               </div>
 
               <div className="md:col-span-2">
@@ -313,17 +401,21 @@ export default function AddStartupPage() {
 
               <div className="md:col-span-2">
                 <label htmlFor="memberPicture" className="block text-sm font-medium text-gray-300 mb-2">
-                  Member Picture URL
+                  Member Picture
                 </label>
                 <input
-                  type="url"
+                  type="file"
                   id="memberPicture"
-                  name="memberPicture"
-                  value={formData.memberPicture}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#d0006f]"
-                  placeholder="https://example.com/photo.jpg"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, 'memberPicture')}
+                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#d0006f] file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#d0006f] file:text-white hover:file:bg-[#d0006f]/90 file:cursor-pointer"
                 />
+                <p className="text-xs text-gray-400 mt-1">Max size: 5MB. Accepted formats: JPG, PNG, GIF</p>
+                {memberPicturePreview && (
+                  <div className="mt-3 p-4 bg-white rounded-lg inline-block">
+                    <img src={memberPicturePreview} alt="Member preview" className="w-24 h-24 rounded-full object-cover" />
+                  </div>
+                )}
               </div>
             </div>
           </div>

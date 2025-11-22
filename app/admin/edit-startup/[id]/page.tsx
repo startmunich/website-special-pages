@@ -12,6 +12,10 @@ export default function EditStartupDetailPage() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+  const [memberPictureFile, setMemberPictureFile] = useState<File | null>(null)
+  const [companyLogoFile, setCompanyLogoFile] = useState<File | null>(null)
+  const [memberPicturePreview, setMemberPicturePreview] = useState<string | null>(null)
+  const [companyLogoPreview, setCompanyLogoPreview] = useState<string | null>(null)
 
   const [formData, setFormData] = useState({
     startupName: "",
@@ -86,6 +90,46 @@ export default function EditStartupDetailPage() {
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: 'memberPicture' | 'companyLogo') => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    if (!file.type.startsWith('image/')) {
+      setError('Please select an image file')
+      return
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image size must be less than 5MB')
+      return
+    }
+
+    if (fieldName === 'memberPicture') {
+      setMemberPictureFile(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setMemberPicturePreview(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    } else {
+      setCompanyLogoFile(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setCompanyLogoPreview(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const convertFileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onloadend = () => resolve(reader.result as string)
+      reader.onerror = reject
+      reader.readAsDataURL(file)
+    })
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSaving(true)
@@ -93,12 +137,22 @@ export default function EditStartupDetailPage() {
     setSuccess(false)
 
     try {
+      const submitData = { ...formData }
+      
+      // Convert uploaded files to base64 if present
+      if (memberPictureFile) {
+        submitData.memberPicture = await convertFileToBase64(memberPictureFile)
+      }
+      if (companyLogoFile) {
+        submitData.companyLogo = await convertFileToBase64(companyLogoFile)
+      }
+
       const response = await fetch(`/api/startups/${startupId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submitData),
       })
 
       if (!response.ok) {
@@ -214,19 +268,23 @@ export default function EditStartupDetailPage() {
                 />
               </div>
 
-              <div>
+              <div className="md:col-span-2">
                 <label htmlFor="companyLogo" className="block text-sm font-medium text-gray-300 mb-2">
-                  Company Logo URL
+                  Company Logo {formData.companyLogo && '(Current logo will be replaced if new file uploaded)'}
                 </label>
                 <input
-                  type="url"
+                  type="file"
                   id="companyLogo"
-                  name="companyLogo"
-                  value={formData.companyLogo}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#d0006f]"
-                  placeholder="https://example.com/logo.png"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, 'companyLogo')}
+                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#d0006f] file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#d0006f] file:text-white hover:file:bg-[#d0006f]/90 file:cursor-pointer"
                 />
+                <p className="text-xs text-gray-400 mt-1">Max size: 5MB. Accepted formats: JPG, PNG, GIF, SVG</p>
+                {(companyLogoPreview || formData.companyLogo) && (
+                  <div className="mt-3 p-4 bg-white rounded-lg">
+                    <img src={companyLogoPreview || formData.companyLogo} alt="Logo preview" className="max-h-32 max-w-full object-contain mx-auto" />
+                  </div>
+                )}
               </div>
 
               <div className="md:col-span-2">
@@ -377,17 +435,21 @@ export default function EditStartupDetailPage() {
 
               <div className="md:col-span-2">
                 <label htmlFor="memberPicture" className="block text-sm font-medium text-gray-300 mb-2">
-                  Member Picture URL
+                  Member Picture {formData.memberPicture && '(Current photo will be replaced if new file uploaded)'}
                 </label>
                 <input
-                  type="url"
+                  type="file"
                   id="memberPicture"
-                  name="memberPicture"
-                  value={formData.memberPicture}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#d0006f]"
-                  placeholder="https://example.com/photo.jpg"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, 'memberPicture')}
+                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#d0006f] file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#d0006f] file:text-white hover:file:bg-[#d0006f]/90 file:cursor-pointer"
                 />
+                <p className="text-xs text-gray-400 mt-1">Max size: 5MB. Accepted formats: JPG, PNG, GIF</p>
+                {(memberPicturePreview || formData.memberPicture) && (
+                  <div className="mt-3 p-4 bg-white rounded-lg inline-block">
+                    <img src={memberPicturePreview || formData.memberPicture} alt="Member preview" className="w-24 h-24 rounded-full object-cover" />
+                  </div>
+                )}
               </div>
             </div>
           </div>
