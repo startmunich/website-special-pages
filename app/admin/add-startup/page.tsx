@@ -12,6 +12,7 @@ export default function AddStartupPage() {
   const [companyLogoFile, setCompanyLogoFile] = useState<File | null>(null)
   const [memberPicturePreview, setMemberPicturePreview] = useState<string | null>(null)
   const [companyLogoPreview, setCompanyLogoPreview] = useState<string | null>(null)
+  const [logoWarning, setLogoWarning] = useState<string | null>(null)
 
   const [formData, setFormData] = useState({
     startupName: "",
@@ -41,7 +42,7 @@ export default function AddStartupPage() {
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: 'memberPicture' | 'companyLogo') => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: 'memberPicture' | 'companyLogo') => {
     const file = e.target.files?.[0]
     if (!file) return
 
@@ -69,8 +70,9 @@ export default function AddStartupPage() {
       setCompanyLogoFile(file)
       // Create preview
       const reader = new FileReader()
-      reader.onloadend = () => {
-        setCompanyLogoPreview(reader.result as string)
+      reader.onloadend = async () => {
+        const imageData = reader.result as string
+        setCompanyLogoPreview(imageData)
       }
       reader.readAsDataURL(file)
     }
@@ -245,9 +247,19 @@ export default function AddStartupPage() {
                   onChange={(e) => handleFileChange(e, 'companyLogo')}
                   className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#d0006f] file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#d0006f] file:text-white hover:file:bg-[#d0006f]/90 file:cursor-pointer"
                 />
-                <p className="text-xs text-gray-400 mt-1">Max size: 5MB. Accepted formats: JPG, PNG, GIF, SVG</p>
+                <p className="text-xs text-gray-400 mt-1">Max size: 5MB. Accepted formats: JPG, PNG, GIF, SVG. Logo should NOT be white as it will be displayed on a white background.</p>
+                
+                {logoWarning && (
+                  <div className="mt-3 p-3 bg-yellow-500/20 border border-yellow-500/40 rounded-lg">
+                    <p className="text-yellow-300 text-sm">{logoWarning}</p>
+                  </div>
+                )}
+                
                 {companyLogoPreview && (
                   <div className="mt-3 p-4 bg-white rounded-lg">
+                    <p className="text-xs text-gray-600 mb-2 text-center">Logo Preview (Attention: background is always White) {
+                      
+                    }!!)</p>
                     <img src={companyLogoPreview} alt="Logo preview" className="max-h-32 max-w-full object-contain mx-auto" />
                   </div>
                 )}
@@ -541,6 +553,108 @@ export default function AddStartupPage() {
               </div>
             </div>
           </div>
+
+          {/* Startup Card Preview */}
+          {(companyLogoPreview || formData.startupName) && (
+            <div className="bg-white/5 border border-white/10 rounded-lg p-6">
+              <h2 className="text-2xl font-bold text-white mb-4">Preview: How Your Startup Card Will Look</h2>
+              <p className="text-sm text-gray-400 mb-4">This is how your startup will appear in the startup list</p>
+              
+              <div className="max-w-sm mx-auto">
+                <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300">
+                  {/* Logo Section */}
+                  <div className="flex items-center justify-center bg-white p-8 h-48">
+                    {companyLogoPreview ? (
+                      <img
+                        src={companyLogoPreview}
+                        alt={`${formData.startupName || 'Company'} logo`}
+                        className="max-w-full max-h-full w-auto h-auto object-contain"
+                      />
+                    ) : (
+                      <div className="text-gray-400 text-center">
+                        <svg className="w-16 h-16 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <p className="text-sm">No logo uploaded</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Content Section */}
+                  <div className="p-6">
+                    <div className="mb-4">
+                      <h3 className="text-2xl font-semibold text-white mb-2 leading-tight">
+                        {formData.startupName || 'Startup Name'}
+                      </h3>
+                      {formData.chategory && (
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {formData.chategory.split(',').slice(0, 2).map((cat, idx) => (
+                            <span
+                              key={idx}
+                              className="inline-flex items-center px-2 py-1 text-xs font-medium bg-white/10 text-gray-300 rounded"
+                            >
+                              {cat.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {formData.shortDescription && (
+                      <div className="mb-4">
+                        <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">
+                          {formData.shortDescription}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Metadata */}
+                    <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-500 mb-4">
+                      <span>Founded {formData.foundingYear}</span>
+                      {formData.investmentSize && (
+                        <>
+                          <span>•</span>
+                          <span>{formData.investmentSize} raised</span>
+                        </>
+                      )}
+                      {formData.lastInvestmentRound && (
+                        <>
+                          <span>•</span>
+                          <span>{formData.lastInvestmentRound}</span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Founder Section */}
+                    {formData.startMunichMember && (
+                      <div className="pt-4 border-t border-white/10">
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+                          Founder
+                        </p>
+                        <div className="flex items-center gap-2">
+                          {memberPicturePreview ? (
+                            <img
+                              src={memberPicturePreview}
+                              alt={formData.startMunichMember}
+                              className="w-10 h-10 rounded-full object-cover border border-white/20"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-medium border border-white/20">
+                              {formData.startMunichMember.charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-white truncate">{formData.startMunichMember}</p>
+                            <p className="text-xs text-gray-500 truncate">{formData.companyRole}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Submit Button */}
           <div className="flex gap-4">

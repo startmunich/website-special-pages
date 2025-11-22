@@ -143,6 +143,9 @@ export async function POST(request: Request) {
       }
     }
 
+    // Get current date in ISO format
+    const currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+
     // Map form data to NocoDB field names
     const nocoDBRecord = {
       "Startup Name": formData.startupName,
@@ -165,6 +168,7 @@ export async function POST(request: Request) {
       "Last investment round": formData.lastInvestmentRound,
       "First milestones": formData.firstMilestones,
       "Supporting Programs": formData.supportingPrograms,
+      "Last Updated": currentDate,
     };
 
     console.log('📤 Mapped NocoDB record (images as attachments)');

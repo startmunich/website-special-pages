@@ -61,10 +61,13 @@ function transformNocoDBRecord(record: any): Company {
     ? record.Chategory.split(',').map((c: string) => c.trim()).filter(Boolean)
     : ['Other'];
 
-  // Handle company logo
+  // Handle company logo - NocoDB stores it as an array of attachment objects
   let logoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(record['Startup Name'] || 'Company')}&size=300&background=00002c&color=fff&bold=true&font-size=0.4`;
-  if (record['Company Logo']) {
-    logoUrl = record['Company Logo'];
+  if (record['Company Logo'] && Array.isArray(record['Company Logo']) && record['Company Logo'][0]) {
+    const logo = record['Company Logo'][0];
+    if (logo.signedPath) {
+      logoUrl = `https://ndb.startmunich.de/${logo.signedPath}`;
+    }
   }
 
   return {
