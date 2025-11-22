@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Script from "next/script"
@@ -659,6 +660,10 @@ export default function StartupsPage() {
                                     src={founder.imageUrl}
                                     alt={founder.name}
                                     className="w-10 h-10 rounded-full object-cover border border-white/20 hover:border-white/40 transition-all"
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(founder.name)}&size=80&background=4f46e5&color=fff`;
+                                    }}
                                   />
                                 </a>
                               ) : (
@@ -666,6 +671,10 @@ export default function StartupsPage() {
                                   src={founder.imageUrl}
                                   alt={founder.name}
                                   className="w-10 h-10 rounded-full object-cover border border-white/20"
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(founder.name)}&size=80&background=4f46e5&color=fff`;
+                                  }}
                                 />
                               )}
                               <div className="flex-1 min-w-0">
