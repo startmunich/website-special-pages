@@ -255,7 +255,7 @@ export default function StartupsPage() {
           </div>
 
           {/* Content Overlay */}
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-12">
               {/* Left Side */}
               <div className="flex-1 max-w-2xl text-left">
@@ -328,19 +328,19 @@ export default function StartupsPage() {
         <div className="lg:hidden backdrop-blur-md mt-10">
           <div className="max-w-7xl mx-auto px-4 py-6">
             <div className="grid grid-cols-3 gap-4 text-center">
-              <div className="pt-0">
+              <div>
                 <p className="text-2xl font-black text-white">
                   {Math.floor(animatedStartups)}+
                 </p>
                 <p className="text-xs font-bold text-gray-300 uppercase">Companies</p>
               </div>
-              <div className="pt-8">
+              <div>
                 <p className="text-2xl font-black text-white">
                   €{animatedFunding.toFixed(1)}M
                 </p>
                 <p className="text-xs font-bold text-gray-300 uppercase">Funding</p>
               </div>
-              <div className="pt-16">
+              <div>
                 <p className="text-2xl font-black text-white">
                   {Math.floor(animatedEmployees)}+
                 </p>
