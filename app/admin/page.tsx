@@ -79,7 +79,11 @@ export default function AdminPage() {
     supportingPrograms: "",
   })
 
-  // Load companies for list view
+  // Load companies on mount and when view changes to list
+  useEffect(() => {
+    loadCompanies()
+  }, [])
+  
   useEffect(() => {
     if (view === 'list') {
       loadCompanies()
@@ -243,6 +247,7 @@ export default function AdminPage() {
     setMemberPicturePreview(null)
     setCompanyLogoPreview(null)
     setLogoWarning(null)
+    setBatchWarning(null)
     setError(null)
     setSuccess(false)
   }
@@ -357,8 +362,15 @@ export default function AdminPage() {
       setSuccess(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })
       
+      // Reload companies to update lists
+      await loadCompanies()
+      
       if (mode === 'add') {
-        resetForm()
+        // Reset form after a delay so success message is visible
+        setTimeout(() => {
+          resetForm()
+          setSuccess(false)
+        }, 3000)
       } else {
         setTimeout(() => {
           handleBackToList()
@@ -508,6 +520,16 @@ export default function AdminPage() {
         {loading && (
           <div className="text-center py-12">
             <p className="text-xl text-white">Loading...</p>
+          </div>
+        )}
+
+        {/* Success Message */}
+        {success && (
+          <div className="mb-6 p-4 bg-green-500/20 border border-green-500/40 rounded-lg">
+            <p className="text-green-400 font-medium">
+              ✓ Startup {mode === 'add' ? 'added' : 'updated'} successfully!
+              {mode === 'edit' && ' Redirecting...'}
+            </p>
           </div>
         )}
 
@@ -712,7 +734,7 @@ export default function AdminPage() {
 
                 <div>
                   <label htmlFor="companyRole" className="block text-sm font-medium text-gray-300 mb-2">
-                    Company Role
+                    Company Role (comma-separated)
                   </label>
                   <input
                     type="text"
@@ -1080,16 +1102,6 @@ export default function AdminPage() {
                 </div>
               </div>
             )}
-
-        {/* Success Message */}
-        {success && (
-          <div className="mb-6 p-4 bg-green-500/20 border border-green-500/40 rounded-lg">
-            <p className="text-green-400 font-medium">
-              ✓ Startup {mode === 'add' ? 'added' : 'updated'} successfully!
-              {mode === 'edit' && ' Redirecting...'}
-            </p>
-          </div>
-        )}
 
         {/* Error Message */}
         {error && (
