@@ -203,10 +203,16 @@ export default function MembersPage() {
                   <p className="text-[#d0006f] font-semibold text-xs tracking-widest uppercase">OUR COMMUNITY</p>
                 </div>
                 <h1 className="text-5xl md:text-6xl lg:text-8xl font-black text-white mb-6 h1-big">
-                  START MUNICH
+                  <span className="no-stroke bg-gradient-to-r from-white via-pink-200 to-white bg-clip-text text-transparent">
+                    THE MINDS
+                  </span>
                   <br />
                   <span className="outline-text">
-                    MEMBERS
+                    BEHIND THE
+                  </span>
+                  <br />
+                  <span className="no-stroke bg-gradient-to-r from-[#d0006f] via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    MAGIC
                   </span>
                 </h1>
                 <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
@@ -303,43 +309,100 @@ export default function MembersPage() {
         {/* Content Below Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
-          {/* Batches Section - Group Photos */}
+          {/* Batches Section - Timeline Style */}
           {batchGroups.length > 0 && (
-            <div className="mb-16">
-              <div className="mb-10">
-                <h2 className="text-3xl md:text-4xl font-black text-white">
-                  Our Batches
+            <div className="mb-20">
+              <div className="mb-12 text-center">
+                <h2 className="text-4xl md:text-5xl font-black text-white mb-3">
+                  Our Journey Through
+                  <span className="block no-stroke bg-gradient-to-r from-[#d0006f] via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                    Time & Innovation
+                  </span>
                 </h2>
-                <p className="text-gray-400 mt-2">Each semester, a new generation of entrepreneurs joins our community</p>
+                <p className="text-gray-400 text-lg">Each semester brings fresh perspectives and groundbreaking ideas</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {batchGroups.map((batch, index) => (
-                  <div
-                    key={index}
-                    className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer"
-                    onClick={() => setSelectedBatch(batch.name)}
-                  >
-                    <div className="relative h-64 bg-gradient-to-br from-[#d0006f]/20 to-[#00002c] overflow-hidden">
-                      <img
-                        src={batch.groupImageUrl}
-                        alt={`${batch.name} Group Photo`}
-                        className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-300"
-                        onError={(e) => {
-                          // Fallback to gradient if image fails to load
-                          e.currentTarget.style.display = 'none'
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-transparent to-transparent"></div>
-                      <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <h3 className="text-3xl font-black text-white mb-2">{batch.name}</h3>
-                        <div className="flex items-center gap-2">
-                          <span className="text-[#d0006f] font-bold text-lg">{batch.memberCount}</span>
-                          <span className="text-gray-300 text-sm">Members</span>
+
+              {/* Timeline Layout */}
+              <div className="relative">
+                {/* Vertical Line - Desktop Only */}
+                <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-[#d0006f] via-purple-500 to-transparent"></div>
+                
+                <div className="space-y-12">
+                  {batchGroups.map((batch, index) => (
+                    <div
+                      key={index}
+                      className={`relative flex items-center gap-8 ${
+                        index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
+                      }`}
+                    >
+                      {/* Timeline Dot - Desktop Only */}
+                      <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full bg-[#d0006f] border-4 border-[#00002c] z-10 shadow-lg shadow-[#d0006f]/50"></div>
+                      
+                      {/* Content Container */}
+                      <div className={`flex-1 ${index % 2 === 0 ? 'lg:text-right' : 'lg:text-left'}`}>
+                        <div
+                          onClick={() => setSelectedBatch(batch.name)}
+                          className="group relative cursor-pointer"
+                        >
+                          {/* Decorative Background Element */}
+                          <div className={`absolute -inset-4 bg-gradient-to-br from-[#d0006f]/10 to-purple-500/10 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-500 ${
+                            index % 2 === 0 ? 'lg:-right-12' : 'lg:-left-12'
+                          }`}></div>
+                          
+                          <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden transition-all duration-500 group-hover:scale-[1.02] group-hover:border-[#d0006f]/50 group-hover:shadow-2xl group-hover:shadow-[#d0006f]/20">
+                            <div className="flex flex-col md:flex-row items-center gap-0">
+                              {/* Image Side */}
+                              <div className={`relative w-full md:w-1/2 h-64 md:h-72 overflow-hidden ${
+                                index % 2 === 0 ? 'md:order-last' : ''
+                              }`}>
+                                <img
+                                  src={batch.groupImageUrl}
+                                  alt={`${batch.name} Group Photo`}
+                                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#d0006f]/40 via-purple-500/30 to-transparent mix-blend-multiply"></div>
+                                
+                                {/* Floating Badge */}
+                                <div className="absolute top-4 right-4 px-4 py-2 bg-white/95 backdrop-blur-sm rounded-full shadow-lg">
+                                  <span className="text-[#d0006f] font-black text-lg">{batch.memberCount}</span>
+                                  <span className="text-gray-600 text-xs ml-1 font-semibold">Members</span>
+                                </div>
+                              </div>
+                              
+                              {/* Text Side */}
+                              <div className="w-full md:w-1/2 p-8">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#d0006f]/20 border border-[#d0006f]/40 rounded-full mb-4">
+                                  <svg className="w-4 h-4 text-[#d0006f]" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                                  </svg>
+                                  <span className="text-[#d0006f] font-bold text-xs tracking-widest uppercase">{batch.semester} {batch.year}</span>
+                                </div>
+                                
+                                <h3 className="text-4xl font-black text-white mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-[#d0006f] group-hover:bg-clip-text transition-all duration-300">
+                                  {batch.name}
+                                </h3>
+                                
+                                <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                                  A cohort of innovative minds pushing boundaries and creating the future of technology and entrepreneurship.
+                                </p>
+                                
+                                <button className="inline-flex items-center gap-2 text-[#d0006f] font-semibold group-hover:gap-3 transition-all">
+                                  <span>View Members</span>
+                                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
+                      
+                      {/* Spacer for desktop alignment */}
+                      <div className="hidden lg:block flex-1"></div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -391,111 +454,180 @@ export default function MembersPage() {
             </div>
           </div>
 
-          {/* Filter Section */}
-          <div className="mb-12 p-6 bg-white/5 border border-white/10 rounded-lg">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* Batch Filter */}
-              <div>
-                <label htmlFor="batch-filter" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
-                  Batch
-                </label>
-                <Select value={selectedBatch} onValueChange={setSelectedBatch}>
-                  <SelectTrigger className="w-full bg-white/5 border-white/20 text-white focus:ring-1 focus:ring-white/30 hover:bg-white/10 transition-all">
-                    <SelectValue placeholder="Select batch" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Batches</SelectItem>
-                    {allBatches.map((batch) => (
-                      <SelectItem key={batch} value={batch}>
-                        {batch}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+          {/* Filter Section - Pill Style */}
+          <div className="mb-12">
+            <div className="flex flex-wrap items-center gap-3">
+              {/* Batch Filter Pills */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-sm font-semibold text-gray-400 uppercase tracking-wide">Batch:</span>
+                <button
+                  onClick={() => setSelectedBatch("all")}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    selectedBatch === "all"
+                      ? 'bg-gradient-to-r from-[#d0006f] to-purple-600 text-white shadow-lg shadow-[#d0006f]/30'
+                      : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-white/20'
+                  }`}
+                >
+                  All
+                </button>
+                {allBatches.map((batch) => (
+                  <button
+                    key={batch}
+                    onClick={() => setSelectedBatch(batch)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                      selectedBatch === batch
+                        ? 'bg-gradient-to-r from-[#d0006f] to-purple-600 text-white shadow-lg shadow-[#d0006f]/30'
+                        : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-white/20'
+                    }`}
+                  >
+                    {batch}
+                  </button>
+                ))}
               </div>
 
-              {/* Role Filter */}
-              <div>
-                <label htmlFor="role-filter" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
-                  Role
-                </label>
-                <Select value={selectedRole} onValueChange={setSelectedRole}>
-                  <SelectTrigger className="w-full bg-white/5 border-white/20 text-white focus:ring-1 focus:ring-white/30 hover:bg-white/10 transition-all">
-                    <SelectValue placeholder="Select role" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Roles</SelectItem>
-                    {allRoles.map((role) => (
-                      <SelectItem key={role} value={role}>
-                        {role}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              {/* Divider */}
+              <div className="h-8 w-px bg-white/20"></div>
+
+              {/* Role Filter Pills */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-sm font-semibold text-gray-400 uppercase tracking-wide">Role:</span>
+                <button
+                  onClick={() => setSelectedRole("all")}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    selectedRole === "all"
+                      ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-600/30'
+                      : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-white/20'
+                  }`}
+                >
+                  All
+                </button>
+                {allRoles.slice(0, 4).map((role) => (
+                  <button
+                    key={role}
+                    onClick={() => setSelectedRole(role)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                      selectedRole === role
+                        ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-600/30'
+                        : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-white/20'
+                    }`}
+                  >
+                    {role}
+                  </button>
+                ))}
               </div>
 
-              {/* Clear Filters Button */}
-              <div className="flex items-end sm:col-span-2 lg:col-span-2">
+              {/* Clear Filters */}
+              {(selectedBatch !== "all" || selectedRole !== "all") && (
                 <button
                   onClick={() => {
                     setSelectedBatch("all")
                     setSelectedRole("all")
                   }}
-                  className="w-full px-4 py-2.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 transition-all rounded border border-white/20 hover:border-white/30"
+                  className="ml-auto px-4 py-2 rounded-full text-sm font-medium text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/20 transition-all flex items-center gap-2"
                 >
-                  Clear Filters
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  Clear
                 </button>
-              </div>
+              )}
+            </div>
+            
+            {/* Results Count */}
+            <div className="mt-4 text-sm text-gray-400">
+              Showing <span className="text-white font-semibold">{filteredMembers.length}</span> member{filteredMembers.length !== 1 ? 's' : ''}
             </div>
           </div>
 
-          {/* Members Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {paginatedMembers.map((member) => (
-              <Link
-                key={member.id}
-                href={`/member-details/${member.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block"
-              >
-                {/* Profile Image */}
-                <div className="relative h-64 bg-gradient-to-br from-[#d0006f]/20 to-[#00002c] overflow-hidden">
-                  <img
-                    src={member.imageUrl}
-                    alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  {member.linkedinUrl && (
-                    <div className="absolute top-3 right-3">
-                      <a
-                        href={member.linkedinUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center w-10 h-10 bg-white/90 hover:bg-white rounded-full transition-all"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <svg className="w-5 h-5 text-[#0077b5]" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                        </svg>
-                      </a>
-                    </div>
-                  )}
-                </div>
+          {/* Members Grid - Bento Box Style */}
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-8">
+              Meet the <span className="no-stroke bg-gradient-to-r from-[#d0006f] to-purple-400 bg-clip-text text-transparent">Innovators</span>
+            </h2>
+          </div>
 
-                {/* Member Info */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-1 truncate">{member.name}</h3>
-                  <p className="text-sm text-[#d0006f] font-medium mb-2">{member.role}</p>
-                  {member.company && (
-                    <p className="text-sm text-gray-400 mb-2 truncate">{member.company}</p>
-                  )}
-                  <div className="pt-3 border-t border-white/10">
-                    <span className="text-xs text-gray-500 uppercase tracking-wide">{member.batch}</span>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {paginatedMembers.map((member, index) => {
+              // Create varied card sizes for bento box effect
+              const isLarge = index % 7 === 0
+              const isMedium = index % 5 === 0 && !isLarge
+              
+              return (
+                <Link
+                  key={member.id}
+                  href={`/member-details/${member.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`group relative overflow-hidden rounded-2xl transition-all duration-500 cursor-pointer ${
+                    isLarge 
+                      ? 'col-span-2 row-span-2 md:col-span-2 md:row-span-2' 
+                      : isMedium
+                      ? 'col-span-2 md:col-span-2'
+                      : 'col-span-1'
+                  }`}
+                >
+                  {/* Background with gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#d0006f]/30 via-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
+                  
+                  {/* Profile Image */}
+                  <div className={`relative ${isLarge ? 'h-full min-h-96' : isMedium ? 'h-72' : 'h-64'} bg-gradient-to-br from-[#d0006f]/10 to-purple-500/10 overflow-hidden`}>
+                    <img
+                      src={member.imageUrl}
+                      alt={member.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/60 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                    
+                    {/* LinkedIn Button */}
+                    {member.linkedinUrl && (
+                      <div className="absolute top-3 right-3 z-20">
+                        <a
+                          href={member.linkedinUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center w-10 h-10 bg-white/90 backdrop-blur-sm hover:bg-white rounded-full transition-all hover:scale-110 shadow-lg"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <svg className="w-5 h-5 text-[#0077b5]" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                          </svg>
+                        </a>
+                      </div>
+                    )}
+                    
+                    {/* Member Info Overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 z-20 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      <div className="space-y-1">
+                        <h3 className={`font-black text-white leading-tight ${isLarge ? 'text-2xl' : 'text-lg'} group-hover:text-[#d0006f] transition-colors`}>
+                          {member.name}
+                        </h3>
+                        <p className={`text-[#d0006f] font-semibold ${isLarge ? 'text-sm' : 'text-xs'}`}>
+                          {member.role}
+                        </p>
+                        {member.company && isLarge && (
+                          <p className="text-gray-300 text-sm flex items-center gap-1 mt-2">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            {member.company}
+                          </p>
+                        )}
+                        <div className="flex items-center gap-2 mt-2">
+                          <span className="px-2 py-0.5 bg-white/20 backdrop-blur-sm rounded text-xs text-white font-medium">
+                            {member.batch}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Hover Effect - Corner Accent */}
+                    <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-[#d0006f] to-transparent opacity-0 group-hover:opacity-30 transition-opacity duration-500 blur-2xl"></div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              )
+            })}
           </div>
 
           {filteredMembers.length === 0 && (
