@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic';
+
 const NOCODB_API_TOKEN = process.env.NOCODB_API_TOKEN;
 const NOCODB_BASE_URL = process.env.NOCODB_BASE_URL || 'https://ndb.startmunich.de';
 const NOCODB_MEMBERS_TABLE_ID = process.env.NOCODB_MEMBERS_TABLE_ID;

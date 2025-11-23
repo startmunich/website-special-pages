@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
+
+export const dynamic = 'force-dynamic'
 import Image from "next/image"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
