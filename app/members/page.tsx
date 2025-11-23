@@ -194,7 +194,7 @@ export default function MembersPage() {
 
       <main className="min-h-screen bg-[#00002c]">
         {/* Hero Section with Full-Width Image */}
-        <div className="relative w-full overflow-hidden">
+        <div className="relative w-full overflow-hidden h-[50vh] lg:h-[68vh]">
           {/* Background Image */}
           <div className="absolute inset-0">
             <img
@@ -207,7 +207,7 @@ export default function MembersPage() {
           </div>
 
           {/* Content Overlay */}
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 h-full flex items-center">
             <div className="flex items-center justify-between gap-12">
               {/* Left Side - Heading */}
               <div className="flex-1 max-w-2xl">
@@ -215,7 +215,7 @@ export default function MembersPage() {
                   <div className="w-2 h-2 bg-[#d0006f] rounded-full animate-pulse"></div>
                   <p className="text-[#d0006f] font-semibold text-xs tracking-widest uppercase">OUR COMMUNITY</p>
                 </div> */}
-                <h1 className="text-5xl md:text-6xl lg:text-8xl font-black text-white mb-6 h1-big">
+                <h1 className="text-5xl md:text-6xl lg:text-8xl font-black text-white mb-6 h1-big animate-[flyInFromTop_0.6s_ease-out]">
                   <span className="no-stroke bg-gradient-to-r from-white via-pink-200 to-white bg-clip-text text-transparent">
                     THE MINDS
                   </span>
@@ -231,21 +231,6 @@ export default function MembersPage() {
                 <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
                   Meet the ambitious student entrepreneurs building the future of technology and innovation
                 </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Mobile Statistics - Below Image */}
-          <div className="lg:hidden absolute bottom-0 left-0 right-0 backdrop-blur-md bg-[#00002c]/80 border-t border-white/10">
-            <div className="max-w-7xl mx-auto px-4 py-10">
-              <div className="grid grid-cols-1 gap-4 text-center">
-                <div>
-                  <div className="flex items-baseline justify-center gap-1 mb-1">
-                    <span className="text-3xl font-black text-white">{Math.floor(animatedMembers)}</span>
-                    <span className="text-lg font-bold text-[#d0006f]">+</span>
-                  </div>
-                  <p className="text-xs font-bold text-gray-300 uppercase">Active Members</p>
-                </div>
               </div>
             </div>
           </div>
