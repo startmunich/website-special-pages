@@ -156,7 +156,8 @@ export default function StartupsPage() {
          ))
 
       const matchesSearch = searchQuery === "" || 
-        company.name.toLowerCase().includes(searchQuery.toLowerCase())
+        company.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        company.founders.some(founder => founder.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
       return matchesBatch && matchesCategory && matchesYear && matchesProgram && matchesSearch
     })
@@ -285,12 +286,12 @@ export default function StartupsPage() {
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-12">
               {/* Left Side */}
               <div className="flex-1 max-w-2xl text-left">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#d0006f]/20 border border-[#d0006f]/40 rounded-full mb-6 backdrop-blur-sm">
+                {/* <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#d0006f]/20 border border-[#d0006f]/40 rounded-full mb-6 backdrop-blur-sm">
                   <div className="w-2 h-2 bg-[#d0006f] rounded-full animate-pulse"></div>
                   <p className="text-[#d0006f] font-semibold text-xs tracking-widest uppercase">
                     OUR STARTUPS
                   </p>
-                </div>
+                </div> */}
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6">
                   START MUNICH
                   <br />
@@ -507,7 +508,7 @@ export default function StartupsPage() {
 
           {/* Filter Section */}
           <div className="mb-12 p-6 bg-white/5 border border-white/10 rounded-lg">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Batch Filter */}
               <div>
                 <label htmlFor="batch-filter" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
@@ -587,8 +588,23 @@ export default function StartupsPage() {
                   </SelectContent>
                 </Select>
               </div>
+            </div>
 
-              {/* Clear Filters Button */}
+            {/* Search Bar and Clear Filters */}
+            <div className="mt-4 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4">
+              <div>
+                <label htmlFor="search-input" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
+                  Search by Name or Founder
+                </label>
+                <input
+                  id="search-input"
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Type startup or founder name..."
+                  className="w-full px-4 py-2.5 bg-white/5 border border-white/20 text-white placeholder-gray-500 focus:ring-1 focus:ring-white/30 hover:bg-white/10 transition-all rounded focus:outline-none"
+                />
+              </div>
               <div className="flex items-end">
                 <button
                   onClick={() => {
@@ -598,26 +614,11 @@ export default function StartupsPage() {
                     setSelectedProgram("all")
                     setSearchQuery("")
                   }}
-                  className="w-full px-4 py-2.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 transition-all rounded border border-white/20 hover:border-white/30"
+                  className="w-full lg:w-auto px-6 py-2.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 transition-all rounded border border-white/20 hover:border-white/30 whitespace-nowrap"
                 >
                   Clear Filters
                 </button>
               </div>
-            </div>
-
-            {/* Search Bar */}
-            <div className="mt-4">
-              <label htmlFor="search-input" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
-                Search by Name
-              </label>
-              <input
-                id="search-input"
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Type startup name..."
-                className="w-full px-4 py-2.5 bg-white/5 border border-white/20 text-white placeholder-gray-500 focus:ring-1 focus:ring-white/30 hover:bg-white/10 transition-all rounded focus:outline-none"
-              />
             </div>
           </div>
 

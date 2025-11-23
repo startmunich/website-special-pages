@@ -98,7 +98,7 @@ export default function StartupDetailsPage({ params }: { params: { id: string } 
           <div className="p-8">
             {/* Header with Logo */}
             <div className="flex flex-col md:flex-row gap-6 mb-6">
-              <div className="flex-shrink-0 bg-white rounded-lg p-6 w-full md:w-48 h-48 flex items-center justify-center">
+              <div className="flex-shrink-0 bg-white rounded-lg p-6 w-full md:w-48 h-48 flex items-center justify-center border-2 border-white/20 hover:border-[#d0006f] transition-all">
                 <img
                   src={company.logoUrl}
                   alt={`${company.name} logo`}
