@@ -137,27 +137,34 @@ export default function StartupsPage() {
   ).sort()
 
   // Filter companies based on all selected filters
-  const filteredCompanies = companies.filter(company => {
-    const matchesBatch = selectedBatch === "all" || 
-      company.founders.some(founder => founder.batch === selectedBatch)
-    
-    const matchesCategory = selectedCategory === "all" || 
-      company.category.some(cat => cat.toLowerCase().includes(selectedCategory.toLowerCase()))
-    
-    const matchesYear = selectedYear === "all" || 
-      company.foundingYear.toString() === selectedYear
+  const filteredCompanies = companies
+    .filter(company => {
+      const matchesBatch = selectedBatch === "all" || 
+        company.founders.some(founder => founder.batch === selectedBatch)
+      
+      const matchesCategory = selectedCategory === "all" || 
+        company.category.some(cat => cat.toLowerCase().includes(selectedCategory.toLowerCase()))
+      
+      const matchesYear = selectedYear === "all" || 
+        company.foundingYear.toString() === selectedYear
 
-    const matchesProgram = selectedProgram === "all" || 
-      (company.supportingPrograms && 
-       company.supportingPrograms.split(',').some(program => 
-         program.trim().toLowerCase().includes(selectedProgram.toLowerCase())
-       ))
+      const matchesProgram = selectedProgram === "all" || 
+        (company.supportingPrograms && 
+         company.supportingPrograms.split(',').some(program => 
+           program.trim().toLowerCase().includes(selectedProgram.toLowerCase())
+         ))
 
-    const matchesSearch = searchQuery === "" || 
-      company.name.toLowerCase().includes(searchQuery.toLowerCase())
+      const matchesSearch = searchQuery === "" || 
+        company.name.toLowerCase().includes(searchQuery.toLowerCase())
 
-    return matchesBatch && matchesCategory && matchesYear && matchesProgram && matchesSearch
-  })
+      return matchesBatch && matchesCategory && matchesYear && matchesProgram && matchesSearch
+    })
+    .sort((a, b) => {
+      // Sort by total funding (highest first)
+      const fundingA = parseInt(a.totalRaised?.replace(/[€,]/g, '') || '0')
+      const fundingB = parseInt(b.totalRaised?.replace(/[€,]/g, '') || '0')
+      return fundingB - fundingA
+    })
 
   // Pagination calculations
   const totalPages = Math.ceil(filteredCompanies.length / itemsPerPage)
