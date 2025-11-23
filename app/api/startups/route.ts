@@ -9,7 +9,7 @@ const NOCODB_TABLE_ID = process.env.NOCODB_STARTUPS_TABLE_ID;
 interface Founder {
   name: string
   role: string
-  batch: string[]
+  batch: string
   imageUrl: string
   linkedinUrl?: string
 }
@@ -36,8 +36,6 @@ interface Company {
 
 // Transform NocoDB record to Company format
 function transformNocoDBRecord(record: any): Company {
-  const batch = record.Batch ? record.Batch.split(',').map((b: string) => b.trim()).filter(Boolean) : [];
-  
   const founders: Founder[] = [];
   const memberName = record['STARTMunich Member'];
   if (memberName) {
@@ -50,10 +48,12 @@ function transformNocoDBRecord(record: any): Company {
       }
     }
     
+    const memberBatch = record.Batch || record['Member Batch'] || '';
+    
     founders.push({
       name: memberName,
       role: record['Company Role'] || 'Founder',
-      batch: batch,
+      batch: memberBatch.trim(),
       imageUrl: profilePicUrl,
       linkedinUrl: record['Member Linkedin'] || undefined
     });

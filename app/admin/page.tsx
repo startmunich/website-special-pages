@@ -17,7 +17,7 @@ interface Company {
   founders: Array<{
     name: string
     role: string
-    batch: string[]
+    batch: string
     imageUrl: string
     linkedinUrl?: string
   }>

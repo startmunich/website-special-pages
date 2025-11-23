@@ -12,7 +12,7 @@ import Script from "next/script"
 interface Founder {
   name: string
   role: string
-  batch: string[]
+  batch: string
   imageUrl: string
   linkedinUrl?: string
 }
@@ -107,7 +107,7 @@ export default function StartupsPage() {
   const allBatches = Array.from(
     new Set(
       companies.flatMap(company => 
-        company.founders.flatMap(founder => founder.batch)
+        company.founders.map(founder => founder.batch)
       )
     )
   ).filter(batch => batch).sort()
@@ -139,7 +139,7 @@ export default function StartupsPage() {
   // Filter companies based on all selected filters
   const filteredCompanies = companies.filter(company => {
     const matchesBatch = selectedBatch === "all" || 
-      company.founders.some(founder => founder.batch.includes(selectedBatch))
+      company.founders.some(founder => founder.batch === selectedBatch)
     
     const matchesCategory = selectedCategory === "all" || 
       company.category.some(cat => cat.toLowerCase().includes(selectedCategory.toLowerCase()))
