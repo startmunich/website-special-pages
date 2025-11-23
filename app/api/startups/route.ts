@@ -83,6 +83,7 @@ function transformNocoDBRecord(record: any): Company {
     category: categories,
     founders: founders,
     totalRaised: record['Investment Size €'] || undefined,
+    employees: record['Employees'] ? parseInt(record['Employees']) : undefined,
     isSpotlight: record['Featured Startup']?.toLowerCase() === 'yes' || false,
     isYCombinator: record['Y Combinator Alumni']?.toLowerCase() === 'yes' || false,
     companyLinkedin: record['Company Linkedin'] || undefined,
