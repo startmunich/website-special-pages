@@ -28,4 +28,5 @@ export interface Company {
   supportingPrograms?: string
   lastUpdated?: string
   isMTZ?: boolean
+  isEWOR?: boolean
 }

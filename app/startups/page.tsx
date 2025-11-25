@@ -14,19 +14,19 @@ import Script from "next/script"
 async function fetchCompanies(): Promise<Company[]> {
   try {
     // Use absolute URL in production, relative in development
-    const baseUrl = typeof window !== 'undefined' 
-      ? window.location.origin 
+    const baseUrl = typeof window !== 'undefined'
+      ? window.location.origin
       : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    
+
     const response = await fetch(`${baseUrl}/api/startups`, {
       cache: 'no-store', // Ensure fresh data
     });
-    
+
     if (!response.ok) {
       console.error(`API error: ${response.status} ${response.statusText}`);
       throw new Error('Failed to fetch startups');
     }
-    
+
     return await response.json();
   } catch (error) {
     console.error('Error fetching startups:', error);
@@ -37,14 +37,14 @@ async function fetchCompanies(): Promise<Company[]> {
 // Helper function to get preview text (first 30 words)
 function getPreviewText(text: string): string {
   if (!text) return '';
-  
+
   const words = text.split(/\s+/);
   const maxWords = 30;
-  
+
   if (words.length <= maxWords) {
     return text;
   }
-  
+
   return words.slice(0, maxWords).join(' ') + '...';
 }
 
@@ -58,7 +58,7 @@ export default function StartupsPage() {
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 12 // Reduced to approximate 3000px height (about 5-6 cards)
-  
+
   // Animation states for numbers
   const [animatedStartups, setAnimatedStartups] = useState(0)
   const [animatedFunding, setAnimatedFunding] = useState(0)
@@ -79,7 +79,7 @@ export default function StartupsPage() {
   // Extract unique batches from all founders
   const allBatches = Array.from(
     new Set(
-      companies.flatMap(company => 
+      companies.flatMap(company =>
         company.founders.map(founder => founder.batch)
       )
     )
@@ -112,22 +112,22 @@ export default function StartupsPage() {
   // Filter companies based on all selected filters
   const filteredCompanies = companies
     .filter(company => {
-      const matchesBatch = selectedBatch === "all" || 
+      const matchesBatch = selectedBatch === "all" ||
         company.founders.some(founder => founder.batch === selectedBatch)
-      
-      const matchesCategory = selectedCategory === "all" || 
+
+      const matchesCategory = selectedCategory === "all" ||
         company.category.some(cat => cat.toLowerCase().includes(selectedCategory.toLowerCase()))
-      
-      const matchesYear = selectedYear === "all" || 
+
+      const matchesYear = selectedYear === "all" ||
         company.foundingYear.toString() === selectedYear
 
-      const matchesProgram = selectedProgram === "all" || 
-        (company.supportingPrograms && 
-         company.supportingPrograms.split(',').some(program => 
-           program.trim().toLowerCase().includes(selectedProgram.toLowerCase())
-         ))
+      const matchesProgram = selectedProgram === "all" ||
+        (company.supportingPrograms &&
+          company.supportingPrograms.split(',').some(program =>
+            program.trim().toLowerCase().includes(selectedProgram.toLowerCase())
+          ))
 
-      const matchesSearch = searchQuery === "" || 
+      const matchesSearch = searchQuery === "" ||
         company.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         company.founders.some(founder => founder.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
@@ -161,39 +161,42 @@ export default function StartupsPage() {
 
   // Get spotlight startups (show all featured startups)
   const spotlightStartups = companies.filter(company => company.isSpotlight)
-  
+
   // Get Y Combinator startups (show all YC alumni)
   const yCombinatorStartups = companies.filter(company => company.isYCombinator)
+
+  // Get EWOR startups
+  const eworStartups = companies.filter(company => company.isEWOR)
 
   // Animate numbers on component mount
   useEffect(() => {
     if (!loading && !hasAnimatedRef.current && totalStartups > 0) {
       hasAnimatedRef.current = true
-      
+
       let startupsCurrent = 0
       let fundingCurrent = 0
       let employeesCurrent = 0
-      
+
       const fundingTarget = totalRaised / 1000000
       const employeesTarget = totalEmployees || 333
-      
+
       const duration = 1500 // 1.5 seconds
       const steps = 60
       const interval = duration / steps
-      
+
       const startupsIncrement = totalStartups / steps
       const fundingIncrement = fundingTarget / steps
       const employeesIncrement = employeesTarget / steps
-      
+
       let step = 0
-      
+
       const timer = setInterval(() => {
         step++
-        
+
         startupsCurrent += startupsIncrement
         fundingCurrent += fundingIncrement
         employeesCurrent += employeesIncrement
-        
+
         if (step >= steps) {
           setAnimatedStartups(totalStartups)
           setAnimatedFunding(fundingTarget)
@@ -239,7 +242,7 @@ export default function StartupsPage() {
           document.addEventListener("DOMContentLoaded", sendHeight);
         `}
       </Script>
-      
+
       <main className="min-h-screen bg-[#00002c]">
         {/* Hero Section with Full-Width Image */}
         <div className="relative w-full overflow-hidden h-[50vh] lg:h-auto">
@@ -379,14 +382,14 @@ export default function StartupsPage() {
                     </div>
                     <div className="p-6">
                       <div className="flex items-start justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <h3 className="text-xl font-semibold text-white">{company.name}</h3>
-                            {company.isMTZ === true ? (
-                              <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-[#d0006f] text-white rounded">MTZ</span>
-                            ) : null}
-                          </div>
-                          <span className="text-yellow-400 text-xs font-bold px-2 py-1 bg-yellow-500/20 rounded">★</span>
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-xl font-semibold text-white">{company.name}</h3>
+                          {company.isMTZ === true ? (
+                            <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-[#d0006f] text-white rounded">MTZ</span>
+                          ) : null}
                         </div>
+                        <span className="text-yellow-400 text-xs font-bold px-2 py-1 bg-yellow-500/20 rounded">★</span>
+                      </div>
                       <p className="text-sm text-gray-400 leading-relaxed">{company.summary}</p>
                     </div>
                   </Link>
@@ -421,14 +424,56 @@ export default function StartupsPage() {
                     </div>
                     <div className="p-6">
                       <div className="flex items-start justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <h3 className="text-xl font-semibold text-white">{company.name}</h3>
-                            {company.isMTZ === true ? (
-                              <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-[#d0006f] text-white rounded">MTZ</span>
-                            ) : null}
-                          </div>
-                          <span className="text-orange-400 text-xs font-bold px-2 py-1 bg-orange-500/20 rounded">YC</span>
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-xl font-semibold text-white">{company.name}</h3>
+                          {company.isMTZ === true ? (
+                            <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-[#d0006f] text-white rounded">MTZ</span>
+                          ) : null}
                         </div>
+                        <span className="text-orange-400 text-xs font-bold px-2 py-1 bg-orange-500/20 rounded">YC</span>
+                      </div>
+                      <p className="text-sm text-gray-400 leading-relaxed">{company.summary}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* EWOR Section */}
+          {eworStartups.length > 0 && (
+            <div className="mb-16">
+              <div className="mb-10">
+                <h2 className="text-3xl md:text-4xl font-bold text-white">
+                  EWOR Alumni
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {eworStartups.map((company, index) => (
+                  <Link
+                    key={company.id}
+                    href={`/startup-details/${company.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block"
+                  >
+                    <div className="flex justify-center items-center bg-white p-8 h-48">
+                      <img
+                        src={company.logoUrl}
+                        alt={`${company.name} logo`}
+                        className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-xl font-semibold text-white">{company.name}</h3>
+                          {company.isMTZ === true ? (
+                            <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-[#d0006f] text-white rounded">MTZ</span>
+                          ) : null}
+                        </div>
+                        <span className="text-blue-400 text-xs font-bold px-2 py-1 bg-blue-500/20 rounded">EWOR</span>
+                      </div>
                       <p className="text-sm text-gray-400 leading-relaxed">{company.summary}</p>
                     </div>
                   </Link>
@@ -441,12 +486,12 @@ export default function StartupsPage() {
           <div className="mb-16 relative">
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#d0006f]/20 via-[#00002c] to-[#d0006f]/10 border border-[#d0006f]/30 p-1">
               <div className="absolute inset-0 bg-gradient-to-r from-[#d0006f]/20 via-transparent to-[#d0006f]/20 animate-pulse"></div>
-              
+
               <div className="relative bg-[#00002c] rounded-xl p-8 md:p-12">
                 {/* Floating animated orbs */}
                 <div className="absolute top-10 right-10 w-32 h-32 bg-[#d0006f]/30 rounded-full blur-3xl animate-blob"></div>
                 <div className="absolute bottom-10 left-10 w-40 h-40 bg-[#d0006f]/20 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
-                
+
                 <div className="relative flex flex-col md:flex-row items-center justify-between gap-8">
                   {/* Left Side - Content */}
                   <div className="flex-1 text-center md:text-left">
@@ -454,16 +499,16 @@ export default function StartupsPage() {
                       <div className="w-2 h-2 bg-[#d0006f] rounded-full animate-pulse"></div>
                       <span className="text-[#d0006f] font-bold text-xs tracking-widest uppercase">We're Hiring</span>
                     </div>
-                    
+
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
                       Join the{" "}
                       <span className="no-stroke bg-gradient-to-r from-[#d0006f] via-pink-400 to-[#d0006f] bg-clip-text text-transparent animate-pulse">
                         Next Big Thing
                       </span>
                     </h2>
-                    
+
                     <p className="text-lg text-gray-300 mb-6 max-w-2xl leading-relaxed">
-                      Our startups are looking for talented individuals to join their teams. 
+                      Our startups are looking for talented individuals to join their teams.
                       Explore open positions and be part of building innovative products that matter.
                     </p>
                   </div>
@@ -626,7 +671,7 @@ export default function StartupsPage() {
 
                   {/* Content Section */}
                   <div className="p-6">
-                      <div className="mb-4">
+                    <div className="mb-4">
                       <div className="flex items-center gap-2 mb-2">
                         <h3 className="text-2xl font-semibold text-white leading-tight">
                           {company.name}
@@ -680,7 +725,7 @@ export default function StartupsPage() {
                           {company.founders.map((founder, founderIdx) => (
                             <div key={founderIdx} className="flex items-center gap-2">
                               {founder.linkedinUrl ? (
-                                <a 
+                                <a
                                   href={founder.linkedinUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
@@ -741,17 +786,16 @@ export default function StartupsPage() {
               >
                 ← Previous
               </button>
-              
+
               <div className="flex items-center gap-2">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
-                    className={`w-10 h-10 text-sm font-medium rounded transition-all ${
-                      currentPage === page
-                        ? 'bg-white text-[#00002c]'
-                        : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
-                    }`}
+                    className={`w-10 h-10 text-sm font-medium rounded transition-all ${currentPage === page
+                      ? 'bg-white text-[#00002c]'
+                      : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
+                      }`}
                   >
                     {page}
                   </button>
@@ -778,7 +822,7 @@ export default function StartupsPage() {
             <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
               Be part of Munich's most vibrant student entrepreneur ecosystem
             </p>
-            <a 
+            <a
               href="https://www.startmunich.de/apply"
               target="_blank"
               rel="noopener noreferrer"

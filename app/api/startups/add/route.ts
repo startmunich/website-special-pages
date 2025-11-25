@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   console.log('NODE_ENV:', process.env.NODE_ENV);
   console.log('VERCEL:', process.env.VERCEL);
   console.log('VERCEL_ENV:', process.env.VERCEL_ENV);
-  
+
   // Check if NocoDB is configured
   if (!NOCODB_API_TOKEN || !NOCODB_TABLE_ID) {
     console.error('❌ NocoDB not configured - missing API token or table ID');
@@ -55,22 +55,22 @@ export async function POST(request: Request) {
         const mimeType = formData.memberPicture.match(/data:(.*?);/)?.[1] || 'image/png';
         const extension = mimeType.split('/')[1];
         const filename = `member_${Date.now()}.${extension}`;
-        
+
         console.log('Image details:', { mimeType, extension, filename, dataLength: base64Data.length });
-        
+
         // Convert base64 to buffer
         const binaryData = Buffer.from(base64Data, 'base64');
         console.log('Binary data size:', binaryData.length, 'bytes');
-        
+
         // Create form data for file upload
         const uploadFormData = new FormData();
         const blob = new Blob([binaryData], { type: mimeType });
         uploadFormData.append('file', blob, filename);
-        
+
         // Use the generic storage upload endpoint (v1)
         const uploadUrl = `${NOCODB_BASE_URL}/api/v1/db/storage/upload`;
         console.log('Upload URL:', uploadUrl);
-        
+
         // Upload to NocoDB storage
         const uploadResponse = await fetch(uploadUrl, {
           method: 'POST',
@@ -79,11 +79,11 @@ export async function POST(request: Request) {
           },
           body: uploadFormData,
         });
-        
+
         console.log('Upload response status:', uploadResponse.status, uploadResponse.statusText);
         const responseText = await uploadResponse.text();
         console.log('Upload response body:', responseText);
-        
+
         if (uploadResponse.ok) {
           const uploadResult = JSON.parse(responseText);
           console.log('Upload result:', JSON.stringify(uploadResult, null, 2));
@@ -111,17 +111,17 @@ export async function POST(request: Request) {
         const mimeType = formData.companyLogo.match(/data:(.*?);/)?.[1] || 'image/png';
         const extension = mimeType.split('/')[1];
         const filename = `logo_${Date.now()}.${extension}`;
-        
+
         console.log('Logo details:', { mimeType, extension, filename, dataLength: base64Data.length });
-        
+
         // Convert base64 to buffer
         const binaryData = Buffer.from(base64Data, 'base64');
-        
+
         // Create form data for file upload
         const uploadFormData = new FormData();
         const blob = new Blob([binaryData], { type: mimeType });
         uploadFormData.append('file', blob, filename);
-        
+
         // Use the generic storage upload endpoint (v1)
         const uploadResponse = await fetch(
           `${NOCODB_BASE_URL}/api/v1/db/storage/upload`,
@@ -133,11 +133,11 @@ export async function POST(request: Request) {
             body: uploadFormData,
           }
         );
-        
+
         console.log('Logo upload response status:', uploadResponse.status);
         const responseText = await uploadResponse.text();
         console.log('Logo upload response body:', responseText);
-        
+
         if (uploadResponse.ok) {
           const uploadResult = JSON.parse(responseText);
           console.log('Logo upload result:', JSON.stringify(uploadResult, null, 2));
@@ -180,14 +180,16 @@ export async function POST(request: Request) {
       "First milestones": formData.firstMilestones,
       "Supporting Programs": formData.supportingPrograms,
       "Last Updated": currentDate,
+      "MTZ": formData.mtz,
+      "EWOR": formData.ewor,
     };
 
     console.log('📤 Mapped NocoDB record (images as attachments)');
-    
+
     const url = `${NOCODB_BASE_URL}/api/v2/tables/${NOCODB_TABLE_ID}/records`;
     console.log('🌐 API URL:', url);
     console.log('🔑 Using API token (first 10 chars):', NOCODB_API_TOKEN.substring(0, 10) + '...');
-    
+
     console.log('⏳ Sending POST request to NocoDB...');
     const response = await fetch(url, {
       method: 'POST',
@@ -216,7 +218,7 @@ export async function POST(request: Request) {
     const result = await response.json();
     console.log('✅ Successfully added startup to NocoDB!');
     console.log('✅ Result:', JSON.stringify(result, null, 2));
-    
+
     // Verify the record was created by fetching it back
     if (result.Id) {
       console.log('🔍 Verifying record creation by fetching ID:', result.Id);
@@ -240,23 +242,23 @@ export async function POST(request: Request) {
         console.log('⚠️ Verification fetch failed (but record was created):', verifyError);
       }
     }
-    
+
     console.log('========== ADD STARTUP SUCCESS ==========');
-    
-    return NextResponse.json({ 
-      success: true, 
+
+    return NextResponse.json({
+      success: true,
       message: 'Startup added successfully',
       data: result,
       recordId: result.Id
     });
-    
+
   } catch (error) {
     console.error('========== ADD STARTUP FAILED ==========');
     console.error('❌ Error type:', error instanceof Error ? error.constructor.name : typeof error);
     console.error('❌ Error message:', error instanceof Error ? error.message : String(error));
     console.error('❌ Error stack:', error instanceof Error ? error.stack : 'No stack trace');
     console.error('========================================');
-    
+
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Failed to add startup' },
       { status: 500 }

@@ -20,9 +20,9 @@ function transformNocoDBRecord(record: any): Company {
         profilePicUrl = `https://ndb.startmunich.de/${profilePic.signedPath}`;
       }
     }
-    
+
     const memberBatch = record.Batch || record['Member Batch'] || '';
-    
+
     founders.push({
       name: memberName,
       role: record['Company Role'] || 'Founder',
@@ -32,7 +32,7 @@ function transformNocoDBRecord(record: any): Company {
     });
   }
 
-  const categories = record.Chategory 
+  const categories = record.Chategory
     ? record.Chategory.split(',').map((c: string) => c.trim()).filter(Boolean)
     : ['Other'];
 
@@ -64,7 +64,8 @@ function transformNocoDBRecord(record: any): Company {
     milestones: record['First milestones'] || undefined,
     supportingPrograms: record['Supporting Programs'] || undefined,
     lastUpdated: record['Last Updated'] || undefined,
-    isMTZ: record['MTZ']?.toLowerCase() === 'yes' || false
+    isMTZ: record['MTZ']?.toLowerCase() === 'yes' || false,
+    isEWOR: record['EWOR']?.toLowerCase() === 'yes' || false
   };
 }
 
@@ -79,7 +80,7 @@ export async function GET() {
   console.log('NODE_ENV:', process.env.NODE_ENV);
   console.log('VERCEL:', process.env.VERCEL);
   console.log('VERCEL_ENV:', process.env.VERCEL_ENV);
-  
+
   // Check if NocoDB is configured
   if (!NOCODB_API_TOKEN || !NOCODB_TABLE_ID) {
     console.error('NocoDB not configured - missing API token or table ID');
@@ -91,7 +92,7 @@ export async function GET() {
 
   try {
     console.log('Fetching startups from NocoDB...');
-    
+
     const response = await fetch(
       `${NOCODB_BASE_URL}/api/v2/tables/${NOCODB_TABLE_ID}/records?limit=1000&offset=0`,
       {
@@ -111,10 +112,10 @@ export async function GET() {
 
     const data = await response.json();
     const companies = (data.list || []).map(transformNocoDBRecord);
-    
+
     console.log(`Successfully fetched ${companies.length} startups from NocoDB`);
     return NextResponse.json(companies);
-    
+
   } catch (error) {
     console.error('Error fetching from NocoDB:', error);
     return NextResponse.json(

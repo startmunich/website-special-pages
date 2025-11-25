@@ -19,9 +19,9 @@ function transformNocoDBRecord(record: any): Company {
         profilePicUrl = `https://ndb.startmunich.de/${profilePic.signedPath}`;
       }
     }
-    
+
     const memberBatch = record.Batch || record['Member Batch'] || '';
-    
+
     founders.push({
       name: memberName,
       role: record['Company Role'] || 'Founder',
@@ -31,7 +31,7 @@ function transformNocoDBRecord(record: any): Company {
     });
   }
 
-  const categories = record.Chategory 
+  const categories = record.Chategory
     ? record.Chategory.split(',').map((c: string) => c.trim()).filter(Boolean)
     : ['Other'];
 
@@ -58,6 +58,8 @@ function transformNocoDBRecord(record: any): Company {
     investmentRound: record['Last investment round'] || undefined,
     milestones: record['First milestones'] || undefined,
     supportingPrograms: record['Supporting Programs'] || undefined,
+    isMTZ: record['MTZ']?.toLowerCase() === 'yes' || false,
+    isEWOR: record['EWOR']?.toLowerCase() === 'yes' || false
   };
 }
 
@@ -73,7 +75,7 @@ export async function GET(
   console.log('NOCODB_API_TOKEN:', NOCODB_API_TOKEN ? `${NOCODB_API_TOKEN.substring(0, 10)}... (${NOCODB_API_TOKEN.length} chars)` : 'NOT SET');
   console.log('NOCODB_BASE_URL:', NOCODB_BASE_URL);
   console.log('NOCODB_TABLE_ID (startups):', NOCODB_TABLE_ID);
-  
+
   if (!NOCODB_API_TOKEN || !NOCODB_TABLE_ID) {
     return NextResponse.json(
       { error: 'NocoDB not configured' },
@@ -99,7 +101,7 @@ export async function GET(
 
     const record = await response.json();
     const company = transformNocoDBRecord(record);
-    
+
     return NextResponse.json(company);
   } catch (error) {
     console.error('Error fetching startup:', error);
@@ -136,12 +138,12 @@ export async function PUT(
         const mimeType = formData.memberPicture.match(/data:(.*?);/)?.[1] || 'image/png';
         const extension = mimeType.split('/')[1];
         const filename = `member_${Date.now()}.${extension}`;
-        
+
         const binaryString = Buffer.from(base64Data, 'base64');
         const uploadFormData = new FormData();
         const blob = new Blob([binaryString], { type: mimeType });
         uploadFormData.append('file', blob, filename);
-        
+
         const uploadResponse = await fetch(
           `${NOCODB_BASE_URL}/api/v1/db/storage/upload`,
           {
@@ -152,7 +154,7 @@ export async function PUT(
             body: uploadFormData,
           }
         );
-        
+
         if (uploadResponse.ok) {
           const uploadResult = await uploadResponse.json();
           memberPictureUrl = uploadResult; // Store entire upload response
@@ -169,12 +171,12 @@ export async function PUT(
         const mimeType = formData.companyLogo.match(/data:(.*?);/)?.[1] || 'image/png';
         const extension = mimeType.split('/')[1];
         const filename = `logo_${Date.now()}.${extension}`;
-        
+
         const binaryString = Buffer.from(base64Data, 'base64');
         const uploadFormData = new FormData();
         const blob = new Blob([binaryString], { type: mimeType });
         uploadFormData.append('file', blob, filename);
-        
+
         const uploadResponse = await fetch(
           `${NOCODB_BASE_URL}/api/v1/db/storage/upload`,
           {
@@ -185,7 +187,7 @@ export async function PUT(
             body: uploadFormData,
           }
         );
-        
+
         if (uploadResponse.ok) {
           const uploadResult = await uploadResponse.json();
           companyLogoUrl = uploadResult; // Store entire upload response
@@ -260,6 +262,8 @@ export async function PUT(
       "First milestones": formData.firstMilestones,
       "Supporting Programs": formData.supportingPrograms,
       "Last Updated": currentDate,
+      "MTZ": formData.mtz,
+      "EWOR": formData.ewor,
     };
 
     // Now update using the correct endpoint format for NocoDB v2
@@ -285,11 +289,11 @@ export async function PUT(
     }
 
     const result = await response.json();
-    
-    return NextResponse.json({ 
-      success: true, 
+
+    return NextResponse.json({
+      success: true,
       message: 'Startup updated successfully',
-      data: result 
+      data: result
     });
   } catch (error) {
     console.error('Error updating startup:', error);
@@ -334,8 +338,8 @@ export async function DELETE(
       throw new Error(`Failed to delete startup: ${response.status}`);
     }
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       message: 'Startup deleted successfully'
     });
   } catch (error) {

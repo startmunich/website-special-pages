@@ -10,7 +10,7 @@ function AdminPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const editId = searchParams?.get('edit')
-  
+
   const [view, setView] = useState<'list' | 'form'>('list')
   const [mode, setMode] = useState<'add' | 'edit'>('add')
   const [companies, setCompanies] = useState<Company[]>([])
@@ -20,7 +20,7 @@ function AdminPageContent() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const [selectedStartupId, setSelectedStartupId] = useState<string | null>(null)
-  
+
   const [memberPictureFile, setMemberPictureFile] = useState<File | null>(null)
   const [companyLogoFile, setCompanyLogoFile] = useState<File | null>(null)
   const [memberPicturePreview, setMemberPicturePreview] = useState<string | null>(null)
@@ -50,6 +50,7 @@ function AdminPageContent() {
     featuredStartup: "no",
     yCombinatorAlumni: "no",
     mtz: "no",
+    ewor: "no",
     companyLinkedin: "",
     lastInvestmentRound: "",
     firstMilestones: "",
@@ -60,7 +61,7 @@ function AdminPageContent() {
   useEffect(() => {
     loadCompanies()
   }, [])
-  
+
   useEffect(() => {
     if (view === 'list') {
       loadCompanies()
@@ -81,7 +82,7 @@ function AdminPageContent() {
       if (!response.ok) throw new Error('Failed to fetch startups')
       const data = await response.json()
       setCompanies(data)
-      
+
       // Extract unique categories
       const categoriesSet = new Set<string>()
       data.forEach((company: Company) => {
@@ -92,7 +93,7 @@ function AdminPageContent() {
         })
       })
       setExistingCategories(Array.from(categoriesSet).sort())
-      
+
       // Extract unique supporting programs
       const programsSet = new Set<string>()
       data.forEach((company: Company) => {
@@ -106,7 +107,7 @@ function AdminPageContent() {
         }
       })
       setExistingSupportingPrograms(Array.from(programsSet).sort())
-      
+
       // Extract unique company roles
       const rolesSet = new Set<string>()
       data.forEach((company: Company) => {
@@ -117,7 +118,7 @@ function AdminPageContent() {
         })
       })
       setExistingCompanyRoles(Array.from(rolesSet).sort())
-      
+
       // Extract unique investment rounds
       const roundsSet = new Set<string>()
       data.forEach((company: Company) => {
@@ -150,13 +151,13 @@ function AdminPageContent() {
     setSaving(false)
     setError(null)
     setSuccess(false)
-    
+
     try {
       const response = await fetch(`/api/startups/${id}`)
       if (!response.ok) throw new Error('Failed to fetch startup')
-      
+
       const data = await response.json()
-      
+
       setFormData({
         startupName: data.name || "",
         companyWebsite: data.website || "",
@@ -175,12 +176,13 @@ function AdminPageContent() {
         featuredStartup: data.isSpotlight ? "yes" : "no",
         yCombinatorAlumni: data.isYCombinator ? "yes" : "no",
         mtz: data.isMTZ ? "yes" : "no",
+        ewor: data.isEWOR ? "yes" : "no",
         companyLinkedin: data.companyLinkedin || "",
         lastInvestmentRound: data.investmentRound || "",
         firstMilestones: data.milestones || "",
         supportingPrograms: data.supportingPrograms || "",
       })
-      
+
       window.history.pushState({}, '', `/admin?edit=${id}`)
     } catch (err) {
       setError('Failed to load startup data')
@@ -217,6 +219,7 @@ function AdminPageContent() {
       featuredStartup: "no",
       yCombinatorAlumni: "no",
       mtz: "no",
+      ewor: "no",
       companyLinkedin: "",
       lastInvestmentRound: "",
       firstMilestones: "",
@@ -234,7 +237,7 @@ function AdminPageContent() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
-    
+
     // Validate batch format
     if (name === 'batch') {
       if (value.trim() === '') {
@@ -248,7 +251,7 @@ function AdminPageContent() {
         }
       }
     }
-    
+
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
@@ -281,7 +284,7 @@ function AdminPageContent() {
       reader.onloadend = async () => {
         const imageData = reader.result as string
         setCompanyLogoPreview(imageData)
-        
+
 
       }
       reader.readAsDataURL(file)
@@ -315,7 +318,7 @@ function AdminPageContent() {
       }
 
       const submitData = { ...formData }
-      
+
       if (memberPictureFile) {
         submitData.memberPicture = await convertFileToBase64(memberPictureFile)
       }
@@ -341,10 +344,10 @@ function AdminPageContent() {
 
       setSuccess(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })
-      
+
       // Reload companies to update lists
       await loadCompanies()
-      
+
       if (mode === 'add') {
         // Reset form after a delay so success message is visible
         setTimeout(() => {
@@ -365,7 +368,7 @@ function AdminPageContent() {
 
   const handleDelete = async () => {
     if (!selectedStartupId) return
-    
+
     if (!confirm('Are you sure you want to delete this startup? This action cannot be undone.')) {
       return
     }
@@ -517,7 +520,7 @@ function AdminPageContent() {
             {/* Company Information */}
             <div className="bg-white/5 border border-white/10 rounded-lg p-6">
               <h2 className="text-xl font-bold text-white mb-4">Company Information</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="md:col-span-2">
                   <label htmlFor="startupName" className="block text-sm font-medium text-gray-300 mb-2">
@@ -562,19 +565,19 @@ function AdminPageContent() {
                     className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#d0006f] file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#d0006f] file:text-white hover:file:bg-[#d0006f]/90 file:cursor-pointer"
                   />
                   <p className="text-xs text-gray-400 mt-1">Max size: 5MB. Logo should NOT be white (displayed on white background)</p>
-                  
+
                   {logoWarning && (
                     <div className="mt-3 p-3 bg-yellow-500/20 border border-yellow-500/40 rounded-lg">
                       <p className="text-yellow-300 text-sm">{logoWarning}</p>
                     </div>
                   )}
-                  
+
                   {(companyLogoPreview || (mode === 'edit' && formData.companyLogo)) && (
                     <div className="mt-3 p-4 bg-white rounded-lg">
-                      <img 
-                        src={companyLogoPreview || formData.companyLogo} 
-                        alt="Logo preview" 
-                        className="max-h-32 max-w-full object-contain mx-auto" 
+                      <img
+                        src={companyLogoPreview || formData.companyLogo}
+                        alt="Logo preview"
+                        className="max-h-32 max-w-full object-contain mx-auto"
                       />
                     </div>
                   )}
@@ -693,7 +696,7 @@ function AdminPageContent() {
             {/* Founder Information */}
             <div className="bg-white/5 border border-white/10 rounded-lg p-6">
               <h2 className="text-xl font-bold text-white mb-4">Founder Information</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="startMunichMember" className="block text-sm font-medium text-gray-300 mb-2">
@@ -800,10 +803,10 @@ function AdminPageContent() {
                   <p className="text-xs text-gray-400 mt-1">Max size: 5MB</p>
                   {(memberPicturePreview || (mode === 'edit' && formData.memberPicture)) && (
                     <div className="mt-3 p-4 bg-white rounded-lg inline-block">
-                      <img 
-                        src={memberPicturePreview || formData.memberPicture} 
-                        alt="Member preview" 
-                        className="w-24 h-24 rounded-full object-cover" 
+                      <img
+                        src={memberPicturePreview || formData.memberPicture}
+                        alt="Member preview"
+                        className="w-24 h-24 rounded-full object-cover"
                       />
                     </div>
                   )}
@@ -814,7 +817,7 @@ function AdminPageContent() {
             {/* Funding & Metrics */}
             <div className="bg-white/5 border border-white/10 rounded-lg p-6">
               <h2 className="text-xl font-bold text-white mb-4">Funding & Metrics</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="investmentSize" className="block text-sm font-medium text-gray-300 mb-2">
@@ -953,7 +956,7 @@ function AdminPageContent() {
             {/* Special Flags */}
             <div className="bg-white/5 border border-white/10 rounded-lg p-6">
               <h2 className="text-xl font-bold text-white mb-4">Special Flags</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="featuredStartup" className="block text-sm font-medium text-gray-300 mb-2">
@@ -1002,6 +1005,22 @@ function AdminPageContent() {
                     <option value="yes">Yes</option>
                   </select>
                 </div>
+
+                <div>
+                  <label htmlFor="ewor" className="block text-sm font-medium text-gray-300 mb-2">
+                    EWOR Alumni
+                  </label>
+                  <select
+                    id="ewor"
+                    name="ewor"
+                    value={formData.ewor}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#d0006f]"
+                  >
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -1010,7 +1029,7 @@ function AdminPageContent() {
               <div className="bg-white/5 border border-white/10 rounded-lg p-6">
                 <h2 className="text-xl font-bold text-white mb-3">Preview</h2>
                 <p className="text-sm text-gray-400 mb-4">How your startup card will look</p>
-                
+
                 <div className="max-w-sm mx-auto">
                   <div className="bg-white/5 border border-white/10 rounded-lg overflow-hidden">
                     <div className="flex items-center justify-center bg-white p-8 h-48">
@@ -1082,12 +1101,12 @@ function AdminPageContent() {
               </div>
             )}
 
-        {/* Error Message */}
-        {error && (
-          <div className="mb-6 p-4 bg-red-500/20 border border-red-500/40 rounded-lg">
-            <p className="text-red-400 font-medium">✗ {error}</p>
-          </div>
-        )}
+            {/* Error Message */}
+            {error && (
+              <div className="mb-6 p-4 bg-red-500/20 border border-red-500/40 rounded-lg">
+                <p className="text-red-400 font-medium">✗ {error}</p>
+              </div>
+            )}
 
             {/* Action Buttons */}
             <div className="flex gap-4">
@@ -1096,12 +1115,12 @@ function AdminPageContent() {
                 disabled={saving}
                 className="flex-1 px-6 py-3 bg-[#d0006f] hover:bg-[#d0006f]/90 disabled:bg-[#d0006f]/50 text-white font-semibold rounded-lg transition-all disabled:cursor-not-allowed"
               >
-                {saving 
-                  ? (selectedStartupId ? 'Updating...' : 'Adding...') 
+                {saving
+                  ? (selectedStartupId ? 'Updating...' : 'Adding...')
                   : (selectedStartupId ? 'Save Changes' : 'Add Startup')
                 }
               </button>
-              
+
               {mode === 'edit' && (
                 <button
                   type="button"
@@ -1112,7 +1131,7 @@ function AdminPageContent() {
                   Delete
                 </button>
               )}
-              
+
               <button
                 type="button"
                 onClick={handleBackToList}
@@ -1120,9 +1139,9 @@ function AdminPageContent() {
               >
                 Cancel
               </button>
-              
+
             </div>
-            
+
           </form>
         )}
       </div>
