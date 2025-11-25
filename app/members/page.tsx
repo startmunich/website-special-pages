@@ -194,7 +194,7 @@ export default function MembersPage() {
 
       <main className="min-h-screen bg-[#00002c]">
         {/* Hero Section with Full-Width Image */}
-        <div className="relative w-full overflow-hidden h-[50vh] lg:h-[68vh]">
+        <div className="relative w-full overflow-hidden h-[50vh] lg:h-[70vh]">
           {/* Background Image */}
           <div className="absolute inset-0">
             <img
@@ -295,7 +295,7 @@ export default function MembersPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Active Members */}
               <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-6 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition-all duration-300">
-                
+
                 <div className="flex items-center gap-4 mb-3">
                   <div className="w-12 h-12 bg-[#d0006f]/20 rounded-xl flex items-center justify-center">
                     <svg className="w-6 h-6 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
