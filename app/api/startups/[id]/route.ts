@@ -160,7 +160,8 @@ export async function PUT(
 
         if (uploadResponse.ok) {
           const uploadResult = await uploadResponse.json();
-          memberPictureUrl = uploadResult; // Store entire upload response
+          // Extract first element if array, otherwise use as-is
+          memberPictureUrl = Array.isArray(uploadResult) && uploadResult.length > 0 ? uploadResult[0] : uploadResult;
         }
       } catch (uploadError) {
         console.error('Error uploading member picture:', uploadError);
@@ -193,7 +194,8 @@ export async function PUT(
 
         if (uploadResponse.ok) {
           const uploadResult = await uploadResponse.json();
-          companyLogoUrl = uploadResult; // Store entire upload response
+          // Extract first element if array, otherwise use as-is
+          companyLogoUrl = Array.isArray(uploadResult) && uploadResult.length > 0 ? uploadResult[0] : uploadResult;
         }
       } catch (uploadError) {
         console.error('Error uploading company logo:', uploadError);
