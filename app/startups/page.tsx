@@ -58,6 +58,11 @@ export default function StartupsPage() {
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 12 // Reduced to approximate 3000px height (about 5-6 cards)
+  
+  // Tooltip states for section explanations
+  const [showFeaturedInfo, setShowFeaturedInfo] = useState(false)
+  const [showYCInfo, setShowYCInfo] = useState(false)
+  const [showEWORInfo, setShowEWORInfo] = useState(false)
 
   // Animation states for numbers
   const [animatedStartups, setAnimatedStartups] = useState(0)
@@ -360,9 +365,36 @@ export default function StartupsPage() {
           {spotlightStartups.length > 0 && (
             <div className="mb-16">
               <div className="mb-10">
-                <h2 className="text-3xl md:text-4xl font-black text-white">
-                  Featured Startups
-                </h2>
+                <div className="flex items-center gap-3">
+                  <h2 className="text-3xl md:text-4xl font-black text-white">
+                    Featured Startups
+                  </h2>
+                  <div className="relative" onMouseEnter={() => setShowFeaturedInfo(true)} onMouseLeave={() => setShowFeaturedInfo(false)}>
+                    <button
+                      className="text-[#d0006f] hover:text-[#ff0080] transition-all duration-300 hover:scale-110 cursor-pointer"
+                      aria-label="Info about Featured Startups"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </button>
+                    {showFeaturedInfo && (
+                      <div className="absolute left-0 top-full mt-3 w-96 p-5 bg-gradient-to-br from-[#1a1a3e] to-[#0d0d1f] backdrop-blur-xl border-2 border-[#d0006f]/60 rounded-xl shadow-2xl shadow-[#d0006f]/20 z-50 animate-[fadeIn_0.2s_ease-out]">
+                        <div className="absolute -top-2 left-6 w-4 h-4 bg-[#1a1a3e] border-l-2 border-t-2 border-[#d0006f]/60 transform rotate-45"></div>
+                        <div className="absolute top-1 right-1 w-16 h-16 bg-[#d0006f]/10 rounded-full blur-2xl"></div>
+                        <div className="relative">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="w-1.5 h-1.5 bg-[#d0006f] rounded-full animate-pulse"></div>
+                            <h4 className="text-sm font-bold text-[#d0006f] uppercase tracking-wide">Featured Startups</h4>
+                          </div>
+                          <p className="text-sm text-gray-300 leading-relaxed">
+                            These startups are super successful and have achieved a valuation of over €10 million, showcasing exceptional growth and market impact.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {spotlightStartups.map((company, index) => (
@@ -402,9 +434,36 @@ export default function StartupsPage() {
           {yCombinatorStartups.length > 0 && (
             <div className="mb-16">
               <div className="mb-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Y Combinator Alumni
-                </h2>
+                <div className="flex items-center gap-3">
+                  <h2 className="text-3xl md:text-4xl font-bold text-white">
+                    Y Combinator Alumni
+                  </h2>
+                  <div className="relative" onMouseEnter={() => setShowYCInfo(true)} onMouseLeave={() => setShowYCInfo(false)}>
+                    <button
+                      className="text-[#d0006f] hover:text-[#ff0080] transition-all duration-300 hover:scale-110 cursor-pointer"
+                      aria-label="Info about Y Combinator"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </button>
+                    {showYCInfo && (
+                      <div className="absolute left-0 top-full mt-3 w-96 p-5 bg-gradient-to-br from-[#1a1a3e] to-[#0d0d1f] backdrop-blur-xl border-2 border-[#d0006f]/60 rounded-xl shadow-2xl shadow-[#d0006f]/20 z-50 animate-[fadeIn_0.2s_ease-out]">
+                        <div className="absolute -top-2 left-6 w-4 h-4 bg-[#1a1a3e] border-l-2 border-t-2 border-[#d0006f]/60 transform rotate-45"></div>
+                        <div className="absolute top-1 right-1 w-16 h-16 bg-[#d0006f]/10 rounded-full blur-2xl"></div>
+                        <div className="relative">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="w-1.5 h-1.5 bg-[#d0006f] rounded-full animate-pulse"></div>
+                            <h4 className="text-sm font-bold text-[#d0006f] uppercase tracking-wide">Y Combinator</h4>
+                          </div>
+                          <p className="text-sm text-gray-300 leading-relaxed">
+                            Y Combinator is the world's most prestigious startup accelerator, having funded over 4,000 companies including Airbnb, Dropbox, Stripe, and Reddit. These alumni have gone through YC's intensive 3-month program.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {yCombinatorStartups.map((company, index) => (
@@ -444,9 +503,36 @@ export default function StartupsPage() {
           {eworStartups.length > 0 && (
             <div className="mb-16">
               <div className="mb-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  EWOR Alumni
-                </h2>
+                <div className="flex items-center gap-3">
+                  <h2 className="text-3xl md:text-4xl font-bold text-white">
+                    EWOR Alumni
+                  </h2>
+                  <div className="relative" onMouseEnter={() => setShowEWORInfo(true)} onMouseLeave={() => setShowEWORInfo(false)}>
+                    <button
+                      className="text-[#d0006f] hover:text-[#ff0080] transition-all duration-300 hover:scale-110 cursor-pointer"
+                      aria-label="Info about EWOR"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </button>
+                    {showEWORInfo && (
+                      <div className="absolute left-0 top-full mt-3 w-96 p-5 bg-gradient-to-br from-[#1a1a3e] to-[#0d0d1f] backdrop-blur-xl border-2 border-[#d0006f]/60 rounded-xl shadow-2xl shadow-[#d0006f]/20 z-50 animate-[fadeIn_0.2s_ease-out]">
+                        <div className="absolute -top-2 left-6 w-4 h-4 bg-[#1a1a3e] border-l-2 border-t-2 border-[#d0006f]/60 transform rotate-45"></div>
+                        <div className="absolute top-1 right-1 w-16 h-16 bg-[#d0006f]/10 rounded-full blur-2xl"></div>
+                        <div className="relative">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="w-1.5 h-1.5 bg-[#d0006f] rounded-full animate-pulse"></div>
+                            <h4 className="text-sm font-bold text-[#d0006f] uppercase tracking-wide">EWOR</h4>
+                          </div>
+                          <p className="text-sm text-gray-300 leading-relaxed">
+                            EWOR (Entrepreneur World of Records) is a global fellowship program that supports ambitious founders by providing funding, mentorship, and a community of exceptional entrepreneurs building the next generation of impactful companies.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {eworStartups.map((company, index) => (
