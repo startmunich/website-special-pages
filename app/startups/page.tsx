@@ -361,67 +361,6 @@ export default function StartupsPage() {
         {/* Content Below Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-20">
 
-          {/* MTZ Location Partner Info Card */}
-          <div className="mb-16 relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a1a3e] via-[#00002c] to-[#0d0d1f] border-2 border-[#d0006f]/50 shadow-2xl shadow-[#d0006f]/20">
-            {/* Decorative Elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d0006f]/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#d0006f]/5 rounded-full blur-3xl"></div>
-            
-            <div className="relative p-8 md:p-10">
-              <div className="flex flex-col lg:flex-row gap-8 items-start">
-                {/* Left Side - Content */}
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 bg-[#d0006f]/20 rounded-lg">
-                      <svg className="w-6 h-6 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-white">
-                      Our Location Partner: MTZ
-                    </h3>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <p className="text-gray-300 leading-relaxed">
-                      Startups with the <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-[#d0006f] text-white rounded mx-1">MTZ</span> label are located at our location partner, the <strong className="text-white">MTZ (MünchenTechnologieZentrum)</strong>, one of Munich's leading innovation hubs. START Munich is also located at the MTZ, fostering a vibrant community of entrepreneurs and innovators.
-                    </p>
-                    
-                    <div className="flex flex-col gap-2 text-sm text-gray-400">
-                      <div className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        </svg>
-                        <span>Agnes-Pockels-Bogen 1, 80992 München</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                        <span>Home to START Munich and innovative startups</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Right Side - Map */}
-                <div className="w-full lg:w-80 h-52 lg:h-64 rounded-xl overflow-hidden border-2 border-[#d0006f]/40 shadow-lg">
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    frameBorder="0"
-                    scrolling="no"
-                    marginHeight={0}
-                    marginWidth={0}
-                    src="https://www.openstreetmap.org/export/embed.html?bbox=11.5397%2C48.1925%2C11.5497%2C48.1975&layer=mapnik&marker=48.1950%2C11.5447"
-                    style={{ border: 0 }}
-                  ></iframe>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* Growth Champions Section */}
           {spotlightStartups.length > 0 && (
             <div className="mb-16">
@@ -490,6 +429,67 @@ export default function StartupsPage() {
               </div>
             </div>
           )}
+
+          {/* MTZ Location Partner Info Card */}
+          <div className="mb-16 relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a1a3e] via-[#00002c] to-[#0d0d1f] border-2 border-[#d0006f]/50 shadow-2xl shadow-[#d0006f]/20">
+            {/* Decorative Elements */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d0006f]/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#d0006f]/5 rounded-full blur-3xl"></div>
+            
+            <div className="relative p-8 md:p-10">
+              <div className="flex flex-col lg:flex-row gap-8 items-start">
+                {/* Left Side - Content */}
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-[#d0006f]/20 rounded-lg">
+                      <svg className="w-6 h-6 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-white">
+                      Our Location Partner: MTZ
+                    </h3>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <p className="text-gray-300 leading-relaxed">
+                      Startups with the <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-[#d0006f] text-white rounded mx-1">MTZ</span> label are located at our location partner, the <strong className="text-white">MTZ (MünchenTechnologieZentrum)</strong>, one of Munich's leading innovation hubs. START Munich is also located at the MTZ, fostering a vibrant community of entrepreneurs and innovators.
+                    </p>
+                    
+                    <div className="flex flex-col gap-2 text-sm text-gray-400">
+                      <div className="flex items-center gap-2">
+                        <svg className="w-4 h-4 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        </svg>
+                        <span>Agnes-Pockels-Bogen 1, 80992 München</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <svg className="w-4 h-4 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span>Home to START Munich and innovative startups</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Right Side - Map */}
+                <div className="w-full lg:w-80 h-52 lg:h-64 rounded-xl overflow-hidden border-2 border-[#d0006f]/40 shadow-lg">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    frameBorder="0"
+                    scrolling="no"
+                    marginHeight={0}
+                    marginWidth={0}
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=11.5397%2C48.1925%2C11.5497%2C48.1975&layer=mapnik&marker=48.1950%2C11.5447"
+                    style={{ border: 0 }}
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* Y Combinator Section */}
           {yCombinatorStartups.length > 0 && (
