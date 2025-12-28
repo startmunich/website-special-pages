@@ -391,26 +391,20 @@ export default function MembersPage() {
                     </h3>
                     <button
                       onClick={() => setExpandedBatch(null)}
-                      className="w-full block group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-[#d0006f]/30"
+                      className="w-full block group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20"
                     >
                       {/* Background Image - Large (80% viewport height) */}
-                      <div className="relative w-full h-[70vh] md:h-[70vh]">
+                      <div className="relative w-full h-[70vh] md:h-[70vh] overflow-hidden">
                         <img
                           src="/batch.jpeg"
                           alt={batch.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
-
-                        {/* Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/40 to-transparent"></div>
-
-                        {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#d0006f]/30 via-purple-400/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
                       </div>
 
-                      {/* Corner Accent */}
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#d0006f] to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-3xl"></div>
+                      {/* Hover effect accent */}
+                      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                     </button>
 
                     {/* Members Grid */}
@@ -422,7 +416,7 @@ export default function MembersPage() {
                             href={member.linkedinUrl || '#'}
                             target={member.linkedinUrl ? "_blank" : undefined}
                             rel={member.linkedinUrl ? "noopener noreferrer" : undefined}
-                            className={`group relative overflow-hidden transition-all duration-300 hover:scale-105 ${member.linkedinUrl ? 'cursor-pointer' : 'cursor-default'} z-10`}
+                            className={`group relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg hover:scale-105 ${member.linkedinUrl ? 'cursor-pointer' : 'cursor-default'} z-10`}
                           >
                             <div>
                               <img
@@ -464,25 +458,20 @@ export default function MembersPage() {
                     </h3>
                     <button
                       onClick={() => setExpandedBatch(batch.name)}
-                      className="w-full group relative overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-[#d0006f]/30 border-2 border-white/20"
+                      className="w-full group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20"
                     >
                       {/* Background Image */}
-                      <div className="relative">
+                      <div className="relative overflow-hidden">
                         <img
                           src="/batch.jpeg"
                           alt={batch.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
-
-                        {/* Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/10 to-transparent"></div>
-
-                        {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#d0006f]/30 via-purple-400/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
                       </div>
 
-                      {/* Corner Accent */}
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#d0006f] to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-3xl"></div>
+                      {/* Hover effect accent */}
+                      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                     </button>
                   </div>
                 ))}
