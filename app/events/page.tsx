@@ -151,7 +151,7 @@ export default function EventsPage() {
 
       <main className="min-h-screen bg-[#00002c]">
         {/* Hero Section */}
-        <div className="relative w-full overflow-hidden h-[600px]">
+        <div className="relative w-full overflow-hidden h-[650px]">
           {/* Background Image + Overlay */}
           <div className="absolute inset-0 h-full">
             <img
