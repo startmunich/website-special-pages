@@ -747,7 +747,6 @@ export default function StartupsPage() {
               <div className="flex items-end">
                 <button
                   onClick={() => {
-                    setSelectedBatch("all")
                     setSelectedCategory("all")
                     setSelectedYear("all")
                     setSelectedProgram("all")
