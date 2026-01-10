@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Script from "next/script"
 
@@ -78,10 +78,54 @@ const recurringEvents: RecurringEvent[] = [
 
 export default function EventsPage() {
   const [loading, setLoading] = useState(true)
+  const sliderRef = useRef<HTMLDivElement>(null)
+  const dragState = useRef({ isDragging: false, startX: 0, scrollLeft: 0 })
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [, forceUpdate] = useState({})
 
   useEffect(() => {
     setLoading(false)
   }, [])
+
+  useEffect(() => {
+    const slider = sliderRef.current
+    if (!slider || loading) return
+
+    const updateScroll = () => {
+      const maxScroll = slider.scrollWidth - slider.clientWidth
+      const progress = maxScroll > 0 ? (slider.scrollLeft / maxScroll) * 100 : 0
+      setScrollProgress(progress)
+    }
+
+    slider.addEventListener('scroll', updateScroll)
+    updateScroll()
+    
+    // Force initial update after mount
+    setTimeout(updateScroll, 100)
+
+    return () => slider.removeEventListener('scroll', updateScroll)
+  }, [loading])
+
+  const handleDrag = {
+    start: (e: React.MouseEvent) => {
+      const slider = sliderRef.current
+      if (!slider) return
+      dragState.current = {
+        isDragging: true,
+        startX: e.pageX - slider.offsetLeft,
+        scrollLeft: slider.scrollLeft
+      }
+    },
+    move: (e: React.MouseEvent) => {
+      if (!dragState.current.isDragging || !sliderRef.current) return
+      e.preventDefault()
+      const x = e.pageX - sliderRef.current.offsetLeft
+      sliderRef.current.scrollLeft = dragState.current.scrollLeft - (x - dragState.current.startX) * 2
+    },
+    end: () => {
+      dragState.current.isDragging = false
+    }
+  }
 
   const getIconSvg = (icon: string) => {
     switch (icon) {
@@ -184,7 +228,7 @@ export default function EventsPage() {
           <div className="mb-20">
             <div className="mb-10">
               <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                PUBLIC YEARLY EVENTS
+                PUBLIC ANNUAL EVENTS
               </h2>
               <p className="text-gray-400 text-lg">
                 Mark your calendars! These are our flagship events that happen throughout the year.
@@ -391,12 +435,22 @@ export default function EventsPage() {
               </div>
             </div>
 
-            {/* Featured Events - RTSS & RTSH */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-              {recurringEvents.filter(event => event.id === 'rtss' || event.id === 'rtsh').map((event, index) => (
+            {/* Events Slider */}
+            <div className="relative">
+              {/* Slider Container */}
+              <div 
+                ref={sliderRef}
+                onMouseDown={handleDrag.start}
+                onMouseUp={handleDrag.end}
+                onMouseMove={handleDrag.move}
+                onMouseLeave={handleDrag.end}
+                className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-2 cursor-grab active:cursor-grabbing"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                {recurringEvents.map((event, index) => (
                 <div
                   key={event.id}
-                  className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20"
+                  className="flex-shrink-0 w-[90%] sm:w-[450px] group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   {/* Event Image */}
@@ -451,68 +505,22 @@ export default function EventsPage() {
                   <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                 </div>
               ))}
-            </div>
+              </div>
 
-            {/* Other Recurring Events */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {recurringEvents.filter(event => event.id !== 'rtss' && event.id !== 'rtsh').map((event, index) => (
-                <div
-                  key={event.id}
-                  className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  {/* Event Image */}
-                  <div className="relative h-64 w-full overflow-hidden">
-                    <img 
-                      src={event.image} 
-                      alt={event.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-                    
-                    {/* Category Badge */}
-                    <div className="absolute top-4 right-4">
-                      <div className="px-3 py-1.5 rounded-lg bg-[#d0006f] backdrop-blur-sm">
-                        <p className="text-xs text-white uppercase tracking-wide font-bold">
-                          {event.category}
-                        </p>
-                      </div>
-                    </div>
+              {/* Scroll Indicator */}
+              <div className="relative h-2 bg-white/10 rounded-full mt-6 overflow-hidden">
+                <div 
+                  className="absolute h-full bg-gradient-to-r from-[#d0006f] to-pink-500 rounded-full transition-all duration-200"
+                  style={{
+                    width: `${sliderRef.current ? (sliderRef.current.clientWidth / sliderRef.current.scrollWidth) * 100 : 30}%`,
+                    left: `${sliderRef.current ? scrollProgress * (1 - sliderRef.current.clientWidth / sliderRef.current.scrollWidth) : 0}%`
+                  }}
+                />
+              </div>
 
-                    {/* Frequency Badge */}
-                    <div className="absolute top-4 left-4">
-                      <div className="px-3 py-1.5 rounded-full backdrop-blur-md bg-black/50 border border-white/20">
-                        <p className="text-xs text-white uppercase tracking-wide font-semibold">
-                          {event.frequency}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-2">
-                      {event.name}
-                    </h3>
-                    
-                    <div className="flex items-center gap-2 mb-3">
-                      <svg className="w-4 h-4 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <span className="text-sm font-semibold text-[#d0006f]">
-                        {event.month}
-                      </span>
-                    </div>
-
-                    <p className="text-sm text-gray-400 leading-relaxed">
-                      {event.description}
-                    </p>
-                  </div>
-
-                  {/* Hover effect accent */}
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                </div>
-              ))}
+              {/* Gradient Fade Edges */}
+              <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#00002c]/50 to-transparent pointer-events-none"></div>
+              <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#00002c]/50 to-transparent pointer-events-none"></div>
             </div>
           </div>
 

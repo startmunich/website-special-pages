@@ -173,4 +173,14 @@
   .animate-scaleIn {
     animation: scaleIn 0.3s ease-out;
   }
+
+  /* Hide scrollbar for slider */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
