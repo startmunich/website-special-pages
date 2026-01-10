@@ -90,8 +90,11 @@ const recurringEvents: RecurringEvent[] = [
 export default function EventsPage() {
   const [loading, setLoading] = useState(true)
   const sliderRef = useRef<HTMLDivElement>(null)
+  const specialEventsSliderRef = useRef<HTMLDivElement>(null)
   const dragState = useRef({ isDragging: false, startX: 0, scrollLeft: 0 })
+  const specialEventsDragState = useRef({ isDragging: false, startX: 0, scrollLeft: 0 })
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [specialEventsScrollProgress, setSpecialEventsScrollProgress] = useState(0)
   const [hoveredEvent, setHoveredEvent] = useState<string | null>(null)
   const [, forceUpdate] = useState({})
 
@@ -118,6 +121,24 @@ export default function EventsPage() {
     return () => slider.removeEventListener('scroll', updateScroll)
   }, [loading])
 
+  useEffect(() => {
+    const slider = specialEventsSliderRef.current
+    if (!slider || loading) return
+
+    const updateScroll = () => {
+      const maxScroll = slider.scrollWidth - slider.clientWidth
+      const progress = maxScroll > 0 ? (slider.scrollLeft / maxScroll) * 100 : 0
+      setSpecialEventsScrollProgress(progress)
+    }
+
+    slider.addEventListener('scroll', updateScroll)
+    updateScroll()
+    
+    setTimeout(updateScroll, 100)
+
+    return () => slider.removeEventListener('scroll', updateScroll)
+  }, [loading])
+
   const handleDrag = {
     start: (e: React.MouseEvent) => {
       const slider = sliderRef.current
@@ -136,6 +157,27 @@ export default function EventsPage() {
     },
     end: () => {
       dragState.current.isDragging = false
+    }
+  }
+
+  const handleSpecialEventsDrag = {
+    start: (e: React.MouseEvent) => {
+      const slider = specialEventsSliderRef.current
+      if (!slider) return
+      specialEventsDragState.current = {
+        isDragging: true,
+        startX: e.pageX - slider.offsetLeft,
+        scrollLeft: slider.scrollLeft
+      }
+    },
+    move: (e: React.MouseEvent) => {
+      if (!specialEventsDragState.current.isDragging || !specialEventsSliderRef.current) return
+      e.preventDefault()
+      const x = e.pageX - specialEventsSliderRef.current.offsetLeft
+      specialEventsSliderRef.current.scrollLeft = specialEventsDragState.current.scrollLeft - (x - specialEventsDragState.current.startX) * 2
+    },
+    end: () => {
+      specialEventsDragState.current.isDragging = false
     }
   }
 
@@ -562,7 +604,7 @@ export default function EventsPage() {
                   key={event.id}
                   onMouseEnter={() => setHoveredEvent(event.id)}
                   onMouseLeave={() => setHoveredEvent(null)}
-                  className={`flex-shrink-0 ${isFlagship ? 'w-[95%] sm:w-[520px]' : 'w-[90%] sm:w-[450px]'} group relative ${isFlagship ? 'bg-gradient-to-br from-[#d0006f]/10 via-white/5 to-[#d0006f]/5' : 'bg-white/5'} hover:bg-white/10 border-2 ${isFlagship ? 'border-[#d0006f]/50 hover:border-[#d0006f]' : 'border-white/10 hover:border-[#d0006f]'} rounded-lg overflow-hidden transition-all duration-300 ${isFlagship ? 'hover:shadow-2xl hover:shadow-[#d0006f]/40 hover:scale-105' : 'hover:shadow-xl hover:shadow-[#d0006f]/20'}`}
+                  className={`flex-shrink-0 ${isFlagship ? 'w-[95%] sm:w-[520px]' : 'w-[90%] sm:w-[450px]'} group relative ${isFlagship ? 'bg-gradient-to-br from-[#d0006f]/10 via-white/5 to-[#d0006f]/5' : 'bg-white/5'} hover:bg-white/10 border-2 ${isFlagship ? 'border-[#d0006f]/50 hover:border-[#d0006f]' : 'border-white/10 hover:border-[#d0006f]'} rounded-lg overflow-hidden transition-all duration-300 ${isFlagship ? 'hover:shadow-2xl hover:shadow-[#d0006f]/20 hover:scale-105' : 'hover:shadow-xl hover:shadow-[#d0006f]/20'}`}
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   {/* Flagship Badge */}
@@ -650,9 +692,19 @@ export default function EventsPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="relative">
+              {/* Slider Container */}
+              <div
+                ref={specialEventsSliderRef}
+                onMouseDown={handleSpecialEventsDrag.start}
+                onMouseUp={handleSpecialEventsDrag.end}
+                onMouseMove={handleSpecialEventsDrag.move}
+                onMouseLeave={handleSpecialEventsDrag.end}
+                className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-2 cursor-grab active:cursor-grabbing"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
               {/* START Lab */}
-              <div className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20">
+              <div className="flex-shrink-0 w-[90%] sm:w-[400px] group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20">
                 {/* Event Image */}
                 <div className="relative h-64 w-full overflow-hidden">
                   <img 
@@ -661,22 +713,16 @@ export default function EventsPage() {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-                  
-                  {/* Category Badge */}
-                  <div className="absolute top-4 right-4">
-                    <div className="px-3 py-1.5 rounded-lg bg-[#d0006f] backdrop-blur-sm">
-                      <p className="text-xs text-white uppercase tracking-wide font-bold">
-                        Hackathon
-                      </p>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    START Lab
-                  </h3>
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="text-xl font-bold text-white">
+                      START Lab
+                    </h3>
+                    <span className="text-xs text-[#d0006f] font-bold uppercase tracking-wide">Hackathon</span>
+                  </div>
 
                   <p className="text-sm text-gray-400 leading-relaxed">
                     An intensive program where startups work on solving real challenges with expert mentorship, resources, and a structured approach to innovation and growth.
@@ -688,7 +734,7 @@ export default function EventsPage() {
               </div>
 
               {/* Isar Unfiltered */}
-              <div className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20">
+              <div className="flex-shrink-0 w-[90%] sm:w-[400px] group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20">
                 {/* Event Image */}
                 <div className="relative h-64 w-full overflow-hidden">
                   <img 
@@ -697,22 +743,16 @@ export default function EventsPage() {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-                  
-                  {/* Category Badge */}
-                  <div className="absolute top-4 right-4">
-                    <div className="px-3 py-1.5 rounded-lg bg-[#d0006f] backdrop-blur-sm">
-                      <p className="text-xs text-white uppercase tracking-wide font-bold">
-                        Founder Event
-                      </p>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    Isar Unfiltered
-                  </h3>
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="text-xl font-bold text-white">
+                      Isar Unfiltered
+                    </h3>
+                    <span className="text-xs text-[#d0006f] font-bold uppercase tracking-wide">Founder Event</span>
+                  </div>
 
                   <p className="text-sm text-gray-400 leading-relaxed">
                     Raw, honest conversations with founders and entrepreneurs about the realities of building companies. No sugar-coating, just authentic stories and lessons learned.
@@ -722,6 +762,22 @@ export default function EventsPage() {
                 {/* Hover effect accent */}
                 <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
               </div>
+              </div>
+
+              {/* Scroll Indicator */}
+              <div className="relative h-2 bg-white/10 rounded-full mt-6 overflow-hidden">
+                <div 
+                  className="absolute h-full bg-gradient-to-r from-[#d0006f] to-pink-500 rounded-full transition-all duration-200"
+                  style={{
+                    width: `${specialEventsSliderRef.current ? (specialEventsSliderRef.current.clientWidth / specialEventsSliderRef.current.scrollWidth) * 100 : 30}%`,
+                    left: `${specialEventsSliderRef.current ? specialEventsScrollProgress * (1 - specialEventsSliderRef.current.clientWidth / specialEventsSliderRef.current.scrollWidth) : 0}%`
+                  }}
+                />
+              </div>
+
+              {/* Gradient Fade Edges */}
+              <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#00002c]/50 to-transparent pointer-events-none"></div>
+              <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#00002c]/50 to-transparent pointer-events-none"></div>
             </div>
           </div>
 
