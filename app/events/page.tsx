@@ -224,6 +224,16 @@ export default function EventsPage() {
     scrollToEvent(eventId)
   }
 
+  const calculateTimelinePosition = (month: number, day: number = 1): string => {
+    // month: 1-12, day: 1-20 (assuming 20 days per month for positioning)
+    // Each month takes up 8.33% of the timeline (100% / 12)
+    // Within a month, each day takes up 8.33% / 20 = 0.4165%
+    const monthProgress = (month - 1) / 12 // 0 to 11/12
+    const dayProgress = (day) / 30 / 12 // 0 to 19/20/12
+    const totalProgress = (monthProgress + dayProgress) * 100
+    return `${totalProgress.toFixed(2)}%`
+  }
+
   const getIconSvg = (icon: string) => {
     switch (icon) {
       case "trophy":
@@ -391,7 +401,7 @@ export default function EventsPage() {
                 {/* Event Markers - Using TimelineMarker Components */}
                 <TimelineMarker
                   eventId="pitch-network"
-                  left="calc(100% / 12 + 100% / 24)"
+                  left={calculateTimelinePosition(1, 15)}
                   color="#ff1744"
                   label="Pitch & Network"
                   position="bottom"
@@ -402,7 +412,7 @@ export default function EventsPage() {
                 
                 <TimelineMarker
                   eventId="legal-hack"
-                  left="25%"
+                  left={calculateTimelinePosition(3, 15)}
                   color="#9c27b0"
                   label="Legal Hack"
                   position="top"
@@ -413,7 +423,7 @@ export default function EventsPage() {
                 
                 <TimelineMarker
                   eventId="info-event"
-                  left="33.33%"
+                  left={calculateTimelinePosition(4, 15)}
                   color="#4a90e2"
                   label="Info Event"
                   position="bottom"
@@ -424,7 +434,7 @@ export default function EventsPage() {
                 
                 <TimelineMarker
                   eventId="fail-tales"
-                  left="calc(33.33% + 14px)"
+                  left={calculateTimelinePosition(5, 15)}
                   color="#4a90e2"
                   label="Fail Tales"
                   position="top"
@@ -435,7 +445,7 @@ export default function EventsPage() {
                 
                 <TimelineMarker
                   eventId="pitch-network"
-                  left="50%"
+                  left={calculateTimelinePosition(6, 15)}
                   color="#ff1744"
                   label="Pitch & Network"
                   position="bottom"
@@ -446,7 +456,7 @@ export default function EventsPage() {
                 
                 <TimelineMarker
                   eventId="info-event"
-                  left="83.33%"
+                  left={calculateTimelinePosition(10, 15)}
                   color="#4a90e2"
                   label="Info Event"
                   position="top"
@@ -457,7 +467,7 @@ export default function EventsPage() {
                 
                 <TimelineMarker
                   eventId="fail-tales"
-                  left="calc(83.33% + 14px)"
+                  left={calculateTimelinePosition(11, 15)}
                   color="#4a90e2"
                   label="Fail Tales"
                   position="bottom"
@@ -468,7 +478,7 @@ export default function EventsPage() {
                 
                 <TimelineMarker
                   eventId="rtss"
-                  left="calc(83.33% + 28px)"
+                  left={calculateTimelinePosition(12, 0)}
                   color="#ff1744"
                   label="RTSS"
                   position="top"
@@ -480,7 +490,7 @@ export default function EventsPage() {
                 
                 <TimelineMarker
                   eventId="rtsh"
-                  left="91.67%"
+                  left={calculateTimelinePosition(12, 15)}
                   color="#9c27b0"
                   label="RTSH"
                   position="bottom"
