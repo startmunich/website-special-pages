@@ -205,6 +205,11 @@ export default function EventsPage() {
     })
   }
 
+  const handleTimelineMarkerHover = (eventId: string) => {
+    setHoveredEvent(eventId)
+    scrollToEvent(eventId)
+  }
+
   const getIconSvg = (icon: string) => {
     switch (icon) {
       case "trophy":
@@ -373,7 +378,7 @@ export default function EventsPage() {
                 
                 {/* Event Markers */}
                 {/* PITCH & NETWORK - January */}
-                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'pitch-network' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '4.2%' }} onMouseEnter={() => scrollToEvent('pitch-network')}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'pitch-network' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '4.2%' }} onMouseEnter={() => handleTimelineMarkerHover('pitch-network')} onMouseLeave={() => setHoveredEvent(null)}>
                   <div className="relative">
                     <div className={`w-4 h-4 bg-[#ff1744] rounded-full transition-all ${hoveredEvent === 'pitch-network' ? 'ring-4 ring-[#ff1744]/50' : ''}`}></div>
                     <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
@@ -385,7 +390,7 @@ export default function EventsPage() {
                 </div>
 
                 {/* Legal Hack - March */}
-                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'legal-hack' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '20.8%' }} onMouseEnter={() => scrollToEvent('legal-hack')}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'legal-hack' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '20.8%' }} onMouseEnter={() => handleTimelineMarkerHover('legal-hack')} onMouseLeave={() => setHoveredEvent(null)}>
                   <div className="relative">
                     <div className={`w-4 h-4 bg-[#9c27b0] rounded-full transition-all ${hoveredEvent === 'legal-hack' ? 'ring-4 ring-[#9c27b0]/50' : ''}`}></div>
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
@@ -397,7 +402,7 @@ export default function EventsPage() {
                 </div>
 
                 {/* Info Event - April */}
-                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'info-event' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '29.2%' }} onMouseEnter={() => scrollToEvent('info-event')}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'info-event' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '29.2%' }} onMouseEnter={() => handleTimelineMarkerHover('info-event')} onMouseLeave={() => setHoveredEvent(null)}>
                   <div className="relative">
                     <div className={`w-4 h-4 bg-[#4a90e2] rounded-full transition-all ${hoveredEvent === 'info-event' ? 'ring-4 ring-[#4a90e2]/50' : ''}`}></div>
                     <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
@@ -409,7 +414,7 @@ export default function EventsPage() {
                 </div>
 
                 {/* Fail Tales - April */}
-                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'fail-tales' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '37.5%' }} onMouseEnter={() => scrollToEvent('fail-tales')}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'fail-tales' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '37.5%' }} onMouseEnter={() => handleTimelineMarkerHover('fail-tales')} onMouseLeave={() => setHoveredEvent(null)}>
                   <div className="relative">
                     <div className={`w-4 h-4 bg-[#4a90e2] rounded-full transition-all ${hoveredEvent === 'fail-tales' ? 'ring-4 ring-[#4a90e2]/50' : ''}`}></div>
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
@@ -421,7 +426,7 @@ export default function EventsPage() {
                 </div>
 
                 {/* PITCH & NETWORK - June */}
-                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'pitch-network' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '45.8%' }} onMouseEnter={() => scrollToEvent('pitch-network')}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'pitch-network' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '45.8%' }} onMouseEnter={() => handleTimelineMarkerHover('pitch-network')} onMouseLeave={() => setHoveredEvent(null)}>
                   <div className="relative">
                     <div className={`w-4 h-4 bg-[#ff1744] rounded-full transition-all ${hoveredEvent === 'pitch-network' ? 'ring-4 ring-[#ff1744]/50' : ''}`}></div>
                     <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
@@ -433,7 +438,7 @@ export default function EventsPage() {
                 </div>
 
                 {/* Info Event - October */}
-                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'info-event' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '79.2%' }} onMouseEnter={() => scrollToEvent('info-event')}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'info-event' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '79.2%' }} onMouseEnter={() => handleTimelineMarkerHover('info-event')} onMouseLeave={() => setHoveredEvent(null)}>
                   <div className="relative">
                     <div className={`w-4 h-4 bg-[#4a90e2] rounded-full transition-all ${hoveredEvent === 'info-event' ? 'ring-4 ring-[#4a90e2]/50' : ''}`}></div>
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
@@ -445,7 +450,7 @@ export default function EventsPage() {
                 </div>
 
                 {/* Fail Tales - October */}
-                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'fail-tales' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '87.5%' }} onMouseEnter={() => scrollToEvent('fail-tales')}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'fail-tales' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '87.5%' }} onMouseEnter={() => handleTimelineMarkerHover('fail-tales')} onMouseLeave={() => setHoveredEvent(null)}>
                   <div className="relative">
                     <div className={`w-4 h-4 bg-[#4a90e2] rounded-full transition-all ${hoveredEvent === 'fail-tales' ? 'ring-4 ring-[#4a90e2]/50' : ''}`}></div>
                     <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
@@ -457,7 +462,7 @@ export default function EventsPage() {
                 </div>
 
                 {/* RTSS - October/November */}
-                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'rtss' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '91.7%' }} onMouseEnter={() => scrollToEvent('rtss')}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'rtss' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '91.7%' }} onMouseEnter={() => handleTimelineMarkerHover('rtss')} onMouseLeave={() => setHoveredEvent(null)}>
                   <div className="relative">
                     <div className={`w-6 h-6 bg-[#ff1744] rounded-full transition-all ${hoveredEvent === 'rtss' ? 'ring-4 ring-[#ff1744]/50' : ''}`}></div>
                     <div className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap">
@@ -469,7 +474,7 @@ export default function EventsPage() {
                 </div>
 
                 {/* RTSH - November */}
-                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'rtsh' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '95.8%' }} onMouseEnter={() => scrollToEvent('rtsh')}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'rtsh' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '95.8%' }} onMouseEnter={() => handleTimelineMarkerHover('rtsh')} onMouseLeave={() => setHoveredEvent(null)}>
                   <div className="relative">
                     <div className={`w-6 h-6 bg-[#9c27b0] rounded-full transition-all ${hoveredEvent === 'rtsh' ? 'ring-4 ring-[#9c27b0]/50' : ''}`}></div>
                     <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap">
@@ -599,12 +604,13 @@ export default function EventsPage() {
               >
                 {recurringEvents.map((event, index) => {
                   const isFlagship = event.id === 'rtss' || event.id === 'rtsh'
+                  const isHovered = hoveredEvent === event.id
                   return (
                 <div
                   key={event.id}
                   onMouseEnter={() => setHoveredEvent(event.id)}
                   onMouseLeave={() => setHoveredEvent(null)}
-                  className={`flex-shrink-0 ${isFlagship ? 'w-[95%] sm:w-[520px]' : 'w-[90%] sm:w-[450px]'} group relative ${isFlagship ? 'bg-gradient-to-br from-[#d0006f]/10 via-white/5 to-[#d0006f]/5' : 'bg-white/5'} hover:bg-white/10 border-2 ${isFlagship ? 'border-[#d0006f]/50 hover:border-[#d0006f]' : 'border-white/10 hover:border-[#d0006f]'} rounded-lg overflow-hidden transition-all duration-300 ${isFlagship ? 'hover:shadow-2xl hover:shadow-[#d0006f]/20 hover:scale-105' : 'hover:shadow-xl hover:shadow-[#d0006f]/20'}`}
+                  className={`flex-shrink-0 ${isFlagship ? 'w-[95%] sm:w-[520px]' : 'w-[90%] sm:w-[450px]'} group relative ${isFlagship ? 'bg-gradient-to-br from-[#d0006f]/10 via-white/5 to-[#d0006f]/5' : 'bg-white/5'} ${isHovered ? 'bg-white/10' : ''} border-2 ${isFlagship ? `${isHovered ? 'border-[#d0006f]' : 'border-[#d0006f]/50'}` : `${isHovered ? 'border-[#d0006f]' : 'border-white/10'}`} rounded-lg overflow-hidden transition-all duration-300 ${isFlagship ? `${isHovered ? 'shadow-2xl shadow-[#d0006f]/20' : ''}` : `${isHovered ? 'shadow-xl shadow-[#d0006f]/20' : ''}`}`}
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   {/* Flagship Badge */}
