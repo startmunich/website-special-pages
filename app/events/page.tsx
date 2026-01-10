@@ -92,6 +92,7 @@ export default function EventsPage() {
   const sliderRef = useRef<HTMLDivElement>(null)
   const dragState = useRef({ isDragging: false, startX: 0, scrollLeft: 0 })
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [hoveredEvent, setHoveredEvent] = useState<string | null>(null)
   const [, forceUpdate] = useState({})
 
   useEffect(() => {
@@ -136,6 +137,30 @@ export default function EventsPage() {
     end: () => {
       dragState.current.isDragging = false
     }
+  }
+
+  const scrollToEvent = (eventId: string) => {
+    const slider = sliderRef.current
+    if (!slider) return
+
+    const eventIndex = recurringEvents.findIndex(e => e.id === eventId)
+    if (eventIndex === -1) return
+
+    const cards = slider.children
+    if (eventIndex >= cards.length) return
+
+    const card = cards[eventIndex] as HTMLElement
+    const cardLeft = card.offsetLeft
+    const cardWidth = card.offsetWidth
+    const sliderWidth = slider.offsetWidth
+    
+    // Calculate position to center the card
+    const scrollPosition = cardLeft - (sliderWidth / 2) + (cardWidth / 2)
+    
+    slider.scrollTo({
+      left: scrollPosition,
+      behavior: 'smooth'
+    })
   }
 
   const getIconSvg = (icon: string) => {
@@ -235,6 +260,40 @@ export default function EventsPage() {
         {/* Content Below Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-20">
 
+
+          {/* Upcoming Events Calendar Section */}
+          <div className="mb-20">
+            <div className="mb-10">
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
+                UPCOMING EVENTS
+              </h2>
+              <p className="text-gray-400 text-lg">
+                Stay updated with all our latest events and register to join us!
+              </p>
+            </div>
+
+            <div className="relative rounded-2xl overflow-hidden border-2 border-[#d0006f]/30 bg-white/5 p-4 md:p-8">
+              {/* Decorative background elements */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#d0006f]/10 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#d0006f]/5 rounded-full blur-3xl"></div>
+              
+              <div className="relative">
+                <iframe
+                  src="https://luma.com/embed/calendar/cal-1MxD65bgV0Hcb0r/events"
+                  width="100%"
+                  height="450"
+                  frameBorder="0"
+                  style={{ border: 0, borderRadius: '12px' }}
+                  allowFullScreen
+                  aria-hidden="false"
+                  tabIndex={0}
+                  className="bg-white rounded-xl"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+
+
           {/* Recurring Events Section */}
           <div className="mb-20">
             <div className="mb-10">
@@ -248,23 +307,7 @@ export default function EventsPage() {
 
             {/* Timeline Visualization */}
             <div className="mb-12 relative bg-white/5 rounded-2xl p-6 md:p-10 border border-white/10">
-              <h3 className="text-2xl font-bold text-white mb-4 text-center">Event Timeline</h3>
-              
-              {/* Legend */}
-              <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-6">
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 bg-[#ff1744] rounded-full"></div>
-                  <span className="text-sm text-gray-300 font-medium">Pitch Events</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 bg-[#9c27b0] rounded-full"></div>
-                  <span className="text-sm text-gray-300 font-medium">Hackathons</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 bg-[#4a90e2] rounded-full"></div>
-                  <span className="text-sm text-gray-300 font-medium">Talks & Info</span>
-                </div>
-              </div>
+              <h3 className="text-2xl font-bold text-white mb-8 text-center">Event Timeline</h3>
               
               {/* Months */}
               <div className="hidden md:grid grid-cols-12 gap-2 mb-6 text-center">
@@ -290,9 +333,9 @@ export default function EventsPage() {
                 
                 {/* Event Markers */}
                 {/* PITCH & NETWORK - January */}
-                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '4.2%' }}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'pitch-network' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '4.2%' }} onMouseEnter={() => scrollToEvent('pitch-network')}>
                   <div className="relative">
-                    <div className="w-4 h-4 bg-[#ff1744] rounded-full"></div>
+                    <div className={`w-4 h-4 bg-[#ff1744] rounded-full transition-all ${hoveredEvent === 'pitch-network' ? 'ring-4 ring-[#ff1744]/50' : ''}`}></div>
                     <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
                       <div className="bg-[#ff1744]/90 px-3 py-1.5 rounded-lg">
                         <p className="text-xs text-white font-bold">PITCH</p>
@@ -302,9 +345,9 @@ export default function EventsPage() {
                 </div>
 
                 {/* Legal Hack - March */}
-                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '20.8%' }}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'legal-hack' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '20.8%' }} onMouseEnter={() => scrollToEvent('legal-hack')}>
                   <div className="relative">
-                    <div className="w-4 h-4 bg-[#9c27b0] rounded-full"></div>
+                    <div className={`w-4 h-4 bg-[#9c27b0] rounded-full transition-all ${hoveredEvent === 'legal-hack' ? 'ring-4 ring-[#9c27b0]/50' : ''}`}></div>
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
                       <div className="bg-[#9c27b0]/90 px-3 py-1.5 rounded-lg">
                         <p className="text-xs text-white font-bold">Legal Hack</p>
@@ -314,9 +357,9 @@ export default function EventsPage() {
                 </div>
 
                 {/* Info Event - April */}
-                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '29.2%' }}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'info-event' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '29.2%' }} onMouseEnter={() => scrollToEvent('info-event')}>
                   <div className="relative">
-                    <div className="w-4 h-4 bg-[#4a90e2] rounded-full"></div>
+                    <div className={`w-4 h-4 bg-[#4a90e2] rounded-full transition-all ${hoveredEvent === 'info-event' ? 'ring-4 ring-[#4a90e2]/50' : ''}`}></div>
                     <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
                       <div className="bg-[#4a90e2]/90 px-3 py-1.5 rounded-lg">
                         <p className="text-xs text-white font-bold">Info Event</p>
@@ -326,9 +369,9 @@ export default function EventsPage() {
                 </div>
 
                 {/* Fail Tales - April */}
-                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '37.5%' }}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'fail-tales' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '37.5%' }} onMouseEnter={() => scrollToEvent('fail-tales')}>
                   <div className="relative">
-                    <div className="w-4 h-4 bg-[#4a90e2] rounded-full"></div>
+                    <div className={`w-4 h-4 bg-[#4a90e2] rounded-full transition-all ${hoveredEvent === 'fail-tales' ? 'ring-4 ring-[#4a90e2]/50' : ''}`}></div>
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
                       <div className="bg-[#4a90e2]/90 px-3 py-1.5 rounded-lg">
                         <p className="text-xs text-white font-bold">Fail Tales</p>
@@ -338,9 +381,9 @@ export default function EventsPage() {
                 </div>
 
                 {/* PITCH & NETWORK - June */}
-                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '45.8%' }}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'pitch-network' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '45.8%' }} onMouseEnter={() => scrollToEvent('pitch-network')}>
                   <div className="relative">
-                    <div className="w-4 h-4 bg-[#ff1744] rounded-full"></div>
+                    <div className={`w-4 h-4 bg-[#ff1744] rounded-full transition-all ${hoveredEvent === 'pitch-network' ? 'ring-4 ring-[#ff1744]/50' : ''}`}></div>
                     <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
                       <div className="bg-[#ff1744]/90 px-3 py-1.5 rounded-lg">
                         <p className="text-xs text-white font-bold">PITCH</p>
@@ -350,9 +393,9 @@ export default function EventsPage() {
                 </div>
 
                 {/* Info Event - October */}
-                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '79.2%' }}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'info-event' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '79.2%' }} onMouseEnter={() => scrollToEvent('info-event')}>
                   <div className="relative">
-                    <div className="w-4 h-4 bg-[#4a90e2] rounded-full"></div>
+                    <div className={`w-4 h-4 bg-[#4a90e2] rounded-full transition-all ${hoveredEvent === 'info-event' ? 'ring-4 ring-[#4a90e2]/50' : ''}`}></div>
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
                       <div className="bg-[#4a90e2]/90 px-3 py-1.5 rounded-lg">
                         <p className="text-xs text-white font-bold">Info Event</p>
@@ -362,9 +405,9 @@ export default function EventsPage() {
                 </div>
 
                 {/* Fail Tales - October */}
-                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '87.5%' }}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'fail-tales' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '87.5%' }} onMouseEnter={() => scrollToEvent('fail-tales')}>
                   <div className="relative">
-                    <div className="w-4 h-4 bg-[#4a90e2] rounded-full"></div>
+                    <div className={`w-4 h-4 bg-[#4a90e2] rounded-full transition-all ${hoveredEvent === 'fail-tales' ? 'ring-4 ring-[#4a90e2]/50' : ''}`}></div>
                     <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
                       <div className="bg-[#4a90e2]/90 px-3 py-1.5 rounded-lg">
                         <p className="text-xs text-white font-bold">Fail Tales</p>
@@ -374,9 +417,9 @@ export default function EventsPage() {
                 </div>
 
                 {/* RTSS - October/November */}
-                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '91.7%' }}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'rtss' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '91.7%' }} onMouseEnter={() => scrollToEvent('rtss')}>
                   <div className="relative">
-                    <div className="w-6 h-6 bg-[#ff1744] rounded-full"></div>
+                    <div className={`w-6 h-6 bg-[#ff1744] rounded-full transition-all ${hoveredEvent === 'rtss' ? 'ring-4 ring-[#ff1744]/50' : ''}`}></div>
                     <div className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap">
                       <div className="bg-[#ff1744] px-4 py-2 rounded-lg">
                         <p className="text-sm text-white font-bold">RTSS</p>
@@ -386,9 +429,9 @@ export default function EventsPage() {
                 </div>
 
                 {/* RTSH - November */}
-                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '95.8%' }}>
+                <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer transition-all ${hoveredEvent === 'rtsh' ? 'scale-150 z-10' : 'hover:scale-125'}`} style={{ left: '95.8%' }} onMouseEnter={() => scrollToEvent('rtsh')}>
                   <div className="relative">
-                    <div className="w-6 h-6 bg-[#9c27b0] rounded-full"></div>
+                    <div className={`w-6 h-6 bg-[#9c27b0] rounded-full transition-all ${hoveredEvent === 'rtsh' ? 'ring-4 ring-[#9c27b0]/50' : ''}`}></div>
                     <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap">
                       <div className="bg-[#9c27b0] px-4 py-2 rounded-lg">
                         <p className="text-sm text-white font-bold">RTSH</p>
@@ -484,6 +527,22 @@ export default function EventsPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Legend */}
+              <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mt-8 pt-6 border-t border-white/10">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-[#ff1744] rounded-full"></div>
+                  <span className="text-sm text-gray-300 font-medium">Pitch Events</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-[#9c27b0] rounded-full"></div>
+                  <span className="text-sm text-gray-300 font-medium">Hackathons</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-[#4a90e2] rounded-full"></div>
+                  <span className="text-sm text-gray-300 font-medium">Talks</span>
+                </div>
+              </div>
             </div>
 
             {/* Events Slider */}
@@ -501,6 +560,8 @@ export default function EventsPage() {
                 {recurringEvents.map((event, index) => (
                 <div
                   key={event.id}
+                  onMouseEnter={() => setHoveredEvent(event.id)}
+                  onMouseLeave={() => setHoveredEvent(null)}
                   className="flex-shrink-0 w-[90%] sm:w-[450px] group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
@@ -661,37 +722,7 @@ export default function EventsPage() {
             </div>
           </div>
 
-          {/* Upcoming Events Calendar Section */}
-          <div className="mb-20">
-            <div className="mb-10">
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                UPCOMING EVENTS
-              </h2>
-              <p className="text-gray-400 text-lg">
-                Stay updated with all our latest events and register to join us!
-              </p>
-            </div>
 
-            <div className="relative rounded-2xl overflow-hidden border-2 border-[#d0006f]/30 bg-white/5 p-4 md:p-8">
-              {/* Decorative background elements */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#d0006f]/10 rounded-full blur-3xl"></div>
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#d0006f]/5 rounded-full blur-3xl"></div>
-              
-              <div className="relative">
-                <iframe
-                  src="https://luma.com/embed/calendar/cal-1MxD65bgV0Hcb0r/events"
-                  width="100%"
-                  height="450"
-                  frameBorder="0"
-                  style={{ border: 0, borderRadius: '12px' }}
-                  allowFullScreen
-                  aria-hidden="false"
-                  tabIndex={0}
-                  className="bg-white rounded-xl"
-                ></iframe>
-              </div>
-            </div>
-          </div>
 
           {/* Member Exclusive Events Section */}
           <div className="mb-16">
