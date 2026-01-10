@@ -400,7 +400,7 @@ export default function MembersPage() {
                           alt={batch.name}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/40 via-[#00002c]/10 to-transparent"></div>
                       </div>
 
                       {/* Hover effect accent */}
@@ -424,7 +424,7 @@ export default function MembersPage() {
                                 alt={member.name}
                                 className="w-full h-full object-cover"
                               />
-                              <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/40 to-transparent"></div>
+                              <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/40 via-[#00002c]/10 to-transparent"></div>
 
                               {member.linkedinUrl && (
                                 <div className="absolute top-2 right-2">
@@ -467,7 +467,7 @@ export default function MembersPage() {
                           alt={batch.name}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/40 via-[#00002c]/10 to-transparent"></div>
                       </div>
 
                       {/* Hover effect accent */}
