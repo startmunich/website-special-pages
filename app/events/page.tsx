@@ -73,6 +73,17 @@ const recurringEvents: RecurringEvent[] = [
     color: "#ff1744",
     image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2070&auto=format&fit=crop",
     category: "Pitch Event"
+  },
+  {
+    id: "legal-hack",
+    name: "START Legal Hack",
+    description: "A unique hackathon focused on building legal tech solutions that address real challenges in the legal industry, combining technology with regulatory expertise.",
+    month: "March",
+    frequency: "Once per year",
+    icon: "code",
+    color: "#9c27b0",
+    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2070&auto=format&fit=crop",
+    category: "Hackathon"
   }
 ]
 
@@ -237,7 +248,23 @@ export default function EventsPage() {
 
             {/* Timeline Visualization */}
             <div className="mb-12 relative bg-white/5 rounded-2xl p-6 md:p-10 border border-white/10">
-              <h3 className="text-2xl font-bold text-white mb-8 text-center">Event Timeline</h3>
+              <h3 className="text-2xl font-bold text-white mb-4 text-center">Event Timeline</h3>
+              
+              {/* Legend */}
+              <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-[#ff1744] rounded-full"></div>
+                  <span className="text-sm text-gray-300 font-medium">Pitch Events</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-[#9c27b0] rounded-full"></div>
+                  <span className="text-sm text-gray-300 font-medium">Hackathons</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-[#4a90e2] rounded-full"></div>
+                  <span className="text-sm text-gray-300 font-medium">Talks & Info</span>
+                </div>
+              </div>
               
               {/* Months */}
               <div className="hidden md:grid grid-cols-12 gap-2 mb-6 text-center">
@@ -274,11 +301,23 @@ export default function EventsPage() {
                   </div>
                 </div>
 
+                {/* Legal Hack - March */}
+                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '20.8%' }}>
+                  <div className="relative">
+                    <div className="w-4 h-4 bg-[#9c27b0] rounded-full"></div>
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                      <div className="bg-[#9c27b0]/90 px-3 py-1.5 rounded-lg">
+                        <p className="text-xs text-white font-bold">Legal Hack</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Info Event - April */}
                 <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '29.2%' }}>
                   <div className="relative">
                     <div className="w-4 h-4 bg-[#4a90e2] rounded-full"></div>
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
                       <div className="bg-[#4a90e2]/90 px-3 py-1.5 rounded-lg">
                         <p className="text-xs text-white font-bold">Info Event</p>
                       </div>
@@ -289,9 +328,9 @@ export default function EventsPage() {
                 {/* Fail Tales - April */}
                 <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '37.5%' }}>
                   <div className="relative">
-                    <div className="w-4 h-4 bg-[#e91e63] rounded-full"></div>
-                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                      <div className="bg-[#e91e63]/90 px-3 py-1.5 rounded-lg">
+                    <div className="w-4 h-4 bg-[#4a90e2] rounded-full"></div>
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                      <div className="bg-[#4a90e2]/90 px-3 py-1.5 rounded-lg">
                         <p className="text-xs text-white font-bold">Fail Tales</p>
                       </div>
                     </div>
@@ -302,7 +341,7 @@ export default function EventsPage() {
                 <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '45.8%' }}>
                   <div className="relative">
                     <div className="w-4 h-4 bg-[#ff1744] rounded-full"></div>
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
                       <div className="bg-[#ff1744]/90 px-3 py-1.5 rounded-lg">
                         <p className="text-xs text-white font-bold">PITCH</p>
                       </div>
@@ -314,7 +353,7 @@ export default function EventsPage() {
                 <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '79.2%' }}>
                   <div className="relative">
                     <div className="w-4 h-4 bg-[#4a90e2] rounded-full"></div>
-                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
                       <div className="bg-[#4a90e2]/90 px-3 py-1.5 rounded-lg">
                         <p className="text-xs text-white font-bold">Info Event</p>
                       </div>
@@ -325,10 +364,10 @@ export default function EventsPage() {
                 {/* Fail Tales - October */}
                 <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '87.5%' }}>
                   <div className="relative">
-                    <div className="w-4 h-4 bg-[#e91e63] rounded-full"></div>
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                      <div className="bg-[#e91e63]/90 px-3 py-1.5 rounded-lg">
-                        <p className="text-xs text-white font-bold">Fall Tales</p>
+                    <div className="w-4 h-4 bg-[#4a90e2] rounded-full"></div>
+                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                      <div className="bg-[#4a90e2]/90 px-3 py-1.5 rounded-lg">
+                        <p className="text-xs text-white font-bold">Fail Tales</p>
                       </div>
                     </div>
                   </div>
@@ -337,9 +376,9 @@ export default function EventsPage() {
                 {/* RTSS - October/November */}
                 <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '91.7%' }}>
                   <div className="relative">
-                    <div className="w-6 h-6 bg-[#d0006f] rounded-full"></div>
-                    <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                      <div className="bg-[#d0006f] px-4 py-2 rounded-lg">
+                    <div className="w-6 h-6 bg-[#ff1744] rounded-full"></div>
+                    <div className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                      <div className="bg-[#ff1744] px-4 py-2 rounded-lg">
                         <p className="text-sm text-white font-bold">RTSS</p>
                       </div>
                     </div>
@@ -349,9 +388,9 @@ export default function EventsPage() {
                 {/* RTSH - November */}
                 <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: '95.8%' }}>
                   <div className="relative">
-                    <div className="w-6 h-6 bg-[#d0006f] rounded-full"></div>
-                    <div className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                      <div className="bg-[#d0006f] px-4 py-2 rounded-lg">
+                    <div className="w-6 h-6 bg-[#9c27b0] rounded-full"></div>
+                    <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                      <div className="bg-[#9c27b0] px-4 py-2 rounded-lg">
                         <p className="text-sm text-white font-bold">RTSH</p>
                       </div>
                     </div>
@@ -375,6 +414,18 @@ export default function EventsPage() {
 
                 <div className="bg-white/5 rounded-lg p-4 border border-white/10">
                   <div className="flex items-center gap-3 mb-2">
+                    <div className="w-16 text-gray-300 text-sm font-bold">MAR</div>
+                  </div>
+                  <div className="ml-3 pl-4 border-l-2 border-[#9c27b0] space-y-2">
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-[#9c27b0] rounded-full"></div>
+                      <span className="text-sm text-white font-semibold">Legal Hack</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                  <div className="flex items-center gap-3 mb-2">
                     <div className="w-16 text-gray-300 text-sm font-bold">APR</div>
                   </div>
                   <div className="ml-3 pl-4 border-l-2 border-[#4a90e2] space-y-3">
@@ -383,7 +434,7 @@ export default function EventsPage() {
                       <span className="text-sm text-white font-semibold">Info Event</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 bg-[#e91e63] rounded-full"></div>
+                      <div className="w-3 h-3 bg-[#4a90e2] rounded-full"></div>
                       <span className="text-sm text-white font-semibold">Fail Tales</span>
                     </div>
                   </div>
@@ -405,17 +456,17 @@ export default function EventsPage() {
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-16 text-gray-300 text-sm font-bold">OCT</div>
                   </div>
-                  <div className="ml-3 pl-4 border-l-2 border-[#d0006f] space-y-3">
+                  <div className="ml-3 pl-4 border-l-2 border-[#ff1744] space-y-3">
                     <div className="flex items-center gap-3">
                       <div className="w-3 h-3 bg-[#4a90e2] rounded-full"></div>
                       <span className="text-sm text-white font-semibold">Info Event</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 bg-[#e91e63] rounded-full"></div>
+                      <div className="w-3 h-3 bg-[#4a90e2] rounded-full"></div>
                       <span className="text-sm text-white font-semibold">Fail Tales</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 bg-[#d0006f] rounded-full"></div>
+                      <div className="w-5 h-5 bg-[#ff1744] rounded-full"></div>
                       <span className="text-sm text-white font-bold">RTSS</span>
                     </div>
                   </div>
@@ -425,10 +476,10 @@ export default function EventsPage() {
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-16 text-gray-300 text-sm font-bold">NOV</div>
                   </div>
-                  <div className="ml-3 pl-4 border-l-2 border-[#d0006f] space-y-2">
+                  <div className="ml-3 pl-4 border-l-2 border-[#9c27b0] space-y-2">
                     <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 bg-[#d0006f] rounded-full"></div>
-                      <span className="text-sm text-white font-bold">Road to START Hack</span>
+                      <div className="w-5 h-5 bg-[#9c27b0] rounded-full"></div>
+                      <span className="text-sm text-white font-bold">RTSH</span>
                     </div>
                   </div>
                 </div>
@@ -565,42 +616,6 @@ export default function EventsPage() {
 
                   <p className="text-sm text-gray-400 leading-relaxed">
                     An intensive program where startups work on solving real challenges with expert mentorship, resources, and a structured approach to innovation and growth.
-                  </p>
-                </div>
-
-                {/* Hover effect accent */}
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-              </div>
-
-              {/* START Legal Hack */}
-              <div className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20">
-                {/* Event Image */}
-                <div className="relative h-64 w-full overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2070&auto=format&fit=crop" 
-                    alt="START Legal Hack"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-                  
-                  {/* Category Badge */}
-                  <div className="absolute top-4 right-4">
-                    <div className="px-3 py-1.5 rounded-lg bg-[#d0006f] backdrop-blur-sm">
-                      <p className="text-xs text-white uppercase tracking-wide font-bold">
-                        Hackathon
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    START Legal Hack
-                  </h3>
-
-                  <p className="text-sm text-gray-400 leading-relaxed">
-                    A unique hackathon focused on building legal tech solutions that address real challenges in the legal industry, combining technology with regulatory expertise.
                   </p>
                 </div>
 
