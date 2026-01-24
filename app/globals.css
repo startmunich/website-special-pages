@@ -83,6 +83,10 @@
 
 @layer utilities {
 
+  .font-black {
+    text-transform: uppercase;
+  }
+
   .outline-text {
     -webkit-text-stroke: 2px white;
     -webkit-text-fill-color: transparent;

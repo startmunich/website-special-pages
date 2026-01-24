@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import type { Company } from "@/lib/types"
+import StartupCard from "@/components/StartupCard"
 
 export const dynamic = 'force-dynamic'
 import Image from "next/image"
@@ -385,33 +386,19 @@ export default function StartupsPage() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {spotlightStartups.map((company, index) => (
-                  <Link
+                  <StartupCard
                     key={company.id}
-                    href={`/startup-details/${company.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block"
-                  >
-                    <div className="flex justify-center items-center bg-white p-8 h-48">
-                      <img
-                        src={company.logoUrl}
-                        alt={`${company.name} logo`}
-                        className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="p-6">
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <h3 className="text-xl font-semibold text-white">{company.name}</h3>
-                          {company.isMTZ === true ? (
-                            <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-[#d0006f] text-white rounded">MTZ</span>
-                          ) : null}
-                        </div>
-                        <span className="text-yellow-400 text-xs font-bold px-2 py-1 bg-yellow-500/20 rounded">★</span>
-                      </div>
-                      <p className="text-sm text-gray-400 leading-relaxed">{company.summary}</p>
-                    </div>
-                  </Link>
+                    id={company.id}
+                    name={company.name}
+                    logoUrl={company.logoUrl}
+                    summary={company.summary}
+                    isMTZ={company.isMTZ}
+                    badge={{
+                      text: "★",
+                      color: "text-yellow-400",
+                      bgColor: "bg-yellow-500/20"
+                    }}
+                  />
                 ))}
               </div>
             </div>
@@ -483,7 +470,7 @@ export default function StartupsPage() {
             <div className="mb-16">
               <div className="mb-10">
                 <div className="flex items-center gap-3">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white">
+                  <h2 className="text-3xl md:text-4xl font-black text-white">
                     Y Combinator Alumni
                   </h2>
                   <div className="relative" onMouseEnter={() => setShowYCInfo(true)} onMouseLeave={() => setShowYCInfo(false)}>
@@ -515,33 +502,19 @@ export default function StartupsPage() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {yCombinatorStartups.map((company, index) => (
-                  <Link
+                  <StartupCard
                     key={company.id}
-                    href={`/startup-details/${company.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block"
-                  >
-                    <div className="flex justify-center items-center bg-white p-8 h-48">
-                      <img
-                        src={company.logoUrl}
-                        alt={`${company.name} logo`}
-                        className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="p-6">
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <h3 className="text-xl font-semibold text-white">{company.name}</h3>
-                          {company.isMTZ === true ? (
-                            <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-[#d0006f] text-white rounded">MTZ</span>
-                          ) : null}
-                        </div>
-                        <span className="text-orange-400 text-xs font-bold px-2 py-1 bg-orange-500/20 rounded">YC</span>
-                      </div>
-                      <p className="text-sm text-gray-400 leading-relaxed">{company.summary}</p>
-                    </div>
-                  </Link>
+                    id={company.id}
+                    name={company.name}
+                    logoUrl={company.logoUrl}
+                    summary={company.summary}
+                    isMTZ={company.isMTZ}
+                    badge={{
+                      text: "YC",
+                      color: "text-orange-400",
+                      bgColor: "bg-orange-500/20"
+                    }}
+                  />
                 ))}
               </div>
             </div>
@@ -552,7 +525,7 @@ export default function StartupsPage() {
             <div className="mb-16">
               <div className="mb-10">
                 <div className="flex items-center gap-3">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white">
+                  <h2 className="text-3xl md:text-4xl font-black text-white">
                     EWOR Alumni
                   </h2>
                   <div className="relative" onMouseEnter={() => setShowEWORInfo(true)} onMouseLeave={() => setShowEWORInfo(false)}>
@@ -584,33 +557,19 @@ export default function StartupsPage() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {eworStartups.map((company, index) => (
-                  <Link
+                  <StartupCard
                     key={company.id}
-                    href={`/startup-details/${company.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block"
-                  >
-                    <div className="flex justify-center items-center bg-white p-8 h-48">
-                      <img
-                        src={company.logoUrl}
-                        alt={`${company.name} logo`}
-                        className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="p-6">
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <h3 className="text-xl font-semibold text-white">{company.name}</h3>
-                          {company.isMTZ === true ? (
-                            <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-[#d0006f] text-white rounded">MTZ</span>
-                          ) : null}
-                        </div>
-                        <span className="text-blue-400 text-xs font-bold px-2 py-1 bg-blue-500/20 rounded">EWOR</span>
-                      </div>
-                      <p className="text-sm text-gray-400 leading-relaxed">{company.summary}</p>
-                    </div>
-                  </Link>
+                    id={company.id}
+                    name={company.name}
+                    logoUrl={company.logoUrl}
+                    summary={company.summary}
+                    isMTZ={company.isMTZ}
+                    badge={{
+                      text: "EWOR",
+                      color: "text-blue-400",
+                      bgColor: "bg-blue-500/20"
+                    }}
+                  />
                 ))}
               </div>
             </div>
@@ -762,120 +721,22 @@ export default function StartupsPage() {
 
           {/* Company List - Grid Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {paginatedCompanies.map((company, index) => {
-              return (
-                <Link
-                  key={company.id}
-                  href={`/startup-details/${company.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block"
-                >
-                  {/* Logo Section */}
-                  <div className="flex items-center justify-center bg-white p-8 h-48">
-                    <img
-                      src={company.logoUrl}
-                      alt={`${company.name} logo`}
-                      className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-
-                  {/* Content Section */}
-                  <div className="p-6">
-                    <div className="mb-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h3 className="text-2xl font-semibold text-white leading-tight">
-                          {company.name}
-                        </h3>
-                        {company.isMTZ === true ? (
-                          <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-[#d0006f] text-white rounded">MTZ</span>
-                        ) : null}
-                      </div>
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {company.category.slice(0, 2).map((cat, idx) => (
-                          <span
-                            key={idx}
-                            className="inline-flex items-center px-2 py-1 text-xs font-medium bg-white/10 text-gray-300 rounded"
-                          >
-                            {cat}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="mb-4">
-                      <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">
-                        {company.summary}
-                      </p>
-                    </div>
-
-                    {/* Metadata */}
-                    <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-500 mb-4">
-                      <span>Founded {company.foundingYear}</span>
-                      {company.totalRaised && company.totalRaised !== "€0" && (
-                        <>
-                          <span>•</span>
-                          <span>{company.totalRaised} raised</span>
-                        </>
-                      )}
-                      {company.investmentRound && (
-                        <>
-                          <span>•</span>
-                          <span>{company.investmentRound}</span>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Founders Section */}
-                    {company.founders.length > 0 && (
-                      <div className="pt-4 border-t border-white/10">
-                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
-                          {company.founders.length > 1 ? 'Founders' : 'Founder'}
-                        </p>
-                        <div className="flex flex-wrap gap-3">
-                          {company.founders.map((founder, founderIdx) => (
-                            <div key={founderIdx} className="flex items-center gap-2">
-                              {founder.linkedinUrl ? (
-                                <a
-                                  href={founder.linkedinUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="block"
-                                >
-                                  <img
-                                    src={founder.imageUrl}
-                                    alt={founder.name}
-                                    className="w-10 h-10 rounded-full object-cover border border-white/20 hover:border-white/40 transition-all"
-                                    onError={(e) => {
-                                      const target = e.target as HTMLImageElement;
-                                      target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(founder.name)}&size=80&background=4f46e5&color=fff`;
-                                    }}
-                                  />
-                                </a>
-                              ) : (
-                                <img
-                                  src={founder.imageUrl}
-                                  alt={founder.name}
-                                  className="w-10 h-10 rounded-full object-cover border border-white/20"
-                                  onError={(e) => {
-                                    const target = e.target as HTMLImageElement;
-                                    target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(founder.name)}&size=80&background=4f46e5&color=fff`;
-                                  }}
-                                />
-                              )}
-                              <div className="flex-1 min-w-0">
-                                <p className="text-sm font-medium text-white truncate">{founder.name}</p>
-                                <p className="text-xs text-gray-500 truncate">{founder.role}</p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </Link>
-              )
-            })}
+            {paginatedCompanies.map((company) => (
+              <StartupCard
+                key={company.id}
+                id={company.id}
+                name={company.name}
+                logoUrl={company.logoUrl}
+                summary={company.summary}
+                category={company.category}
+                foundingYear={company.foundingYear}
+                totalRaised={company.totalRaised}
+                investmentRound={company.investmentRound}
+                founders={company.founders}
+                isMTZ={company.isMTZ}
+                showDetails={true}
+              />
+            ))}
           </div>
 
           {filteredCompanies.length === 0 && (
