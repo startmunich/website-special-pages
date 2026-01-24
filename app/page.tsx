@@ -31,6 +31,11 @@ export default function Home() {
              Member Network
            </Link>
           </li>
+          <li>
+            <Link href="/member-journey" className="text-blue-600 hover:underline text-lg">
+              Member Journey
+            </Link>
+            </li>
         </ul>
       </div>
     </main>
