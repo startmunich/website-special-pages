@@ -44,7 +44,7 @@ export default function StartupCard({
       href={`/startup-details/${id}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block"
+      className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block flex flex-col h-full"
     >
       {/* Logo Section */}
       <div className="flex items-center justify-center bg-white p-8 h-48">
@@ -56,7 +56,7 @@ export default function StartupCard({
       </div>
 
       {/* Content Section */}
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-grow">
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
             <h3 className={`text-xl ${showDetails ? 'text-2xl' : ''} text-white leading-tight`}>
@@ -116,7 +116,7 @@ export default function StartupCard({
 
         {/* Founders Section */}
         {founders.length > 0 && showDetails && (
-          <div className="pt-4 border-t border-white/10">
+          <div className="pt-4 border-t border-white/10 mt-auto">
             <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
               {founders.length > 1 ? 'Founders' : 'Founder'}
             </p>

@@ -626,7 +626,7 @@ export default function StartupsPage() {
 
           {/* Filter Section */}
           <div className="mb-12 p-6 bg-white/5 border border-white/10 rounded-lg">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Category Filter */}
               <div>
                 <label htmlFor="category-filter" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
@@ -661,26 +661,6 @@ export default function StartupsPage() {
                     {allYears.map((year) => (
                       <SelectItem key={year} value={year}>
                         {year}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Supporting Programs Filter */}
-              <div>
-                <label htmlFor="program-filter" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
-                  Programs
-                </label>
-                <Select value={selectedProgram} onValueChange={setSelectedProgram}>
-                  <SelectTrigger className="w-full bg-white/5 border-white/20 text-white focus:ring-1 focus:ring-white/30 hover:bg-white/10 transition-all">
-                    <SelectValue placeholder="Select program" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Programs</SelectItem>
-                    {allPrograms.map((program) => (
-                      <SelectItem key={program} value={program}>
-                        {program}
                       </SelectItem>
                     ))}
                   </SelectContent>
