@@ -33,6 +33,13 @@ const config: Config = {
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+          blue: "#011152", // Secondary brand blue - used for department cards
+        },
+        // START Munich Brand Colors
+        brand: {
+          pink: "#d0006f", // Primary brand pink - main accent color
+          "dark-blue": "#00002c", // Primary dark blue - main background
+          "secondary-blue": "#011152", // Secondary blue - department cards
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",

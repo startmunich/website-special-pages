@@ -246,7 +246,7 @@ export default function MemberJourneyPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#00002c] py-12 px-4 sm:px-6 lg:px-8">
+      <main className="min-h-screen bg-brand-dark-blue py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-2xl font-bold text-white">Loading journey...</p>
         </div>
@@ -273,7 +273,7 @@ export default function MemberJourneyPage() {
         `}
       </Script>
 
-      <main className="min-h-screen bg-[#00002c]">
+      <main className="min-h-screen bg-brand-dark-blue">
         {/* Hero Section */}
         <div className="relative w-full overflow-hidden h-[600px]">
           {/* Background Image + Overlay */}
@@ -283,7 +283,7 @@ export default function MemberJourneyPage() {
               alt="Member Journey"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 h-full bg-[#00002c]/60"></div>
+            <div className="absolute inset-0 h-full bg-brand-dark-blue/60"></div>
           </div>
 
           {/* Content Overlay */}
@@ -305,7 +305,7 @@ export default function MemberJourneyPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-20">
           
           {/* Member Journey Timeline Section */}
-          <div className="mb-20">
+          <div className="mb-40">
             <div className="mb-12">
               <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
                 YOUR <span className="outline-text">MEMBER JOURNEY</span>
@@ -316,7 +316,7 @@ export default function MemberJourneyPage() {
             </div>
 
             {/* Vertical Timeline */}
-            <div className="relative max-w-5xl mx-auto">
+            <div className="relative">
               {/* Timeline Line */}
               <div className="absolute left-8 sm:left-10 md:left-12 top-0 bottom-0 w-[10px] bg-[#1b1f3f]"></div>
 
@@ -328,7 +328,7 @@ export default function MemberJourneyPage() {
                     <div className="absolute left-0 top-2 flex flex-col items-center w-32">
                       <div className="relative w-20 h-20 flex items-center justify-center">
                         <div className="absolute inset-0 bg-[#1b1f3f]/40 rounded-full"></div>
-                        <div className="relative w-16 h-16 bg-gradient-to-br from-[#1f2345] to-[#2d325f] rounded-full flex items-center justify-center border-4 border-[#00002c] text-2xl shadow-lg shadow-[#0f122f]/50">
+                        <div className="relative w-16 h-16 bg-gradient-to-br from-[#1f2345] to-[#2d325f] rounded-full flex items-center justify-center border-4 border-brand-dark-blue text-2xl shadow-lg shadow-[#0f122f]/50">
                           {event.icon}
                         </div>
                       </div>
@@ -347,14 +347,14 @@ export default function MemberJourneyPage() {
                         />
                         <div className="flex-1 p-5">
                           <h3 className="text-2xl font-bold text-white mb-1">{event.title}</h3>
-                          <p className="text-sm text-[#d0006f] font-semibold">Milestone {index + 1}</p>
+                          <p className="text-sm text-brand-pink font-semibold">Milestone {index + 1}</p>
                           <p className="text-gray-300 leading-relaxed mt-2">{event.description}</p>
                           
                           {/* Details List */}
                           <ul className="mt-3 space-y-1.5">
                             {event.details.map((detail, i) => (
                               <li key={i} className="text-sm text-gray-400 flex items-start">
-                                <span className="text-[#d0006f] mr-2">•</span>
+                                <span className="text-brand-pink mr-2">•</span>
                                 <span>{detail}</span>
                               </li>
                             ))}
@@ -387,7 +387,7 @@ export default function MemberJourneyPage() {
                   className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-pink-500 overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-pink-500/20"
                 >
                   {/* Header with gradient (uniform brand colors) */}
-                  <div className="bg-gradient-to-br from-[#0f102b] to-[#1b1f3f] p-6 relative overflow-hidden">
+                  <div className="bg-brand-secondary-blue p-6 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-8 -mt-8"></div>
                     <div className="relative z-10">
                       <div className="text-4xl mb-3">{dept.icon}</div>
@@ -439,7 +439,7 @@ export default function MemberJourneyPage() {
                         <div className="flex items-center gap-3 mb-2">
                           <h3 className="text-white font-bold text-lg">{event.title}</h3>
                           {event.frequency && (
-                            <span className="px-2.5 py-1 bg-[#d0006f]/20 border border-[#d0006f]/50 rounded-full text-xs font-semibold text-[#d0006f]">
+                            <span className="px-2.5 py-1 bg-brand-pink/20 border border-brand-pink/50 rounded-full text-xs font-semibold text-brand-pink">
                               {event.frequency}
                             </span>
                           )}
@@ -528,7 +528,7 @@ export default function MemberJourneyPage() {
               {memberStories.map((story) => (
                 <div
                   key={story.id}
-                  className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#0f122f]/30"
+                  className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-brand-pink overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#0f122f]/30"
                 >
                   {/* Image */}
                   <div className="relative h-48 w-full overflow-hidden">
@@ -537,7 +537,7 @@ export default function MemberJourneyPage() {
                       alt={story.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/50 to-transparent"></div>
                   </div>
 
                   {/* Content */}
@@ -545,11 +545,8 @@ export default function MemberJourneyPage() {
                     {/* Member Info */}
                     <div className="mb-4">
                       <h3 className="text-lg font-bold text-white mb-1">{story.name}</h3>
-                      <p className="text-sm text-[#d0006f] font-semibold mb-1">{story.role}</p>
-                      <p className="text-xs text-gray-400 mb-2">{story.company}</p>
-                      <span className="inline-block px-2 py-1 bg-[#1b1f3f] border border-[#d0006f]/50 rounded-full text-xs font-semibold text-[#d0006f]">
-                        {story.department}
-                      </span>
+                      <p className="text-sm text-brand-pink font-semibold mb-1">{story.role}</p>
+                      <p className="text-xs text-gray-400">{story.company}</p>
                     </div>
 
                     {/* Story */}
@@ -558,7 +555,7 @@ export default function MemberJourneyPage() {
                     </p>
 
                     {/* Quote */}
-                    <blockquote className="border-l-2 border-[#d0006f] pl-4 py-2">
+                    <blockquote className="border-l-2 border-brand-pink pl-4 py-2">
                       <p className="text-sm italic text-gray-400">"{story.quote}"</p>
                     </blockquote>
                   </div>
@@ -571,10 +568,10 @@ export default function MemberJourneyPage() {
           </div>
 
           {/* CTA Section */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a1a3e] via-[#00002c] to-[#0d0d1f] border-2 border-[#d0006f]/50 shadow-2xl shadow-[#d0006f]/20">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a1a3e] via-brand-dark-blue to-[#0d0d1f] border-2 border-brand-pink/50 shadow-2xl shadow-brand-pink/20">
             {/* Decorative Elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d0006f]/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#d0006f]/5 rounded-full blur-3xl"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-pink/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-brand-pink/5 rounded-full blur-3xl"></div>
             
             <div className="relative p-8 md:p-12">
               <div className="flex flex-col items-center gap-8 text-center">
@@ -588,10 +585,10 @@ export default function MemberJourneyPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <button className="px-8 py-3 bg-[#d0006f] hover:bg-[#d0006f]/90 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/50">
+                  <button className="px-8 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50">
                     Apply Now
                   </button>
-                  <button className="px-8 py-3 border border-[#d0006f] text-[#d0006f] hover:bg-[#d0006f]/10 font-bold rounded-lg transition-all duration-300">
+                  <button className="px-8 py-3 border border-brand-pink text-brand-pink hover:bg-brand-pink/10 font-bold rounded-lg transition-all duration-300">
                     Learn More
                   </button>
                 </div>

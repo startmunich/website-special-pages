@@ -91,3 +91,48 @@ NOCODB_MEMBERS_TABLE_ID=your_nocodb_members_table_id_here
    ```
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Brand Colors
+
+The START Munich brand color scheme is defined in `tailwind.config.ts` for consistent use throughout the application:
+
+### Primary Brand Colors
+
+| Color | Hex Code | Tailwind Class | Usage |
+|-------|----------|----------------|-------|
+| **Pink** | `#d0006f` | `brand-pink` | Primary accent color, buttons, highlights |
+| **Dark Blue** | `#00002c` | `brand-dark-blue` | Main background color |
+| **Secondary Blue** | `#011152` | `brand-secondary-blue` | Department cards, secondary backgrounds |
+
+### Usage Examples
+
+```tsx
+// Background
+className="bg-brand-pink"
+className="bg-brand-dark-blue"
+className="bg-brand-secondary-blue"
+
+// Text
+className="text-brand-pink"
+
+// Borders
+className="border-brand-pink"
+
+// With opacity
+className="bg-brand-pink/20"
+className="hover:bg-brand-pink/90"
+```
+
+### Color Customization
+
+To modify brand colors, edit the `colors.brand` section in `tailwind.config.ts`:
+
+```typescript
+colors: {
+  brand: {
+    pink: "#d0006f",
+    "dark-blue": "#00002c",
+    "secondary-blue": "#011152",
+  },
+}
+```
