@@ -322,27 +322,27 @@ export default function MemberJourneyPage() {
                 The 5 milestones of your first two semesters at START Munich
               </p>
               <p className="text-sm text-brand-pink font-semibold">
-                ↓ Scroll down to explore your journey ↓
+                → Scroll right to explore your journey →
               </p>
             </div>
 
-            {/* Vertical Scrollable Timeline */}
-            <div className="relative max-h-[900px] overflow-y-auto scrollbar-thin-vertical scrollbar-thumb-brand-pink scrollbar-track-white/10 pr-2">
-              {/* Timeline Line (vertical) */}
-              <div className="absolute left-10 top-0 bottom-0 w-[4px] bg-gradient-to-b from-brand-pink via-brand-pink/30 to-brand-pink"></div>
+            {/* Horizontal Scrollable Timeline */}
+            <div className="relative overflow-x-auto scrollbar-thin-horizontal scrollbar-thumb-brand-pink scrollbar-track-white/10 pb-4">
+              {/* Timeline Line (horizontal) */}
+              <div className="absolute left-0 right-0 top-10 h-[4px] bg-gradient-to-r from-brand-pink via-brand-pink/30 to-brand-pink"></div>
               
               {/* Timeline Events */}
-              <div className="space-y-12">
+              <div className="flex gap-8 min-w-max px-4">
                 {timelineEvents.map((event, index) => (
                   <div 
                     key={event.id} 
-                    className="relative pl-24 timeline-card-animate"
+                    className="relative pt-24 timeline-card-animate w-[380px] flex-shrink-0"
                     style={{ 
                       animationDelay: `${index * 0.15}s`
                     }}
                   >
                     {/* Timeline Dot */}
-                    <div className="absolute left-0 top-0 flex items-center justify-center">
+                    <div className="absolute left-1/2 -translate-x-1/2 top-0 flex items-center justify-center">
                       <div className="relative">
                         <div className="relative w-20 h-20 bg-brand-secondary-blue rounded-full flex items-center justify-center border-2 border-brand-pink/40 text-3xl shadow-lg">
                           {event.icon}
@@ -351,7 +351,7 @@ export default function MemberJourneyPage() {
                     </div>
 
                     {/* Event Card */}
-                    <div className="bg-brand-secondary-blue/80 border border-white/20 overflow-hidden p-6">
+                    <div className="bg-brand-secondary-blue/80 border border-white/20 overflow-hidden p-6 h-full">
                       {/* Header and Content Combined */}
                       <div className="flex items-center gap-3 mb-4">
                         <span className="px-3 py-1 bg-brand-pink/80 text-white text-xs font-bold rounded-full">
@@ -665,36 +665,36 @@ export default function MemberJourneyPage() {
 
   /* Timeline card entrance animation */
   .timeline-card-animate {
-    animation: slideInFromBottom 0.6s ease-out forwards;
+    animation: slideInFromLeft 0.6s ease-out forwards;
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateX(-30px);
   }
-  @keyframes slideInFromBottom {
+  @keyframes slideInFromLeft {
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(0);
     }
   }
 
-  /* Custom scrollbar styling for vertical scroll */
-  .scrollbar-thin-vertical::-webkit-scrollbar {
-    width: 6px;
+  /* Custom scrollbar styling for horizontal scroll */
+  .scrollbar-thin-horizontal::-webkit-scrollbar {
+    height: 8px;
   }
-  .scrollbar-thin-vertical::-webkit-scrollbar-track {
-    background: transparent;
+  .scrollbar-thin-horizontal::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
   }
-  .scrollbar-thin-vertical::-webkit-scrollbar-thumb {
-    background: rgba(255, 0, 107, 0.3);
+  .scrollbar-thin-horizontal::-webkit-scrollbar-thumb {
+    background: rgba(255, 0, 107, 0.5);
     border-radius: 10px;
     transition: background 0.3s;
   }
-  .scrollbar-thin-vertical::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 0, 107, 0.6);
+  .scrollbar-thin-horizontal::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 0, 107, 0.8);
   }
 
   /* Smooth scroll behavior */
-  .overflow-y-auto {
+  .overflow-x-auto {
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
   }
