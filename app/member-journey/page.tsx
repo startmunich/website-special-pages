@@ -234,18 +234,30 @@ const memberStories: MemberStory[] = [
 export default function MemberJourneyPage() {
   const [loading, setLoading] = useState(true)
   const [eventImageIndex, setEventImageIndex] = useState(0)
+  const [currentEventIndex, setCurrentEventIndex] = useState(0)
   const timelineSliderRef = useRef<HTMLDivElement>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [hoveredEventId, setHoveredEventId] = useState<string | null>(null)
+  const [isMoreHovered, setIsMoreHovered] = useState(false)
   const autoRotateTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Images for "And a lot more..." section
+  const moreImages = [
+    "https://images.unsplash.com/photo-1528605105345-5344ea20e269?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=800&auto=format&fit=crop"
+  ]
 
   const eventImages = hoveredEventId
     ? startEvents
         .find((event) => event.id === hoveredEventId)
         ?.images.map((img) => ({ src: img, title: startEvents.find((e) => e.id === hoveredEventId)!.title })) || []
-    : startEvents.flatMap((event) =>
-        event.images.map((img) => ({ src: img, title: event.title }))
-      )
+    : []
+
+  // Get current event for auto-rotation
+  const currentEvent = !hoveredEventId && !isMoreHovered ? startEvents[currentEventIndex] : null
+  const currentEventImage = currentEvent ? { src: currentEvent.images[0], title: currentEvent.title } : null
 
   const handleNextImage = () => {
     if (eventImages.length === 0) return
@@ -278,9 +290,9 @@ export default function MemberJourneyPage() {
     return () => slider.removeEventListener('scroll', updateScroll)
   }, [loading])
 
-  // Auto-rotate images every 5 seconds
+  // Auto-rotate events every 5 seconds
   useEffect(() => {
-    if (loading || hoveredEventId) {
+    if (loading || hoveredEventId || isMoreHovered) {
       // Clear timer if hovering
       if (autoRotateTimerRef.current) {
         clearInterval(autoRotateTimerRef.current)
@@ -290,7 +302,7 @@ export default function MemberJourneyPage() {
     }
 
     autoRotateTimerRef.current = setInterval(() => {
-      handleNextImage()
+      setCurrentEventIndex((prev) => (prev + 1) % startEvents.length)
     }, 5000)
 
     return () => {
@@ -298,12 +310,19 @@ export default function MemberJourneyPage() {
         clearInterval(autoRotateTimerRef.current)
       }
     }
-  }, [loading, hoveredEventId])
+  }, [loading, hoveredEventId, isMoreHovered])
 
   // Reset image index when hovering event changes
   useEffect(() => {
     setEventImageIndex(0)
-  }, [hoveredEventId])
+  }, [hoveredEventId, isMoreHovered])
+
+  // Reset event index when returning from hover
+  useEffect(() => {
+    if (!hoveredEventId && !isMoreHovered) {
+      setCurrentEventIndex(0)
+    }
+  }, [hoveredEventId, isMoreHovered])
 
   if (loading) {
     return (
@@ -576,7 +595,11 @@ export default function MemberJourneyPage() {
                   ))}
                   
                   {/* "And a lot more..." */}
-                  <div className="flex items-start gap-4 pt-2">
+                  <div 
+                    className="flex items-start gap-4 pt-2 cursor-pointer transition-all duration-200 hover:bg-white/5 px-4 -mx-4 rounded-lg"
+                    onMouseEnter={() => setIsMoreHovered(true)}
+                    onMouseLeave={() => setIsMoreHovered(false)}
+                  >
                     <span className="text-4xl flex-shrink-0">✨</span>
                     <div className="flex-1">
                       <h3 className="text-white font-bold text-lg mb-2">And a lot more...</h3>
@@ -588,9 +611,30 @@ export default function MemberJourneyPage() {
                 </div>
               </div>
 
-              {/* Rotating single image */}
+              {/* Rotating single image or grid */}
               <div className="bg-white/5 border border-white/10 h-full min-h-[500px] relative overflow-hidden">
-                {eventImages.length > 0 && (
+                {isMoreHovered ? (
+                  /* Grid of 4 images for "And a lot more..." */
+                  <div className="grid grid-cols-2 grid-rows-2 w-full h-full gap-0">
+                    {moreImages.map((img, i) => (
+                      <div key={i} className="relative w-full h-full overflow-hidden">
+                        <img
+                          src={img}
+                          alt={`More activities ${i + 1}`}
+                          className="w-full h-full object-cover fade-swap"
+                        />
+                        <div className="absolute inset-0 bg-brand-dark-blue/20"></div>
+                      </div>
+                    ))}
+                    {/* Center overlay text */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="bg-black/70 backdrop-blur-sm px-8 py-4 border-2 border-brand-pink">
+                        <p className="text-2xl font-black text-white">AND MORE...</p>
+                      </div>
+                    </div>
+                  </div>
+                ) : hoveredEventId && eventImages.length > 0 ? (
+                  /* Hovered event with manual navigation */
                   <>
                     <div className="relative w-full h-full">
                       <img
@@ -631,7 +675,29 @@ export default function MemberJourneyPage() {
                       </div>
                     </div>
                   </>
-                )}
+                ) : currentEventImage ? (
+                  /* Auto-rotating event display */
+                  <div className="relative w-full h-full">
+                    <img
+                      key={currentEventImage.src}
+                      src={currentEventImage.src}
+                      alt={currentEventImage.title}
+                      className="w-full h-full object-cover fade-swap"
+                    />
+                    
+                    {/* Title overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                      <p className="text-base font-bold text-white">
+                        {currentEventImage.title}
+                      </p>
+                    </div>
+                    
+                    {/* Event counter */}
+                    <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/50 backdrop-blur-sm border border-white/30 text-white text-xs font-semibold">
+                      {currentEventIndex + 1} / {startEvents.length}
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

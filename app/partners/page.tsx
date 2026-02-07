@@ -205,7 +205,6 @@ const partnerCategories: PartnerCategory[] = [
 
 export default function PartnersPage() {
   const [loading, setLoading] = useState(true)
-  const [hoveredPartner, setHoveredPartner] = useState<string | null>(null)
 
   useEffect(() => {
     setLoading(false)
@@ -333,8 +332,6 @@ export default function PartnersPage() {
                   <div
                     key={partner.id}
                     className="group relative"
-                    onMouseEnter={() => setHoveredPartner(partner.id)}
-                    onMouseLeave={() => setHoveredPartner(null)}
                   >
                     {/* Logo Card */}
                     <div className="relative bg-white rounded-lg p-6 h-32 flex items-center justify-center transition-all duration-300 group-hover:shadow-xl group-hover:shadow-brand-pink/20 group-hover:scale-105 border-2 border-transparent group-hover:border-brand-pink">
@@ -355,20 +352,6 @@ export default function PartnersPage() {
                           }
                         }}
                       />
-                    </div>
-
-                    {/* Hover Tooltip */}
-                    <div className={`absolute left-1/2 -translate-x-1/2 bottom-full mb-3 z-50 w-64 transition-all duration-300 ${
-                      hoveredPartner === partner.id 
-                        ? 'opacity-100 translate-y-0 pointer-events-auto' 
-                        : 'opacity-0 translate-y-2 pointer-events-none'
-                    }`}>
-                      <div className="bg-brand-dark-blue border border-brand-pink/50 rounded-lg p-4 shadow-xl shadow-brand-pink/10">
-                        <h4 className="text-white font-bold text-sm mb-2">{partner.name}</h4>
-                        <p className="text-gray-400 text-xs leading-relaxed">{partner.reason}</p>
-                      </div>
-                      {/* Tooltip Arrow */}
-                      <div className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-4 h-4 bg-brand-dark-blue border-r border-b border-brand-pink/50 transform rotate-45"></div>
                     </div>
                   </div>
                 ))}

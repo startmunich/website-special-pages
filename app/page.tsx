@@ -1,11 +1,12 @@
 import Link from 'next/link'
+import SocialFeeds from '@/components/SocialFeeds'
 
 export default function Home() {
   return (
     <main className="min-h-screen p-8">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold mb-8">Pages</h1>
-        <ul className="space-y-4">
+        <ul className="space-y-4 mb-12">
           <li>
             <Link href="/admin" className="text-blue-600 hover:underline text-lg">
               Admin - Manage Startups
@@ -28,7 +29,7 @@ export default function Home() {
           </li>
           <li>
             <Link href="/members" className="text-blue-600 hover:underline text-lg">
-              Our Members
+              Members
             </Link>
           </li>
           <li>
@@ -37,11 +38,18 @@ export default function Home() {
             </Link>
           </li>
           <li>
+            <Link href="/for-partners" className="text-blue-600 hover:underline text-lg">
+              For Partners
+            </Link>
+          </li>
+          <li>
             <Link href="/startups" className="text-blue-600 hover:underline text-lg">
               Startups
             </Link>
           </li>
         </ul>
+
+        <SocialFeeds />
       </div>
     </main>
   )
