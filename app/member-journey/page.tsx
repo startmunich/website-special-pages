@@ -359,8 +359,6 @@ export default function MemberJourneyPage() {
         {/* Hero Section */}
         <Hero
           backgroundImage="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop"
-          overlayOpacity="bg-brand-dark-blue/60"
-          className="h-[600px]"
           title={
             <>
               YOUR START MUNICH

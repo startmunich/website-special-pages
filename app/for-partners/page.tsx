@@ -275,7 +275,6 @@ export default function ForPartnersPage() {
         {/* Hero Section */}
         <Hero
           backgroundImage="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074&auto=format&fit=crop"
-          className="h-[600px]"
           title={
             <>
               FOR

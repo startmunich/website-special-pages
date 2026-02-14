@@ -87,8 +87,6 @@ export default function MemberNetworkPage() {
         {/* Hero Section */}
         <Hero
           backgroundImage="/hero-image.jpg"
-          overlayOpacity="bg-[#00002c]/60"
-          className="h-[600px]"
           title={
             <>
               MEMBER

@@ -14,7 +14,7 @@ export default function Hero({
     title,
     description,
     children,
-    className = "h-[650px]",
+    className = "h-[650px]", // Before it was "h-[600px]"
     overlayOpacity = "bg-brand-dark-blue/70"
 }: HeroProps) {
     return (

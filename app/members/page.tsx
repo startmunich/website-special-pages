@@ -256,7 +256,6 @@ export default function MembersPage() {
         {/* Hero Section with Full-Width Image */}
         <Hero
           backgroundImage="/member-background.png"
-          overlayOpacity="bg-[#00002c]/60"
           title={
             <>
               START MUNICH

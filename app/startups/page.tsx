@@ -241,7 +241,6 @@ export default function StartupsPage() {
         {/* Hero Section with Full-Width Image */}
         <Hero
           backgroundImage="/hero-image.jpg"
-          overlayOpacity="bg-[#00002c]/60"
           title={
             <>
               START MUNICH
