@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import type { Company } from "@/lib/types"
 import StartupCard from "@/components/StartupCard"
+import Hero from "@/components/Hero"
 
 export const dynamic = 'force-dynamic'
 import Image from "next/image"
@@ -58,7 +59,7 @@ export default function StartupsPage() {
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 12 // Reduced to approximate 3000px height (about 5-6 cards)
-  
+
   // Tooltip states for section explanations
   const [showFeaturedInfo, setShowFeaturedInfo] = useState(false)
   const [showYCInfo, setShowYCInfo] = useState(false)
@@ -238,86 +239,60 @@ export default function StartupsPage() {
 
       <main className="min-h-screen bg-[#00002c]">
         {/* Hero Section with Full-Width Image */}
-        <div className="relative w-full overflow-hidden h-[650px]">
-          {/* Background Image + Overlay */}
-          <div className="absolute inset-0 h-full">
-            <img
-              src="/hero-image.jpg"
-              alt="START Munich Community"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 h-full bg-[#00002c]/60"></div>
-          </div>
-
-          {/* Content Overlay */}
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 h-full flex items-center">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 w-full">
-              {/* Left Side */}
-              <div className="flex-1 max-w-2xl text-left">
-                {/* <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#d0006f]/20 border border-[#d0006f]/40 rounded-full mb-6 backdrop-blur-sm">
-                  <div className="w-2 h-2 bg-[#d0006f] rounded-full animate-pulse"></div>
-                  <p className="text-[#d0006f] font-semibold text-xs tracking-widest uppercase">
-                    OUR STARTUPS
-                  </p>
-                </div> */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 animate-[flyInFromTop_0.6s_ease-out]">
-                  START MUNICH
-                  <br />
-                  <span className="outline-text">STARTUPS</span>
-                </h1>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed">
-                  Discover the innovative companies built by our community of ambitious student entrepreneurs
-                </p>
+        <Hero
+          backgroundImage="/hero-image.jpg"
+          title={
+            <>
+              START MUNICH
+              <br />
+              <span className="outline-text">STARTUPS</span>
+            </>
+          }
+          description="Discover the innovative companies built by our community of ambitious student entrepreneurs"
+        >
+          {/** Stat 1 **/}
+          <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition transform hover:scale-105 w-full">
+            <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition"></div>
+            <div className="relative text-center">
+              <div className="flex items-baseline justify-center gap-2 mb-3">
+                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                  {Math.floor(animatedStartups)}
+                </span>
+                <span className="text-3xl font-bold text-[#d0006f]">+</span>
               </div>
-
-              {/* Desktop Stats */}
-              <div className="hidden lg:flex flex-col gap-6 min-w-[280px] mt-6 lg:mt-11 ml-auto">
-                {/** Stat 1 **/}
-                <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition transform hover:scale-105 w-full">
-                  <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition"></div>
-                  <div className="relative text-center">
-                    <div className="flex items-baseline justify-center gap-2 mb-3">
-                      <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
-                        {Math.floor(animatedStartups)}
-                      </span>
-                      <span className="text-3xl font-bold text-[#d0006f]">+</span>
-                    </div>
-                    <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Companies</p>
-                  </div>
-                </div>
-
-                {/** Stat 2 **/}
-                <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition transform hover:scale-105">
-                  <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition"></div>
-                  <div className="relative text-center">
-                    <div className="flex items-baseline justify-center gap-1 mb-3">
-                      <span className="text-2xl font-bold text-[#d0006f]">€</span>
-                      <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
-                        {animatedFunding.toFixed(1)}
-                      </span>
-                      <span className="text-3xl font-bold text-[#d0006f]">M</span>
-                    </div>
-                    <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Funding</p>
-                  </div>
-                </div>
-
-                {/** Stat 3 **/}
-                <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition transform hover:scale-105">
-                  <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition"></div>
-                  <div className="relative text-center">
-                    <div className="flex items-baseline justify-center gap-2 mb-3">
-                      <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
-                        {Math.floor(animatedEmployees)}
-                      </span>
-                      <span className="text-3xl font-bold text-[#d0006f]">+</span>
-                    </div>
-                    <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Employees</p>
-                  </div>
-                </div>
-              </div>
+              <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Companies</p>
             </div>
           </div>
-        </div>
+
+          {/** Stat 2 **/}
+          <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition transform hover:scale-105">
+            <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition"></div>
+            <div className="relative text-center">
+              <div className="flex items-baseline justify-center gap-1 mb-3">
+                <span className="text-2xl font-bold text-[#d0006f]">€</span>
+                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                  {animatedFunding.toFixed(1)}
+                </span>
+                <span className="text-3xl font-bold text-[#d0006f]">M</span>
+              </div>
+              <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Funding</p>
+            </div>
+          </div>
+
+          {/** Stat 3 **/}
+          <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition transform hover:scale-105">
+            <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition"></div>
+            <div className="relative text-center">
+              <div className="flex items-baseline justify-center gap-2 mb-3">
+                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                  {Math.floor(animatedEmployees)}
+                </span>
+                <span className="text-3xl font-bold text-[#d0006f]">+</span>
+              </div>
+              <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Employees</p>
+            </div>
+          </div>
+        </Hero>
 
         {/* Mobile Stats (static, below hero) */}
         <div className="lg:hidden backdrop-blur-md mt-10">
@@ -409,7 +384,7 @@ export default function StartupsPage() {
             {/* Decorative Elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#d0006f]/10 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#d0006f]/5 rounded-full blur-3xl"></div>
-            
+
             <div className="relative p-8 md:p-10">
               <div className="flex flex-col lg:flex-row gap-8 items-start">
                 {/* Left Side - Content */}
@@ -425,12 +400,12 @@ export default function StartupsPage() {
                       Our Location Partner: MTZ
                     </h3>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <p className="text-gray-300 leading-relaxed">
                       Startups with the <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-[#d0006f] text-white rounded mx-1">MTZ</span> label are located at our location partner, the <strong className="text-white">MTZ (MünchenTechnologieZentrum)</strong>, one of Munich's leading innovation hubs. START Munich is also located at the MTZ, fostering a vibrant community of entrepreneurs and innovators.
                     </p>
-                    
+
                     <div className="flex flex-col gap-2 text-sm text-gray-400">
                       <div className="flex items-center gap-2">
                         <svg className="w-4 h-4 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -447,7 +422,7 @@ export default function StartupsPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Right Side - Map */}
                 <div className="w-full lg:w-80 h-52 lg:h-64 rounded-xl overflow-hidden border-2 border-[#d0006f]/40 shadow-lg">
                   <iframe

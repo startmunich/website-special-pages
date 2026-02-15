@@ -47,6 +47,11 @@ export default function Home() {
               Startups
             </Link>
           </li>
+          <li>
+            <Link href="/home" className="text-blue-600 hover:underline text-lg">
+              Home (Landing Page)
+            </Link>
+          </li>
         </ul>
 
         <SocialFeeds />

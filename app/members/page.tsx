@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Script from "next/script"
+import Hero from "@/components/Hero"
 
 export const dynamic = 'force-dynamic'
 
@@ -253,39 +254,17 @@ export default function MembersPage() {
 
       <main className="min-h-screen bg-[#00002c]">
         {/* Hero Section with Full-Width Image */}
-        <div className="relative w-full overflow-hidden h-[650px]">
-          {/* Background Image */}
-          <div className="absolute inset-0">
-            <img
-              src="/member-background.png"
-              alt="START Munich Community"
-              className="w-full h-full object-cover"
-            />
-            {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-[#00002c]/60"></div>
-          </div>
-
-          {/* Content Overlay */}
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 h-full flex items-center">
-            <div className="flex items-center justify-between gap-12">
-              {/* Left Side - Heading */}
-              <div className="flex-1 max-w-2xl">
-                {/* <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#d0006f]/20 border border-[#d0006f]/40 rounded-full mb-6 backdrop-blur-sm">
-                  <div className="w-2 h-2 bg-[#d0006f] rounded-full animate-pulse"></div>
-                  <p className="text-[#d0006f] font-semibold text-xs tracking-widest uppercase">OUR COMMUNITY</p>
-                </div> */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 animate-[flyInFromTop_0.6s_ease-out]">
-                  START MUNICH
-                  <br />
-                  <span className="outline-text">MEMBERS</span>
-                </h1>
-                <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-                  Meet the ambitious student entrepreneurs building the future of technology and innovation
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Hero
+          backgroundImage="/member-background.png"
+          title={
+            <>
+              START MUNICH
+              <br />
+              <span className="outline-text">MEMBERS</span>
+            </>
+          }
+          description="Meet the ambitious student entrepreneurs building the future of technology and innovation"
+        />
 
         {/* Content Below Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">

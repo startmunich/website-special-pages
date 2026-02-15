@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Script from "next/script"
+import Hero from "@/components/Hero"
 
 export const dynamic = 'force-dynamic'
 
@@ -81,46 +82,32 @@ export default function MemberNetworkPage() {
         `}
       </Script>
 
-    
+
       <main className="min-h-screen bg-[#00002c]">
         {/* Hero Section */}
-        <div className="relative w-full overflow-hidden h-[600px]">
-          {/* Background Image + Overlay */}
-          <div className="absolute inset-0 h-full">
-            <img
-              src="/hero-image.jpg"
-              alt="START Munich Member Network"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 h-full bg-[#00002c]/60"></div>
-          </div>
-
-          {/* Content Overlay */}
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 h-full flex items-center">
-            <div className="flex-1 max-w-2xl text-left">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 animate-[flyInFromTop_0.6s_ease-out]">
-                MEMBER
-                <br />
-                <span className="outline-text">NETWORK</span>
-              </h1>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed">
-                Discover where our talented members are making their mark across the industry
-              </p>
-            </div>
-          </div>
-        </div>
+        <Hero
+          backgroundImage="/hero-image.jpg"
+          title={
+            <>
+              MEMBER
+              <br />
+              <span className="outline-text">NETWORK</span>
+            </>
+          }
+          description="Discover where our talented members are making their mark across the industry"
+        />
 
         {/* Content Below Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-20">
-          
-            <div className="mb-16">
-                <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                Where Our <span className="text-[#d0006f]">Members</span> Work
-                </h2>
-                <p className="text-gray-400 text-lg">
-                Explore the companies and organizations where our community members are building their careers.
-                </p>
-            </div>
+
+          <div className="mb-16">
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
+              Where Our <span className="text-[#d0006f]">Members</span> Work
+            </h2>
+            <p className="text-gray-400 text-lg">
+              Explore the companies and organizations where our community members are building their careers.
+            </p>
+          </div>
 
           {/* Venture Capital Section */}
           <div className="mb-16">
@@ -159,7 +146,7 @@ export default function MemberNetworkPage() {
               ))}
             </div>
           </div>
-                    {/* Tech Section */}
+          {/* Tech Section */}
           <div className="mb-16">
             <h2 className="text-3xl md:text-4xl font-black text-white mb-8">
               Tech

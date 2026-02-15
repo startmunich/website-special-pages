@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import Script from 'next/script'
+import Marquee from "react-fast-marquee";
+import Hero from "@/components/Hero"
+import TestimonialsSection from '@/components/TestimonialsSection'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,10 +19,41 @@ interface Testimonial {
   story: string
 }
 
+interface Partner {
+  id: string
+  name: string
+  logoUrl: string
+  featured?: boolean
+}
+
 interface FAQ {
   id: string
   question: string
   answer: string
+}
+
+// Fetch partners from API
+async function fetchPartners(): Promise<Partner[]> {
+  try {
+    // Use absolute URL in production, relative in development
+    const baseUrl = typeof window !== 'undefined'
+      ? window.location.origin
+      : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
+    const response = await fetch(`${baseUrl}/api/partners`, {
+      cache: 'no-store', // Ensure fresh data
+    });
+
+    if (!response.ok) {
+      console.error(`API error: ${response.status} ${response.statusText}`);
+      throw new Error('Failed to fetch partners');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching partners:', error);
+    return [];
+  }
 }
 
 const testimonials: Testimonial[] = [
@@ -187,25 +221,25 @@ const eventPhotos = [
   }
 ]
 
-const partnerLogos = [
-  { name: "Sequoia Capital", logo: "https://logo.clearbit.com/sequoiacap.com" },
-  { name: "Google", logo: "https://logo.clearbit.com/google.com" },
-  { name: "Microsoft", logo: "https://logo.clearbit.com/microsoft.com" },
-  { name: "Amazon Web Services", logo: "https://logo.clearbit.com/aws.amazon.com" },
-  { name: "TU Munich", logo: "https://logo.clearbit.com/tum.de" },
-  { name: "SAP", logo: "https://logo.clearbit.com/sap.com" },
-  { name: "Andreessen Horowitz", logo: "https://logo.clearbit.com/a16z.com" },
-  { name: "Accel", logo: "https://logo.clearbit.com/accel.com" },
-  { name: "UnternehmerTUM", logo: "https://logo.clearbit.com/unternehmertum.de" },
-  { name: "Nvidia", logo: "https://logo.clearbit.com/nvidia.com" }
-]
+
 
 export default function ForPartnersPage() {
   const [loading, setLoading] = useState(true)
+  const [partners, setPartners] = useState<Partner[]>([])
   const [openFaq, setOpenFaq] = useState<string | null>(null)
 
   useEffect(() => {
-    setLoading(false)
+    const loadData = async () => {
+      try {
+        const data = await fetchPartners()
+        setPartners(data)
+      } catch (error) {
+        console.error("Failed to load partners", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadData()
   }, [])
 
   if (loading) {
@@ -239,35 +273,109 @@ export default function ForPartnersPage() {
 
       <main className="min-h-screen bg-brand-dark-blue">
         {/* Hero Section */}
-        <div className="relative w-full overflow-hidden h-[600px]">
-          {/* Background Image + Overlay */}
-          <div className="absolute inset-0 h-full">
-            <img
-              src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074&auto=format&fit=crop"
-              alt="For Partners"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 h-full bg-brand-dark-blue/70"></div>
-          </div>
+        <Hero
+          backgroundImage="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074&auto=format&fit=crop"
+          title={
+            <>
+              FOR
+              <br />
+              <span className="outline-text">PARTNERS</span>
+            </>
+          }
+          description="Partner with Europe's leading student entrepreneurship community and shape the future of innovation"
+        >
+          {/* MD Partnerships Card */}
+          <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 border border-white/20 hover:border-brand-pink/50 transition transform hover:scale-105 w-full">
+            <div className="absolute top-3 right-3 w-12 h-12 bg-brand-pink/20 rounded-full blur-xl group-hover:bg-brand-pink/30 transition"></div>
+            <div className="relative text-center">
+              <div className="mb-4 mx-auto w-32 h-32 overflow-hidden border-2 border-white/20 group-hover:border-brand-pink/50 transition-all duration-300">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop"
+                  alt="MD Partnerships"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-1">MD Partnerships</h3>
+              <p className="text-brand-pink text-sm font-semibold mb-4">Head of Partnerships</p>
 
-          {/* Content Overlay */}
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 h-full flex items-center">
-            <div className="flex-1 max-w-3xl text-left">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 animate-[flyInFromTop_0.6s_ease-out]">
-                FOR
-                <br />
-                <span className="outline-text">PARTNERS</span>
-              </h1>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed">
-                Partner with Europe's leading student entrepreneurship community and shape the future of innovation
-              </p>
+              {/* Contact Button */}
+              <a
+                href="mailto:partnerships@start.tum.de"
+                className="group/btn inline-flex items-center gap-2 px-6 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50 w-full justify-center"
+              >
+                <svg
+                  className="w-5 h-5 group-hover/btn:scale-110 transition-transform duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+                <span>Contact Us</span>
+              </a>
             </div>
           </div>
-        </div>
+        </Hero>
 
         {/* Content Below Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-20 space-y-24">
-          
+
+
+          {/* Partner Overview - Logos */}
+          <section>
+            <div className="mb-12">
+              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-4">
+                <div>
+                  <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
+                    WITH WHOM WE  <span className="outline-text">WORKED:</span>
+                  </h2>
+                  <p className="text-gray-400 text-lg max-w-3xl">
+                    Trusted by leading companies and organizations
+                  </p>
+                </div>
+                <a
+                  href="/partners"
+                  className="px-6 py-2.5 border-2 border-brand-pink text-brand-pink hover:bg-brand-pink hover:text-white font-bold rounded-lg transition-all duration-300 whitespace-nowrap text-center"
+                >
+                  View All Partners →
+                </a>
+              </div>
+            </div>
+
+            <div className="bg-white/5 border border-white/10 py-12 rounded-2xl overflow-hidden">
+              <Marquee gradient={false} speed={40}>
+                {partners.filter(p => p.featured).map((partner) => (
+                  <div
+                    key={partner.id}
+                    className="bg-white rounded-lg p-6 h-28 flex items-center justify-center mx-6 w-48 shadow-lg transition-transform hover:scale-105"
+                  >
+                    <img
+                      src={partner.logoUrl}
+                      alt={partner.name}
+                      className="max-w-full max-h-full object-contain"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement
+                        target.style.display = 'none'
+                        const parent = target.parentElement
+                        if (parent) {
+                          const fallback = document.createElement('div')
+                          fallback.className = 'text-xl font-bold text-gray-600'
+                          fallback.textContent = partner.name.split(' ').map(w => w[0]).join('').slice(0, 2)
+                          parent.appendChild(fallback)
+                        }
+                      }}
+                    />
+                  </div>
+                ))}
+              </Marquee>
+            </div>
+          </section>
+
           {/* Why Partner with START */}
           <section>
             <div className="mb-12">
@@ -290,7 +398,7 @@ export default function ForPartnersPage() {
                     <div className="mb-6 transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-300">
                       <span className="text-5xl inline-block">{reason.icon}</span>
                     </div>
-                    
+
                     <h3 className="text-xl font-bold text-white mb-3 group-hover:text-brand-pink transition-colors duration-300">
                       {reason.title}
                     </h3>
@@ -326,7 +434,7 @@ export default function ForPartnersPage() {
                 >
                   {/* Gradient overlay on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-brand-pink/0 to-brand-pink/0 group-hover:from-brand-pink/5 group-hover:to-transparent transition-all duration-300"></div>
-                  
+
                   <div className="relative p-8">
                     <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform duration-300 inline-block">{opportunity.icon}</div>
                     <h3 className="text-xl font-bold text-white mb-3 group-hover:text-brand-pink transition-colors duration-300">{opportunity.title}</h3>
@@ -344,70 +452,23 @@ export default function ForPartnersPage() {
 
 
           {/* Partner Testimonials */}
-          <section>
-            <div className="mb-12">
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                PARTNER <span className="outline-text">TESTIMONIALS</span>
-              </h2>
-              <p className="text-gray-400 text-lg max-w-3xl">
-                What our partners say about working with START
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {testimonials.map((testimonial) => (
-                <div
-                  key={testimonial.id}
-                  className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-brand-pink overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#0f122f]/30"
-                >
-                  {/* Image */}
-                  <div className="relative h-48 w-full overflow-hidden">
-                    <img
-                      src={testimonial.personImage}
-                      alt={testimonial.personName}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/50 to-transparent"></div>
-                    {/* Partner logo overlay */}
-                    <div className="absolute top-4 right-4 bg-white rounded p-2 shadow-lg">
-                      <img
-                        src={testimonial.partnerLogo}
-                        alt={testimonial.partnerName}
-                        className="w-8 h-8 object-contain"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement
-                          target.style.display = 'none'
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6">
-                    {/* Person Info */}
-                    <div className="mb-4">
-                      <h3 className="text-lg font-bold text-white mb-1">{testimonial.personName}</h3>
-                      <p className="text-sm text-brand-pink font-semibold mb-1">{testimonial.personRole}</p>
-                      <p className="text-xs text-gray-400">{testimonial.partnerName}</p>
-                    </div>
-
-                    {/* Story */}
-                    <p className="text-sm text-gray-300 leading-relaxed mb-4 pt-4 border-t border-white/10">
-                      {testimonial.story}
-                    </p>
-
-                    {/* Quote */}
-                    <blockquote className="border-l-2 border-brand-pink pl-4 py-2">
-                      <p className="text-sm italic text-gray-400">"{testimonial.quote}"</p>
-                    </blockquote>
-                  </div>
-
-                  {/* Hover effect accent */}
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-[#1f2345] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                </div>
-              ))}
-            </div>
-          </section>
+          <TestimonialsSection
+            title={<>
+              PARTNER <span className="outline-text">TESTIMONIALS</span>
+            </>}
+            description="What our partners say about working with START"
+            items={testimonials.map(t => ({
+              id: t.id,
+              name: t.personName,
+              role: t.personRole,
+              company: t.partnerName,
+              image: t.personImage,
+              story: t.story,
+              quote: t.quote,
+              logo: t.partnerLogo,
+              logoAlt: t.partnerName
+            }))}
+          />
 
 
           {/* Pictures of Partners at Events */}
@@ -439,56 +500,6 @@ export default function ForPartnersPage() {
                   </div>
                 </div>
               ))}
-            </div>
-          </section>
-
-         {/* Partner Overview - Logos */}
-          <section>
-            <div className="mb-12">
-              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-4">
-                <div>
-                  <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                    WITH WHOM WE WORKED <span className="outline-text">ALREADY:</span>
-                  </h2>
-                  <p className="text-gray-400 text-lg max-w-3xl">
-                    Trusted by leading companies and organizations
-                  </p>
-                </div>
-                <a
-                  href="/partners"
-                  className="px-6 py-2.5 border-2 border-brand-pink text-brand-pink hover:bg-brand-pink hover:text-white font-bold rounded-lg transition-all duration-300 whitespace-nowrap text-center"
-                >
-                  View All Partners →
-                </a>
-              </div>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 p-12 rounded-2xl">
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
-                {partnerLogos.map((partner, index) => (
-                  <div
-                    key={index}
-                    className="bg-white rounded-lg p-6 h-28 flex items-center justify-center hover:shadow-lg hover:shadow-brand-pink/20 transition-all duration-300"
-                  >
-                    <img
-                      src={partner.logo}
-                      alt={partner.name}
-                      className="max-w-full max-h-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement
-                        target.style.display = 'none'
-                        const parent = target.parentElement
-                        if (parent) {
-                          const fallback = document.createElement('div')
-                          fallback.className = 'text-xl font-bold text-gray-600'
-                          fallback.textContent = partner.name.split(' ').map(w => w[0]).join('').slice(0, 2)
-                          parent.appendChild(fallback)
-                        }
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
             </div>
           </section>
 
@@ -534,7 +545,7 @@ export default function ForPartnersPage() {
               {/* Decorative Elements */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-brand-pink/10 rounded-full blur-3xl"></div>
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-brand-pink/5 rounded-full blur-3xl"></div>
-              
+
               <div className="relative p-8 md:p-12">
                 <div className="flex flex-col items-center gap-8 text-center">
                   <div>
@@ -542,7 +553,7 @@ export default function ForPartnersPage() {
                       READY TO <span className="outline-text">PARTNER?</span>
                     </h3>
                     <p className="text-lg text-gray-300 max-w-2xl mb-6">
-                      Join our network of leading companies supporting the next generation of entrepreneurs. 
+                      Join our network of leading companies supporting the next generation of entrepreneurs.
                       Let's build the future together.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left max-w-4xl mx-auto mb-8">

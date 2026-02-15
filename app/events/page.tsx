@@ -3,7 +3,9 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Script from "next/script"
+
 import { EventCard, TimelineMarker, ScrollIndicator, SpecialEventCard } from "@/components/EventComponents"
+import Hero from "@/components/Hero"
 
 export const dynamic = 'force-dynamic'
 
@@ -76,7 +78,7 @@ const recurringEvents: RecurringEvent[] = [
     icon: "presentation",
     image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2070&auto=format&fit=crop",
     category: "Pitch Event"
-  }, 
+  },
   {
     id: "legal-hack",
     name: "START Legal Hack",
@@ -210,9 +212,9 @@ export default function EventsPage() {
     const cardLeft = card.offsetLeft
     const cardWidth = card.offsetWidth
     const sliderWidth = slider.offsetWidth
-    
+
     const scrollPosition = cardLeft - (sliderWidth / 2) + (cardWidth / 2)
-    
+
     slider.scrollTo({
       left: scrollPosition,
       behavior: 'smooth'
@@ -302,35 +304,21 @@ export default function EventsPage() {
 
       <main className="min-h-screen bg-[#00002c]">
         {/* Hero Section */}
-        <div className="relative w-full overflow-hidden h-[600px]">
-          {/* Background Image + Overlay */}
-          <div className="absolute inset-0 h-full">
-            <img
-              src="/hero-image.jpg"
-              alt="START Munich Events"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 h-full bg-[#00002c]/60"></div>
-          </div>
-
-          {/* Content Overlay */}
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 h-full flex items-center">
-            <div className="flex-1 max-w-2xl text-left">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 animate-[flyInFromTop_0.6s_ease-out]">
-                START MUNICH
-                <br />
-                <span className="outline-text">EVENTS</span>
-              </h1>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed">
-                Connect, learn, and grow with Munich's most vibrant student entrepreneur community through our curated events
-              </p>
-            </div>
-          </div>
-        </div>
+        <Hero
+          backgroundImage="/hero-image.jpg"
+          title={
+            <>
+              START MUNICH
+              <br />
+              <span className="outline-text">EVENTS</span>
+            </>
+          }
+          description="Connect, learn, and grow with Munich's most vibrant student entrepreneur community through our curated events"
+        />
 
         {/* Content Below Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-20">
-        
+
           {/* Upcoming Events Calendar Section */}
           <div className="mb-20">
             <div className="mb-10">
@@ -371,7 +359,7 @@ export default function EventsPage() {
             {/* Timeline Visualization */}
             <div className="mb-12 relative bg-white/5 rounded-2xl p-6 md:p-10 border border-white/10">
               <h3 className="text-2xl font-bold text-white mb-8 text-center">Event Timeline</h3>
-              
+
               {/* Months */}
               <div className="hidden md:grid grid-cols-12 gap-2 mb-6 text-center">
                 {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((month, i) => (
@@ -384,16 +372,16 @@ export default function EventsPage() {
               {/* Timeline Line */}
               <div className="relative h-3 bg-white/10 rounded-full mb-20 mt-16 hidden md:block">
                 <div className="absolute inset-0 bg-gradient-to-r from-[#d0006f] via-pink-500 to-[#d0006f] opacity-40 rounded-full"></div>
-                
+
                 {/* Month Dividers */}
                 {[...Array(12)].map((_, i) => (
-                  <div 
+                  <div
                     key={i}
                     className="absolute top-1/2 -translate-y-1/2 w-px h-6 bg-white/20"
                     style={{ left: `calc(${(i + 1) * 8.33}% - 0.5px)` }}
                   ></div>
                 ))}
-                
+
                 {/* Event Markers - Using TimelineMarker Components */}
                 <TimelineMarker
                   eventId="pitch-network"
@@ -405,7 +393,7 @@ export default function EventsPage() {
                   onHover={handleTimelineMarkerHover}
                   onLeave={() => setHoveredEvent(null)}
                 />
-                
+
                 <TimelineMarker
                   eventId="legal-hack"
                   left={calculateTimelinePosition(3, 15)}
@@ -416,7 +404,7 @@ export default function EventsPage() {
                   onHover={handleTimelineMarkerHover}
                   onLeave={() => setHoveredEvent(null)}
                 />
-                
+
                 <TimelineMarker
                   eventId="info-event"
                   left={calculateTimelinePosition(4, 15)}
@@ -427,7 +415,7 @@ export default function EventsPage() {
                   onHover={handleTimelineMarkerHover}
                   onLeave={() => setHoveredEvent(null)}
                 />
-                
+
                 <TimelineMarker
                   eventId="fail-tales"
                   left={calculateTimelinePosition(5, 15)}
@@ -438,7 +426,7 @@ export default function EventsPage() {
                   onHover={handleTimelineMarkerHover}
                   onLeave={() => setHoveredEvent(null)}
                 />
-                
+
                 <TimelineMarker
                   eventId="pitch-network"
                   left={calculateTimelinePosition(6, 15)}
@@ -449,7 +437,7 @@ export default function EventsPage() {
                   onHover={handleTimelineMarkerHover}
                   onLeave={() => setHoveredEvent(null)}
                 />
-                
+
                 <TimelineMarker
                   eventId="info-event"
                   left={calculateTimelinePosition(10, 15)}
@@ -460,7 +448,7 @@ export default function EventsPage() {
                   onHover={handleTimelineMarkerHover}
                   onLeave={() => setHoveredEvent(null)}
                 />
-                
+
                 <TimelineMarker
                   eventId="fail-tales"
                   left={calculateTimelinePosition(11, 15)}
@@ -471,7 +459,7 @@ export default function EventsPage() {
                   onHover={handleTimelineMarkerHover}
                   onLeave={() => setHoveredEvent(null)}
                 />
-                
+
                 <TimelineMarker
                   eventId="rtss"
                   left={calculateTimelinePosition(12, 0)}
@@ -482,7 +470,7 @@ export default function EventsPage() {
                   onHover={handleTimelineMarkerHover}
                   onLeave={() => setHoveredEvent(null)}
                 />
-                
+
                 <TimelineMarker
                   eventId="rtsh"
                   left={calculateTimelinePosition(12, 15)}
@@ -495,7 +483,7 @@ export default function EventsPage() {
                 />
               </div>
 
-               {/* Legend */}
+              {/* Legend */}
               <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mt-8 pt-6 border-t border-white/10">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 bg-[#ff1744] rounded-full"></div>
@@ -564,7 +552,7 @@ export default function EventsPage() {
                     <span className="text-xs text-white">Road to START Hack</span>
                   </div>
                 </div>
-                
+
                 {/* Mobile Legend */}
                 <div className="mt-4 pt-4 border-t border-white/10 flex flex-wrap gap-4 text-xs">
                   <div className="flex items-center gap-2">
@@ -585,7 +573,7 @@ export default function EventsPage() {
 
             {/* Events Slider */}
             <div className="relative">
-              <div 
+              <div
                 ref={sliderRef}
                 onMouseDown={handleDrag.start}
                 onMouseUp={handleDrag.end}
@@ -670,13 +658,13 @@ export default function EventsPage() {
               <div className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20">
                 {/* Event Image */}
                 <div className="relative h-64 w-full overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop" 
+                  <img
+                    src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop"
                     alt="START Lab"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-                  
+
                   {/* Category Badge */}
                   <div className="absolute top-4 right-4">
                     <div className="px-3 py-1.5 rounded-lg bg-[#d0006f] backdrop-blur-sm">
@@ -706,13 +694,13 @@ export default function EventsPage() {
               <div className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20">
                 {/* Event Image */}
                 <div className="relative h-64 w-full overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2070&auto=format&fit=crop" 
+                  <img
+                    src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2070&auto=format&fit=crop"
                     alt="START Legal Hack"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-                  
+
                   {/* Category Badge */}
                   <div className="absolute top-4 right-4">
                     <div className="px-3 py-1.5 rounded-lg bg-[#d0006f] backdrop-blur-sm">
@@ -742,13 +730,13 @@ export default function EventsPage() {
               <div className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20">
                 {/* Event Image */}
                 <div className="relative h-64 w-full overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=2070&auto=format&fit=crop" 
+                  <img
+                    src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=2070&auto=format&fit=crop"
                     alt="Isar Unfiltered"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-                  
+
                   {/* Category Badge */}
                   <div className="absolute top-4 right-4">
                     <div className="px-3 py-1.5 rounded-lg bg-[#d0006f] backdrop-blur-sm">
@@ -784,7 +772,7 @@ export default function EventsPage() {
               {/* Decorative Elements */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-[#d0006f]/10 rounded-full blur-3xl"></div>
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#d0006f]/5 rounded-full blur-3xl"></div>
-              
+
               <div className="relative p-8 md:p-12">
                 <div className="flex flex-col lg:flex-row items-center gap-8">
                   {/* Left Side - Content */}
