@@ -15,15 +15,17 @@ export interface EventCardProps {
   setHoveredEvent: (id: string | null) => void
   isFlagship?: boolean
   className?: string
+  onClick?: () => void
 }
 
-export const EventCard = ({ 
-  event, 
-  index, 
-  hoveredEvent, 
-  setHoveredEvent, 
+export const EventCard = ({
+  event,
+  index,
+  hoveredEvent,
+  setHoveredEvent,
   isFlagship = false,
-  className = ''
+  className = '',
+  onClick
 }: EventCardProps) => {
   const isHovered = hoveredEvent === event.id
 
@@ -31,19 +33,21 @@ export const EventCard = ({
     <div
       onMouseEnter={() => setHoveredEvent(event.id)}
       onMouseLeave={() => setHoveredEvent(null)}
+      onClick={onClick}
       className={`
-        flex-shrink-0 
-        ${isFlagship ? 'w-[95%] sm:w-[420px]' : 'w-[90%] sm:w-[360px]'} 
-        group relative 
-        ${isFlagship ? 'bg-gradient-to-br from-[#d0006f]/10 via-white/5 to-[#d0006f]/5' : 'bg-white/5'} 
-        ${isHovered ? 'bg-white/10' : ''} 
-        border-2 
-        ${isHovered ? 'border-[#d0006f]' : 'border-white/10'} 
-        rounded-lg overflow-hidden transition-all duration-300 
-        ${isFlagship 
-          ? `${isHovered ? 'shadow-2xl shadow-[#d0006f]/20' : ''}` 
+        flex-shrink-0
+        ${isFlagship ? 'w-[95%] sm:w-[420px]' : 'w-[90%] sm:w-[360px]'}
+        group relative
+        ${isFlagship ? 'bg-gradient-to-br from-[#d0006f]/10 via-white/5 to-[#d0006f]/5' : 'bg-white/5'}
+        ${isHovered ? 'bg-white/10' : ''}
+        border-2
+        ${isHovered ? 'border-[#d0006f]' : 'border-white/10'}
+        rounded-lg overflow-hidden transition-all duration-300
+        ${isFlagship
+          ? `${isHovered ? 'shadow-2xl shadow-[#d0006f]/20' : ''}`
           : `${isHovered ? 'shadow-xl shadow-[#d0006f]/20' : ''}`
         }
+        ${onClick ? 'cursor-pointer' : ''}
         ${className}
       `}
       style={{ animationDelay: `${index * 100}ms` }}

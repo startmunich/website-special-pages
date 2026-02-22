@@ -1,10 +1,12 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import type { Company } from "@/lib/types"
 import StartupCard from "@/components/StartupCard"
 import Hero from "@/components/Hero"
+import HeroCard from "@/components/HeroCard"
+import { useAnimatedNumber } from "@/lib/useAnimatedNumber"
 
 export const dynamic = 'force-dynamic'
 import Image from "next/image"
@@ -64,12 +66,6 @@ export default function StartupsPage() {
   const [showFeaturedInfo, setShowFeaturedInfo] = useState(false)
   const [showYCInfo, setShowYCInfo] = useState(false)
   const [showEWORInfo, setShowEWORInfo] = useState(false)
-
-  // Animation states for numbers
-  const [animatedStartups, setAnimatedStartups] = useState(0)
-  const [animatedFunding, setAnimatedFunding] = useState(0)
-  const [animatedEmployees, setAnimatedEmployees] = useState(0)
-  const hasAnimatedRef = useRef(false)
 
   // Load companies on mount
   useEffect(() => {
@@ -162,50 +158,10 @@ export default function StartupsPage() {
   // Get EWOR startups
   const eworStartups = companies.filter(company => company.isEWOR)
 
-  // Animate numbers on component mount
-  useEffect(() => {
-    if (!loading && !hasAnimatedRef.current && totalStartups > 0) {
-      hasAnimatedRef.current = true
-
-      let startupsCurrent = 0
-      let fundingCurrent = 0
-      let employeesCurrent = 0
-
-      const fundingTarget = totalRaised / 1000000
-      const employeesTarget = totalEmployees || 333
-
-      const duration = 1500 // 1.5 seconds
-      const steps = 60
-      const interval = duration / steps
-
-      const startupsIncrement = totalStartups / steps
-      const fundingIncrement = fundingTarget / steps
-      const employeesIncrement = employeesTarget / steps
-
-      let step = 0
-
-      const timer = setInterval(() => {
-        step++
-
-        startupsCurrent += startupsIncrement
-        fundingCurrent += fundingIncrement
-        employeesCurrent += employeesIncrement
-
-        if (step >= steps) {
-          setAnimatedStartups(totalStartups)
-          setAnimatedFunding(fundingTarget)
-          setAnimatedEmployees(employeesTarget)
-          clearInterval(timer)
-        } else {
-          setAnimatedStartups(startupsCurrent)
-          setAnimatedFunding(fundingCurrent)
-          setAnimatedEmployees(employeesCurrent)
-        }
-      }, interval)
-
-      return () => clearInterval(timer)
-    }
-  }, [loading, totalStartups, totalRaised, totalEmployees])
+  // Use animated number hook for statistics
+  const animatedStartups = useAnimatedNumber(totalStartups, loading)
+  const animatedFunding = useAnimatedNumber(totalRaised / 1000000, loading)
+  const animatedEmployees = useAnimatedNumber(totalEmployees || 333, loading)
 
   if (loading) {
     return (
@@ -251,47 +207,38 @@ export default function StartupsPage() {
           description="Discover the innovative companies built by our community of ambitious student entrepreneurs"
         >
           {/** Stat 1 **/}
-          <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition transform hover:scale-105 w-full">
-            <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition"></div>
-            <div className="relative text-center">
-              <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
-                  {Math.floor(animatedStartups)}
-                </span>
-                <span className="text-3xl font-bold text-[#d0006f]">+</span>
-              </div>
-              <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Companies</p>
+          <HeroCard>
+            <div className="flex items-baseline justify-center gap-2 mb-3">
+              <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                {Math.floor(animatedStartups)}
+              </span>
+              <span className="text-3xl font-bold text-[#d0006f]">+</span>
             </div>
-          </div>
+            <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Companies</p>
+          </HeroCard>
 
           {/** Stat 2 **/}
-          <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition transform hover:scale-105">
-            <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition"></div>
-            <div className="relative text-center">
-              <div className="flex items-baseline justify-center gap-1 mb-3">
-                <span className="text-2xl font-bold text-[#d0006f]">€</span>
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
-                  {animatedFunding.toFixed(1)}
-                </span>
-                <span className="text-3xl font-bold text-[#d0006f]">M</span>
-              </div>
-              <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Funding</p>
+          <HeroCard>
+            <div className="flex items-baseline justify-center gap-1 mb-3">
+              <span className="text-2xl font-bold text-[#d0006f]">€</span>
+              <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                {animatedFunding.toFixed(1)}
+              </span>
+              <span className="text-3xl font-bold text-[#d0006f]">M</span>
             </div>
-          </div>
+            <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Funding</p>
+          </HeroCard>
 
           {/** Stat 3 **/}
-          <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-[#d0006f]/50 transition transform hover:scale-105">
-            <div className="absolute top-3 right-3 w-12 h-12 bg-[#d0006f]/20 rounded-full blur-xl group-hover:bg-[#d0006f]/30 transition"></div>
-            <div className="relative text-center">
-              <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
-                  {Math.floor(animatedEmployees)}
-                </span>
-                <span className="text-3xl font-bold text-[#d0006f]">+</span>
-              </div>
-              <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Employees</p>
+          <HeroCard>
+            <div className="flex items-baseline justify-center gap-2 mb-3">
+              <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                {Math.floor(animatedEmployees)}
+              </span>
+              <span className="text-3xl font-bold text-[#d0006f]">+</span>
             </div>
-          </div>
+            <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Employees</p>
+          </HeroCard>
         </Hero>
 
         {/* Mobile Stats (static, below hero) */}

@@ -1,132 +1,152 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Navigation() {
-  const [isEventsOpen, setIsEventsOpen] = useState(false)
+  const [isCommunityOpen, setIsCommunityOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isMobileEventsOpen, setIsMobileEventsOpen] = useState(false)
+  const [isMobileCommunityOpen, setIsMobileCommunityOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsCommunityOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   return (
-    <nav className="sticky top-0 z-50 bg-brand-dark-blue border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="sticky top-0 z-50 bg-brand-dark-blue">
+      <div className="mx-auto px-10 lg:px-20">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-              <svg className="w-6 h-6 text-brand-dark-blue" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-              </svg>
-            </div>
-            <div className="flex flex-col leading-tight">
-              <span className="text-white font-black text-lg tracking-wider">START</span>
-              <span className="text-white font-medium text-xs tracking-wider">MUNICH</span>
-            </div>
+          <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+            <Image
+              src="/startlogo.svg"
+              alt="START Munich"
+              width={120}
+              height={54}
+              className="h-12 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center space-x-8">
-            <Link 
-              href="/" 
-              className="text-white font-bold text-sm hover:text-brand-pink transition-colors uppercase tracking-wide"
+            <Link
+              href="/home"
+              className="text-white font-bold text-base hover:text-brand-pink transition-colors uppercase tracking-wide"
             >
               HOME
             </Link>
-            
-            <Link 
-              href="/about" 
-              className="text-white font-bold text-sm hover:text-brand-pink transition-colors uppercase tracking-wide"
-            >
-              ABOUT US
-            </Link>
-            
-            <Link 
-              href="/batches" 
-              className="text-white font-bold text-sm hover:text-brand-pink transition-colors uppercase tracking-wide"
-            >
-              BATCHES
-            </Link>
-            
-            <Link 
-              href="/startups" 
-              className="text-white font-bold text-sm hover:text-brand-pink transition-colors uppercase tracking-wide"
-            >
-              OUR STARTUPS
-            </Link>
-            
-            {/* Events Dropdown */}
-            <div 
+
+            {/* Community Dropdown */}
+            <div
+              ref={dropdownRef}
               className="relative"
-              onMouseEnter={() => setIsEventsOpen(true)}
-              onMouseLeave={() => setIsEventsOpen(false)}
             >
-              <button 
-                className="text-white font-bold text-sm hover:text-brand-pink transition-colors uppercase tracking-wide flex items-center space-x-1"
+              <button
+                onClick={() => setIsCommunityOpen(!isCommunityOpen)}
+                className="text-white font-bold text-base hover:text-brand-pink transition-colors uppercase tracking-wide flex items-center space-x-1"
               >
-                <span>EVENTS</span>
-                <svg 
-                  className={`w-4 h-4 transition-transform ${isEventsOpen ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
+                <span>COMMUNITY</span>
+                <svg
+                  className={`w-4 h-4 transition-transform ${isCommunityOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              
+
               {/* Dropdown Menu */}
-              {isEventsOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-brand-dark-blue border border-white/20 shadow-xl rounded-lg overflow-hidden">
-                  <Link 
-                    href="/events" 
-                    className="block px-6 py-3 text-white text-sm hover:bg-brand-pink hover:text-white transition-colors"
-                  >
-                    All Events
-                  </Link>
-                  <Link 
-                    href="/events/upcoming" 
-                    className="block px-6 py-3 text-white text-sm hover:bg-brand-pink hover:text-white transition-colors"
-                  >
-                    Upcoming Events
-                  </Link>
-                  <Link 
-                    href="/events/past" 
-                    className="block px-6 py-3 text-white text-sm hover:bg-brand-pink hover:text-white transition-colors"
-                  >
-                    Past Events
-                  </Link>
+              {isCommunityOpen && (
+                <div className="absolute top-full left-0 mt-3 w-64 bg-brand-dark-blue border border-white/20 shadow-2xl rounded-xl overflow-hidden animate-fadeIn">
+                  <div className="py-2">
+                    <Link
+                      href="/member-journey"
+                      onClick={() => setIsCommunityOpen(false)}
+                      className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        Member Journey
+                      </span>
+                    </Link>
+                    <Link
+                      href="/member-network"
+                      onClick={() => setIsCommunityOpen(false)}
+                      className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        Member Network
+                      </span>
+                    </Link>
+                    <Link
+                      href="/members"
+                      onClick={() => setIsCommunityOpen(false)}
+                      className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        Our Members
+                      </span>
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>
-            
-            <Link 
-              href="/jobs" 
-              className="text-white font-bold text-sm hover:text-brand-pink transition-colors uppercase tracking-wide"
+
+            <Link
+              href="/startups"
+              className="text-white font-bold text-base hover:text-brand-pink transition-colors uppercase tracking-wide"
             >
-              JOBS
+              OUR STARTUPS
             </Link>
-            
-            <Link 
-              href="/donate" 
-              className="text-white font-bold text-sm hover:text-brand-pink transition-colors uppercase tracking-wide"
+
+            <Link
+              href="/events"
+              className="text-white font-bold text-base hover:text-brand-pink transition-colors uppercase tracking-wide"
             >
-              DONATE
+              EVENTS
+            </Link>
+
+            <Link
+              href="/for-partners"
+              className="text-white font-bold text-base hover:text-brand-pink transition-colors uppercase tracking-wide"
+            >
+              FOR PARTNERS
             </Link>
           </div>
 
           {/* Apply Now Button - Desktop */}
           <div className="hidden lg:flex items-center">
-            <Link 
+            <Link
               href="/apply"
-              className="bg-white text-brand-dark-blue px-6 py-2.5 font-black text-sm rounded hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase tracking-wide"
+              className="bg-white text-brand-dark-blue px-6 py-2.5 font-black text-base rounded hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase tracking-wide"
             >
               APPLY NOW
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
-          <button 
+          <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="lg:hidden text-white p-2"
             aria-label="Toggle menu"
@@ -146,100 +166,84 @@ export default function Navigation() {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="lg:hidden py-4 space-y-2 border-t border-white/10">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="block px-4 py-3 text-white font-bold text-sm hover:bg-white/5 hover:text-brand-pink transition-colors uppercase"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               HOME
             </Link>
-            
-            <Link 
-              href="/about" 
-              className="block px-4 py-3 text-white font-bold text-sm hover:bg-white/5 hover:text-brand-pink transition-colors uppercase"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              ABOUT US
-            </Link>
-            
-            <Link 
-              href="/batches" 
-              className="block px-4 py-3 text-white font-bold text-sm hover:bg-white/5 hover:text-brand-pink transition-colors uppercase"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              BATCHES
-            </Link>
-            
-            <Link 
-              href="/startups" 
-              className="block px-4 py-3 text-white font-bold text-sm hover:bg-white/5 hover:text-brand-pink transition-colors uppercase"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              OUR STARTUPS
-            </Link>
-            
-            {/* Mobile Events Dropdown */}
+
+            {/* Mobile Community Dropdown */}
             <div>
               <button
-                onClick={() => setIsMobileEventsOpen(!isMobileEventsOpen)}
+                onClick={() => setIsMobileCommunityOpen(!isMobileCommunityOpen)}
                 className="w-full flex items-center justify-between px-4 py-3 text-white font-bold text-sm hover:bg-white/5 hover:text-brand-pink transition-colors uppercase"
               >
-                <span>EVENTS</span>
-                <svg 
-                  className={`w-4 h-4 transition-transform ${isMobileEventsOpen ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
+                <span>COMMUNITY</span>
+                <svg
+                  className={`w-4 h-4 transition-transform ${isMobileCommunityOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              
-              {isMobileEventsOpen && (
+
+              {isMobileCommunityOpen && (
                 <div className="bg-white/5 space-y-1">
-                  <Link 
-                    href="/events" 
+                  <Link
+                    href="/member-journey"
                     className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    All Events
+                    Member Journey
                   </Link>
-                  <Link 
-                    href="/events/upcoming" 
+                  <Link
+                    href="/member-network"
                     className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Upcoming Events
+                    Member Network
                   </Link>
-                  <Link 
-                    href="/events/past" 
+                  <Link
+                    href="/members"
                     className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Past Events
+                    Our Members
                   </Link>
                 </div>
               )}
             </div>
-            
-            <Link 
-              href="/jobs" 
+
+            <Link
+              href="/startups"
               className="block px-4 py-3 text-white font-bold text-sm hover:bg-white/5 hover:text-brand-pink transition-colors uppercase"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              JOBS
+              OUR STARTUPS
             </Link>
-            
-            <Link 
-              href="/donate" 
+
+            <Link
+              href="/events"
               className="block px-4 py-3 text-white font-bold text-sm hover:bg-white/5 hover:text-brand-pink transition-colors uppercase"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              DONATE
+              EVENTS
+            </Link>
+
+            <Link
+              href="/for-partners"
+              className="block px-4 py-3 text-white font-bold text-sm hover:bg-white/5 hover:text-brand-pink transition-colors uppercase"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              FOR PARTNERS
             </Link>
 
             {/* Apply Now Button - Mobile */}
-            <Link 
+            <Link
               href="/apply"
               className="block mx-4 mt-4 text-center bg-white text-brand-dark-blue px-6 py-3 font-black text-sm rounded hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase"
               onClick={() => setIsMobileMenuOpen(false)}

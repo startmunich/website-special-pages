@@ -140,7 +140,7 @@ const departments: Department[] = [
 const startEvents: StartEvent[] = [
   {
     id: "monthly",
-    title: "Monthly",
+    title: "The Monthly",
     description: "Every month all Munich Straties meet and get updated on START events or pitch their startups. Location: MTZ",
     category: "Meeting",
     frequency: "Monthly",

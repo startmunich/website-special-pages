@@ -3,9 +3,14 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Script from "next/script"
+import { useRouter } from "next/navigation"
 
 import { EventCard, TimelineMarker, ScrollIndicator, SpecialEventCard } from "@/components/EventComponents"
 import Hero from "@/components/Hero"
+import HeroCard from "@/components/HeroCard"
+import PastEventsGrid from "@/components/PastEventsGrid"
+import UpcomingEventsGrid from "@/components/UpcomingEventsGrid"
+import { useAnimatedNumber } from "@/lib/useAnimatedNumber"
 
 export const dynamic = 'force-dynamic'
 
@@ -50,6 +55,16 @@ const recurringEvents: RecurringEvent[] = [
     category: "Hackathon"
   },
   {
+    id: "legal-hack",
+    name: "START Legal Hack",
+    description: "A unique hackathon focused on building legal tech solutions that address real challenges in the legal industry, combining technology with regulatory expertise.",
+    month: "March",
+    frequency: "Once per year",
+    icon: "code",
+    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2070&auto=format&fit=crop",
+    category: "Hackathon"
+  },
+  {
     id: "info-event",
     name: "Info Event",
     description: "Join us at the start of each semester to learn about START Munich, meet our community, and discover how you can get involved.",
@@ -78,16 +93,6 @@ const recurringEvents: RecurringEvent[] = [
     icon: "presentation",
     image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2070&auto=format&fit=crop",
     category: "Pitch Event"
-  },
-  {
-    id: "legal-hack",
-    name: "START Legal Hack",
-    description: "A unique hackathon focused on building legal tech solutions that address real challenges in the legal industry, combining technology with regulatory expertise.",
-    month: "March",
-    frequency: "Once per year",
-    icon: "code",
-    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2070&auto=format&fit=crop",
-    category: "Hackathon"
   }
 ]
 
@@ -109,6 +114,7 @@ const specialEvents: SpecialEvent[] = [
 ]
 
 export default function EventsPage() {
+  const router = useRouter()
   const [loading, setLoading] = useState(true)
   const sliderRef = useRef<HTMLDivElement>(null)
   const specialEventsSliderRef = useRef<HTMLDivElement>(null)
@@ -121,6 +127,10 @@ export default function EventsPage() {
   useEffect(() => {
     setLoading(false)
   }, [])
+
+  // Use animated number hook for statistics (faster animation - 800ms)
+  const animatedHackathons = useAnimatedNumber(4, loading, 800)
+  const animatedPublicEvents = useAnimatedNumber(10, loading, 800)
 
   useEffect(() => {
     const slider = sliderRef.current
@@ -314,7 +324,32 @@ export default function EventsPage() {
             </>
           }
           description="Connect, learn, and grow with Munich's most vibrant student entrepreneur community through our curated events"
-        />
+        >
+          {/* Statistics Boxes - Matching Startup Cards Style */}
+          <div className="flex flex-col gap-6">
+            {/** Stat 1 **/}
+            <HeroCard>
+              <div className="flex items-baseline justify-center gap-2 mb-3">
+                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                  {Math.floor(animatedHackathons)}
+                </span>
+                <span className="text-3xl font-bold text-[#d0006f]">+</span>
+              </div>
+              <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Hackathons Yearly</p>
+            </HeroCard>
+
+            {/** Stat 2 **/}
+            <HeroCard>
+              <div className="flex items-baseline justify-center gap-2 mb-3">
+                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                  {Math.floor(animatedPublicEvents)}
+                </span>
+                <span className="text-3xl font-bold text-[#d0006f]">+</span>
+              </div>
+              <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Public Events Yearly</p>
+            </HeroCard>
+          </div>
+        </Hero>
 
         {/* Content Below Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-20">
@@ -330,18 +365,21 @@ export default function EventsPage() {
               </p>
             </div>
 
-            <div className="relative rounded-2xl overflow-hidden bg-white/5 p-4 md:p-8 border border-white/10">
-              <div className="relative">
-                <iframe
-                  src="https://luma.com/embed/calendar/cal-1MxD65bgV0Hcb0r/events"
-                  width="100%"
-                  height="450"
-                  allowFullScreen
-                  aria-hidden="false"
-                  className="rounded-xl"
-                ></iframe>
-              </div>
+            <UpcomingEventsGrid />
+          </div>
+
+          {/* Past Events Calendar Section */}
+          <div className="mb-20">
+            <div className="mb-10">
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
+                PAST EVENTS
+              </h2>
+              <p className="text-gray-400 text-lg">
+                Check out the amazing events we've hosted in the past!
+              </p>
             </div>
+
+            <PastEventsGrid />
           </div>
 
 
@@ -583,7 +621,7 @@ export default function EventsPage() {
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 {recurringEvents.map((event, index) => {
-                  const isFlagship = event.id === 'rtss' || event.id === 'rtsh'
+                  const isFlagship = event.id === 'rtss' || event.id === 'rtsh' || event.id === 'legal-hack'
                   return (
                     <EventCard
                       key={event.id}
@@ -592,6 +630,15 @@ export default function EventsPage() {
                       hoveredEvent={hoveredEvent}
                       setHoveredEvent={setHoveredEvent}
                       isFlagship={isFlagship}
+                      onClick={() => {
+                        if (event.id === 'legal-hack') {
+                          router.push('/events/legal-hack')
+                        } else if (event.id === 'rtsh') {
+                          router.push('/events/rtsh')
+                        } else if (event.id === 'rtss') {
+                          router.push('/events/rtss')
+                        }
+                      }}
                     />
                   )
                 })}
