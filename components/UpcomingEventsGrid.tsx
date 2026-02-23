@@ -90,7 +90,7 @@ export default function UpcomingEventsGrid() {
   return (
     <div>
       {/* Events Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {events.map((eventWrapper) => {
           const event = eventWrapper.event
 
@@ -121,11 +121,12 @@ export default function UpcomingEventsGrid() {
               href={event.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative bg-white/5 hover:bg-white/10 border border-white/20 hover:border-[#d0006f] overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20"
+              
+              className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20 flex flex-col"
             >
               {/* Event Image */}
               {event.cover_url && (
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/20">
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-black/20">
                   <img
                     src={event.cover_url}
                     alt={event.name}
@@ -136,10 +137,10 @@ export default function UpcomingEventsGrid() {
               )}
 
               {/* Date Badge - between image and content */}
-              <div className="px-6 pt-4">
+              <div className="px-4 pt-3">
                 <div className="inline-block">
-                  <div className="px-4 py-1.5 rounded-lg bg-[#d0006f]/20 border border-[#d0006f]/40">
-                    <p className="text-sm text-[#d0006f] font-bold uppercase tracking-wide">
+                  <div className="px-3 py-1 rounded-md bg-[#d0006f]/20 border border-[#d0006f]/40">
+                    <p className="text-xs text-[#d0006f] font-bold uppercase tracking-wide">
                       {formattedDate}
                     </p>
                   </div>
@@ -147,13 +148,13 @@ export default function UpcomingEventsGrid() {
               </div>
 
               {/* Content */}
-              <div className="px-6 pb-6 pt-3">
-                <h3 className="text-xl font-bold text-white mb-3 line-clamp-2">
+              <div className="px-4 pb-4 pt-2">
+                <h3 className="text-base font-bold text-white mb-2 line-clamp-3">
                   {event.name}
                 </h3>
 
                 {event.description && (
-                  <p className="text-base text-gray-400 leading-relaxed line-clamp-3">
+                  <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">
                     {event.description}
                   </p>
                 )}

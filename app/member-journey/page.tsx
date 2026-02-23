@@ -703,6 +703,95 @@ export default function MemberJourneyPage() {
             </div>
           </div>
 
+          {/* Community Specials Section */}
+          <div className="mb-20">
+            <div className="mb-12">
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
+                COMMUNITY <span className="outline-text">SPECIALS</span>
+              </h2>
+              <p className="text-gray-400 text-lg">
+                Unique opportunities exclusively for START Munich members
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* START goes Bay Area */}
+              <div className="group relative overflow-hidden bg-white/5 border border-white/10 hover:border-brand-pink/50 transition-all duration-300">
+                <div className="aspect-video relative overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=2070&auto=format&fit=crop"
+                    alt="San Francisco Bay Area"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                  <div className="absolute top-4 left-4">
+                    <span className="px-3 py-1.5 bg-brand-pink/90 text-white text-xs font-bold uppercase tracking-wider">
+                      International Trip
+                    </span>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-brand-pink transition-colors">
+                    START goes Bay Area
+                  </h3>
+                  <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                    A selective international exchange program connecting outstanding entrepreneurial talent from Europe with the innovation ecosystem of the San Francisco Bay Area. The program brings together a curated group of 20 participants and enables direct interaction with founders, researchers, and investors at leading technology and innovation organizations.
+                  </p>
+                  <a
+                    href="https://www.startbayarea.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-brand-pink font-semibold text-sm hover:gap-3 transition-all"
+                  >
+                    Learn more
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              {/* Research Partnership */}
+              <div className="group relative overflow-hidden bg-white/5 border border-white/10 hover:border-brand-pink/50 transition-all duration-300">
+                <div className="aspect-video relative overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop"
+                    alt="University Research"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                  <div className="absolute top-4 left-4">
+                    <span className="px-3 py-1.5 bg-brand-pink/90 text-white text-xs font-bold uppercase tracking-wider">
+                      Research Partnership
+                    </span>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-brand-pink transition-colors">
+                    Thesis with Cambridge & TUM
+                  </h3>
+                  <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                    Write your thesis with our research partners at the University of Cambridge and Technical University of Munich. Gain access to world-class academic resources, mentorship from leading researchers, and the opportunity to contribute to cutting-edge entrepreneurship research.
+                  </p>
+                  <div className="flex items-center gap-4 text-gray-400 text-sm">
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                      <span>Cambridge</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                      <span>TUM</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Member Stories Section */}
           <TestimonialsSection
             title={<>
