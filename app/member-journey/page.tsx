@@ -439,43 +439,13 @@ export default function MemberJourneyPage() {
 
                       {/* Content */}
                       <div className="p-8 pt-0 relative z-10">
-                        {/* Images for Start Sprint */}
-                        {event.id === "start-sprint" && Array.isArray(event.image) && (
-                          <div className="flex gap-3 mb-6">
-                            <div className="flex-1 h-32 overflow-hidden rounded-lg relative group/image">
-                              <div className="absolute inset-0 bg-black/20 group-hover/image:bg-transparent transition-all duration-300 z-10"></div>
-                              <img
-                                src={event.image[0]}
-                                alt={`${event.title} 1`}
-                                className="w-full h-full object-cover transform group-hover/image:scale-110 transition-transform duration-700"
-                              />
-                            </div>
-                            <div className="flex-1 h-32 overflow-hidden rounded-lg relative group/image translate-y-4">
-                              <div className="absolute inset-0 bg-black/20 group-hover/image:bg-transparent transition-all duration-300 z-10"></div>
-                              <img
-                                src={event.image[1]}
-                                alt={`${event.title} 2`}
-                                className="w-full h-full object-cover transform group-hover/image:scale-110 transition-transform duration-700"
-                              />
-                            </div>
-                          </div>
-                        )}
-
                         {/* Details List */}
                         {event.id === "exchange-trip" && typeof event.details[0] === 'object' ? (
-                          <div className="grid grid-cols-2 gap-3 mt-4">
+                          <div className="space-y-3 mt-4 bg-black/20 rounded-xl p-4 border border-white/5">
                             {(event.details as { text: string; image: string; icon: string }[]).map((detail, i) => (
-                              <div key={i} className="group/item relative rounded-xl overflow-hidden aspect-square border border-white/5 hover:border-brand-pink/30 transition-all duration-300">
-                                <img
-                                  src={detail.image}
-                                  alt={detail.text}
-                                  className="w-full h-full object-cover opacity-60 group-hover/item:opacity-40 group-hover/item:scale-110 transition-all duration-500"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0B0C24] via-transparent to-transparent"></div>
-                                <div className="absolute bottom-0 left-0 right-0 p-3">
-                                  <div className="text-xl mb-1 transform group-hover/item:-translate-y-1 transition-transform duration-300">{detail.icon}</div>
-                                  <p className="text-[10px] leading-tight text-gray-300 font-medium group-hover/item:text-white transition-colors">{detail.text}</p>
-                                </div>
+                              <div key={i} className="flex items-start gap-3 group/list-item">
+                                <div className="w-1.5 h-1.5 bg-brand-pink/50 rounded-full mt-1.5 group-hover/list-item:bg-brand-pink group-hover/list-item:shadow-[0_0_8px_rgba(208,0,111,0.5)] transition-all duration-300"></div>
+                                <span className="text-xs text-gray-400 group-hover/list-item:text-gray-200 transition-colors duration-300">{detail.text}</span>
                               </div>
                             ))}
                           </div>
