@@ -379,7 +379,7 @@ export default function ForPartnersPage() {
 
           {/* Why Partner with START - Bento Grid Style */}
           <section className="relative">
-            <div className="mb-12">
+            <div className="mb-10">
               <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
                 WHY PARTNER <span className="outline-text">WITH START</span>
               </h2>
@@ -389,15 +389,15 @@ export default function ForPartnersPage() {
             </div>
 
             {/* Bento Grid Layout */}
-            <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="relative grid grid-cols-1 md:grid-cols-2 gap-5">
               {/* Large featured card with TUM logo */}
               <div
                 className="md:row-span-2 group relative overflow-hidden"
                 style={{ animation: `fadeInUp 0.6s ease-out 0s both` }}
               >
-                <div className="relative h-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border-2 border-white/20 hover:border-brand-pink p-10 transition-all duration-500 flex flex-col justify-center">
-                  <div className="mb-8">
-                    <div className="w-full max-w-[200px] h-24 bg-white rounded-lg flex items-center justify-center p-4 mb-6">
+                <div className="relative h-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border-2 border-white/20 hover:border-brand-pink p-8 transition-all duration-500 flex flex-col justify-center">
+                  <div className="mb-5">
+                    <div className="w-full max-w-[160px] h-16 bg-white rounded-lg flex items-center justify-center p-3 mb-4">
                       <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Logo_of_the_Technical_University_of_Munich.svg/1200px-Logo_of_the_Technical_University_of_Munich.svg.png"
                         alt="TUM Logo"
@@ -405,10 +405,10 @@ export default function ForPartnersPage() {
                       />
                     </div>
                   </div>
-                  <h3 className="text-3xl font-black text-white mb-4 group-hover:text-brand-pink transition-colors">
+                  <h3 className="text-2xl font-black text-white mb-3 group-hover:text-brand-pink transition-colors">
                     {whyStartSpecial[0].title}
                   </h3>
-                  <p className="text-gray-300 leading-relaxed text-lg">
+                  <p className="text-gray-300 leading-relaxed">
                     {whyStartSpecial[0].description}
                   </p>
                 </div>
@@ -421,11 +421,11 @@ export default function ForPartnersPage() {
                   className="group relative overflow-hidden"
                   style={{ animation: `fadeInUp 0.6s ease-out ${(index + 1) * 0.1}s both` }}
                 >
-                  <div className="relative h-full bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 hover:border-brand-pink/50 p-8 transition-all duration-500">
-                    <div className="w-16 h-16 bg-gradient-to-br from-brand-pink/20 to-transparent flex items-center justify-center mb-4">
-                      <span className="text-4xl">{reason.icon}</span>
+                  <div className="relative h-full bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 hover:border-brand-pink/50 p-6 transition-all duration-500">
+                    <div className="w-12 h-12 bg-gradient-to-br from-brand-pink/20 to-transparent flex items-center justify-center mb-3">
+                      <span className="text-3xl">{reason.icon}</span>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-brand-pink transition-colors">
+                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-brand-pink transition-colors">
                       {reason.title}
                     </h3>
                     <p className="text-gray-400 text-sm leading-relaxed">
@@ -440,15 +440,15 @@ export default function ForPartnersPage() {
                 className="md:col-span-2 group relative overflow-hidden"
                 style={{ animation: `fadeInUp 0.6s ease-out 0.3s both` }}
               >
-                <div className="relative h-full bg-gradient-to-r from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 hover:border-brand-pink/50 p-8 transition-all duration-500 flex items-center gap-8">
-                  <div className="w-20 h-20 bg-gradient-to-br from-brand-pink/20 to-transparent flex items-center justify-center flex-shrink-0">
-                    <span className="text-5xl">{whyStartSpecial[3].icon}</span>
+                <div className="relative h-full bg-gradient-to-r from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 hover:border-brand-pink/50 p-6 transition-all duration-500 flex items-center gap-6">
+                  <div className="w-14 h-14 bg-gradient-to-br from-brand-pink/20 to-transparent flex items-center justify-center flex-shrink-0">
+                    <span className="text-4xl">{whyStartSpecial[3].icon}</span>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-brand-pink transition-colors">
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-brand-pink transition-colors">
                       {whyStartSpecial[3].title}
                     </h3>
-                    <p className="text-gray-400 leading-relaxed">
+                    <p className="text-gray-400 text-sm leading-relaxed">
                       {whyStartSpecial[3].description}
                     </p>
                   </div>
@@ -638,41 +638,42 @@ export default function ForPartnersPage() {
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-brand-pink/5 rounded-full blur-3xl"></div>
 
               <div className="relative p-8 md:p-12">
-                <div className="flex flex-col items-center gap-8 text-center">
-                  <div>
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
+                  {/* Left side - Title and description */}
+                  <div className="lg:max-w-lg">
                     <h3 className="text-3xl md:text-5xl font-black text-white mb-4">
                       READY TO <span className="outline-text">PARTNER?</span>
                     </h3>
-                    <p className="text-lg text-gray-300 max-w-2xl mb-6">
+                    <p className="text-lg text-gray-300 mb-6">
                       Join our network of leading companies supporting the next generation of entrepreneurs.
-                      Let's build the future together.
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left max-w-4xl mx-auto mb-8">
-                      <div className="bg-white/5 p-6 rounded-lg">
-                        <div className="text-3xl mb-2">📧</div>
-                        <h4 className="text-white font-bold mb-1">Email Us</h4>
-                        <p className="text-gray-400 text-sm">partnerships@start.tum.de</p>
-                      </div>
-                      <div className="bg-white/5 p-6 rounded-lg">
-                        <div className="text-3xl mb-2">📅</div>
-                        <h4 className="text-white font-bold mb-1">Schedule a Call</h4>
-                        <p className="text-gray-400 text-sm">Book a 30-min intro meeting</p>
-                      </div>
-                      <div className="bg-white/5 p-6 rounded-lg">
-                        <div className="text-3xl mb-2">📄</div>
-                        <h4 className="text-white font-bold mb-1">Download Info Pack</h4>
-                        <p className="text-gray-400 text-sm">Learn about our offerings</p>
-                      </div>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <button className="px-8 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50 text-lg">
+                        Get in Touch
+                      </button>
+                      <button className="px-8 py-3 border-2 border-brand-pink text-brand-pink hover:bg-brand-pink/10 font-bold rounded-lg transition-all duration-300 text-lg">
+                        Download Info
+                      </button>
                     </div>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <button className="px-8 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50 text-lg">
-                      Get in Touch
-                    </button>
-                    <button className="px-8 py-3 border-2 border-brand-pink text-brand-pink hover:bg-brand-pink/10 font-bold rounded-lg transition-all duration-300 text-lg">
-                      Download Partnership Info
-                    </button>
+                  {/* Right side - Three cards */}
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="bg-white/5 p-5 rounded-lg">
+                      <div className="text-3xl mb-2">📧</div>
+                      <h4 className="text-white font-bold mb-1">Email Us</h4>
+                      <p className="text-gray-400 text-sm">partnerships@start.tum.de</p>
+                    </div>
+                    <div className="bg-white/5 p-5 rounded-lg">
+                      <div className="text-3xl mb-2">📅</div>
+                      <h4 className="text-white font-bold mb-1">Schedule a Call</h4>
+                      <p className="text-gray-400 text-sm">Book a 30-min intro meeting</p>
+                    </div>
+                    <div className="bg-white/5 p-5 rounded-lg">
+                      <div className="text-3xl mb-2">📄</div>
+                      <h4 className="text-white font-bold mb-1">Info Pack</h4>
+                      <p className="text-gray-400 text-sm">Learn about our offerings</p>
+                    </div>
                   </div>
                 </div>
               </div>
