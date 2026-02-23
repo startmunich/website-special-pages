@@ -1,9 +1,11 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Script from "next/script"
 import Hero from "@/components/Hero"
+import HeroCard from "@/components/HeroCard"
+import { useAnimatedNumber } from "@/lib/useAnimatedNumber"
 
 export const dynamic = 'force-dynamic'
 
@@ -13,6 +15,7 @@ interface Member {
   batch: string
   role: string
   study?: string
+  university?: string
   company?: string
   linkedinUrl?: string
   imageUrl: string
@@ -68,11 +71,9 @@ export default function MembersPage() {
   // Feature flags
   const showAdvisoryBoard = false // Set to true to show the advisory board section
 
-  // Animation states for numbers
-  const [animatedMembers, setAnimatedMembers] = useState(0)
-  const [animatedAlumni, setAnimatedAlumni] = useState(0)
-  const hasAnimatedRef = useRef(false)
-  const membersGridRef = useRef<HTMLDivElement>(null)
+  // Use animated number hook for statistics (faster animation - 800ms)
+  const animatedActiveMembers = useAnimatedNumber(192, loading, 800)
+  const animatedAlumniCount = useAnimatedNumber(800, loading, 800)
 
   // Load members on mount
   useEffect(() => {
@@ -159,6 +160,23 @@ export default function MembersPage() {
       percentage: Math.round((count / totalMembers) * 100)
     }))
 
+  // University distribution
+  const universityDistribution = members.reduce((acc, member) => {
+    if (member.university) {
+      acc[member.university] = (acc[member.university] || 0) + 1
+    }
+    return acc
+  }, {} as Record<string, number>)
+
+  const topUniversities = Object.entries(universityDistribution)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 5)
+    .map(([university, count]) => ({
+      university,
+      count,
+      percentage: Math.round((count / totalMembers) * 100)
+    }))
+
   // Group members by batch for batch cards
   const batchGroups = allBatches.map(batchName => {
     const batchMembers = members.filter(m => m.batch === batchName)
@@ -182,46 +200,6 @@ export default function MembersPage() {
   })
 
   // No filtering needed anymore, show all members in batches
-
-  // Animate numbers on component mount (members + alumni)
-  useEffect(() => {
-    if (!loading && !hasAnimatedRef.current) {
-      hasAnimatedRef.current = true
-
-      // Mock alumni count (as requested)
-      const alumniCount = 800
-
-      let membersCurrent = 0
-      let alumniCurrent = 0
-
-      const duration = 1500
-      const steps = 60
-      const interval = duration / steps
-
-      const membersIncrement = (totalMembers || 0) / steps
-      const alumniIncrement = alumniCount / steps
-
-      let step = 0
-
-      const timer = setInterval(() => {
-        step++
-
-        membersCurrent += membersIncrement
-        alumniCurrent += alumniIncrement
-
-        if (step >= steps) {
-          setAnimatedMembers(totalMembers)
-          setAnimatedAlumni(alumniCount)
-          clearInterval(timer)
-        } else {
-          setAnimatedMembers(membersCurrent)
-          setAnimatedAlumni(alumniCurrent)
-        }
-      }, interval)
-
-      return () => clearInterval(timer)
-    }
-  }, [loading, totalMembers])
 
   if (loading) {
     return (
@@ -264,7 +242,31 @@ export default function MembersPage() {
             </>
           }
           description="Meet the ambitious student entrepreneurs building the future of technology and innovation"
-        />
+        >
+          {/* Statistics Boxes - Matching Startup Cards Style */}
+          <div className="flex flex-col gap-6">
+            {/** Active Members Card **/}
+            <HeroCard>
+              <div className="flex items-baseline justify-center gap-2 mb-3">
+                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                  {Math.floor(animatedActiveMembers)}
+                </span>
+              </div>
+              <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Active Members</p>
+            </HeroCard>
+
+            {/** Alumni Card **/}
+            <HeroCard>
+              <div className="flex items-baseline justify-center gap-2 mb-3">
+                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                  {Math.floor(animatedAlumniCount)}
+                </span>
+                <span className="text-3xl font-bold text-[#d0006f]">+</span>
+              </div>
+              <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Alumni</p>
+            </HeroCard>
+          </div>
+        </Hero>
 
         {/* Content Below Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -323,34 +325,6 @@ export default function MembersPage() {
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Active Members */}
-              <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-6 border border-white/20 hover:border-[#d0006f] transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/20">
-
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="w-12 h-12 bg-[#d0006f]/20 rounded-xl flex items-center justify-center">
-                    <svg className="w-6 h-6 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-3xl font-black text-white">{totalMembers}</p>
-                    <p className="text-sm text-gray-400 font-medium">Active Members</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-[#ffd1e6]/20 rounded-xl flex items-center justify-center">
-                    <svg className="w-6 h-6 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M12 12a5 5 0 100-10 5 5 0 000 10z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-3xl font-black text-white">{Math.floor(animatedAlumni)}</p>
-                    <p className="text-sm text-gray-400 font-medium">Alumni</p>
-                  </div>
-                </div>
-              </div>
-
               {/* Gender Distribution */}
               <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-6 border border-white/20 hover:border-[#d0006f] transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/20">
                 <div className="mb-4">
@@ -408,6 +382,30 @@ export default function MembersPage() {
                       <span className="text-xs font-bold text-[#d0006f] ml-2">{percentage}%</span>
                     </div>
                   ))}
+                </div>
+              </div>
+
+              {/* University Distribution */}
+              <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-6 border border-white/20 hover:border-[#d0006f] transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/20">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                    <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                  </div>
+                  <p className="text-sm text-gray-400 font-medium">Top Universities</p>
+                </div>
+                <div className="space-y-2">
+                  {topUniversities.length > 0 ? (
+                    topUniversities.map(({ university, count, percentage }, index) => (
+                      <div key={university} className="flex items-center justify-between">
+                        <span className="text-xs text-gray-300 truncate flex-1">{university}</span>
+                        <span className="text-xs font-bold text-[#d0006f] ml-2">{percentage}%</span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-xs text-gray-400">No university data available</p>
+                  )}
                 </div>
               </div>
             </div>
