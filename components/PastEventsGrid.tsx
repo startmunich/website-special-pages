@@ -98,8 +98,6 @@ export default function PastEventsGrid() {
 
   const goToPage = (page: number) => {
     setCurrentPage(page)
-    // Scroll to top of the events section
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   return (
@@ -136,25 +134,25 @@ export default function PastEventsGrid() {
               href={event.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20"
+              className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20 flex flex-col"
             >
               {/* Event Image */}
               {event.cover_url && (
-                <div className="relative h-48 w-full overflow-hidden">
+                <div className="relative h-48 w-full overflow-hidden flex-shrink-0">
                   <img
                     src={event.cover_url}
                     alt={event.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/40 via-[#00002c]/15 to-transparent"></div>
                 </div>
               )}
 
               {/* Content */}
-              <div className="p-5">
+              <div className="p-5 flex flex-col flex-grow">
                 {/* Date Badge */}
-                <div className="inline-block mb-3">
-                  <div className="px-3 py-1 rounded-lg bg-[#d0006f]/20 border border-[#d0006f]/40">
+                <div className="mb-3">
+                  <div className="inline-block px-2.5 py-1 rounded-md bg-[#d0006f]/20 border border-[#d0006f]/40">
                     <p className="text-xs text-[#d0006f] font-bold uppercase tracking-wide">
                       {formattedDate}
                     </p>
@@ -166,18 +164,10 @@ export default function PastEventsGrid() {
                 </h3>
 
                 {event.description && (
-                  <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">
+                  <p className="text-sm text-gray-400 leading-relaxed line-clamp-3 mb-4">
                     {event.description}
                   </p>
                 )}
-
-                {/* Link indicator */}
-                <div className="flex items-center gap-2 mt-4 text-[#d0006f] text-sm font-semibold">
-                  <span>View Details</span>
-                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </div>
               </div>
 
               {/* Hover effect accent */}
@@ -259,10 +249,6 @@ export default function PastEventsGrid() {
         </div>
       )}
 
-      {/* Results Info */}
-      <div className="text-center mt-4 text-sm text-gray-400">
-        Showing {startIndex + 1}-{Math.min(endIndex, events.length)} of {events.length} events
-      </div>
     </div>
   )
 }

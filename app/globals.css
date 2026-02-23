@@ -71,6 +71,10 @@
   * {
     @apply border-border;
   }
+  html {
+    background-color: #00002c;
+    overscroll-behavior: none;
+  }
   body {
     @apply bg-background text-foreground;
     font-family: Avenirnextltpro, sans-serif;

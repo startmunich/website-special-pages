@@ -368,26 +368,11 @@ export default function EventsPage() {
             <UpcomingEventsGrid />
           </div>
 
-          {/* Past Events Calendar Section */}
-          <div className="mb-20">
-            <div className="mb-10">
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                PAST EVENTS
-              </h2>
-              <p className="text-gray-400 text-lg">
-                Check out the amazing events we've hosted in the past!
-              </p>
-            </div>
-
-            <PastEventsGrid />
-          </div>
-
-
           {/* Recurring Events Section */}
           <div className="mb-20">
             <div className="mb-10">
               <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                PUBLIC <span className="outline-text">ANNUAL</span> EVENTS
+                OUR <span className="outline-text">ANNUAL RECURRING</span> EVENTS
               </h2>
               <p className="text-gray-400 text-lg">
                 Mark your calendars! These are our flagship events that happen throughout the year.
@@ -396,7 +381,6 @@ export default function EventsPage() {
 
             {/* Timeline Visualization */}
             <div className="mb-12 relative bg-white/5 rounded-2xl p-6 md:p-10 border border-white/10">
-              <h3 className="text-2xl font-bold text-white mb-8 text-center">Event Timeline</h3>
 
               {/* Months */}
               <div className="hidden md:grid grid-cols-12 gap-2 mb-6 text-center">
@@ -652,166 +636,43 @@ export default function EventsPage() {
           </div>
 
           {/* Special Events Section */}
-          <div className="mb-20">
-            <div className="mb-10">
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                PUBLIC <span className="outline-text">Special</span> Events
-              </h2>
-              <p className="text-gray-400 text-lg">
-                Unique experiences and initiatives that make our community special
-              </p>
-            </div>
-
-            <div className="relative">
-              <div
-                ref={specialEventsSliderRef}
-                onMouseDown={handleSpecialEventsDrag.start}
-                onMouseUp={handleSpecialEventsDrag.end}
-                onMouseMove={handleSpecialEventsDrag.move}
-                onMouseLeave={handleSpecialEventsDrag.end}
-                className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-2 cursor-grab active:cursor-grabbing"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-              >
-                {specialEvents.map((event, index) => (
-                  <SpecialEventCard
-                    key={event.id}
-                    event={event}
-                    index={index}
-                  />
-                ))}
+          {false && (
+            <div className="mb-20">
+              <div className="mb-10">
+                <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
+                  PUBLIC <span className="outline-text">Special</span> Events
+                </h2>
+                <p className="text-gray-400 text-lg">
+                  Unique experiences and initiatives that make our community special
+                </p>
               </div>
 
-              <ScrollIndicator sliderRef={specialEventsSliderRef} scrollProgress={specialEventsScrollProgress} />
-
-              {/* Gradient Fade Edges */}
-              <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#00002c]/50 to-transparent pointer-events-none"></div>
-            </div>
-          </div>
-
-          {/* Remove the duplicate special events section below */}
-          {/* Special Events Section */}
-          <div className="mb-20" style={{ display: 'none' }}>
-            <div className="mb-10">
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                <span className="text-[#d0006f]">Special</span> Events
-              </h2>
-              <p className="text-gray-400 text-lg">
-                Unique experiences and initiatives that make our community special
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* START Lab */}
-              <div className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20">
-                {/* Event Image */}
-                <div className="relative h-64 w-full overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop"
-                    alt="START Lab"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-
-                  {/* Category Badge */}
-                  <div className="absolute top-4 right-4">
-                    <div className="px-3 py-1.5 rounded-lg bg-[#d0006f] backdrop-blur-sm">
-                      <p className="text-xs text-white uppercase tracking-wide font-bold">
-                        Hackathon
-                      </p>
-                    </div>
-                  </div>
+              <div className="relative">
+                <div
+                  ref={specialEventsSliderRef}
+                  onMouseDown={handleSpecialEventsDrag.start}
+                  onMouseUp={handleSpecialEventsDrag.end}
+                  onMouseMove={handleSpecialEventsDrag.move}
+                  onMouseLeave={handleSpecialEventsDrag.end}
+                  className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-2 cursor-grab active:cursor-grabbing"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                >
+                  {specialEvents.map((event, index) => (
+                    <SpecialEventCard
+                      key={event.id}
+                      event={event}
+                      index={index}
+                    />
+                  ))}
                 </div>
 
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    START Lab
-                  </h3>
+                <ScrollIndicator sliderRef={specialEventsSliderRef} scrollProgress={specialEventsScrollProgress} />
 
-                  <p className="text-sm text-gray-400 leading-relaxed">
-                    An intensive program where startups work on solving real challenges with expert mentorship, resources, and a structured approach to innovation and growth.
-                  </p>
-                </div>
-
-                {/* Hover effect accent */}
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-              </div>
-
-              {/* START Legal Hack */}
-              <div className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20">
-                {/* Event Image */}
-                <div className="relative h-64 w-full overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2070&auto=format&fit=crop"
-                    alt="START Legal Hack"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-
-                  {/* Category Badge */}
-                  <div className="absolute top-4 right-4">
-                    <div className="px-3 py-1.5 rounded-lg bg-[#d0006f] backdrop-blur-sm">
-                      <p className="text-xs text-white uppercase tracking-wide font-bold">
-                        Hackathon
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    START Legal Hack
-                  </h3>
-
-                  <p className="text-sm text-gray-400 leading-relaxed">
-                    A unique hackathon focused on building legal tech solutions that address real challenges in the legal industry, combining technology with regulatory expertise.
-                  </p>
-                </div>
-
-                {/* Hover effect accent */}
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-              </div>
-
-              {/* Isar Unfiltered */}
-              <div className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20">
-                {/* Event Image */}
-                <div className="relative h-64 w-full overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=2070&auto=format&fit=crop"
-                    alt="Isar Unfiltered"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-
-                  {/* Category Badge */}
-                  <div className="absolute top-4 right-4">
-                    <div className="px-3 py-1.5 rounded-lg bg-[#d0006f] backdrop-blur-sm">
-                      <p className="text-xs text-white uppercase tracking-wide font-bold">
-                        Founder Event
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    Isar Unfiltered
-                  </h3>
-
-                  <p className="text-sm text-gray-400 leading-relaxed">
-                    Raw, honest conversations with founders and entrepreneurs about the realities of building companies. No sugar-coating, just authentic stories and lessons learned.
-                  </p>
-                </div>
-
-                {/* Hover effect accent */}
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                {/* Gradient Fade Edges */}
+                <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#00002c]/50 to-transparent pointer-events-none"></div>
               </div>
             </div>
-          </div>
-
-
+          )}
 
           {/* Member Exclusive Events Section */}
           <div className="mb-16">
@@ -832,62 +693,13 @@ export default function EventsPage() {
                     </div>
 
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                      Exclusive Member Events
+                      What to shape the Eco-System? 
+                      {/* Exclusive Member Events */}
                     </h2>
-
+                    
                     <p className="text-gray-300 leading-relaxed mb-6">
                       As a START Munich member, you get access to exclusive events including private dinners with successful founders, closed-door workshops with industry experts, peer feedback sessions, and intimate networking gatherings. These events are designed to provide maximum value and foster deep connections within our community.
                     </p>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-[#d0006f]/20 flex items-center justify-center flex-shrink-0">
-                          <svg className="w-5 h-5 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                          </svg>
-                        </div>
-                        <div>
-                          <h4 className="text-white font-semibold mb-1">Private Networking</h4>
-                          <p className="text-sm text-gray-400">Connect with fellow founders in intimate settings</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-[#d0006f]/20 flex items-center justify-center flex-shrink-0">
-                          <svg className="w-5 h-5 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                          </svg>
-                        </div>
-                        <div>
-                          <h4 className="text-white font-semibold mb-1">Expert Workshops</h4>
-                          <p className="text-sm text-gray-400">Learn from industry leaders and practitioners</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-[#d0006f]/20 flex items-center justify-center flex-shrink-0">
-                          <svg className="w-5 h-5 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                          </svg>
-                        </div>
-                        <div>
-                          <h4 className="text-white font-semibold mb-1">Feedback Sessions</h4>
-                          <p className="text-sm text-gray-400">Get valuable insights on your startup journey</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-[#d0006f]/20 flex items-center justify-center flex-shrink-0">
-                          <svg className="w-5 h-5 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                          </svg>
-                        </div>
-                        <div>
-                          <h4 className="text-white font-semibold mb-1">Startup Resources</h4>
-                          <p className="text-sm text-gray-400">Access tools, templates, and expert advice</p>
-                        </div>
-                      </div>
-                    </div>
                   </div>
 
                   {/* Right Side - CTA */}
@@ -897,18 +709,29 @@ export default function EventsPage() {
                       className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#d0006f] to-pink-600 hover:from-[#d0006f] hover:to-[#d0006f] text-white font-bold text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#d0006f]/50 overflow-hidden"
                     >
                       <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
-                      <span className="relative">Meet Our Members</span>
+                      <span className="relative">Our Members Journey</span>
                       <svg className="relative w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </svg>
                     </Link>
-                    <p className="text-sm text-gray-400 mt-4">
-                      Learn more about our community
-                    </p>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Past Events Calendar Section */}
+          <div className="mb-20">
+            <div className="mb-10">
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
+                PAST EVENTS
+              </h2>
+              <p className="text-gray-400 text-lg">
+                Check out the amazing events we've hosted in the past!
+              </p>
+            </div>
+
+            <PastEventsGrid />
           </div>
 
         </div>
