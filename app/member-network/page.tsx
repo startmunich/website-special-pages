@@ -2,66 +2,47 @@
 
 import { useState, useEffect } from "react"
 import Script from "next/script"
+import Image from "next/image"
 import Hero from "@/components/Hero"
 
 export const dynamic = 'force-dynamic'
 
-interface Company {
+interface NetworkLogo {
+  id: string
   name: string
-  logo?: string
+  category: string
+  logoUrl: string
 }
 
-const vcCompanies: Company[] = [
-  { name: "Sequoia Capital" },
-  { name: "Andreessen Horowitz" },
-  { name: "Y Combinator" },
-  { name: "Accel" },
-  { name: "Index Ventures" },
-  { name: "Lightspeed Venture" },
-  { name: "Balderton Capital" },
-  { name: "Cherry Ventures" },
-]
-
-const consultingCompanies: Company[] = [
-  { name: "McKinsey & Company" },
-  { name: "Boston Consulting Group" },
-  { name: "Bain & Company" },
-  { name: "Deloitte" },
-  { name: "PwC" },
-  { name: "EY" },
-  { name: "KPMG" },
-  { name: "Accenture" },
-]
-
-const techCompanies: Company[] = [
-  { name: "Google" },
-  { name: "Meta" },
-  { name: "Amazon" },
-  { name: "Microsoft" },
-  { name: "Apple" },
-  { name: "Netflix" },
-  { name: "Tesla" },
-  { name: "Spotify" },
-  { name: "Uber" },
-  { name: "Airbnb" },
-]
-
 export default function MemberNetworkPage() {
+  const [logos, setLogos] = useState<NetworkLogo[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    setLoading(false)
+    async function fetchLogos() {
+      try {
+        const res = await fetch("/api/network-logos")
+        if (!res.ok) throw new Error("Failed to fetch network logos")
+        const data = await res.json()
+        setLogos(data)
+      } catch (err) {
+        console.error("Error fetching network logos:", err)
+        setError("Failed to load network logos")
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchLogos()
   }, [])
 
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-[#00002c] py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-2xl font-bold text-white">Loading member network...</p>
-        </div>
-      </main>
-    )
-  }
+  // Group logos by category
+  const grouped = logos.reduce<Record<string, NetworkLogo[]>>((acc, logo) => {
+    const cat = logo.category || "Other"
+    if (!acc[cat]) acc[cat] = []
+    acc[cat].push(logo)
+    return acc
+  }, {})
 
   return (
     <>
@@ -81,7 +62,6 @@ export default function MemberNetworkPage() {
           document.addEventListener("DOMContentLoaded", sendHeight);
         `}
       </Script>
-
 
       <main className="min-h-screen bg-[#00002c]">
         {/* Hero Section */}
@@ -109,61 +89,49 @@ export default function MemberNetworkPage() {
             </p>
           </div>
 
-          {/* Venture Capital Section */}
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-8">
-              Venture Capital
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {vcCompanies.map((company, index) => (
-                <div
-                  key={index}
-                  className="bg-white/5 rounded-2xl p-8 border border-white/10 hover:border-[#d0006f]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/10 flex items-center justify-center min-h-[140px]"
-                >
-                  <h3 className="text-white font-bold text-center text-lg">
-                    {company.name}
-                  </h3>
-                </div>
-              ))}
+          {loading && (
+            <div className="text-center py-20">
+              <p className="text-2xl font-bold text-white">Loading member network...</p>
             </div>
-          </div>
+          )}
 
-          {/* Consulting Section */}
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-8">
-              Consulting
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {consultingCompanies.map((company, index) => (
-                <div
-                  key={index}
-                  className="bg-white/5 rounded-2xl p-8 border border-white/10 hover:border-[#d0006f]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/10 flex items-center justify-center min-h-[140px]"
-                >
-                  <h3 className="text-white font-bold text-center text-lg">
-                    {company.name}
-                  </h3>
-                </div>
-              ))}
+          {error && (
+            <div className="text-center py-20">
+              <p className="text-xl text-red-400">{error}</p>
             </div>
-          </div>
-          {/* Tech Section */}
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-8">
-              Tech
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {techCompanies.map((company, index) => (
-                <div
-                  key={index}
-                  className="bg-white/5 rounded-2xl p-8 border border-white/10 hover:border-[#d0006f]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/10 flex items-center justify-center min-h-[140px]"
-                >
-                  <h3 className="text-white font-bold text-center text-lg">
-                    {company.name}
-                  </h3>
-                </div>
-              ))}
+          )}
+
+          {!loading && !error && Object.keys(grouped).length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-xl text-gray-400">No companies found.</p>
             </div>
-          </div>
+          )}
+
+          {Object.entries(grouped).map(([category, companies]) => (
+            <div key={category} className="mb-16">
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-8">
+                {category}
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {companies.map((company) => (
+                  <div
+                    key={company.id}
+                    className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-[#d0006f]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/10 flex items-center justify-center min-h-[140px]"
+                  >
+                    <div className="relative w-full h-20">
+                      <Image
+                        src={company.logoUrl}
+                        alt={company.name}
+                        fill
+                        className="object-contain"
+                        unoptimized
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </main>
     </>

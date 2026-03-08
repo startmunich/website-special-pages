@@ -97,6 +97,22 @@
     paint-order: stroke fill;
   }
 
+  .outline-text-dark {
+    -webkit-text-stroke: 2px #00002c;
+    -webkit-text-fill-color: transparent;
+    paint-order: stroke fill;
+  }
+
+  .mindmap-line {
+    stroke-dasharray: 12 8;
+    animation: dashFlow 1s linear infinite;
+  }
+
+  @keyframes dashFlow {
+    0% { stroke-dashoffset: 20; }
+    100% { stroke-dashoffset: 0; }
+  }
+
   @keyframes scroll {
     0% {
       transform: translateX(0);
