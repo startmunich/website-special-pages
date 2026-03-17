@@ -5,6 +5,7 @@ import Script from 'next/script'
 import { ScrollIndicator } from '@/components/EventComponents'
 import Hero from "@/components/Hero"
 import TestimonialsSection from '@/components/TestimonialsSection'
+import CTA from "@/components/CTA"
 
 export const dynamic = 'force-dynamic'
 
@@ -780,33 +781,14 @@ export default function MemberJourneyPage() {
           />
 
           {/* CTA Section */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a1a3e] via-brand-dark-blue to-[#0d0d1f] border-2 border-brand-pink/50 shadow-2xl shadow-brand-pink/20">
-            {/* Decorative Elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-pink/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-brand-pink/5 rounded-full blur-3xl"></div>
-
-            <div className="relative p-8 md:p-12">
-              <div className="flex flex-col items-center gap-8 text-center">
-                <div>
-                  <h3 className="text-3xl md:text-4xl font-black text-white mb-4">
-                    Ready to Join?
-                  </h3>
-                  <p className="text-lg text-gray-300 max-w-2xl">
-                    Start your entrepreneurial journey with START Munich today. Apply to become a member and experience our vibrant community.
-                  </p>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <button className="px-8 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50">
-                    Apply Now
-                  </button>
-                  <button className="px-8 py-3 border border-brand-pink text-brand-pink hover:bg-brand-pink/10 font-bold rounded-lg transition-all duration-300">
-                    Learn More
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <CTA
+            title="Ready to Join?"
+            description="Start your entrepreneurial journey with START Munich today. Apply to become a member and experience our vibrant community."
+            buttons={[
+              { label: "Apply Now", href: "https://www.startmunich.de/apply", external: true },
+              { label: "Learn More", href: "https://www.startmunich.de", variant: "secondary", external: true }
+            ]}
+          />
 
         </div>
       </main>

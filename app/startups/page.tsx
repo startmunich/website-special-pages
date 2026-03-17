@@ -6,6 +6,7 @@ import type { Company } from "@/lib/types"
 import StartupCard from "@/components/StartupCard"
 import Hero from "@/components/Hero"
 import HeroCard from "@/components/HeroCard"
+import CTA from "@/components/CTA"
 import { useAnimatedNumber } from "@/lib/useAnimatedNumber"
 
 export const dynamic = 'force-dynamic'
@@ -450,7 +451,7 @@ export default function StartupsPage() {
                             <h4 className="text-sm font-bold text-[#d0006f] uppercase tracking-wide">EWOR</h4>
                           </div>
                           <p className="text-sm text-gray-300 leading-relaxed">
-                            EWOR (Entrepreneur World of Records) is a global fellowship program that supports ambitious founders by providing funding, mentorship, and a community of exceptional entrepreneurs building the next generation of impactful companies.
+                            EWOR is a global fellowship program that supports ambitious founders by providing funding, mentorship, and a community of exceptional entrepreneurs building the next generation of impactful companies.
                           </p>
                         </div>
                       </div>
@@ -670,41 +671,14 @@ export default function StartupsPage() {
 
         {/* Footer CTA Section */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pb-16">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a1a3e] via-[#00002c] to-[#0d0d1f] border-2 border-[#d0006f]/50 shadow-2xl shadow-[#d0006f]/20">
-            {/* Decorative Elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d0006f]/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#d0006f]/5 rounded-full blur-3xl"></div>
-
-            <div className="relative p-8 md:p-12">
-              <div className="flex flex-col items-center gap-8 text-center">
-                <div>
-                  <h3 className="text-3xl md:text-4xl font-black text-white mb-4">
-                    Want to Start Your Own Journey?
-                  </h3>
-                  <p className="text-lg text-gray-300 max-w-2xl">
-                    Join START Munich and get the support, network, and resources you need to turn your idea into reality. Our community has helped launch {companies.length}+ startups — yours could be next.
-                  </p>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <a
-                    href="/member-journey"
-                    className="px-8 py-3 bg-[#d0006f] hover:bg-[#d0006f]/90 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/50"
-                  >
-                    Discover the Member Journey
-                  </a>
-                  <a
-                    href="https://www.startmunich.de/apply"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-8 py-3 border border-[#d0006f] text-[#d0006f] hover:bg-[#d0006f]/10 font-bold rounded-lg transition-all duration-300"
-                  >
-                    Apply Now
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+          <CTA
+            title="Want to Start Your Own Journey?"
+            description={<>Join START Munich and get the support, network, and resources you need to turn your idea into reality. Our community has helped launch {companies.length}+ startups — yours could be next.</>}
+            buttons={[
+              { label: "Discover the Member Journey", href: "/member-journey" },
+              { label: "Apply Now", href: "https://www.startmunich.de/apply", variant: "secondary", external: true }
+            ]}
+          />
         </div>
       </main>
     </>

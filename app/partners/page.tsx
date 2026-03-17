@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Script from 'next/script'
 import { cn } from "@/lib/utils"
 import Hero from "@/components/Hero"
+import CTA from "@/components/CTA"
 
 export const dynamic = 'force-dynamic'
 
@@ -148,7 +149,7 @@ export default function PartnersPage() {
     }
     const element = categoryRefs.current[category]
     if (element) {
-      const yOffset = -120; // Offset for sticky header
+      const yOffset = -180; // Offset for sticky navigation (80px) + filter bar (~100px)
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
@@ -253,7 +254,7 @@ export default function PartnersPage() {
         </div>
 
         {/* Sticky Filter & Search Bar */}
-        <div className="sticky top-0 z-50 bg-brand-dark-blue/95 backdrop-blur-md border-b border-white/10 shadow-2xl">
+        <div className="sticky top-20 z-40 bg-brand-dark-blue/95 backdrop-blur-md border-b border-white/10 shadow-2xl">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
 
@@ -318,7 +319,7 @@ export default function PartnersPage() {
                 ref={(el) => {
                   categoryRefs.current[categoryName] = el;
                 }}
-                className="scroll-mt-32"
+                className="scroll-mt-44"
               >
                 <div className="flex items-end gap-4 mb-8 border-b border-white/10 pb-4">
                   <h2 className="text-3xl md:text-4xl font-black text-white">
@@ -374,34 +375,15 @@ export default function PartnersPage() {
           })}
 
           {/* Become a Partner CTA */}
-          <section className="relative mt-32 rounded-3xl overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-brand-pink via-[#a00055] to-brand-secondary-blue opacity-90"></div>
-            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
-
-            <div className="relative z-10 px-8 py-20 text-center">
-              <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
-                JOIN THE <span className="text-brand-dark-blue">ECOSYSTEM</span>
-              </h2>
-              <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto mb-10 font-light">
-                Become a partner and connect with the most ambitious young founders in Europe.
-              </p>
-
-              <div className="flex flex-col sm:flex-row justify-center gap-6">
-                <a
-                  href="/for-partners"
-                  className="px-8 py-4 bg-white text-brand-pink font-bold rounded-full text-lg shadow-xl hover:bg-gray-100 hover:scale-105 transition-all duration-300"
-                >
-                  View Partnership Benefits
-                </a>
-                <a
-                  href="mailto:m.heumader@startmunich.de"
-                  className="px-8 py-4 bg-brand-dark-blue/30 border-2 border-white text-white font-bold rounded-full text-lg hover:bg-white hover:text-brand-dark-blue hover:scale-105 transition-all duration-300 backdrop-blur-sm"
-                >
-                  Contact Us
-                </a>
-              </div>
-            </div>
-          </section>
+          <CTA
+            title="Join the Ecosystem"
+            description="Become a partner and connect with the most ambitious talents from Munich's leading universities. Collaborate on sponsor events, host workshops, and gain access to a vibrant community of future innovators."
+            layout="split"
+            buttons={[
+              { label: "View Partnership Benefits", href: "/for-partners" },
+              { label: "Contact Us", href: "mailto:m.heumader@startmunich.de", variant: "secondary" }
+            ]}
+          />
 
         </div>
       </main>
