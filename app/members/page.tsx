@@ -177,14 +177,87 @@ export default function MembersPage() {
       percentage: Math.round((count / totalMembers) * 100)
     }))
 
+  // Mapping von Batch-Namen zu Bilddateinamen
+  const batchImageMap: Record<string, string> = {
+    'ws21': 'WS21.jpg',
+    'ws22': 'WS22.jpg',
+    'ws23': 'WS23.JPG',
+    'ws24': 'WS24.JPG',
+    'ws25': 'WS25.JPG',
+    'ss22': 'SS22.jpg',
+    'ss23': 'SS23.JPG',
+    'ss24': 'SS24.jpg',
+    'ss25': 'SS25.jpg'
+  }
+
+  // Funktion um Batch-Namen zu normalisieren (z.B. "Summer 2023" -> "ss23")
+  function getBatchImageKey(batchName: string): string | null {
+    const normalized = batchName.toLowerCase().trim()
+
+    // Versuche "Winter/Summer YYYY" Format zu matchen
+    const fullMatch = normalized.match(/^(winter|summer)\s+(\d{4})$/)
+    if (fullMatch) {
+      const semester = fullMatch[1] === 'winter' ? 'ws' : 'ss'
+      const year = fullMatch[2].slice(-2) // Nur die letzten 2 Ziffern
+      return `${semester}${year}`
+    }
+
+    // Versuche "WS/SS YY" Format zu matchen
+    const shortMatch = normalized.match(/^(ws|ss)\s*(\d{2})$/)
+    if (shortMatch) {
+      return `${shortMatch[1]}${shortMatch[2]}`
+    }
+
+    return null
+  }
+
+  // Prüfe ob ein Batch ab WS21 ist
+  function isAfterWS21(batchName: string): boolean {
+    const normalized = batchName.toLowerCase().trim()
+
+    // Extrahiere Jahr und Semester
+    let year: number | null = null
+    let isWinter = false
+
+    const fullMatch = normalized.match(/^(winter|summer)\s+(\d{4})$/)
+    if (fullMatch) {
+      year = parseInt(fullMatch[2].slice(-2))
+      isWinter = fullMatch[1] === 'winter'
+    }
+
+    const shortMatch = normalized.match(/^(ws|ss)\s*(\d{2})$/)
+    if (shortMatch) {
+      year = parseInt(shortMatch[2])
+      isWinter = shortMatch[1] === 'ws'
+    }
+
+    if (year === null) return false
+
+    // WS21 = Winter 2021 ist der Cutoff
+    // Alles ab WS21 soll angezeigt werden
+    if (year > 21) return true
+    if (year === 21 && isWinter) return true
+
+    return false
+  }
+
   // Group members by batch for batch cards
   const batchGroups = allBatches.map(batchName => {
     const batchMembers = members.filter(m => m.batch === batchName)
+    const batchKey = getBatchImageKey(batchName)
+    const shouldShowImage = isAfterWS21(batchName)
+
+    // Bestimme das Bild: Nur wenn nach WS21 UND ein Mapping existiert
+    let groupImageUrl = '/batch.jpeg' // Default
+    if (shouldShowImage && batchKey && batchImageMap[batchKey]) {
+      groupImageUrl = `/images/batches_group_pictures/${batchImageMap[batchKey]}`
+    }
+
     return {
       name: batchName,
       semester: batchName.split(' ')[0] || 'Batch',
       year: batchName.split(' ')[1] || '',
-      groupImageUrl: '/batch.jpeg',
+      groupImageUrl,
       memberCount: batchMembers.length
     }
   })
@@ -635,11 +708,11 @@ export default function MembersPage() {
                       className="w-full block group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20"
                     >
                       {/* Background Image - Large (80% viewport height) */}
-                      <div className="relative w-full h-[70vh] md:h-[70vh] overflow-hidden">
+                      <div className="relative w-full h-[70vh] md:h-[70vh] overflow-hidden bg-[#00002c]">
                         <img
-                          src="/batch.jpeg"
+                          src={batch.groupImageUrl}
                           alt={batch.name}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/40 via-[#00002c]/10 to-transparent"></div>
                       </div>
@@ -702,11 +775,11 @@ export default function MembersPage() {
                       className="w-full group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20"
                     >
                       {/* Background Image */}
-                      <div className="relative overflow-hidden">
+                      <div className="relative h-[400px] overflow-hidden bg-[#00002c]">
                         <img
-                          src="/batch.jpeg"
+                          src={batch.groupImageUrl}
                           alt={batch.name}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/40 via-[#00002c]/10 to-transparent"></div>
                       </div>
