@@ -6,6 +6,7 @@ import type { Company } from "@/lib/types"
 import StartupCard from "@/components/StartupCard"
 import Hero from "@/components/Hero"
 import HeroCard from "@/components/HeroCard"
+import CTA from "@/components/CTA"
 import { useAnimatedNumber } from "@/lib/useAnimatedNumber"
 
 export const dynamic = 'force-dynamic'
@@ -147,7 +148,6 @@ export default function StartupsPage() {
     const amount = parseInt(company.totalRaised?.replace(/[€,]/g, '') || '0')
     return sum + amount
   }, 0)
-  const totalEmployees = companies.reduce((sum, company) => sum + (company.employees || 0), 0)
 
   // Get spotlight startups (show all featured startups)
   const spotlightStartups = companies.filter(company => company.isSpotlight)
@@ -161,7 +161,6 @@ export default function StartupsPage() {
   // Use animated number hook for statistics
   const animatedStartups = useAnimatedNumber(totalStartups, loading)
   const animatedFunding = useAnimatedNumber(totalRaised / 1000000, loading)
-  const animatedEmployees = useAnimatedNumber(totalEmployees || 333, loading)
 
   if (loading) {
     return (
@@ -228,23 +227,12 @@ export default function StartupsPage() {
             </div>
             <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Funding</p>
           </HeroCard>
-
-          {/** Stat 3 **/}
-          <HeroCard>
-            <div className="flex items-baseline justify-center gap-2 mb-3">
-              <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
-                {Math.floor(animatedEmployees)}
-              </span>
-              <span className="text-3xl font-bold text-[#d0006f]">+</span>
-            </div>
-            <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Employees</p>
-          </HeroCard>
         </Hero>
 
         {/* Mobile Stats (static, below hero) */}
         <div className="lg:hidden backdrop-blur-md mt-10">
           <div className="max-w-7xl mx-auto px-4 py-6">
-            <div className="grid grid-cols-3 gap-4 text-center">
+            <div className="grid grid-cols-2 gap-4 text-center">
               <div>
                 <p className="text-2xl font-black text-white">
                   {Math.floor(animatedStartups)}+
@@ -256,12 +244,6 @@ export default function StartupsPage() {
                   €{animatedFunding.toFixed(1)}M
                 </p>
                 <p className="text-xs font-bold text-gray-300 uppercase">Funding</p>
-              </div>
-              <div>
-                <p className="text-2xl font-black text-white">
-                  {Math.floor(animatedEmployees)}+
-                </p>
-                <p className="text-xs font-bold text-gray-300 uppercase">Employees</p>
               </div>
             </div>
           </div>
@@ -469,7 +451,7 @@ export default function StartupsPage() {
                             <h4 className="text-sm font-bold text-[#d0006f] uppercase tracking-wide">EWOR</h4>
                           </div>
                           <p className="text-sm text-gray-300 leading-relaxed">
-                            EWOR (Entrepreneur World of Records) is a global fellowship program that supports ambitious founders by providing funding, mentorship, and a community of exceptional entrepreneurs building the next generation of impactful companies.
+                            EWOR is a global fellowship program that supports ambitious founders by providing funding, mentorship, and a community of exceptional entrepreneurs building the next generation of impactful companies.
                           </p>
                         </div>
                       </div>
@@ -688,24 +670,15 @@ export default function StartupsPage() {
         </div>
 
         {/* Footer CTA Section */}
-        <div className="border-t border-white/10 mt-20 py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Join Our Community
-            </h2>
-            <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
-              Be part of Munich's most vibrant student entrepreneur ecosystem
-            </p>
-            <a
-              href="https://www.startmunich.de/apply"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-3 text-base font-medium text-[#00002c] bg-white hover:bg-gray-100 transition-all rounded group"
-            >
-              Apply Now
-              <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </a>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pb-16">
+          <CTA
+            title="Want to Start Your Own Journey?"
+            description={<>Join START Munich and get the support, network, and resources you need to turn your idea into reality. Our community has helped launch {companies.length}+ startups — yours could be next.</>}
+            buttons={[
+              { label: "Discover the Member Journey", href: "/member-journey" },
+              { label: "Apply Now", href: "https://www.startmunich.de/apply", variant: "secondary", external: true }
+            ]}
+          />
         </div>
       </main>
     </>

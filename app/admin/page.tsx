@@ -46,7 +46,6 @@ function AdminPageContent() {
     memberPicture: "",
     memberLinkedin: "",
     investmentSize: "",
-    employees: "",
     featuredStartup: "no",
     yCombinatorAlumni: "no",
     mtz: "no",
@@ -172,7 +171,6 @@ function AdminPageContent() {
         memberPicture: data.founders?.[0]?.imageUrl || "",
         memberLinkedin: data.founders?.[0]?.linkedinUrl || "",
         investmentSize: data.totalRaised || "",
-        employees: data.employees?.toString() || "",
         featuredStartup: data.isSpotlight ? "yes" : "no",
         yCombinatorAlumni: data.isYCombinator ? "yes" : "no",
         mtz: data.isMTZ ? "yes" : "no",
@@ -215,7 +213,6 @@ function AdminPageContent() {
       memberPicture: "",
       memberLinkedin: "",
       investmentSize: "",
-      employees: "",
       featuredStartup: "no",
       yCombinatorAlumni: "no",
       mtz: "no",
@@ -874,22 +871,6 @@ function AdminPageContent() {
                       </div>
                     </details>
                   )}
-                </div>
-
-                <div>
-                  <label htmlFor="employees" className="block text-sm font-medium text-gray-300 mb-2">
-                    Number of Employees
-                  </label>
-                  <input
-                    type="number"
-                    id="employees"
-                    name="employees"
-                    min="0"
-                    value={formData.employees}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#d0006f]"
-                    placeholder="10"
-                  />
                 </div>
 
                 <div>

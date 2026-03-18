@@ -85,18 +85,6 @@ export default function Navigation() {
                       </span>
                     </Link>
                     <Link
-                      href="/member-network"
-                      onClick={() => setIsCommunityOpen(false)}
-                      className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
-                    >
-                      <span className="flex items-center">
-                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                        Member Network
-                      </span>
-                    </Link>
-                    <Link
                       href="/members"
                       onClick={() => setIsCommunityOpen(false)}
                       className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
@@ -163,7 +151,7 @@ export default function Navigation() {
           <div className="hidden lg:flex items-center">
             <Link
               href="/apply"
-              className="bg-white text-brand-dark-blue px-6 py-2.5 font-black text-base rounded hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase tracking-wide"
+              className="bg-white text-brand-dark-blue px-4 py-1.5 font-bold text-sm rounded hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase tracking-wide"
             >
               APPLY NOW
             </Link>
@@ -223,13 +211,6 @@ export default function Navigation() {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Member Journey
-                  </Link>
-                  <Link
-                    href="/member-network"
-                    className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Member Network
                   </Link>
                   <Link
                     href="/members"

@@ -19,7 +19,6 @@ export interface Company {
   category: string[]
   founders: Founder[]
   totalRaised?: string
-  employees?: number
   isSpotlight?: boolean
   isYCombinator?: boolean
   companyLinkedin?: string

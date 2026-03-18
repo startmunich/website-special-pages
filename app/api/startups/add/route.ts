@@ -172,7 +172,6 @@ export async function POST(request: Request) {
       "Member Picture": memberPictureUrl || null,
       "Member Linkedin": formData.memberLinkedin,
       "Investment Size €": formData.investmentSize,
-      "Employees": formData.employees ? parseInt(formData.employees) : null,
       "Featured Startup": formData.featuredStartup,
       "Y Combinator Alumni": formData.yCombinatorAlumni,
       "Company Linkedin": formData.companyLinkedin,

@@ -432,212 +432,256 @@ export default function EventsPage() {
             {/* Timeline Visualization */}
             <div className="relative bg-white/5 rounded-2xl p-6 md:p-10 border border-white/10">
 
-              {/* Months */}
-              <div className="hidden md:grid grid-cols-12 gap-2 mb-6 text-center">
-                {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((month, i) => (
-                  <div key={month} className="text-sm text-gray-300">
-                    {month}
+              {/* Desktop Timeline */}
+              <div className="hidden md:block">
+                {/* Months */}
+                <div className="grid grid-cols-12 gap-2 mb-6 text-center">
+                  {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((month, i) => (
+                    <div key={month} className="text-sm text-gray-300">
+                      {month}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Timeline Line */}
+                <div className="relative h-3 bg-white/10 rounded-full mb-20 mt-16">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#d0006f] via-pink-500 to-[#d0006f] opacity-40 rounded-full"></div>
+
+                  {/* Month Dividers */}
+                  {[...Array(12)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="absolute top-1/2 -translate-y-1/2 w-px h-6 bg-white/20"
+                      style={{ left: `calc(${(i + 1) * 8.33}% - 0.5px)` }}
+                    ></div>
+                  ))}
+
+                  {/* Event Markers - Using TimelineMarker Components */}
+                  <TimelineMarker
+                    eventId="pitch-network"
+                    left={calculateTimelinePosition(1, 15)}
+                    color="#ff1744"
+                    label="Pitch & Network"
+                    position="bottom"
+                    hoveredEvent={hoveredEvent}
+                    onHover={handleTimelineMarkerHover}
+                    onLeave={() => setHoveredEvent(null)}
+                  />
+
+                  <TimelineMarker
+                    eventId="legal-hack"
+                    left={calculateTimelinePosition(3, 15)}
+                    color="#9c27b0"
+                    label="Legal Hack"
+                    position="top"
+                    hoveredEvent={hoveredEvent}
+                    onHover={handleTimelineMarkerHover}
+                    onLeave={() => setHoveredEvent(null)}
+                  />
+
+                  <TimelineMarker
+                    eventId="info-event"
+                    left={calculateTimelinePosition(4, 15)}
+                    color="#4a90e2"
+                    label="Info Event"
+                    position="bottom"
+                    hoveredEvent={hoveredEvent}
+                    onHover={handleTimelineMarkerHover}
+                    onLeave={() => setHoveredEvent(null)}
+                  />
+
+                  <TimelineMarker
+                    eventId="fail-tales"
+                    left={calculateTimelinePosition(5, 15)}
+                    color="#4a90e2"
+                    label="Fail Tales"
+                    position="top"
+                    hoveredEvent={hoveredEvent}
+                    onHover={handleTimelineMarkerHover}
+                    onLeave={() => setHoveredEvent(null)}
+                  />
+
+                  <TimelineMarker
+                    eventId="pitch-network"
+                    left={calculateTimelinePosition(6, 15)}
+                    color="#ff1744"
+                    label="Pitch & Network"
+                    position="bottom"
+                    hoveredEvent={hoveredEvent}
+                    onHover={handleTimelineMarkerHover}
+                    onLeave={() => setHoveredEvent(null)}
+                  />
+
+                  <TimelineMarker
+                    eventId="info-event"
+                    left={calculateTimelinePosition(10, 15)}
+                    color="#4a90e2"
+                    label="Info Event"
+                    position="top"
+                    hoveredEvent={hoveredEvent}
+                    onHover={handleTimelineMarkerHover}
+                    onLeave={() => setHoveredEvent(null)}
+                  />
+
+                  <TimelineMarker
+                    eventId="fail-tales"
+                    left={calculateTimelinePosition(11, 15)}
+                    color="#4a90e2"
+                    label="Fail Tales"
+                    position="bottom"
+                    hoveredEvent={hoveredEvent}
+                    onHover={handleTimelineMarkerHover}
+                    onLeave={() => setHoveredEvent(null)}
+                  />
+
+                  <TimelineMarker
+                    eventId="rtss"
+                    left={calculateTimelinePosition(12, 0)}
+                    color="#ff1744"
+                    label="RTSS 🚀"
+                    position="top"
+                    hoveredEvent={hoveredEvent}
+                    onHover={handleTimelineMarkerHover}
+                    onLeave={() => setHoveredEvent(null)}
+                  />
+
+                  <TimelineMarker
+                    eventId="rtsh"
+                    left={calculateTimelinePosition(12, 15)}
+                    color="#9c27b0"
+                    label="RTSH 🚀"
+                    position="bottom"
+                    hoveredEvent={hoveredEvent}
+                    onHover={handleTimelineMarkerHover}
+                    onLeave={() => setHoveredEvent(null)}
+                  />
+                </div>
+
+                {/* Desktop Legend */}
+                <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 pt-6 border-t border-white/10">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-[#ff1744] rounded-full"></div>
+                    <span className="text-sm text-gray-300 font-medium">Pitch Events</span>
                   </div>
-                ))}
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-[#9c27b0] rounded-full"></div>
+                    <span className="text-sm text-gray-300 font-medium">Hackathons</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-[#4a90e2] rounded-full"></div>
+                    <span className="text-sm text-gray-300 font-medium">Talks</span>
+                  </div>
+                </div>
               </div>
 
-              {/* Timeline Line */}
-              <div className="relative h-3 bg-white/10 rounded-full mb-20 mt-16 hidden md:block">
-                <div className="absolute inset-0 bg-gradient-to-r from-[#d0006f] via-pink-500 to-[#d0006f] opacity-40 rounded-full"></div>
-
-                {/* Month Dividers */}
-                {[...Array(12)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute top-1/2 -translate-y-1/2 w-px h-6 bg-white/20"
-                    style={{ left: `calc(${(i + 1) * 8.33}% - 0.5px)` }}
-                  ></div>
-                ))}
-
-                {/* Event Markers - Using TimelineMarker Components */}
-                <TimelineMarker
-                  eventId="pitch-network"
-                  left={calculateTimelinePosition(1, 15)}
-                  color="#ff1744"
-                  label="Pitch & Network"
-                  position="bottom"
-                  hoveredEvent={hoveredEvent}
-                  onHover={handleTimelineMarkerHover}
-                  onLeave={() => setHoveredEvent(null)}
-                />
-
-                <TimelineMarker
-                  eventId="legal-hack"
-                  left={calculateTimelinePosition(3, 15)}
-                  color="#9c27b0"
-                  label="Legal Hack"
-                  position="top"
-                  hoveredEvent={hoveredEvent}
-                  onHover={handleTimelineMarkerHover}
-                  onLeave={() => setHoveredEvent(null)}
-                />
-
-                <TimelineMarker
-                  eventId="info-event"
-                  left={calculateTimelinePosition(4, 15)}
-                  color="#4a90e2"
-                  label="Info Event"
-                  position="bottom"
-                  hoveredEvent={hoveredEvent}
-                  onHover={handleTimelineMarkerHover}
-                  onLeave={() => setHoveredEvent(null)}
-                />
-
-                <TimelineMarker
-                  eventId="fail-tales"
-                  left={calculateTimelinePosition(5, 15)}
-                  color="#4a90e2"
-                  label="Fail Tales"
-                  position="top"
-                  hoveredEvent={hoveredEvent}
-                  onHover={handleTimelineMarkerHover}
-                  onLeave={() => setHoveredEvent(null)}
-                />
-
-                <TimelineMarker
-                  eventId="pitch-network"
-                  left={calculateTimelinePosition(6, 15)}
-                  color="#ff1744"
-                  label="Pitch & Network"
-                  position="bottom"
-                  hoveredEvent={hoveredEvent}
-                  onHover={handleTimelineMarkerHover}
-                  onLeave={() => setHoveredEvent(null)}
-                />
-
-                <TimelineMarker
-                  eventId="info-event"
-                  left={calculateTimelinePosition(10, 15)}
-                  color="#4a90e2"
-                  label="Info Event"
-                  position="top"
-                  hoveredEvent={hoveredEvent}
-                  onHover={handleTimelineMarkerHover}
-                  onLeave={() => setHoveredEvent(null)}
-                />
-
-                <TimelineMarker
-                  eventId="fail-tales"
-                  left={calculateTimelinePosition(11, 15)}
-                  color="#4a90e2"
-                  label="Fail Tales"
-                  position="bottom"
-                  hoveredEvent={hoveredEvent}
-                  onHover={handleTimelineMarkerHover}
-                  onLeave={() => setHoveredEvent(null)}
-                />
-
-                <TimelineMarker
-                  eventId="rtss"
-                  left={calculateTimelinePosition(12, 0)}
-                  color="#ff1744"
-                  label="RTSS 🚀"
-                  position="top"
-                  hoveredEvent={hoveredEvent}
-                  onHover={handleTimelineMarkerHover}
-                  onLeave={() => setHoveredEvent(null)}
-                />
-
-                <TimelineMarker
-                  eventId="rtsh"
-                  left={calculateTimelinePosition(12, 15)}
-                  color="#9c27b0"
-                  label="RTSH 🚀"
-                  position="bottom"
-                  hoveredEvent={hoveredEvent}
-                  onHover={handleTimelineMarkerHover}
-                  onLeave={() => setHoveredEvent(null)}
-                />
-              </div>
-
-              {/* Legend */}
-              <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mt-8 pt-6 border-t border-white/10">
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 bg-[#ff1744] rounded-full"></div>
-                  <span className="text-sm text-gray-300 font-medium">Pitch Events</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 bg-[#9c27b0] rounded-full"></div>
-                  <span className="text-sm text-gray-300 font-medium">Hackathons</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 bg-[#4a90e2] rounded-full"></div>
-                  <span className="text-sm text-gray-300 font-medium">Talks</span>
-                </div>
-              </div>
-
-              {/* Mobile Timeline - Simplified */}
-              <div className="md:hidden space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 text-gray-400 text-xs">Jan</div>
-                  <div className="flex-1 flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[#ff1744] rounded-full"></div>
-                    <span className="text-xs text-white">PITCH & NETWORK</span>
+              {/* Mobile Timeline - Simplified List View */}
+              <div className="md:hidden">
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4 p-3 rounded-lg bg-white/5">
+                    <div className="w-14 flex-shrink-0 text-gray-400 text-sm font-medium">Jan</div>
+                    <button
+                      onClick={() => scrollToEvent('pitch-network')}
+                      className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                    >
+                      <div className="w-3 h-3 bg-[#ff1744] rounded-full flex-shrink-0"></div>
+                      <span className="text-sm text-white">Pitch & Network</span>
+                    </button>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 text-gray-400 text-xs ">Mar</div>
-                  <div className="flex-1 flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[#9c27b0] rounded-full"></div>
-                    <span className="text-xs text-white">Legal Hack</span>
+
+                  <div className="flex items-start gap-4 p-3 rounded-lg bg-white/5">
+                    <div className="w-14 flex-shrink-0 text-gray-400 text-sm font-medium">Mar</div>
+                    <button
+                      onClick={() => scrollToEvent('legal-hack')}
+                      className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                    >
+                      <div className="w-3 h-3 bg-[#9c27b0] rounded-full flex-shrink-0"></div>
+                      <span className="text-sm text-white">Legal Hack</span>
+                    </button>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 text-gray-400 text-xs ">Apr</div>
-                  <div className="flex-1 flex flex-wrap items-center gap-2">
-                    <div className="w-3 h-3 bg-[#4a90e2] rounded-full"></div>
-                    <span className="text-xs text-white">Info Event</span>
-                    <span className="text-gray-500">•</span>
-                    <div className="w-3 h-3 bg-[#4a90e2] rounded-full"></div>
-                    <span className="text-xs text-white">Fail Tales</span>
+
+                  <div className="flex items-start gap-4 p-3 rounded-lg bg-white/5">
+                    <div className="w-14 flex-shrink-0 text-gray-400 text-sm font-medium">Apr</div>
+                    <div className="flex flex-col gap-2">
+                      <button
+                        onClick={() => scrollToEvent('info-event')}
+                        className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                      >
+                        <div className="w-3 h-3 bg-[#4a90e2] rounded-full flex-shrink-0"></div>
+                        <span className="text-sm text-white">Info Event</span>
+                      </button>
+                      <button
+                        onClick={() => scrollToEvent('fail-tales')}
+                        className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                      >
+                        <div className="w-3 h-3 bg-[#4a90e2] rounded-full flex-shrink-0"></div>
+                        <span className="text-sm text-white">Fail Tales</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 text-gray-400 text-xs ">Jun</div>
-                  <div className="flex-1 flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[#ff1744] rounded-full"></div>
-                    <span className="text-xs text-white">PITCH & NETWORK</span>
+
+                  <div className="flex items-start gap-4 p-3 rounded-lg bg-white/5">
+                    <div className="w-14 flex-shrink-0 text-gray-400 text-sm font-medium">Jun</div>
+                    <button
+                      onClick={() => scrollToEvent('pitch-network')}
+                      className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                    >
+                      <div className="w-3 h-3 bg-[#ff1744] rounded-full flex-shrink-0"></div>
+                      <span className="text-sm text-white">Pitch & Network</span>
+                    </button>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 text-gray-400 text-xs ">Oct</div>
-                  <div className="flex-1 flex flex-wrap items-center gap-2">
-                    <div className="w-3 h-3 bg-[#4a90e2] rounded-full"></div>
-                    <span className="text-xs text-white">Info Event</span>
-                    <span className="text-gray-500">•</span>
-                    <div className="w-3 h-3 bg-[#4a90e2] rounded-full"></div>
-                    <span className="text-xs text-white">Fail Tales</span>
-                    <span className="text-gray-500">•</span>
-                    <div className="w-3 h-3 bg-[#ff1744] rounded-full"></div>
-                    <span className="text-xs text-white">RTSS</span>
+
+                  <div className="flex items-start gap-4 p-3 rounded-lg bg-white/5">
+                    <div className="w-14 flex-shrink-0 text-gray-400 text-sm font-medium">Oct</div>
+                    <div className="flex flex-col gap-2">
+                      <button
+                        onClick={() => scrollToEvent('info-event')}
+                        className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                      >
+                        <div className="w-3 h-3 bg-[#4a90e2] rounded-full flex-shrink-0"></div>
+                        <span className="text-sm text-white">Info Event</span>
+                      </button>
+                      <button
+                        onClick={() => scrollToEvent('fail-tales')}
+                        className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                      >
+                        <div className="w-3 h-3 bg-[#4a90e2] rounded-full flex-shrink-0"></div>
+                        <span className="text-sm text-white">Fail Tales</span>
+                      </button>
+                      <button
+                        onClick={() => scrollToEvent('rtss')}
+                        className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                      >
+                        <div className="w-3 h-3 bg-[#ff1744] rounded-full flex-shrink-0"></div>
+                        <span className="text-sm text-white">RTSS 🚀</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 text-gray-400 text-xs ">Nov</div>
-                  <div className="flex-1 flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[#9c27b0] rounded-full"></div>
-                    <span className="text-xs text-white">Road to START Hack</span>
+
+                  <div className="flex items-start gap-4 p-3 rounded-lg bg-white/5">
+                    <div className="w-14 flex-shrink-0 text-gray-400 text-sm font-medium">Nov</div>
+                    <button
+                      onClick={() => scrollToEvent('rtsh')}
+                      className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                    >
+                      <div className="w-3 h-3 bg-[#9c27b0] rounded-full flex-shrink-0"></div>
+                      <span className="text-sm text-white">Road to START Hack 🚀</span>
+                    </button>
                   </div>
                 </div>
 
                 {/* Mobile Legend */}
-                <div className="mt-4 pt-4 border-t border-white/10 flex flex-wrap gap-4 text-xs">
+                <div className="mt-6 pt-4 border-t border-white/10 flex flex-wrap gap-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#ff1744]"></div>
-                    <span className="text-gray-300">Pitch Event</span>
+                    <div className="w-3 h-3 rounded-full bg-[#ff1744]"></div>
+                    <span className="text-xs text-gray-300">Pitch Events</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#9c27b0]"></div>
-                    <span className="text-gray-300">Hackathon</span>
+                    <div className="w-3 h-3 rounded-full bg-[#9c27b0]"></div>
+                    <span className="text-xs text-gray-300">Hackathons</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#4a90e2]"></div>
-                    <span className="text-gray-300">Talks</span>
+                    <div className="w-3 h-3 rounded-full bg-[#4a90e2]"></div>
+                    <span className="text-xs text-gray-300">Talks</span>
                   </div>
                 </div>
               </div>

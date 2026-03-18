@@ -19,7 +19,7 @@ interface LumaEventWrapper {
   tags: string[]
 }
 
-const EVENTS_PER_PAGE = 6
+const EVENTS_PER_PAGE = 9
 
 export default function PastEventsGrid() {
   const [events, setEvents] = useState<LumaEventWrapper[]>([])
