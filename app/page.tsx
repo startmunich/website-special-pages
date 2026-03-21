@@ -43,6 +43,11 @@ export default function Home() {
             </Link>
           </li>
           <li>
+            <Link href="/start-goes-bay-area" className="text-blue-600 hover:underline text-lg">
+              Start Goes Bay Area
+            </Link>
+          </li>
+          <li>
             <Link href="/startups" className="text-blue-600 hover:underline text-lg">
               Startups
             </Link>
