@@ -45,6 +45,7 @@ interface MemberStory {
   story: string
   quote: string
   department: string
+  logos?: { src: string; url?: string }[]
 }
 
 const placeholderImage = "/internalevents.png"
@@ -204,23 +205,30 @@ const startEvents: StartEvent[] = [
 const memberStories: MemberStory[] = [
   {
     id: "story-1",
-    name: "Sarah Mueller",
-    role: "Founder & CEO",
-    company: "TechFlow GmbH",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=500&auto=format&fit=crop",
-    story: "I joined START Munich with just an idea and a lot of passion. Through the intensive onboarding and department selection, I found my place in the Events team. The network and mentorship I received were instrumental in launching TechFlow.",
-    quote: "START Munich didn't just give me a startup, it gave me a community that believed in my vision.",
-    department: "Events"
+    name: "Felix Haas",
+    role: "Founder & Investor",
+    company: "Bits & Pretzels",
+    image: "/memberJourney/alumni/FelixHaas.png",
+    story: "At START Munich, I laid the foundation for my current network. From this starting point, I built several companies, invested in more than 80 start-ups and helped set up Bits & Pretzels.",
+    quote: "At START Munich, I laid the foundation for my current network.",
+    department: "Alumni",
+    logos: [
+      { src: "https://cdn.prod.website-files.com/65f98ea7c70b10b668ccbeb3/65f98ea7c70b10b668ccbeea_Vectors-Wrapper.svg", url: "https://www.idnow.io/" },
+      { src: "https://cdn.prod.website-files.com/65f98ea7c70b10b668ccbeb3/65f98ea7c70b10b668ccbece_logo.svg", url: "https://www.bitsandpretzels.com/" }
+    ]
   },
   {
     id: "story-2",
-    name: "Alex Rodriguez",
-    role: "Founder & CTO",
-    company: "DataSync AI",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=500&auto=format&fit=crop",
-    story: "The San Francisco trip was a game-changer for my startup. Meeting investors and engineers in Silicon Valley opened doors I didn't know existed. Combined with the Marketing team's support, we scaled from 0 to 50k users.",
-    quote: "The global perspective I gained at START Munich accelerated our growth by years.",
-    department: "Marketing"
+    name: "Joshua Cornelius",
+    role: "Co-Founder",
+    company: "Freeletics",
+    image: "/memberJourney/alumni/JoshuaCornelius.png",
+    story: "Before we founded Freeletics, START Munich - in addition to CDTM - gave my co-founder and me the ideal opportunity to make first contacts in the Munich startup scene.",
+    quote: "START Munich gave us the ideal opportunity to make first contacts in the Munich startup scene.",
+    department: "Alumni",
+    logos: [
+      { src: "https://cdn.prod.website-files.com/65f98ea7c70b10b668ccbeb3/65f98ea7c70b10b668ccbeef_5eb3c929c8c4590004435152.png", url: "https://www.freeletics.com/" }
+    ]
   },
   {
     id: "story-3",
@@ -565,14 +573,7 @@ export default function MemberJourneyPage() {
                       >
                         <span className="text-4xl flex-shrink-0">{event.icon}</span>
                         <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-white font-bold text-lg">{event.title}</h3>
-                            {event.frequency && (
-                              <span className="px-2.5 py-1 bg-brand-pink/20 border border-brand-pink/50 rounded-full text-xs font-semibold text-brand-pink">
-                                {event.frequency}
-                              </span>
-                            )}
-                          </div>
+                          <h3 className="text-white font-bold text-lg mb-2">{event.title}</h3>
                           <p className="text-gray-300 text-sm leading-relaxed">
                             {event.description}
                           </p>
@@ -814,7 +815,8 @@ export default function MemberJourneyPage() {
               company: story.company,
               image: story.image,
               story: story.story,
-              quote: story.quote
+              quote: story.quote,
+              logos: story.logos
             }))}
           />
 
