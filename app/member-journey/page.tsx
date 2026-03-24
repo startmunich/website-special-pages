@@ -6,6 +6,7 @@ import { ScrollIndicator } from '@/components/EventComponents'
 import Hero from "@/components/Hero"
 import TestimonialsSection from '@/components/TestimonialsSection'
 import CTA from "@/components/CTA"
+import { useAnimatedNumber } from '@/lib/hooks'
 
 export const dynamic = 'force-dynamic'
 
@@ -252,6 +253,9 @@ export default function MemberJourneyPage() {
   const [isMoreHovered, setIsMoreHovered] = useState(false)
   const autoRotateTimerRef = useRef<NodeJS.Timeout | null>(null)
 
+  // Animated counter for hero stats
+  const semesterCount = useAnimatedNumber(2, loading, 500)
+
   // Images for "And a lot more..." section
   const moreImages = [
     "https://images.unsplash.com/photo-1528605105345-5344ea20e269?q=80&w=800&auto=format&fit=crop",
@@ -396,7 +400,7 @@ export default function MemberJourneyPage() {
             <div className="relative text-center">
               <div className="flex items-baseline justify-center gap-2 mb-3">
                 <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-brand-pink transition">
-                  2
+                  {semesterCount}
                 </span>
                 <span className="text-3xl font-bold text-brand-pink">+</span>
               </div>

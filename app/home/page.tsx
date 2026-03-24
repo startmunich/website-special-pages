@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Script from 'next/script'
+import { useAnimatedNumber, useInView } from '@/lib/hooks'
 
 export const dynamic = 'force-dynamic'
 
@@ -147,40 +148,6 @@ const networkCities = [
   { name: "Cambridge", flag: "🇬🇧", image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=400&auto=format&fit=crop" },
 ]
 
-// ── Hooks ───────────────────────────────────────────────────────────────────────
-
-function useCountUp(target: number, duration = 1800, start = false) {
-  const [count, setCount] = useState(0)
-  useEffect(() => {
-    if (!start) return
-    let current = 0
-    const steps = 60
-    const increment = target / steps
-    const interval = duration / steps
-    let step = 0
-    const timer = setInterval(() => {
-      step++
-      current += increment
-      if (step >= steps) { setCount(target); clearInterval(timer) }
-      else setCount(current)
-    }, interval)
-    return () => clearInterval(timer)
-  }, [target, duration, start])
-  return count
-}
-
-function useInView(threshold = 0.2) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    if (!ref.current) return
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect() } }, { threshold })
-    obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [threshold])
-  return { ref, visible }
-}
-
 // ── Component ───────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
@@ -200,11 +167,11 @@ export default function HomePage() {
   }, [])
 
   const animatedValues = [
-    useCountUp(facts[0].value, 1800, factsView.visible),
-    useCountUp(facts[1].value, 1800, factsView.visible),
-    useCountUp(facts[2].value, 1800, factsView.visible),
-    useCountUp(facts[3].value, 1800, factsView.visible),
-    useCountUp(facts[4].value, 1800, factsView.visible),
+    useAnimatedNumber(facts[0].value, !factsView.visible, 1800),
+    useAnimatedNumber(facts[1].value, !factsView.visible, 1800),
+    useAnimatedNumber(facts[2].value, !factsView.visible, 1800),
+    useAnimatedNumber(facts[3].value, !factsView.visible, 1800),
+    useAnimatedNumber(facts[4].value, !factsView.visible, 1800),
   ]
 
   return (
