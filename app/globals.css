@@ -116,6 +116,51 @@
     animation-play-state: paused;
   }
 
+  .animate-scroll-reverse {
+    display: inline-flex;
+    animation: scroll-reverse 30s linear infinite;
+    width: max-content;
+  }
+
+  .animate-scroll-reverse:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll-reverse {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  .animate-scroll-vertical {
+    animation: scroll-vertical 20s linear infinite;
+  }
+
+  @keyframes scroll-vertical {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+
+  .animate-ticker {
+    animation: ticker 16s steps(8) infinite;
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+
   @keyframes blob {
     0% {
       transform: translate(0px, 0px) scale(1);
