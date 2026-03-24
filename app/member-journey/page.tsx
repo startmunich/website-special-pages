@@ -254,7 +254,7 @@ export default function MemberJourneyPage() {
   const autoRotateTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   // Animated counter for hero stats
-  const semesterCount = useAnimatedNumber(2, loading, 1200)
+  const semesterCount = useAnimatedNumber(2, loading, 500)
 
   // Images for "And a lot more..." section
   const moreImages = [
