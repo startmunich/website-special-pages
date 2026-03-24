@@ -233,7 +233,7 @@ export default function MembersPage() {
       <main className="min-h-screen bg-[#00002c]">
         {/* Hero Section with Full-Width Image */}
         <Hero
-          backgroundImage="/member-background.png"
+          backgroundImage="/ourMembers/hero.png"
           title={
             <>
               START MUNICH

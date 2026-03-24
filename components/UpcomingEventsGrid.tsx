@@ -136,19 +136,8 @@ export default function UpcomingEventsGrid() {
                 </div>
               )}
 
-              {/* Date Badge - between image and content */}
-              <div className="px-4 pt-3">
-                <div className="inline-block">
-                  <div className="px-3 py-1 rounded-md bg-[#d0006f]/20 border border-[#d0006f]/40">
-                    <p className="text-xs text-[#d0006f] font-bold uppercase tracking-wide">
-                      {formattedDate}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
               {/* Content */}
-              <div className="px-4 pb-4 pt-2">
+              <div className="p-4">
                 <h3 className="text-base font-bold text-white mb-2 line-clamp-3">
                   {event.name}
                 </h3>

@@ -150,15 +150,6 @@ export default function PastEventsGrid() {
 
               {/* Content */}
               <div className="p-5 flex flex-col flex-grow">
-                {/* Date Badge */}
-                <div className="mb-3">
-                  <div className="inline-block px-2.5 py-1 rounded-md bg-[#d0006f]/20 border border-[#d0006f]/40">
-                    <p className="text-xs text-[#d0006f] font-bold uppercase tracking-wide">
-                      {formattedDate}
-                    </p>
-                  </div>
-                </div>
-
                 <h3 className="text-lg font-bold text-white mb-2 line-clamp-2">
                   {event.name}
                 </h3>
