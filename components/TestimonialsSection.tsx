@@ -40,14 +40,14 @@ export default function TestimonialsSection({
                 {items.map((item) => (
                     <div
                         key={item.id}
-                        className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-brand-pink overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#0f122f]/30"
+                        className="relative bg-white/5 border border-white/10 overflow-hidden"
                     >
                         {/* Image */}
                         <div className="relative h-64 w-full overflow-hidden">
                             <img
                                 src={item.image}
                                 alt={item.name}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                className="w-full h-full object-cover"
                             />
                         </div>
 
@@ -98,8 +98,6 @@ export default function TestimonialsSection({
                             </div>
                         </div>
 
-                        {/* Hover effect accent */}
-                        <div className="absolute bottom-0 left-0 w-full h-1 bg-[#1f2345] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                     </div>
                 ))}
             </div>
