@@ -657,73 +657,97 @@ export default function HomePage() {
 
         {/* ═══════════════════════════ LATEST NEWS ═══════════════════════════ */}
         <section className="py-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-          {/* Background decorations */}
-          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-brand-pink/5 rounded-full blur-[150px]" />
-          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[120px]" />
-
-          <div className="relative max-w-7xl mx-auto">
-            <div className="mb-16 text-center">
-              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Stay Updated</span>
-              <h2 className="text-5xl sm:text-6xl font-black text-white mt-3">LATEST NEWS</h2>
-              <p className="text-gray-400 mt-4 max-w-2xl mx-auto">Follow our journey and stay connected with the latest updates from START Munich</p>
-            </div>
-
-            {/* LinkedIn Embeds */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="group relative">
-                <div className="absolute -inset-1 bg-gradient-to-r from-brand-pink/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
-                <div className="relative bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-3 hover:border-brand-pink/40 transition-all duration-300">
-                  <iframe
-                    src="https://www.linkedin.com/embed/feed/update/urn:li:share:7440016138719272960?collapsed=1"
-                    height="600"
-                    width="100%"
-                    allowFullScreen
-                    title="LinkedIn Post 1"
-                    className="rounded-xl border-0"
-                  />
-                </div>
+          <div className="max-w-7xl mx-auto">
+            {/* Header with social links */}
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12">
+              <div>
+                <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Stay Updated</span>
+                <h2 className="text-5xl sm:text-6xl font-black text-white mt-3">LATEST NEWS</h2>
               </div>
-              <div className="group relative">
-                <div className="absolute -inset-1 bg-gradient-to-r from-brand-pink/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
-                <div className="relative bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-3 hover:border-brand-pink/40 transition-all duration-300">
-                  <iframe
-                    src="https://www.linkedin.com/embed/feed/update/urn:li:share:7435353728989229056?collapsed=1"
-                    height="600"
-                    width="100%"
-                    allowFullScreen
-                    title="LinkedIn Post 2"
-                    className="rounded-xl border-0"
-                  />
-                </div>
-              </div>
-              <div className="group relative">
-                <div className="absolute -inset-1 bg-gradient-to-r from-brand-pink/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
-                <div className="relative bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-3 hover:border-brand-pink/40 transition-all duration-300">
-                  <iframe
-                    src="https://www.linkedin.com/embed/feed/update/urn:li:share:7435603494218166272?collapsed=1"
-                    height="600"
-                    width="100%"
-                    allowFullScreen
-                    title="LinkedIn Post 3"
-                    className="rounded-xl border-0"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Social Links */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-16">
-              <span className="text-gray-500 text-sm uppercase tracking-[0.2em] font-medium">Follow us</span>
               <div className="flex items-center gap-4">
-                <Link href="https://www.linkedin.com/company/start-munich/" target="_blank" className="group flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-white/10 to-white/5 border border-white/10 rounded-xl hover:border-brand-pink/50 hover:from-brand-pink/20 hover:to-brand-pink/10 transition-all duration-300">
-                  <svg className="w-5 h-5 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  <span className="text-white text-sm font-bold group-hover:text-brand-pink transition-colors">LinkedIn</span>
+                <Link href="https://www.linkedin.com/company/start-munich/" target="_blank" className="group flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full hover:border-brand-pink/50 hover:bg-brand-pink/10 transition-all duration-300">
+                  <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                  <span className="text-white text-sm font-medium group-hover:text-brand-pink transition-colors">LinkedIn</span>
                 </Link>
-                <Link href="https://www.instagram.com/start.munich/" target="_blank" className="group flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-white/10 to-white/5 border border-white/10 rounded-xl hover:border-brand-pink/50 hover:from-brand-pink/20 hover:to-brand-pink/10 transition-all duration-300">
-                  <svg className="w-5 h-5 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                  <span className="text-white text-sm font-bold group-hover:text-brand-pink transition-colors">Instagram</span>
+                <Link href="https://www.instagram.com/start.munich/" target="_blank" className="group flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full hover:border-brand-pink/50 hover:bg-brand-pink/10 transition-all duration-300">
+                  <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                  <span className="text-white text-sm font-medium group-hover:text-brand-pink transition-colors">Instagram</span>
                 </Link>
               </div>
+            </div>
+
+            {/* News Cards - Custom Design */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Card 1 - START Labs */}
+              <Link href="https://www.linkedin.com/feed/update/urn:li:share:7440016138719272960" target="_blank" className="group relative">
+                <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
+                  <img
+                    src="https://media.licdn.com/dms/image/v2/D5622AQEh2lg_lhQjww/feedshare-shrink_1280/B56Z0A_QNzI0AU-/0/1773838075010?e=1775692800&v=beta&t=idyNOcgAy--nvZREVm78rmAppAX0uJFuOWEjrUVjIfg"
+                    alt="START Labs MedTech Edition"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <div className="text-white/60 text-xs uppercase tracking-wider mb-2">Upcoming Event</div>
+                    <div className="text-white font-bold text-xl mb-1">START Labs: MedTech Edition</div>
+                    <p className="text-white/70 text-sm">Something is coming. Block your calendar.</p>
+                  </div>
+                  <div className="absolute top-6 right-6 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Card 2 - Bay Area */}
+              <Link href="https://www.linkedin.com/feed/update/urn:li:share:7435353728989229056" target="_blank" className="group relative">
+                <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
+                  <img
+                    src="https://media.licdn.com/dms/image/v2/D4D22AQGajz8OPW6FFw/feedshare-shrink_1280/B4DZy.u0TJHIAc-/0/1772726470218?e=1775692800&v=beta&t=eNeBZE_T126RQMQfvEIfT926mx6D_VxTvIOeZ18p1_0"
+                    alt="START Goes Bay Area"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute top-6 left-6 right-6">
+                    <div className="inline-block px-3 py-1 bg-brand-pink/90 rounded-full text-white text-xs font-bold uppercase tracking-wider">Trip 2024</div>
+                  </div>
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <div className="text-white/60 text-xs uppercase tracking-wider mb-2">START Goes</div>
+                    <div className="text-white font-black text-2xl mb-2">BAY AREA</div>
+                    <p className="text-white/70 text-sm">Our STARTies explore the San Francisco startup ecosystem.</p>
+                  </div>
+                  <div className="absolute top-6 right-6 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Card 3 - Lio Funding */}
+              <Link href="https://www.linkedin.com/feed/update/urn:li:share:7435603494218166272" target="_blank" className="group relative">
+                <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
+                  <img
+                    src="https://media.licdn.com/dms/image/v2/D4E22AQHk1X_AF4bZ4Q/feedshare-shrink_2048_1536/B4EZzCR.lKJEAk-/0/1772786019035?e=1775692800&v=beta&t=u5vZe8YnuTVmKWbQdOIHbEa626sXld9zhbR71XaQxZk"
+                    alt="Lio raises €30M"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute top-6 left-6 right-6">
+                    <div className="inline-block px-3 py-1 bg-green-500/20 border border-green-500/30 rounded-full text-green-400 text-xs font-bold uppercase tracking-wider">Funding News</div>
+                  </div>
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <div className="text-white font-bold text-xl mb-1">Lio raises €30M</div>
+                    <p className="text-white/60 text-sm">Huge congratulations to START Munich alumni! 🎉</p>
+                  </div>
+                  <div className="absolute top-6 right-6 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                </div>
+              </Link>
             </div>
           </div>
         </section>
