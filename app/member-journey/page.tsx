@@ -103,39 +103,39 @@ const timelineEvents: TimelineEvent[] = [
 
 const departments: Department[] = [
   {
-    id: "finops",
-    name: "Finops",
-    description: "Financial operations and business development",
-    icon: "💰",
-    responsibilities: ["Budgeting and finance", "Partnership management", "Business strategy", "Growth metrics"]
-  },
-  {
-    id: "events",
-    name: "Events",
-    description: "Community events and networking experiences",
-    icon: "🎉",
-    responsibilities: ["Event planning", "Community engagement", "Speaker coordination", "Attendee experience"]
+    id: "people",
+    name: "People",
+    description: "Learn how to spot the right talent, keep them motivated, and build a community that accelerates your startup journey.",
+    icon: "👥",
+    responsibilities: ["Run recruiting, interviews, and onboarding.", "Organize START Sprint and shape new batches.", "Keep members engaged and connected through formats like Hut Weekend, START Goes Eating, and more."]
   },
   {
     id: "marketing",
     name: "Marketing",
-    description: "Brand and communication strategy",
+    description: "Learn strategy and how to highlight START's people, events, and achievements to reach millions and push the ecosystem forward.",
     icon: "📢",
-    responsibilities: ["Social media management", "Content creation", "Brand strategy", "Marketing campaigns"]
+    responsibilities: ["Create content, posts, and campaigns for LinkedIn and Instagram.", "Shoot and edit photos and videos from events.", "Build and maintain START's brand and image."]
+  },
+  {
+    id: "finops",
+    name: "FinOps",
+    description: "Learn how to design and build custom tools and automate workflows to expand START's output and influence.",
+    icon: "💰",
+    responsibilities: ["Build internal tools like Members Platform or Financial Dashboard.", "Improve our core systems like Slack, n8n and Notion.", "Handle contract management, ensuring compliance."]
   },
   {
     id: "partnerships",
     name: "Partnerships",
-    description: "Strategic partnerships and collaborations",
+    description: "Learn how to secure partners, close deals, and bring in the resources that multiply START's impact across the ecosystem.",
     icon: "🤝",
-    responsibilities: ["Partner outreach", "Collaboration agreements", "Ecosystem building", "Corporate relations"]
+    responsibilities: ["Run persistent outreach, handle rejection, and keep going.", "Build and manage relationships that create long-term value.", "Close deals that fund START's projects."]
   },
   {
-    id: "people",
-    name: "People",
-    description: "Member experience and community culture",
-    icon: "👥",
-    responsibilities: ["Member onboarding", "Community culture", "Mentorship programs", "Member support"]
+    id: "events",
+    name: "Events",
+    description: "Learn how to run flagship events where people meet, learn, and build across START, the Munich ecosystem, and beyond.",
+    icon: "🎉",
+    responsibilities: ["Organize and run large-scale events with 300+ attendees, like hackathons and summits.", "Organize workshops, startup visits, and other learning opportunities.", "Create experiences people remember and come back for."]
   }
 ]
 
@@ -234,7 +234,7 @@ const memberStories: MemberStory[] = [
     role: "Early Operator",
     company: "ZeitAI | CDTM",
     image: "/memberJourney/alumni/Elisa.png",
-    story: "START is where things actually happen. I co-founded ISAR Unfiltered, met people who think and move the way I do, and built a network that directly led me to where I am today: working at a YC-backed AI startup.",
+    story: "START is where things actually happen. I co-founded ISAR Unfiltered, met people who think and move the way I do, and built a network that directly led me to where I am today: Early Operator at a YC-backed AI startup.",
     department: "People",
     logos: [
       { src: "https://cdn.prod.website-files.com/6902359088cc8683c4db0171/69249d98617b1b96682cca65_44a5d2ba9e6004a1281eed9068c62a95_zeitai-logo.png", url: "https://www.zeit.ai/" },
@@ -649,22 +649,22 @@ export default function MemberJourneyPage() {
                       <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex items-center justify-between px-4">
                         <button
                           onClick={handlePrevImage}
-                          className="w-12 h-12 flex items-center justify-center bg-black/50 hover:bg-black/70 border border-white/30 hover:border-white/60 text-white text-xl transition-all backdrop-blur-sm"
+                          className="w-10 h-10 flex items-center justify-center rounded-full bg-black/40 hover:bg-brand-pink/80 border border-white/20 hover:border-brand-pink text-white transition-all duration-300 backdrop-blur-md hover:scale-110"
                           aria-label="Previous image"
                         >
-                          ←
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
                         </button>
                         <button
                           onClick={handleNextImage}
-                          className="w-12 h-12 flex items-center justify-center bg-black/50 hover:bg-black/70 border border-white/30 hover:border-white/60 text-white text-xl transition-all backdrop-blur-sm"
+                          className="w-10 h-10 flex items-center justify-center rounded-full bg-black/40 hover:bg-brand-pink/80 border border-white/20 hover:border-brand-pink text-white transition-all duration-300 backdrop-blur-md hover:scale-110"
                           aria-label="Next image"
                         >
-                          →
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                         </button>
                       </div>
 
                       {/* Image counter */}
-                      <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/50 backdrop-blur-sm border border-white/30 text-white text-xs font-semibold">
+                      <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white text-xs font-semibold">
                         {eventImageIndex + 1} / {eventImages.length}
                       </div>
                     </div>
@@ -690,22 +690,22 @@ export default function MemberJourneyPage() {
                     <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex items-center justify-between px-4">
                       <button
                         onClick={() => setEventImageIndex((prev) => (prev - 1 + currentEventImages.length) % currentEventImages.length)}
-                        className="w-12 h-12 flex items-center justify-center bg-black/50 hover:bg-black/70 border border-white/30 hover:border-white/60 text-white text-xl transition-all backdrop-blur-sm"
+                        className="w-10 h-10 flex items-center justify-center rounded-full bg-black/40 hover:bg-brand-pink/80 border border-white/20 hover:border-brand-pink text-white transition-all duration-300 backdrop-blur-md hover:scale-110"
                         aria-label="Previous image"
                       >
-                        ←
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
                       </button>
                       <button
                         onClick={() => setEventImageIndex((prev) => (prev + 1) % currentEventImages.length)}
-                        className="w-12 h-12 flex items-center justify-center bg-black/50 hover:bg-black/70 border border-white/30 hover:border-white/60 text-white text-xl transition-all backdrop-blur-sm"
+                        className="w-10 h-10 flex items-center justify-center rounded-full bg-black/40 hover:bg-brand-pink/80 border border-white/20 hover:border-brand-pink text-white transition-all duration-300 backdrop-blur-md hover:scale-110"
                         aria-label="Next image"
                       >
-                        →
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                       </button>
                     </div>
 
                     {/* Image counter */}
-                    <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/50 backdrop-blur-sm border border-white/30 text-white text-xs font-semibold">
+                    <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white text-xs font-semibold">
                       {(eventImageIndex % currentEventImages.length) + 1} / {currentEventImages.length}
                     </div>
                   </div>
