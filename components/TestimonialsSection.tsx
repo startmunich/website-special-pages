@@ -8,7 +8,7 @@ export interface TestimonialItem {
     company: string // This can be company name or partner name
     image: string
     story: string
-    quote: string
+    quote?: string
     logos?: { src: string; url?: string }[] // Optional logos with optional links
 }
 

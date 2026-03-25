@@ -44,7 +44,6 @@ interface MemberStory {
   company: string
   image: string
   story: string
-  quote: string
   department: string
   logos?: { src: string; url?: string }[]
 }
@@ -55,50 +54,50 @@ const timelineEvents: TimelineEvent[] = [
   {
     id: "application",
     title: "Application",
-    description: "Submit your application to START Munich and tell us about your entrepreneurial vision.",
+    description: "Your entry into START Munich.",
     icon: "📝",
     image: "",
-    details: ["Apply for summer or winter semester", "Written application + 2 interviews", "Selecting highly motivated and performing individuals"]
+    details: ["Apply in April or October", "Stage 1: Written Application", "Stage 2: Two Interviews (same day, 30 minutes each)"]
   },
   {
     id: "start-sprint",
     title: "START Sprint",
-    description: "Intensive onboarding program where you meet the team, learn about START Munich, and connect with other members.",
+    description: "Your first month at START. Get to know and bond with ambitious people you wouldn't meet in your usual circles, and build a real product together.",
     icon: "🚀",
     image: [
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop"
     ],
-    details: ["Get to know the basics for founding a company or prove your knowledge", "First month after being selected", "One month full of trainings and talks with professors, professionals, and VCs", "Pitch events at the end of the sprint, showing which teams learned the most"]
+    details: ["Develop your own idea from concept to MVP in just 4 weeks", "Two workshops per week to learn foundations of building a startup", "Get to know key players within Munich startup ecosystem", "Hut weekend in Austria"]
   },
   {
     id: "department-selection",
     title: "Department Selection",
-    description: "Choose your department and get involved in active project teams within START Munich.",
+    description: "Develop yourself and shape the future of START.",
     icon: "🎯",
     image: "",
-    details: ["After the sprint choose between the 5 departments", "Explore department options further down", "Choose a department where you can grow and support START"]
+    details: ["Choose one of five departments", "Work on real projects with visible impact inside and outside START", "Learn useful startup skills in practice", "Grow fast by taking ownership", "Initiate new formats"]
   },
   {
     id: "active-member",
     title: "Active Member",
-    description: "Enjoy the benefits of being a Stratie and expand your network through exclusive opportunities.",
+    description: "Enjoy the benefits of being a STARTie and expand your network through exclusive opportunities.",
     icon: "🌍",
     image: placeholderImage,
     details: [
-      "Go on a trip to SF and visit some of our startups",
-      "Write your thesis with our research partner Cambridge",
-      "Get in touch with well-known VCs",
-      "Many more exclusive benefits"
+      "Join the Bay Area trip, 2 weeks, 20+ curated visits to top startups, VCs, and labs",
+      "Write your thesis with Cambridge through direct research collaboration",
+      "Become part of the START Network, 20+ chapters worldwide",
+      "Find co-founders or start your own venture within a community of 70+ startups, including teams backed by Y Combinator"
     ]
   },
   {
     id: "alumni",
-    title: "Start Alumni",
-    description: "Graduate to alumni status and continue to support the community while building your successful startup.",
+    title: "START Alumni",
+    description: "Once a STARTie, always a STARTie. Stay connected as you build your own path.",
     icon: "⭐",
     image: placeholderImage,
-    details: ["After being 2 semesters core member, you are a START alumni", "No more department work required", "Time to apply what you learned and make things START"]
+    details: ["Become alumni after two active semesters", "Find co-founders, investors, and collaborators across the START Global Network", "Give back by mentoring, sharing, and supporting new STARTies", "Stay involved as much as you want, department work is optional"]
   }
 ]
 
@@ -208,10 +207,9 @@ const memberStories: MemberStory[] = [
     id: "story-1",
     name: "Felix Haas",
     role: "Founder & Investor",
-    company: "Bits & Pretzels",
+    company: "IDNow | Bits & Pretzels",
     image: "/memberJourney/alumni/FelixHaas.png",
     story: "At START Munich, I laid the foundation for my current network. From this starting point, I built several companies, invested in more than 80 start-ups and helped set up Bits & Pretzels.",
-    quote: "At START Munich, I laid the foundation for my current network.",
     department: "Alumni",
     logos: [
       { src: "https://cdn.prod.website-files.com/65f98ea7c70b10b668ccbeb3/65f98ea7c70b10b668ccbeea_Vectors-Wrapper.svg", url: "https://www.idnow.io/" },
@@ -222,10 +220,9 @@ const memberStories: MemberStory[] = [
     id: "story-2",
     name: "Joshua Cornelius",
     role: "Co-Founder",
-    company: "Freeletics",
+    company: "Freeletics | CDTM",
     image: "/memberJourney/alumni/JoshuaCornelius.png",
     story: "Before we founded Freeletics, START Munich - in addition to CDTM - gave my co-founder and me the ideal opportunity to make first contacts in the Munich startup scene.",
-    quote: "START Munich gave us the ideal opportunity to make first contacts in the Munich startup scene.",
     department: "Alumni",
     logos: [
       { src: "https://cdn.prod.website-files.com/65f98ea7c70b10b668ccbeb3/65f98ea7c70b10b668ccbeef_5eb3c929c8c4590004435152.png", url: "https://www.freeletics.com/" }
@@ -233,13 +230,15 @@ const memberStories: MemberStory[] = [
   },
   {
     id: "story-3",
-    name: "Emma Schmidt",
-    role: "Founder & Product Lead",
-    company: "GreenLeaf Solutions",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=500&auto=format&fit=crop",
-    story: "Coming from a non-technical background, the workshops and Partnerships team helped me bridge the gap. I learned fundraising, business development, and how to build lasting relationships with investors.",
-    quote: "The People team made me feel supported every step of the way. That's what makes START Munich special.",
-    department: "People"
+    name: "Elisabeth Goebel",
+    role: "Early Operator",
+    company: "ZeitAI | CDTM",
+    image: "/memberJourney/alumni/Elisa.png",
+    story: "START is where things actually happen. I co-founded ISAR Unfiltered, met people who think and move the way I do, and built a network that directly led me to where I am today: working at a YC-backed AI startup.",
+    department: "People",
+    logos: [
+      { src: "https://cdn.prod.website-files.com/6902359088cc8683c4db0171/69249d98617b1b96682cca65_44a5d2ba9e6004a1281eed9068c62a95_zeitai-logo.png", url: "https://www.zeit.ai/" },
+    ]
   }
 ]
 
@@ -392,7 +391,7 @@ export default function MemberJourneyPage() {
               <span className="outline-text">JOURNEY</span>
             </>
           }
-          description="Experience your first two semesters as an active START Munich member"
+          description="Become a member and spend two active semesters contributing to the community"
         >
           {/* Stat Card 1 - 2 Semesters */}
           <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-brand-pink/50 transition transform hover:scale-105 w-full">
@@ -512,7 +511,7 @@ export default function MemberJourneyPage() {
               {departments.map((dept) => (
                 <div
                   key={dept.id}
-                  className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-brand-pink overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-brand-pink/20"
+                  className="relative bg-white/5 border border-white/10 overflow-hidden"
                 >
                   {/* Header with gradient */}
                   <div className="bg-brand-secondary-blue p-6 relative overflow-hidden">
@@ -538,8 +537,6 @@ export default function MemberJourneyPage() {
                     </div>
                   </div>
 
-                  {/* Hover effect */}
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-brand-pink transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                 </div>
               ))}
             </div>
@@ -819,7 +816,6 @@ export default function MemberJourneyPage() {
               company: story.company,
               image: story.image,
               story: story.story,
-              quote: story.quote,
               logos: story.logos
             }))}
           />
