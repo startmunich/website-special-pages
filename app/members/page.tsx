@@ -37,6 +37,7 @@ interface BoardMember {
   name: string
   role: string
   imageUrl: string
+  profileImage?: string
 }
 
 interface Board {
@@ -68,6 +69,7 @@ export default function MembersPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [batchMembers, setBatchMembers] = useState<Member[]>([])
   const [loadingBatch, setLoadingBatch] = useState(false)
+  const [boardLoading, setBoardLoading] = useState(false)
   const itemsPerPage = 12
 
   // Feature flags
@@ -120,8 +122,209 @@ export default function MembersPage() {
     }
   }, [expandedBatch, members])
 
-  // Define boards data (sorted newest first)
-  const boards: Board[] = [
+  const normalize = (text: string) =>
+    text
+      .toLowerCase()
+      .replace(/[\.\-&\/]/g, ' ')
+      .replace(/[^a-z0-9\s]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+
+  const roleSynonyms: Record<string, string[]> = {
+    cfo: ['chief financial officer', 'chief financial officer (cfo)'],
+    'vice president': ['vice-president', 'vice president', 'vp'],
+    'md finance operations': ['md finance & operations', 'md finance and operations'],
+    'md partnerships': ['md partnerships', 'md partnership'],
+    'md marketing': ['md marketing'],
+    'md people': ['md people'],
+    'md events': ['md events'],
+    president: ['president'],
+  }
+
+  const roleFallbackImages: Record<string, string> = {
+    cfo: '/batch.jpeg',
+    president: '/batch.jpeg',
+    'vice president': '/batch.jpeg',
+    'md events': '/batch.jpeg',
+    'md marketing': '/batch.jpeg',
+    'md people': '/batch.jpeg',
+    'md finance operations': '/batch.jpeg',
+    'md finance & operations': '/batch.jpeg',
+    'md partnerships': '/batch.jpeg',
+  }
+
+  const getFallbackImageByRole = (role: string) => {
+    const normalizedRole = normalize(role)
+    return (
+      roleFallbackImages[normalizedRole] ||
+      Object.entries(roleFallbackImages).find(([key]) => normalizedRole.includes(key))?.[1] ||
+      '/batch.jpeg'
+    )
+  }
+
+  const termStartYearFromBoard = (board: Board) => {
+    if (board.year && board.year.includes('-')) {
+      const [from, to] = board.year.split('-').map((v) => v.trim())
+      if (/^\d{4}$/.test(from)) {
+        return from
+      }
+    }
+
+    const parts = board.id.split('-').map((p) => Number(p.trim()))
+    if (parts.length === 2 && !Number.isNaN(parts[0])) {
+      const from = parts[0] < 100 ? 2000 + parts[0] : parts[0]
+      return `${from}`
+    }
+
+    return '2024'
+  }
+
+  const findByRole = (normalizedBoardMembers: any[]) => (role: string) => {
+    if (!role) return null
+    const normalizedRole = normalize(role)
+
+    let match = normalizedBoardMembers.find((m) => normalize(m.role || '') === normalizedRole)
+    if (match) return match
+
+    const normalizedRoleKey = Object.keys(roleSynonyms).find((key) => {
+      return key === normalizedRole || roleSynonyms[key].includes(normalizedRole)
+    })
+
+    if (normalizedRoleKey) {
+      const aliases = [normalizedRoleKey, ...(roleSynonyms[normalizedRoleKey] || [])].map(normalize)
+      match = normalizedBoardMembers.find((m) => {
+        const candidate = normalize(m.role || '')
+        return aliases.some((alias) => candidate.includes(alias) || alias.includes(candidate))
+      })
+      if (match) return match
+    }
+
+    match = normalizedBoardMembers.find((m) => {
+      const candidateRole = normalize(m.role || '')
+      return candidateRole.includes(normalizedRole) || normalizedRole.includes(candidateRole)
+    })
+    if (match) return match
+
+    return null
+  }
+
+  const loadBoardMembers = async (boardId: string) => {
+    setBoardLoading(true)
+    try {
+      const board = boards.find((b) => b.id === boardId)
+      if (!board) return
+
+      const termStartYear = termStartYearFromBoard(board)
+      const response = await fetch(`/api/board?termStartYears=${encodeURIComponent(termStartYear)}`)
+      if (!response.ok) {
+        console.warn('Board API not available for', termStartYear)
+        return
+      }
+
+      const data = await response.json()
+      if (!data) return
+
+      const candidateData = Array.isArray(data)
+        ? data
+        : data?.data && Array.isArray(data.data)
+          ? data.data
+          : []
+
+      const rawMembers: any[] = []
+      candidateData.forEach((item: any) => {
+        if (item && Array.isArray(item.members)) {
+          rawMembers.push(...item.members)
+        } else if (item && Array.isArray(item.boardMembers)) {
+          rawMembers.push(...item.boardMembers)
+        } else if (item && Array.isArray(item.memberList)) {
+          rawMembers.push(...item.memberList)
+        } else if (item && item.name && item.role) {
+          rawMembers.push(item)
+        }
+      })
+
+      if (rawMembers.length === 0) return
+
+      const normalizedBoardMembers = rawMembers.flatMap((member: any) => {
+        const normalizedName = member.name || member.fullName || member.displayName || 'Board Member'
+        const normalizedRole = member.role || member.position || member.title || ''
+        const profileImage = member.profileImage || ''
+
+        const splitRoles = normalizedRole
+          .split(',')
+          .map((r: string) => r.trim())
+          .filter((r: string) => r.length > 0)
+
+        if (splitRoles.length <= 1) {
+          return [{
+            ...member,
+            name: normalizedName,
+            role: normalizedRole,
+            profileImage,
+          }]
+        }
+
+        return splitRoles.map((rolePart: string) => ({
+          ...member,
+          name: normalizedName,
+          role: rolePart,
+          profileImage,
+        }))
+      })
+
+      const matchByRole = findByRole(normalizedBoardMembers)
+
+      setBoards((prev) => prev.map((boardItem) => {
+        if (boardItem.id !== boardId) return boardItem
+
+        return {
+          ...boardItem,
+          executiveBoard: boardItem.executiveBoard.map((member) => {
+            const match = matchByRole(member.role)
+            const fallback = getFallbackImageByRole(member.role)
+            return {
+              ...member,
+              name: match?.name || member.name,
+              profileImage: match?.profileImage || member.profileImage || '',
+              imageUrl: match?.profileImage || member.profileImage || member.imageUrl || fallback,
+            }
+          }),
+          departmentBoard: boardItem.departmentBoard.map((member) => {
+            const match = matchByRole(member.role)
+            const fallback = getFallbackImageByRole(member.role)
+            return {
+              ...member,
+              name: match?.name || member.name,
+              profileImage: match?.profileImage || member.profileImage || '',
+              imageUrl: match?.profileImage || member.profileImage || member.imageUrl || fallback,
+            }
+          }),
+        }
+      }))
+    } catch (error) {
+      console.error('Error fetching board data:', error)
+    } finally {
+      setBoardLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (expandedBoard) {
+      loadBoardMembers(expandedBoard)
+    }
+  }, [expandedBoard])
+
+  useEffect(() => {
+    const loadAllBoards = async () => {
+      for (const board of boards) {
+        await loadBoardMembers(board.id)
+      }
+    }
+
+    void loadAllBoards()
+  }, [])
+
+  const [boards, setBoards] = useState<Board[]>([
     {
       id: '25-26',
       name: 'Board 25-26',
@@ -158,7 +361,7 @@ export default function MembersPage() {
         { name: 'MARIUS HEUMADER', role: 'MD Partnerships', imageUrl: '/batch.jpeg' },
       ],
     },
-  ]
+  ])
 
   // Extract unique batches
   const allBatches = Array.from(
@@ -548,11 +751,15 @@ export default function MembersPage() {
                         {board.executiveBoard.map((member, index) => (
                           <div key={index} className="group relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg">
                             <div className="relative">
-                              <img
-                                src={member.imageUrl}
-                                alt={member.name}
-                                className="w-full h-64 object-cover"
-                              />
+                              {member.profileImage ? (
+                                <img
+                                  src={member.profileImage}
+                                  alt={member.name}
+                                  className="w-full h-64 object-cover"
+                                />
+                              ) : (
+                                <div className="w-full h-64 bg-[#00002c]" />
+                              )}
                               <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
                               <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
                                 <h4 className="font-black text-white text-xl mb-1">{member.name}</h4>
@@ -573,11 +780,15 @@ export default function MembersPage() {
                         {board.departmentBoard.map((member, index) => (
                           <div key={index} className="group relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg">
                             <div className="relative">
-                              <img
-                                src={member.imageUrl}
-                                alt={member.name}
-                                className="w-full h-48 object-cover"
-                              />
+                              {member.profileImage ? (
+                                <img
+                                  src={member.profileImage}
+                                  alt={member.name}
+                                  className="w-full h-48 object-cover"
+                                />
+                              ) : (
+                                <div className="w-full h-48 bg-[#00002c]" />
+                              )}
                               <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
                               <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
                                 <h4 className="font-bold text-white text-sm mb-1">{member.name}</h4>
@@ -650,11 +861,15 @@ export default function MembersPage() {
                           {board.executiveBoard.map((member, index) => (
                             <div key={index} className="group relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg">
                               <div className="relative">
-                                <img
-                                  src={member.imageUrl}
-                                  alt={member.name}
-                                  className="w-full h-64 object-cover"
-                                />
+                                {member.profileImage || member.imageUrl ? (
+                                  <img
+                                    src={member.profileImage || member.imageUrl}
+                                    alt={member.name}
+                                    className="w-full h-64 object-cover"
+                                  />
+                                ) : (
+                                  <div className="w-full h-64 bg-[#00002c]" />
+                                )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
                                 <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
                                   <h4 className="font-black text-white text-xl mb-1">{member.name}</h4>
@@ -675,11 +890,15 @@ export default function MembersPage() {
                           {board.departmentBoard.map((member, index) => (
                             <div key={index} className="group relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg">
                               <div className="relative">
-                                <img
-                                  src={member.imageUrl}
-                                  alt={member.name}
-                                  className="w-full h-48 object-cover"
-                                />
+                                {member.profileImage || member.imageUrl ? (
+                                  <img
+                                    src={member.profileImage || member.imageUrl}
+                                    alt={member.name}
+                                    className="w-full h-48 object-cover"
+                                  />
+                                ) : (
+                                  <div className="w-full h-48 bg-[#00002c]" />
+                                )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
                                 <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
                                   <h4 className="font-bold text-white text-sm mb-1">{member.name}</h4>
