@@ -5,7 +5,7 @@ import Link from "next/link"
 import Script from "next/script"
 import { useRouter } from "next/navigation"
 
-import { EventCard, TimelineMarker, ScrollIndicator, SpecialEventCard } from "@/components/EventComponents"
+import { EventCard, TimelineMarker, ScrollIndicator } from "@/components/EventComponents"
 import Hero from "@/components/Hero"
 import HeroCard from "@/components/HeroCard"
 import PastEventsGrid from "@/components/PastEventsGrid"
@@ -23,14 +23,6 @@ interface RecurringEvent {
   icon: string
   image: string
   category: string
-}
-
-interface SpecialEvent {
-  id: string
-  name: string
-  description: string
-  category: string
-  image: string
 }
 
 const recurringEvents: RecurringEvent[] = [
@@ -96,32 +88,12 @@ const recurringEvents: RecurringEvent[] = [
   }
 ]
 
-const specialEvents: SpecialEvent[] = [
-  {
-    id: "start-lab",
-    name: "START Lab",
-    description: "An intensive program where startups work on solving real challenges with expert mentorship, resources, and a structured approach to innovation and growth.",
-    category: "Hackathon",
-    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop"
-  },
-  {
-    id: "isar-unfiltered",
-    name: "Isar Unfiltered",
-    description: "Raw, honest conversations with founders and entrepreneurs about the realities of building companies. No sugar-coating, just authentic stories and lessons learned.",
-    category: "Founder Event",
-    image: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=2070&auto=format&fit=crop"
-  }
-]
-
 export default function EventsPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
   const sliderRef = useRef<HTMLDivElement>(null)
-  const specialEventsSliderRef = useRef<HTMLDivElement>(null)
   const dragState = useRef({ isDragging: false, startX: 0, scrollLeft: 0 })
-  const specialEventsDragState = useRef({ isDragging: false, startX: 0, scrollLeft: 0 })
   const [scrollProgress, setScrollProgress] = useState(0)
-  const [specialEventsScrollProgress, setSpecialEventsScrollProgress] = useState(0)
   const [hoveredEvent, setHoveredEvent] = useState<string | null>(null)
 
   useEffect(() => {
@@ -149,23 +121,6 @@ export default function EventsPage() {
     return () => slider.removeEventListener('scroll', updateScroll)
   }, [loading])
 
-  useEffect(() => {
-    const slider = specialEventsSliderRef.current
-    if (!slider || loading) return
-
-    const updateScroll = () => {
-      const maxScroll = slider.scrollWidth - slider.clientWidth
-      const progress = maxScroll > 0 ? (slider.scrollLeft / maxScroll) * 100 : 0
-      setSpecialEventsScrollProgress(progress)
-    }
-
-    slider.addEventListener('scroll', updateScroll)
-    updateScroll()
-    setTimeout(updateScroll, 100)
-
-    return () => slider.removeEventListener('scroll', updateScroll)
-  }, [loading])
-
   const handleDrag = {
     start: (e: React.MouseEvent) => {
       const slider = sliderRef.current
@@ -184,27 +139,6 @@ export default function EventsPage() {
     },
     end: () => {
       dragState.current.isDragging = false
-    }
-  }
-
-  const handleSpecialEventsDrag = {
-    start: (e: React.MouseEvent) => {
-      const slider = specialEventsSliderRef.current
-      if (!slider) return
-      specialEventsDragState.current = {
-        isDragging: true,
-        startX: e.pageX - slider.offsetLeft,
-        scrollLeft: slider.scrollLeft
-      }
-    },
-    move: (e: React.MouseEvent) => {
-      if (!specialEventsDragState.current.isDragging || !specialEventsSliderRef.current) return
-      e.preventDefault()
-      const x = e.pageX - specialEventsSliderRef.current.offsetLeft
-      specialEventsSliderRef.current.scrollLeft = specialEventsDragState.current.scrollLeft - (x - specialEventsDragState.current.startX) * 2
-    },
-    end: () => {
-      specialEventsDragState.current.isDragging = false
     }
   }
 
@@ -712,45 +646,6 @@ export default function EventsPage() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-          {/* Special Events Section */}
-          {false && (
-            <div className="mb-20">
-              <div className="mb-10">
-                <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                  PUBLIC <span className="outline-text">Special</span> Events
-                </h2>
-                <p className="text-gray-400 text-lg">
-                  Unique experiences and initiatives that make our community special
-                </p>
-              </div>
-
-              <div className="relative">
-                <div
-                  ref={specialEventsSliderRef}
-                  onMouseDown={handleSpecialEventsDrag.start}
-                  onMouseUp={handleSpecialEventsDrag.end}
-                  onMouseMove={handleSpecialEventsDrag.move}
-                  onMouseLeave={handleSpecialEventsDrag.end}
-                  className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-2 cursor-grab active:cursor-grabbing"
-                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                >
-                  {specialEvents.map((event, index) => (
-                    <SpecialEventCard
-                      key={event.id}
-                      event={event}
-                      index={index}
-                    />
-                  ))}
-                </div>
-
-                <ScrollIndicator sliderRef={specialEventsSliderRef} scrollProgress={specialEventsScrollProgress} />
-
-                {/* Gradient Fade Edges */}
-                <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#00002c]/50 to-transparent pointer-events-none"></div>
-              </div>
-            </div>
-          )}
 
           {/* Member Exclusive Events Section */}
           <div className="mb-16">

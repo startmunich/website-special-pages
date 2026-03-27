@@ -138,24 +138,34 @@ export default function PastEventsGrid() {
             >
               {/* Event Image */}
               {event.cover_url && (
-                <div className="relative h-48 w-full overflow-hidden flex-shrink-0">
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-black/20">
                   <img
                     src={event.cover_url}
                     alt={event.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/40 via-[#00002c]/15 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/60 via-[#00002c]/15 to-transparent"></div>
+
+                  {/* Date Badge */}
+                  <div className="absolute top-3 right-3 bg-[#00002c]/80 backdrop-blur-md border border-white/10 rounded-xl px-3 py-1.5 text-center">
+                    <div className="text-[#d0006f] text-xs font-black uppercase tracking-wider">
+                      {formattedDate.split(' ')[0]}
+                    </div>
+                    <div className="text-white text-lg font-black leading-tight">
+                      {formattedDate.split(' ')[1]?.replace(',', '')}
+                    </div>
+                  </div>
                 </div>
               )}
 
               {/* Content */}
-              <div className="p-5 flex flex-col flex-grow">
-                <h3 className="text-lg font-bold text-white mb-2 line-clamp-2">
+              <div className="p-4">
+                <h3 className="text-base font-bold text-white mb-2 line-clamp-3">
                   {event.name}
                 </h3>
 
                 {event.description && (
-                  <p className="text-sm text-gray-400 leading-relaxed line-clamp-3 mb-4">
+                  <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">
                     {event.description}
                   </p>
                 )}

@@ -37,7 +37,7 @@ export default function Hero({
                     <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 w-full">
                         {/* Left Side - Text */}
                         <div className="flex-1 max-w-2xl text-left">
-                            <h1 className="text-6xl sm:text-7xl lg:text-9xl font-black text-white mb-4 sm:mb-6 animate-[flyInFromTop_0.6s_ease-out]">
+                            <h1 className="text-6xl sm:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 animate-[flyInFromTop_0.6s_ease-out]">
                                 {title}
                             </h1>
                             <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">

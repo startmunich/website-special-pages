@@ -117,53 +117,43 @@ export interface SpecialEventCardProps {
   className?: string
 }
 
-export const SpecialEventCard = ({ 
-  event, 
+export const SpecialEventCard = ({
+  event,
   index = 0,
   className = ''
 }: SpecialEventCardProps) => {
   return (
-    <div 
+    <div
       className={`
-        flex-shrink-0 w-[90%] sm:w-[400px] 
-        group relative 
-        bg-white/5 hover:bg-white/10 
-        border border-white/10 hover:border-[#d0006f] 
-        rounded-lg overflow-hidden 
-        transition-all duration-300 
-        hover:shadow-xl hover:shadow-[#d0006f]/20
+        flex-shrink-0 w-[90%] sm:w-[400px]
+        relative
+        bg-white/5
+        border border-white/10
+        rounded-lg overflow-hidden
         ${className}
       `}
       style={{ animationDelay: `${index * 100}ms` }}
     >
       {/* Event Image */}
       <div className="relative h-64 w-full overflow-hidden">
-        <img 
+        <img
           src={event.image}
           alt={event.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
       </div>
 
       {/* Content */}
       <div className="p-6">
-        <div className="flex items-center gap-2 mb-2">
-          <h3 className="text-xl font-bold text-white">
-            {event.name}
-          </h3>
-          <span className="text-xs text-[#d0006f] font-bold uppercase tracking-wide">
-            {event.category}
-          </span>
-        </div>
+        <h3 className="text-xl font-bold text-white mb-2">
+          {event.name}
+        </h3>
 
         <p className="text-sm text-gray-400 leading-relaxed">
           {event.description}
         </p>
       </div>
-
-      {/* Hover effect accent */}
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
     </div>
   )
 }

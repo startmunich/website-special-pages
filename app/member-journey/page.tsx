@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Script from 'next/script'
 import { ScrollIndicator } from '@/components/EventComponents'
 import Hero from "@/components/Hero"
+import HeroCard from "@/components/HeroCard"
 import TestimonialsSection from '@/components/TestimonialsSection'
 import CTA from "@/components/CTA"
 import { useAnimatedNumber } from '@/lib/hooks'
@@ -400,31 +401,27 @@ export default function MemberJourneyPage() {
           }
           description="Become a member and spend two active semesters contributing to the community"
         >
-          {/* Stat Card 1 - 2 Semesters */}
-          <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-brand-pink/50 transition transform hover:scale-105 w-full">
-            <div className="absolute top-3 right-3 w-12 h-12 bg-brand-pink/20 rounded-full blur-xl group-hover:bg-brand-pink/30 transition"></div>
-            <div className="relative text-center">
+          <div className="grid grid-cols-2 lg:flex lg:flex-col gap-4 lg:gap-6">
+            {/* Stat Card 1 - 2 Semesters */}
+            <HeroCard>
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
+                <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                   {semesterCount}
                 </span>
-                <span className="text-3xl font-bold text-brand-pink">+</span>
+                <span className="text-xl lg:text-3xl font-bold text-brand-pink">+</span>
               </div>
               <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Semesters</p>
-            </div>
-          </div>
+            </HeroCard>
 
-          {/* Stat Card 2 - Infinite Possibilities */}
-          <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-brand-pink/50 transition transform hover:scale-105 w-full">
-            <div className="absolute top-3 right-3 w-12 h-12 bg-brand-pink/20 rounded-full blur-xl group-hover:bg-brand-pink/30 transition"></div>
-            <div className="relative text-center">
+            {/* Stat Card 2 - Infinite Possibilities */}
+            <HeroCard>
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
+                <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                   ∞
                 </span>
               </div>
               <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Possibilities</p>
-            </div>
+            </HeroCard>
           </div>
         </Hero>
 
@@ -740,23 +737,18 @@ export default function MemberJourneyPage() {
                 href="https://www.startbayarea.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative overflow-hidden bg-white/5 border border-white/10 hover:border-brand-pink/50 transition-all duration-300 cursor-pointer"
+                className="relative overflow-hidden bg-white/5 border border-white/10 rounded-lg hover:border-brand-pink/50 transition-colors duration-300 cursor-pointer"
               >
                 <div className="aspect-video relative overflow-hidden">
                   <img
                     src="/memberJourney/SF.png"
                     alt="San Francisco Bay Area"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1.5 bg-brand-pink/90 text-white text-xs font-bold uppercase tracking-wider">
-                      International Trip
-                    </span>
-                  </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-brand-pink transition-colors">
+                  <h3 className="text-xl font-bold text-white mb-3">
                     START goes Bay Area
                   </h3>
                   <p className="text-gray-300 text-sm leading-relaxed mb-4">
@@ -772,22 +764,17 @@ export default function MemberJourneyPage() {
               </a>
 
               {/* Research Partnership */}
-              <div className="group relative overflow-hidden bg-white/5 border border-white/10 hover:border-brand-pink/50 transition-all duration-300">
+              <div className="relative overflow-hidden bg-white/5 border border-white/10 rounded-lg">
                 <div className="aspect-video relative overflow-hidden">
                   <img
                     src="/memberJourney/cambridge-aerial.png"
                     alt="University Research"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1.5 bg-brand-pink/90 text-white text-xs font-bold uppercase tracking-wider">
-                      Research Partnership
-                    </span>
-                  </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-brand-pink transition-colors">
+                  <h3 className="text-xl font-bold text-white mb-3">
                     Thesis with Cambridge & TUM
                   </h3>
                   <p className="text-gray-300 text-sm leading-relaxed mb-4">

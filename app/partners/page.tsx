@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Script from 'next/script'
 import { cn } from "@/lib/utils"
 import Hero from "@/components/Hero"
+import HeroCard from "@/components/HeroCard"
 import CTA from "@/components/CTA"
 
 export const dynamic = 'force-dynamic'
@@ -205,53 +206,29 @@ export default function PartnersPage() {
           }
           description="Powering the next generation of entrepreneurs through world-class collaboration."
         >
-          {/** Stat 1 **/}
-          <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-brand-pink/50 transition transform hover:scale-105 w-full">
-            <div className="absolute top-3 right-3 w-12 h-12 bg-brand-pink/20 rounded-full blur-xl group-hover:bg-brand-pink/30 transition"></div>
-            <div className="relative text-center">
+          <div className="grid grid-cols-2 lg:flex lg:flex-col gap-4 lg:gap-6">
+            {/** Stat 1 **/}
+            <HeroCard>
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
+                <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                   {Math.floor(animatedPartners)}
                 </span>
-                <span className="text-3xl font-bold text-brand-pink">+</span>
+                <span className="text-xl lg:text-3xl font-bold text-brand-pink">+</span>
               </div>
               <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Partners</p>
-            </div>
-          </div>
+            </HeroCard>
 
-          {/** Stat 2 **/}
-          <div className="group relative backdrop-blur-lg bg-white/10 p-6 sm:p-8 rounded-2xl border border-white/20 hover:border-brand-pink/50 transition transform hover:scale-105">
-            <div className="absolute top-3 right-3 w-12 h-12 bg-brand-pink/20 rounded-full blur-xl group-hover:bg-brand-pink/30 transition"></div>
-            <div className="relative text-center">
+            {/** Stat 2 **/}
+            <HeroCard>
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
+                <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                   {Math.floor(animatedCategories)}
                 </span>
               </div>
               <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Industries</p>
-            </div>
+            </HeroCard>
           </div>
         </Hero>
-
-        {/* Mobile Stats (static, below hero) */}
-        <div className="lg:hidden backdrop-blur-md bg-white/5 border-b border-white/10">
-          <div className="max-w-7xl mx-auto px-4 py-8">
-            <div className="grid grid-cols-2 gap-4 text-center">
-              <div>
-                <p className="text-3xl font-black text-white mb-1">
-                  {Math.floor(animatedPartners)}+
-                </p>
-                <p className="text-xs font-bold text-gray-300 uppercase">Partners</p>
-              </div>
-              <div>
-                <p className="text-3xl font-black text-white mb-1">
-                  {Math.floor(animatedCategories)}
-                </p>
-                <p className="text-xs font-bold text-gray-300 uppercase">Industries</p>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Sticky Filter & Search Bar */}
         <div className="sticky top-20 z-40 bg-brand-dark-blue/95 backdrop-blur-md border-b border-white/10 shadow-2xl">

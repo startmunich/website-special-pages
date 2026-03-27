@@ -124,7 +124,6 @@ export default function UpcomingEventsGrid() {
               href={event.url}
               target="_blank"
               rel="noopener noreferrer"
-
               className={`group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20 flex flex-col ${hiddenOnMobile ? 'hidden md:flex' : ''}`}
             >
               {/* Event Image */}
@@ -136,6 +135,16 @@ export default function UpcomingEventsGrid() {
                     className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/60 via-[#00002c]/15 to-transparent"></div>
+
+                  {/* Date Badge */}
+                  <div className="absolute top-3 right-3 bg-[#00002c]/80 backdrop-blur-md border border-white/10 rounded-xl px-3 py-1.5 text-center">
+                    <div className="text-[#d0006f] text-xs font-black uppercase tracking-wider">
+                      {formattedDate.split(' ')[0]}
+                    </div>
+                    <div className="text-white text-lg font-black leading-tight">
+                      {formattedDate.split(' ')[1]?.replace(',', '')}
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -150,14 +159,6 @@ export default function UpcomingEventsGrid() {
                     {event.description}
                   </p>
                 )}
-
-                {/* Link indicator */}
-                {/* <div className="flex items-center gap-2 mt-5 text-[#d0006f] text-base font-semibold">
-                  <span>View Details</span>
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </div> */}
               </div>
 
               {/* Hover effect accent */}
