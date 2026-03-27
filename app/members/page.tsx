@@ -19,6 +19,7 @@ interface Member {
   company?: string
   linkedinUrl?: string
   imageUrl: string
+  profileImage?: string
   bio?: string
   expertise?: string[]
   achievements?: string
@@ -79,6 +80,23 @@ export default function MembersPage() {
   const animatedActiveMembers = useAnimatedNumber(192, loading, 800)
   const animatedAlumniCount = useAnimatedNumber(800, loading, 800)
 
+  // Helper functions - defined early so they can be used in useEffects
+  const getInitials = (name: string) => {
+    const words = name.trim().split(/\s+/)
+    if (words.length === 0) return ''
+    if (words.length === 1) return words[0].slice(0, 2).toUpperCase()
+    return (words[0][0] + words[words.length - 1][0]).toUpperCase()
+  }
+
+  const isPlaceholderImage = (url?: string) => {
+    if (!url) return true
+    const normalized = url.toLowerCase().trim()
+    return normalized === '/batch.jpeg' || normalized.endsWith('/batch.jpeg') || 
+           normalized === '/batch.jpg' || normalized.endsWith('/batch.jpg') ||
+           normalized === '/batch.png' || normalized.endsWith('/batch.png') ||
+           normalized === '/example.png' || normalized.endsWith('/example.png')
+  }
+
   // Load members on mount
   useEffect(() => {
     const loadMembers = async () => {
@@ -99,8 +117,18 @@ export default function MembersPage() {
           const response = await fetch(`/api/members/batch/${encodeURIComponent(expandedBatch)}`)
           if (response.ok) {
             const data = await response.json()
+            console.log('API Response data:', data)
             if (Array.isArray(data) && data.length > 0) {
-              setBatchMembers(data)
+              // Log first few members to check imageUrl
+              console.log('First member imageUrl:', data[0]?.imageUrl)
+              console.log('Checking if placeholder:', isPlaceholderImage(data[0]?.imageUrl))
+              // Transform API response to add profileImage field (clean up placeholder images)
+              const transformedData = data.map((member: Member) => ({
+                ...member,
+                profileImage: isPlaceholderImage(member.imageUrl) ? undefined : member.imageUrl
+              }))
+              console.log('Transformed data:', transformedData)
+              setBatchMembers(transformedData)
             } else {
               // Fallback to mock members, keeps the same card styling
               setBatchMembers(members.filter(m => m.batch === expandedBatch))
@@ -363,10 +391,18 @@ export default function MembersPage() {
     },
   ])
 
-  // Extract unique batches
+  // Extract unique batches and ensure older batches are always present
+  // Use consistent names like Winter/Summer to match your naming convention
+  const defaultBatches = ['Winter 2021', 'Winter 2022', 'Summer 2022']
   const allBatches = Array.from(
-    new Set(members.map(member => member.batch))
-  ).filter(batch => batch).sort().reverse()
+    new Set([
+      ...members.map(member => member.batch),
+      ...defaultBatches,
+    ])
+  )
+    .filter(batch => batch)
+    .sort()
+    .reverse()
 
   // Extract unique study subjects
   const allStudies = Array.from(
@@ -377,8 +413,10 @@ export default function MembersPage() {
   const totalMembers = members.length
   const maleMembers = members.filter(m => m.gender?.toLowerCase() === 'male').length
   const femaleMembers = members.filter(m => m.gender?.toLowerCase() === 'female').length
-  const malePercentage = totalMembers > 0 ? Math.round((maleMembers / totalMembers) * 100) : 0
-  const femalePercentage = totalMembers > 0 ? Math.round((femaleMembers / totalMembers) * 100) : 0
+
+  // Fixed gender distribution as requested
+  const malePercentage = 61
+  const femalePercentage = 39
 
   // Study topics distribution
   const studyDistribution = members.reduce((acc, member) => {
@@ -388,31 +426,22 @@ export default function MembersPage() {
     return acc
   }, {} as Record<string, number>)
 
-  const topStudies = Object.entries(studyDistribution)
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 5)
-    .map(([study, count]) => ({
-      study,
-      count,
-      percentage: Math.round((count / totalMembers) * 100)
-    }))
+  // Top Study Fields (fixed)
+  const topStudies = [
+    { study: 'Business Administration', count: 0, percentage: 35 },
+    { study: 'Computer Science', count: 0, percentage: 35 },
+    { study: 'Engineering', count: 0, percentage: 15 },
+    { study: 'Others', count: 0, percentage: 15 },
+  ]
 
-  // University distribution
-  const universityDistribution = members.reduce((acc, member) => {
-    if (member.university) {
-      acc[member.university] = (acc[member.university] || 0) + 1
-    }
-    return acc
-  }, {} as Record<string, number>)
-
-  const topUniversities = Object.entries(universityDistribution)
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 5)
-    .map(([university, count]) => ({
-      university,
-      count,
-      percentage: Math.round((count / totalMembers) * 100)
-    }))
+  // Top Universities (fixed)
+  const topUniversities = [
+    { university: 'TUM', count: 0, percentage: 65 },
+    { university: 'LMU', count: 0, percentage: 20 },
+    { university: 'HM', count: 0, percentage: 7 },
+    { university: 'AMD', count: 0, percentage: 3 },
+    { university: 'Others', count: 0, percentage: 5 },
+  ]
 
   // Mapping von Batch-Namen zu Bilddateinamen
   const batchImageMap: Record<string, string> = {
@@ -431,11 +460,19 @@ export default function MembersPage() {
   function getBatchImageKey(batchName: string): string | null {
     const normalized = batchName.toLowerCase().trim()
 
-    // Versuche "Winter/Summer YYYY" Format zu matchen
+    // Versuche "Winter/Summer YYYY" Format zu matchen.
     const fullMatch = normalized.match(/^(winter|summer)\s+(\d{4})$/)
     if (fullMatch) {
       const semester = fullMatch[1] === 'winter' ? 'ws' : 'ss'
-      const year = fullMatch[2].slice(-2) // Nur die letzten 2 Ziffern
+      const year = fullMatch[2].slice(-2) // Letzte 2 Ziffern
+      return `${semester}${year}`
+    }
+
+    // Versuche "WS/SS YYYY" Format mit vierstelliger Jahreszahl zu matchen
+    const fourDigitMatch = normalized.match(/^(ws|ss)\s*(\d{4})$/)
+    if (fourDigitMatch) {
+      const semester = fourDigitMatch[1]
+      const year = fourDigitMatch[2].slice(-2)
       return `${semester}${year}`
     }
 
@@ -758,7 +795,9 @@ export default function MembersPage() {
                                   className="w-full h-64 object-cover"
                                 />
                               ) : (
-                                <div className="w-full h-64 bg-[#00002c]" />
+                                <div className="w-full h-64 flex items-center justify-center bg-[#00002c] text-white text-4xl font-black">
+                                  {getInitials(member.name)}
+                                </div>
                               )}
                               <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
                               <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
@@ -787,7 +826,9 @@ export default function MembersPage() {
                                   className="w-full h-48 object-cover"
                                 />
                               ) : (
-                                <div className="w-full h-48 bg-[#00002c]" />
+                                <div className="w-full h-48 flex items-center justify-center bg-[#00002c] text-white text-3xl font-black">
+                                  {getInitials(member.name)}
+                                </div>
                               )}
                               <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
                               <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
@@ -861,9 +902,9 @@ export default function MembersPage() {
                           {board.executiveBoard.map((member, index) => (
                             <div key={index} className="group relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg">
                               <div className="relative">
-                                {member.profileImage || member.imageUrl ? (
+                                {member.profileImage ? (
                                   <img
-                                    src={member.profileImage || member.imageUrl}
+                                    src={member.profileImage}
                                     alt={member.name}
                                     className="w-full h-64 object-cover"
                                   />
@@ -995,14 +1036,21 @@ export default function MembersPage() {
                               href={member.linkedinUrl || '#'}
                               target={member.linkedinUrl ? "_blank" : undefined}
                               rel={member.linkedinUrl ? "noopener noreferrer" : undefined}
-                              className={`group relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg hover:scale-105 ${member.linkedinUrl ? 'cursor-pointer' : 'cursor-default'} z-10`}
+                              className={`group relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg hover:scale-105 ${member.linkedinUrl ? 'cursor-pointer' : 'cursor-default'} z-10 aspect-square`}
                             >
-                              <div>
-                                <img
-                                  src={member.imageUrl}
-                                  alt={member.name}
-                                  className="w-full h-full object-cover"
-                                />
+                              <div className="relative w-full h-full">
+                                {member.profileImage ? (
+                                  <img
+                                    src={member.profileImage}
+                                    alt={member.name}
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center bg-[#00002c] text-[#b8c4d8] text-4xl font-black opacity-90">
+                                    {getInitials(member.name)}
+                                  </div>
+                                )}
+
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/40 via-[#00002c]/10 to-transparent"></div>
 
                                 {member.linkedinUrl && (
@@ -1015,8 +1063,8 @@ export default function MembersPage() {
                                   </div>
                                 )}
 
-                                <div className="absolute bottom-0 left-0 right-0 p-3">
-                                  <h4 className="font-bold text-white text-sm">{member.name}</h4>
+                                <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
+                                  <h4 className="font-black text-white text-xl mb-1">{member.name}</h4>
                                   <p className="text-pink-300 text-xs font-semibold">{member.study || member.role}</p>
                                 </div>
                               </div>
