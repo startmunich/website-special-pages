@@ -186,7 +186,7 @@ export default function StartupsPage() {
         `}
       </Script>
 
-      <main className="min-h-screen bg-[#00002c]">
+      <main className="min-h-screen bg-[#00002c] overflow-x-hidden">
         {/* Hero Section with Full-Width Image */}
         <Hero
           backgroundImage="/hero-image.jpg"
@@ -199,13 +199,14 @@ export default function StartupsPage() {
           }
           description="Discover the innovative companies built by our community of ambitious student entrepreneurs"
         >
+          <div className="grid grid-cols-2 lg:flex lg:flex-col gap-4 lg:gap-6">
           {/** Stat 1 **/}
           <HeroCard>
             <div className="flex items-baseline justify-center gap-2 mb-3">
-              <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+              <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                 {Math.floor(animatedStartups)}
               </span>
-              <span className="text-3xl font-bold text-[#d0006f]">+</span>
+              <span className="text-xl lg:text-3xl font-bold text-[#d0006f]">+</span>
             </div>
             <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Companies</p>
           </HeroCard>
@@ -213,35 +214,16 @@ export default function StartupsPage() {
           {/** Stat 2 **/}
           <HeroCard>
             <div className="flex items-baseline justify-center gap-1 mb-3">
-              <span className="text-2xl font-bold text-[#d0006f]">€</span>
-              <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+              <span className="text-lg lg:text-2xl font-bold text-[#d0006f]">€</span>
+              <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                 {Math.floor(animatedFunding)}
               </span>
-              <span className="text-3xl font-bold text-[#d0006f]">B+</span>
+              <span className="text-xl lg:text-3xl font-bold text-[#d0006f]">B+</span>
             </div>
             <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Funding</p>
           </HeroCard>
-        </Hero>
-
-        {/* Mobile Stats (static, below hero) */}
-        <div className="lg:hidden backdrop-blur-md mt-10">
-          <div className="max-w-7xl mx-auto px-4 py-6">
-            <div className="grid grid-cols-2 gap-4 text-center">
-              <div>
-                <p className="text-2xl font-black text-white">
-                  {Math.floor(animatedStartups)}+
-                </p>
-                <p className="text-xs font-bold text-gray-300 uppercase">Companies</p>
-              </div>
-              <div>
-                <p className="text-2xl font-black text-white">
-                  €{Math.floor(animatedFunding)}B+
-                </p>
-                <p className="text-xs font-bold text-gray-300 uppercase">Funding</p>
-              </div>
-            </div>
           </div>
-        </div>
+        </Hero>
 
 
         {/* Content Below Hero */}
@@ -265,8 +247,8 @@ export default function StartupsPage() {
                       </svg>
                     </button>
                     {showFeaturedInfo && (
-                      <div className="absolute left-0 top-full mt-3 w-96 p-5 bg-gradient-to-br from-[#1a1a3e] to-[#0d0d1f] backdrop-blur-xl border-2 border-[#d0006f]/60 rounded-xl shadow-2xl shadow-[#d0006f]/20 z-50 animate-[fadeIn_0.2s_ease-out]">
-                        <div className="absolute -top-2 left-6 w-4 h-4 bg-[#1a1a3e] border-l-2 border-t-2 border-[#d0006f]/60 transform rotate-45"></div>
+                      <div className="absolute right-0 sm:left-0 sm:right-auto top-full mt-3 w-72 sm:w-96 p-5 bg-gradient-to-br from-[#1a1a3e] to-[#0d0d1f] backdrop-blur-xl border-2 border-[#d0006f]/60 rounded-xl shadow-2xl shadow-[#d0006f]/20 z-50 animate-[fadeIn_0.2s_ease-out]">
+                        <div className="absolute -top-2 right-6 sm:left-6 sm:right-auto w-4 h-4 bg-[#1a1a3e] border-l-2 border-t-2 border-[#d0006f]/60 transform rotate-45"></div>
                         <div className="absolute top-1 right-1 w-16 h-16 bg-[#d0006f]/10 rounded-full blur-2xl"></div>
                         <div className="relative">
                           <div className="flex items-center gap-2 mb-3">
@@ -381,8 +363,8 @@ export default function StartupsPage() {
                       </svg>
                     </button>
                     {showYCInfo && (
-                      <div className="absolute left-0 top-full mt-3 w-96 p-5 bg-gradient-to-br from-[#1a1a3e] to-[#0d0d1f] backdrop-blur-xl border-2 border-[#d0006f]/60 rounded-xl shadow-2xl shadow-[#d0006f]/20 z-50 animate-[fadeIn_0.2s_ease-out]">
-                        <div className="absolute -top-2 left-6 w-4 h-4 bg-[#1a1a3e] border-l-2 border-t-2 border-[#d0006f]/60 transform rotate-45"></div>
+                      <div className="absolute right-0 sm:left-0 sm:right-auto top-full mt-3 w-72 sm:w-96 p-5 bg-gradient-to-br from-[#1a1a3e] to-[#0d0d1f] backdrop-blur-xl border-2 border-[#d0006f]/60 rounded-xl shadow-2xl shadow-[#d0006f]/20 z-50 animate-[fadeIn_0.2s_ease-out]">
+                        <div className="absolute -top-2 right-6 sm:left-6 sm:right-auto w-4 h-4 bg-[#1a1a3e] border-l-2 border-t-2 border-[#d0006f]/60 transform rotate-45"></div>
                         <div className="absolute top-1 right-1 w-16 h-16 bg-[#d0006f]/10 rounded-full blur-2xl"></div>
                         <div className="relative">
                           <div className="flex items-center gap-2 mb-3">
@@ -436,8 +418,8 @@ export default function StartupsPage() {
                       </svg>
                     </button>
                     {showEWORInfo && (
-                      <div className="absolute left-0 top-full mt-3 w-96 p-5 bg-gradient-to-br from-[#1a1a3e] to-[#0d0d1f] backdrop-blur-xl border-2 border-[#d0006f]/60 rounded-xl shadow-2xl shadow-[#d0006f]/20 z-50 animate-[fadeIn_0.2s_ease-out]">
-                        <div className="absolute -top-2 left-6 w-4 h-4 bg-[#1a1a3e] border-l-2 border-t-2 border-[#d0006f]/60 transform rotate-45"></div>
+                      <div className="absolute right-0 sm:left-0 sm:right-auto top-full mt-3 w-72 sm:w-96 p-5 bg-gradient-to-br from-[#1a1a3e] to-[#0d0d1f] backdrop-blur-xl border-2 border-[#d0006f]/60 rounded-xl shadow-2xl shadow-[#d0006f]/20 z-50 animate-[fadeIn_0.2s_ease-out]">
+                        <div className="absolute -top-2 right-6 sm:left-6 sm:right-auto w-4 h-4 bg-[#1a1a3e] border-l-2 border-t-2 border-[#d0006f]/60 transform rotate-45"></div>
                         <div className="absolute top-1 right-1 w-16 h-16 bg-[#d0006f]/10 rounded-full blur-2xl"></div>
                         <div className="relative">
                           <div className="flex items-center gap-2 mb-3">

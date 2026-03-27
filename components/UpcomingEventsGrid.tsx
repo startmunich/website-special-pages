@@ -23,6 +23,8 @@ export default function UpcomingEventsGrid() {
   const [events, setEvents] = useState<LumaEventWrapper[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [showAll, setShowAll] = useState(false)
+  const mobileLimit = 3
 
   useEffect(() => {
     async function fetchUpcomingEvents() {
@@ -91,8 +93,9 @@ export default function UpcomingEventsGrid() {
     <div>
       {/* Events Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {events.map((eventWrapper) => {
+        {events.map((eventWrapper, index) => {
           const event = eventWrapper.event
+          const hiddenOnMobile = !showAll && index >= mobileLimit
 
           // Parse the date and handle different formats
           let formattedDate = 'Date unavailable'
@@ -121,8 +124,8 @@ export default function UpcomingEventsGrid() {
               href={event.url}
               target="_blank"
               rel="noopener noreferrer"
-              
-              className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20 flex flex-col"
+
+              className={`group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20 flex flex-col ${hiddenOnMobile ? 'hidden md:flex' : ''}`}
             >
               {/* Event Image */}
               {event.cover_url && (
@@ -163,6 +166,21 @@ export default function UpcomingEventsGrid() {
           )
         })}
       </div>
+
+      {/* See more button - mobile only */}
+      {!showAll && events.length > mobileLimit && (
+        <div className="md:hidden mt-6 text-center">
+          <button
+            onClick={() => setShowAll(true)}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-white font-bold text-sm hover:bg-white/10 hover:border-brand-pink/30 transition-all"
+          >
+            See {events.length - mobileLimit} more events
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   )
 }

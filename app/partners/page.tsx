@@ -210,7 +210,7 @@ export default function PartnersPage() {
             <div className="absolute top-3 right-3 w-12 h-12 bg-brand-pink/20 rounded-full blur-xl group-hover:bg-brand-pink/30 transition"></div>
             <div className="relative text-center">
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-brand-pink transition">
+                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                   {Math.floor(animatedPartners)}
                 </span>
                 <span className="text-3xl font-bold text-brand-pink">+</span>
@@ -224,7 +224,7 @@ export default function PartnersPage() {
             <div className="absolute top-3 right-3 w-12 h-12 bg-brand-pink/20 rounded-full blur-xl group-hover:bg-brand-pink/30 transition"></div>
             <div className="relative text-center">
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-brand-pink transition">
+                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                   {Math.floor(animatedCategories)}
                 </span>
               </div>

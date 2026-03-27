@@ -251,6 +251,7 @@ export default function MemberJourneyPage() {
   const [hoveredEventId, setHoveredEventId] = useState<string | null>(null)
   const [isMoreHovered, setIsMoreHovered] = useState(false)
   const autoRotateTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const eventImageRef = useRef<HTMLDivElement>(null)
 
   // Animated counter for hero stats
   const semesterCount = useAnimatedNumber(2, loading, 500)
@@ -276,6 +277,12 @@ export default function MemberJourneyPage() {
   const currentEventImages = currentEvent
     ? currentEvent.images.map((img) => ({ src: img, title: currentEvent.title }))
     : []
+
+  const scrollToEventImage = () => {
+    if (window.innerWidth < 1024 && eventImageRef.current) {
+      eventImageRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }
+  }
 
   const handleNextImage = () => {
     if (eventImages.length === 0) return
@@ -398,7 +405,7 @@ export default function MemberJourneyPage() {
             <div className="absolute top-3 right-3 w-12 h-12 bg-brand-pink/20 rounded-full blur-xl group-hover:bg-brand-pink/30 transition"></div>
             <div className="relative text-center">
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-brand-pink transition">
+                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                   {semesterCount}
                 </span>
                 <span className="text-3xl font-bold text-brand-pink">+</span>
@@ -412,7 +419,7 @@ export default function MemberJourneyPage() {
             <div className="absolute top-3 right-3 w-12 h-12 bg-brand-pink/20 rounded-full blur-xl group-hover:bg-brand-pink/30 transition"></div>
             <div className="relative text-center">
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-brand-pink transition">
+                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                   ∞
                 </span>
               </div>
@@ -571,6 +578,7 @@ export default function MemberJourneyPage() {
                         className={`flex items-start gap-4 p-4 cursor-pointer transition-all duration-200 rounded-lg border-l-4 ${isActive ? 'border-l-brand-pink bg-brand-pink/10' : 'border-l-transparent hover:bg-white/5'}`}
                         onMouseEnter={() => setHoveredEventId(event.id)}
                         onMouseLeave={() => setHoveredEventId(null)}
+                        onClick={() => { setHoveredEventId(event.id); scrollToEventImage() }}
                       >
                         <span className="text-4xl flex-shrink-0">{event.icon}</span>
                         <div className="flex-1">
@@ -591,6 +599,7 @@ export default function MemberJourneyPage() {
                         className={`flex items-start gap-4 p-4 cursor-pointer transition-all duration-200 rounded-lg border-l-4 ${isMoreActive ? 'border-l-brand-pink bg-brand-pink/10' : 'border-l-transparent hover:bg-white/5'}`}
                         onMouseEnter={() => setIsMoreHovered(true)}
                         onMouseLeave={() => setIsMoreHovered(false)}
+                        onClick={() => { setIsMoreHovered(true); scrollToEventImage() }}
                       >
                         <span className="text-4xl flex-shrink-0">✨</span>
                         <div className="flex-1">
@@ -606,7 +615,7 @@ export default function MemberJourneyPage() {
               </div>
 
               {/* Rotating single image or grid */}
-              <div className="bg-white/5 border border-white/10 h-full min-h-[500px] relative overflow-hidden">
+              <div ref={eventImageRef} className="bg-white/5 border border-white/10 h-full min-h-[500px] relative overflow-hidden">
                 {isMoreHovered || (!hoveredEventId && !isMoreHovered && currentEventIndex === startEvents.length) ? (
                   /* Grid of 4 images for "And a lot more..." */
                   <div className="grid grid-cols-2 grid-rows-2 w-full h-full gap-0">

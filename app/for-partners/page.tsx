@@ -317,6 +317,7 @@ export default function ForPartnersPage() {
         {/* Hero Section */}
         <Hero
           backgroundImage="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074&auto=format&fit=crop"
+          hideChildrenOnMobile
           title={
             <>
               FOR
@@ -327,7 +328,7 @@ export default function ForPartnersPage() {
           description="Partner with Europe's leading student entrepreneurship community and shape the future of innovation"
         >
           {/* MD Partnerships Card */}
-          <HeroCard accentColor="brand-pink">
+          <HeroCard>
             <div className="mb-4 mx-auto w-40 h-40 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-brand-pink/50 transition-all duration-300">
               <img
                 src="/partners/md-partnerships.jpg"
@@ -360,7 +361,7 @@ export default function ForPartnersPage() {
             </a>
           </HeroCard>
         </Hero>
-
+        
         {/* Partner Overview - Logos - Full Width */}
         <section className="py-12 lg:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
