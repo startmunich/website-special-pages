@@ -244,11 +244,11 @@ export default function MembersPage() {
           description="Meet the ambitious student entrepreneurs building the future of technology and innovation"
         >
           {/* Statistics Boxes - Matching Startup Cards Style */}
-          <div className="flex flex-col gap-6">
+          <div className="grid grid-cols-2 lg:flex lg:flex-col gap-4 lg:gap-6">
             {/** Active Members Card **/}
             <HeroCard>
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                   {Math.floor(animatedActiveMembers)}
                 </span>
               </div>
@@ -258,10 +258,10 @@ export default function MembersPage() {
             {/** Alumni Card **/}
             <HeroCard>
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                   {Math.floor(animatedAlumniCount)}
                 </span>
-                <span className="text-3xl font-bold text-[#d0006f]">+</span>
+                <span className="text-xl lg:text-3xl font-bold text-[#d0006f]">+</span>
               </div>
               <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Alumni</p>
             </HeroCard>

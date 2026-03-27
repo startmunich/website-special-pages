@@ -464,7 +464,7 @@ export default function HomePage() {
 
           <div className="relative max-w-7xl mx-auto">
             {/* Section header */}
-            <div className={`mb-20 transition-all duration-700 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className={`mb-10 transition-all duration-700 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">By the Numbers</span>
               <h2 className="text-5xl sm:text-6xl font-black text-white mt-3">THE FACTS</h2>
             </div>

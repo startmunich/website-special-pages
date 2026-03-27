@@ -29,7 +29,7 @@ export default function Navigation() {
       <div className="mx-auto px-10 lg:px-20">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+          <Link href="/home" className="flex items-center hover:opacity-80 transition-opacity">
             <Image
               src="/startlogo.svg"
               alt="START Munich"
@@ -191,7 +191,7 @@ export default function Navigation() {
         {isMobileMenuOpen && (
           <div className="lg:hidden py-4 space-y-2 border-t border-white/10">
             <Link
-              href="/"
+              href="/home"
               className="block px-4 py-3 text-white font-bold text-sm hover:bg-white/5 hover:text-brand-pink transition-colors uppercase"
               onClick={() => setIsMobileMenuOpen(false)}
             >
