@@ -726,7 +726,7 @@ export default function MemberJourneyPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* START goes Bay Area */}
               <a
-                href="https://www.startbayarea.com/"
+                href="/start-goes-bay-area"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative overflow-hidden bg-white/5 border border-white/10 hover:border-brand-pink/50 transition-all duration-300 cursor-pointer"
