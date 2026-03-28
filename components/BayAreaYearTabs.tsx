@@ -1,7 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { bayAreaYearContent, type BayAreaYearId } from '@/lib/startGoesBayAreaData'
+import {
+    bayAreaYearContent,
+    type BayAreaVisit,
+    type BayAreaWeekGroup,
+    type BayAreaYearId,
+} from '@/lib/startGoesBayAreaData'
 import MemberCard from '@/components/MemberCard'
 
 interface Member {
@@ -14,7 +19,6 @@ interface Member {
 export default function BayAreaYearTabs() {
     const [activeYear, setActiveYear] = useState<BayAreaYearId>('2026')
     const [members, setMembers] = useState<Member[]>([])
-    const [loading, setLoading] = useState(true)
 
     const activeContent = bayAreaYearContent.find((item) => item.id === activeYear) ?? bayAreaYearContent[0]
 
@@ -29,8 +33,6 @@ export default function BayAreaYearTabs() {
             } catch (error) {
                 console.error('Error fetching members:', error)
                 setMembers([])
-            } finally {
-                setLoading(false)
             }
         }
         loadMembers()
@@ -39,6 +41,29 @@ export default function BayAreaYearTabs() {
     // Get team member data from API by matching names
     const getTeamMemberData = (name: string) => {
         return members.find(m => m.name.toLowerCase() === name.toLowerCase())
+    }
+
+    const weekGroups: BayAreaWeekGroup[] = ['Week 1', 'Week 2']
+    const groupedDetailedDays = weekGroups
+        .map((weekGroup) => ({
+            weekGroup,
+            days: activeContent.detailedDays.filter((day) => day.weekGroup === weekGroup),
+        }))
+        .filter((group) => group.days.length > 0)
+
+    const formatDayWithWeekday = (dateValue: string) => {
+        const parsedDate = new Date(dateValue)
+        if (Number.isNaN(parsedDate.getTime())) return dateValue
+
+        const weekday = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(parsedDate)
+        return `${weekday} · ${dateValue}`
+    }
+
+    const visitBadge = (visitType: BayAreaVisit['visitType']) => {
+        if (visitType === 'company') return 'Company Visit'
+        if (visitType === 'community') return 'Community Event'
+        if (visitType === 'hackathon') return 'Hackathon'
+        return 'Person Visit'
     }
 
     return (
@@ -96,64 +121,94 @@ export default function BayAreaYearTabs() {
                 ))}
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                <div className="bg-white/5 border border-white/10 p-6 md:p-8">
-                    <h3 className="text-2xl font-black text-white mb-2">Trip Timeline</h3>
-                    <p className="text-sm text-gray-400 mb-8">{activeContent.timelineIntro}</p>
+            <div className="bg-white/5 border border-white/10 p-6 md:p-8 mb-8">
+                <h3 className="text-2xl font-black text-white mb-2">Trip Timeline</h3>
+                <p className="text-sm text-gray-400 mb-8">{activeContent.timelineIntro}</p>
 
-                    <div className="relative pl-7 border-l border-white/20 space-y-8">
-                        {activeContent.timelineMilestones.map((milestone) => (
-                            <article key={`${activeContent.id}-${milestone.date}-${milestone.title}`} className="relative">
-                                <span className="absolute -left-[34px] top-1.5 w-3 h-3 rounded-full bg-brand-pink" />
-                                <p className="text-xs font-bold uppercase tracking-wider text-brand-pink mb-1">{milestone.date}</p>
-                                <h4 className="text-lg font-bold text-white mb-1.5">{milestone.title}</h4>
-                                <p className="text-sm text-gray-300 leading-relaxed">{milestone.description}</p>
-                            </article>
+                {groupedDetailedDays.length > 0 ? (
+                    <div className="space-y-8">
+                        {groupedDetailedDays.map((group) => (
+                            <section key={`${activeContent.id}-${group.weekGroup}`}>
+                                <div className="flex items-center gap-3 mb-4">
+                                    <span className="inline-flex items-center px-3 py-1 border border-brand-pink/60 bg-brand-pink/20 text-xs font-bold uppercase tracking-widest text-brand-pink">
+                                        {group.weekGroup}
+                                    </span>
+                                    <p className="text-xs text-gray-400 uppercase tracking-widest">{group.days.length} days</p>
+                                </div>
+
+                                <div className="overflow-x-auto pb-2">
+                                    <div className="flex gap-4 min-w-max">
+                                        {group.days.map((day) => (
+                                            <article
+                                                key={`${activeContent.id}-${group.weekGroup}-${day.date}`}
+                                                className="w-[320px] sm:w-[360px] border border-white/10 bg-[#011152]/30 p-5"
+                                            >
+                                                <p className="text-xs font-bold uppercase tracking-wider text-brand-pink mb-1">{formatDayWithWeekday(day.date)}</p>
+                                                <h4 className="text-lg font-bold text-white mb-1">{day.heading}</h4>
+                                                <p className="text-sm text-gray-300 leading-relaxed">{day.subheading}</p>
+
+                                                <ul className="mt-5 space-y-3 border-t border-white/10 pt-4">
+                                                    {day.visits.map((visit) => {
+                                                        const visitHref = visit.visitType === 'company'
+                                                            ? visit.websiteUrl
+                                                            : visit.visitType === 'person'
+                                                                ? visit.personLinkedInUrl
+                                                                : undefined
+
+                                                        const visitBody = (
+                                                            <>
+                                                                <span className="inline-flex items-center px-1.5 py-0.5 border border-brand-pink/50 bg-brand-pink/15 text-[9px] font-bold uppercase tracking-wide text-brand-pink mb-2">
+                                                                    {visitBadge(visit.visitType)}
+                                                                </span>
+
+                                                                <div className="flex items-center gap-2 text-sm text-gray-200 whitespace-nowrap overflow-x-auto">
+                                                                    {visit.visitType === 'company' && visit.logoPath && (
+                                                                        <img
+                                                                            src={visit.logoPath}
+                                                                            alt={`${visit.name} logo`}
+                                                                            className="w-5 h-5 object-contain flex-shrink-0"
+                                                                        />
+                                                                    )}
+                                                                    <span className="font-semibold text-white">{visit.name}</span>
+                                                                    <span className="text-gray-400">· {visit.location}</span>
+                                                                </div>
+
+                                                                <p className="text-gray-300 mt-1">{visit.description}</p>
+                                                                {visit.note ? <p className="text-gray-400 mt-1">{visit.note}</p> : null}
+                                                            </>
+                                                        )
+
+                                                        return (
+                                                            <li key={`${activeContent.id}-${day.date}-${visit.name}-${visit.location}`} className="text-sm text-gray-200">
+                                                                {visitHref ? (
+                                                                    <a
+                                                                        href={visitHref}
+                                                                        target="_blank"
+                                                                        rel="noreferrer"
+                                                                        className="block rounded-md border border-white/10 bg-white/[0.03] p-3 transition-colors hover:bg-white/[0.08]"
+                                                                    >
+                                                                        {visitBody}
+                                                                    </a>
+                                                                ) : null}
+                                                                {!visitHref ? <div className="rounded-md border border-white/10 bg-white/[0.03] p-3">{visitBody}</div> : null}
+                                                            </li>
+                                                        )
+                                                    })}
+                                                </ul>
+                                            </article>
+                                        ))}
+                                    </div>
+                                </div>
+                            </section>
                         ))}
                     </div>
-                </div>
-
-                <div className="bg-white/5 border border-white/10 p-6 md:p-8">
-                    <h3 className="text-2xl font-black text-white mb-2">Detailed Bay Area Visits</h3>
-                    <p className="text-sm text-gray-400 mb-8">{activeContent.detailedVisitsIntro}</p>
-
-                    {activeContent.detailedDays.length > 0 ? (
-                        <div className="space-y-6">
-                            {activeContent.detailedDays.map((day) => (
-                                <article key={`${activeContent.id}-${day.date}`} className="border border-white/10 bg-[#011152]/30 p-5">
-                                    <p className="text-xs font-bold uppercase tracking-wider text-brand-pink mb-1">{day.date}</p>
-                                    <h4 className="text-base font-bold text-white mb-1">{day.theme}</h4>
-                                    <ul className="mt-4 space-y-3">
-                                        {day.visits.map((visit) => (
-                                            <li key={`${activeContent.id}-${day.date}-${visit.time}-${visit.name}`} className="text-sm text-gray-200">
-                                                <span className="font-bold text-white">{visit.time}</span>
-                                                <span className="text-gray-400"> · </span>
-                                                <div className="inline-flex items-center gap-2">
-                                                    {visit.logoPath && (
-                                                        <img
-                                                            src={visit.logoPath}
-                                                            alt={`${visit.name} logo`}
-                                                            className="w-5 h-5 object-contain flex-shrink-0"
-                                                        />
-                                                    )}
-                                                    <span className="font-semibold text-white">{visit.name}</span>
-                                                </div>
-                                                <span className="text-gray-400"> · {visit.location}</span>
-                                                {visit.note ? <p className="text-gray-400 mt-1">{visit.note}</p> : null}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </article>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="border border-white/10 bg-[#011152]/30 p-5">
-                            <p className="text-sm text-gray-200 leading-relaxed">
-                                {activeContent.detailedVisitsPreviewText ?? 'Detailed schedule coming soon.'}
-                            </p>
-                        </div>
-                    )}
-                </div>
+                ) : (
+                    <div className="border border-white/10 bg-[#011152]/30 p-5">
+                        <p className="text-sm text-gray-200 leading-relaxed">
+                            {activeContent.detailedVisitsPreviewText ?? 'Detailed schedule coming soon.'}
+                        </p>
+                    </div>
+                )}
             </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-8">
