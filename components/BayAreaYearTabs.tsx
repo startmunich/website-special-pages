@@ -74,14 +74,6 @@ export default function BayAreaYearTabs({ activeYear }: BayAreaYearTabsProps) {
 
     return (
         <div>
-            <div className="mb-6 bg-white/5 border border-white/10 p-4 md:p-6">
-                <img
-                    src={activeContent.groupPictureUrl}
-                    alt={`START goes Bay Area ${activeContent.label} group picture`}
-                    className="w-full h-56 md:h-72 object-cover border border-white/10"
-                />
-            </div>
-
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
                 <div className="md:col-span-3 bg-white/5 border border-white/10 p-6">
                     <h3 className="text-xl font-black text-white mb-4">Year Highlights</h3>

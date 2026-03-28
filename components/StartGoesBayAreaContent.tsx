@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import CTA from '@/components/CTA'
 import BayAreaYearTabs from '@/components/BayAreaYearTabs'
 import Hero from '@/components/Hero'
@@ -20,11 +20,35 @@ const HERO_BACKGROUND_BY_YEAR: Record<BayAreaYearId, string> = {
 
 export default function StartGoesBayAreaContent() {
     const [activeYear, setActiveYear] = useState<BayAreaYearId>('2026')
+    const [showStickyYearSelector, setShowStickyYearSelector] = useState(false)
+    const yearSelectorRef = useRef<HTMLDivElement | null>(null)
 
     const activeYearMeta = useMemo(
         () => bayAreaYearContent.find((year) => year.id === activeYear) ?? bayAreaYearContent[0],
         [activeYear]
     )
+
+    useEffect(() => {
+        const target = yearSelectorRef.current
+
+        if (!target) return
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setShowStickyYearSelector(!entry.isIntersecting)
+            },
+            {
+                threshold: 0,
+                rootMargin: '-80px 0px 0px 0px',
+            }
+        )
+
+        observer.observe(target)
+
+        return () => {
+            observer.disconnect()
+        }
+    }, [])
 
     const heroTopBadge = (
         <div className="inline-flex items-center gap-2 bg-brand-pink/20 backdrop-blur-sm border border-brand-pink/40 text-brand-pink px-5 py-2 rounded-full text-sm font-medium transition-all duration-700">
@@ -40,29 +64,43 @@ export default function StartGoesBayAreaContent() {
         </>
     )
 
-    const heroYearSelector = (
-        <div className="mt-3">
-            <p className="text-xs font-bold text-gray-300 uppercase tracking-widest mb-3">Select Program Year</p>
-            <div className="flex flex-wrap gap-2">
-                {bayAreaYearContent.map((year) => {
-                    const isActive = year.id === activeYear
+    const renderYearSelectorButtons = (variant: 'hero' | 'sticky' = 'hero') => (
+        <div className={variant === 'sticky' ? 'flex flex-wrap items-center justify-center gap-2 sm:gap-3' : 'flex flex-wrap gap-2'}>
+            {bayAreaYearContent.map((year) => {
+                const isActive = year.id === activeYear
 
-                    return (
-                        <button
-                            key={year.id}
-                            type="button"
-                            onClick={() => setActiveYear(year.id)}
-                            className={`px-4 py-2 border rounded-full text-xs sm:text-sm font-bold uppercase tracking-wide transition-colors backdrop-blur-sm ${isActive
-                                ? 'bg-brand-pink text-white border-brand-pink'
-                                : 'bg-white/10 text-gray-100 border-white/25 hover:bg-white/20'
-                                }`}
-                        >
-                            {year.label}
-                            {year.isPreview ? <span className="ml-2 text-[10px] opacity-80">Preview</span> : null}
-                        </button>
-                    )
-                })}
-            </div>
+                return (
+                    <button
+                        key={year.id}
+                        type="button"
+                        onClick={() => setActiveYear(year.id)}
+                        className={`border rounded-full font-bold uppercase tracking-wide transition-colors backdrop-blur-sm ${variant === 'sticky' ? 'px-5 py-2.5 text-sm sm:px-6 sm:text-base' : 'px-4 py-2 text-xs sm:text-sm'} ${isActive
+                            ? 'bg-brand-pink text-white border-brand-pink'
+                            : 'bg-white/10 text-gray-100 border-white/25 hover:bg-white/20'
+                            }`}
+                    >
+                        {year.label}
+                        {year.isPreview ? <span className="ml-2 text-[10px] opacity-80">Preview</span> : null}
+                    </button>
+                )
+            })}
+        </div>
+    )
+
+    const heroYearSelector = (
+        <div ref={yearSelectorRef} className="mt-3">
+            <p className="text-xs font-bold text-gray-300 uppercase tracking-widest mb-3">Select Program Year</p>
+            {renderYearSelectorButtons()}
+        </div>
+    )
+
+    const stickyYearSelector = (
+        <div
+            className={`fixed left-1/2 top-24 z-40 -translate-x-1/2 px-4 transition-all duration-300 ${showStickyYearSelector ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'
+                }`}
+            aria-hidden={!showStickyYearSelector}
+        >
+            {renderYearSelectorButtons('sticky')}
         </div>
     )
 
@@ -80,10 +118,12 @@ export default function StartGoesBayAreaContent() {
 
     return (
         <main className="min-h-screen bg-brand-dark-blue">
+            {stickyYearSelector}
+
             <Hero
                 backgroundImage={HERO_BACKGROUND_BY_YEAR[activeYear]}
                 className="h-[760px] lg:h-screen min-h-[680px]"
-                overlayOpacity="bg-brand-dark-blue/80 backdrop-blur-[2px]"
+                overlayOpacity="bg-brand-dark-blue/80"
                 backgroundAccents={heroBackgroundAccents}
                 topBadge={heroTopBadge}
                 leftColumnClassName="max-w-3xl"
@@ -137,11 +177,8 @@ export default function StartGoesBayAreaContent() {
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
                 <div className="mb-10">
                     <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                        YEAR <span className="outline-text">OVERVIEW</span>
+                        {activeYearMeta.label} <span className="outline-text">OVERVIEW</span>
                     </h2>
-                    <p className="text-gray-400 text-lg">
-                        Showing details for <span className="text-white font-bold">{activeYearMeta.label}</span>. 2027 is available as a preview.
-                    </p>
                 </div>
 
                 <BayAreaYearTabs activeYear={activeYear} />
