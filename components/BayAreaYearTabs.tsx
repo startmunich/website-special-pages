@@ -102,12 +102,37 @@ export default function BayAreaYearTabs() {
                     <h3 className="text-xl font-black text-white mb-4">Year Highlights</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                         {activeContent.highlightVisits.map((highlight) => (
-                            <article
-                                key={`${activeContent.id}-${highlight.name}`}
-                                className="border border-white/10 bg-[#011152]/30 p-4"
-                            >
-                                <h4 className="text-sm font-bold text-white mb-1">{highlight.name}</h4>
-                                <p className="text-xs text-gray-400 uppercase tracking-wide">{highlight.context}</p>
+                            <article key={`${activeContent.id}-${highlight.name}`} className="border border-white/10 bg-[#011152]/30">
+                                {highlight.websiteUrl ? (
+                                    <a
+                                        href={highlight.websiteUrl}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="block h-full p-4 transition-colors hover:bg-white/[0.06]"
+                                    >
+                                        <div className="h-14 mb-3 flex items-center justify-start">
+                                            <img
+                                                src={highlight.logoPath ?? '/startlogo.svg'}
+                                                alt={`${highlight.name} logo`}
+                                                className="h-12 w-auto max-w-[150px] object-contain"
+                                            />
+                                        </div>
+                                        <h4 className="text-sm font-bold text-white mb-1">{highlight.name}</h4>
+                                        <p className="text-xs text-gray-400 uppercase tracking-wide">{highlight.context}</p>
+                                    </a>
+                                ) : (
+                                    <div className="p-4">
+                                        <div className="h-14 mb-3 flex items-center justify-start">
+                                            <img
+                                                src={highlight.logoPath ?? '/startlogo.svg'}
+                                                alt={`${highlight.name} logo`}
+                                                className="h-12 w-auto max-w-[150px] object-contain"
+                                            />
+                                        </div>
+                                        <h4 className="text-sm font-bold text-white mb-1">{highlight.name}</h4>
+                                        <p className="text-xs text-gray-400 uppercase tracking-wide">{highlight.context}</p>
+                                    </div>
+                                )}
                             </article>
                         ))}
                     </div>

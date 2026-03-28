@@ -51,6 +51,8 @@ export interface BayAreaTeamMember {
 export interface BayAreaHighlightVisit {
     name: string
     context: string
+    logoPath?: string
+    websiteUrl?: string
 }
 
 export interface BayAreaYearContent {
@@ -102,9 +104,9 @@ export const bayAreaYearContent: BayAreaYearContent[] = [
         label: '2025',
         groupPictureUrl: '/batch.jpeg',
         highlightVisits: [
-            { name: 'Operator Roundtable', context: 'San Francisco' },
-            { name: 'Seed Founder Panels', context: 'Palo Alto' },
-            { name: 'Growth Tactics Session', context: 'Mountain View' },
+            { name: 'Operator Roundtable', context: 'San Francisco', logoPath: '/startlogo.svg' },
+            { name: 'Seed Founder Panels', context: 'Palo Alto', logoPath: '/startlogo.svg' },
+            { name: 'Growth Tactics Session', context: 'Mountain View', logoPath: '/startlogo.svg' },
         ],
         heroStats: [
             { label: 'Year', value: 'Year 1' },
@@ -196,13 +198,13 @@ export const bayAreaYearContent: BayAreaYearContent[] = [
         label: '2026',
         groupPictureUrl: '/batch.jpeg',
         highlightVisits: [
-            { name: 'Google X', context: 'Mountain View' },
-            { name: 'Y Combinator', context: 'San Francisco' },
-            { name: 'Nvidia', context: 'Bay Area Session' },
+            { name: 'Google X', context: 'Mountain View', logoPath: '/bayarea/logos/google-x.svg', websiteUrl: 'https://x.company/' },
+            { name: 'Y Combinator', context: 'San Francisco', logoPath: '/bayarea/logos/y-combinator.svg', websiteUrl: 'https://www.ycombinator.com/' },
+            { name: 'NVIDIA', context: 'Santa Clara', logoPath: '/bayarea/logos/nvidia.svg', websiteUrl: 'https://www.nvidia.com/' },
         ],
         heroStats: [
             { label: 'Year', value: 'Year 2' },
-            { label: 'Visits in Plan', value: '17' },
+            { label: 'Visits', value: '17' },
             { label: 'Participants', value: '20' },
         ],
         timelineIntro: 'Complete journey milestones and detailed Bay Area visits from week two.',
@@ -660,9 +662,9 @@ export const bayAreaYearContent: BayAreaYearContent[] = [
         isPreview: true,
         groupPictureUrl: '/batch.jpeg',
         highlightVisits: [
-            { name: 'Frontier AI & Robotics Teams', context: 'In Scoping' },
-            { name: 'Early-Stage Founder Communities', context: 'In Outreach' },
-            { name: 'Deep Tech Operators', context: 'In Alignment' },
+            { name: 'Frontier AI & Robotics Teams', context: 'In Scoping', logoPath: '/startlogo.svg' },
+            { name: 'Early-Stage Founder Communities', context: 'In Outreach', logoPath: '/startlogo.svg' },
+            { name: 'Deep Tech Operators', context: 'In Alignment', logoPath: '/startlogo.svg' },
         ],
         heroStats: [
             { label: 'Year', value: 'Year 3' },
