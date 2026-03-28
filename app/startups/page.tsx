@@ -662,7 +662,7 @@ export default function StartupsPage() {
             description={<>Join START Munich and get the support, network, and resources you need to turn your idea into reality. Our community has helped launch {companies.length}+ startups — yours could be next.</>}
             buttons={[
               { label: "Discover the Member Journey", href: "/member-journey" },
-              { label: "Apply Now", href: "https://www.startmunich.de/apply", variant: "secondary", external: true }
+              { label: "Apply Now", href: "/join-start/2026", variant: "secondary" }
             ]}
           />
         </div>

@@ -173,8 +173,7 @@ const startEvents: StartEvent[] = [
     frequency: "Monthly",
     icon: "🔨",
     images: [
-      "https://images.unsplash.com/photo-1515162305280-9da0c0b0fb47?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1529333166433-0c1df022bdd7?q=80&w=800&auto=format&fit=crop"
+      "/Builder_Weekend.jpg"
     ]
   },
   {
@@ -250,7 +249,7 @@ export default function MemberJourneyPage() {
   const [eventImageIndex, setEventImageIndex] = useState(0)
   const [currentEventIndex, setCurrentEventIndex] = useState(0)
   const timelineSliderRef = useRef<HTMLDivElement>(null)
-  const [scrollProgress, setScrollProgress] = useState(0)
+
   const [hoveredEventId, setHoveredEventId] = useState<string | null>(null)
   const [isMoreHovered, setIsMoreHovered] = useState(false)
   const autoRotateTimerRef = useRef<NodeJS.Timeout | null>(null)
@@ -286,32 +285,10 @@ export default function MemberJourneyPage() {
     }
   }
 
-  const handlePrevImage = () => {
-    if (eventImages.length === 0) return
-    setEventImageIndex((prev) => (prev - 1 + eventImages.length) % eventImages.length)
-  }
-
-  const handleNextImage = () => {
-    if (eventImages.length === 0) return
-    setEventImageIndex((prev) => (prev + 1) % eventImages.length)
-  }
 
   useEffect(() => {
     setLoading(false)
   }, [])
-
-  // Timeline scroll tracking
-  useEffect(() => {
-    if (loading) return
-    const slider = timelineSliderRef.current
-    if (!slider) return
-    const updateScroll = () => {
-      const { scrollLeft, scrollWidth, clientWidth } = slider
-      setScrollProgress(scrollLeft / (scrollWidth - clientWidth))
-    }
-    slider.addEventListener('scroll', updateScroll)
-    return () => slider.removeEventListener('scroll', updateScroll)
-  }, [loading])
 
   // Auto-rotate events every 3 seconds
   useEffect(() => {
@@ -717,24 +694,6 @@ export default function MemberJourneyPage() {
                         </p>
                       </div>
 
-                      {/* Navigation controls overlay */}
-                      <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex items-center justify-between px-4">
-                        <button
-                          onClick={handlePrevImage}
-                          className="w-10 h-10 flex items-center justify-center rounded-full bg-black/40 hover:bg-brand-pink/80 border border-white/20 hover:border-brand-pink text-white transition-all duration-300 backdrop-blur-md hover:scale-110"
-                          aria-label="Previous image"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-                        </button>
-                        <button
-                          onClick={handleNextImage}
-                          className="w-10 h-10 flex items-center justify-center rounded-full bg-black/40 hover:bg-brand-pink/80 border border-white/20 hover:border-brand-pink text-white transition-all duration-300 backdrop-blur-md hover:scale-110"
-                          aria-label="Next image"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                        </button>
-                      </div>
-
                     </div>
                   </>
                 ) : currentEventImages.length > 0 ? (
@@ -753,24 +712,6 @@ export default function MemberJourneyPage() {
                       <p className="text-base font-bold text-white">
                         {currentEventImages[eventImageIndex % currentEventImages.length]?.title}
                       </p>
-                    </div>
-
-                    {/* Navigation controls overlay */}
-                    <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex items-center justify-between px-4">
-                      <button
-                        onClick={() => setEventImageIndex((prev) => (prev - 1 + currentEventImages.length) % currentEventImages.length)}
-                        className="w-10 h-10 flex items-center justify-center rounded-full bg-black/40 hover:bg-brand-pink/80 border border-white/20 hover:border-brand-pink text-white transition-all duration-300 backdrop-blur-md hover:scale-110"
-                        aria-label="Previous image"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-                      </button>
-                      <button
-                        onClick={() => setEventImageIndex((prev) => (prev + 1) % currentEventImages.length)}
-                        className="w-10 h-10 flex items-center justify-center rounded-full bg-black/40 hover:bg-brand-pink/80 border border-white/20 hover:border-brand-pink text-white transition-all duration-300 backdrop-blur-md hover:scale-110"
-                        aria-label="Next image"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                      </button>
                     </div>
 
                   </div>
@@ -883,7 +824,7 @@ export default function MemberJourneyPage() {
             title="Ready to Join?"
             description="Start your entrepreneurial journey with START Munich today. Apply to become a member and experience our vibrant community."
             buttons={[
-              { label: "Apply Now", href: "https://www.startmunich.de/apply", external: true },
+              { label: "Apply Now", href: "/join-start/2026" },
               { label: "Learn More", href: "https://www.startmunich.de", variant: "secondary", external: true }
             ]}
           />

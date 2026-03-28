@@ -29,7 +29,7 @@ export default function Navigation() {
       <div className="mx-auto px-10 lg:px-20">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+          <Link href="/home" className="flex items-center hover:opacity-80 transition-opacity">
             <Image
               src="/startlogo.svg"
               alt="START Munich"
@@ -82,12 +82,12 @@ export default function Navigation() {
                       </span>
                     </Link>
                     <Link
-                      href="/member-network"
+                      href="/our-mission"
                       onClick={() => setIsCommunityOpen(false)}
                       className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
                     >
                       <span>
-                        Member Network
+                        Our Mission
                       </span>
                     </Link>
                     <Link
@@ -147,8 +147,8 @@ export default function Navigation() {
           {/* Apply Now Button - Desktop */}
           <div className="hidden lg:flex items-center">
             <Link
-              href="/apply"
-              className="bg-white text-brand-dark-blue px-6 py-2.5 font-black text-base rounded hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase tracking-wide"
+              href="/join-start/2026"
+              className="bg-white text-brand-dark-blue px-4 py-1.5 font-bold text-sm rounded hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase tracking-wide"
             >
               APPLY NOW
             </Link>
@@ -176,7 +176,7 @@ export default function Navigation() {
         {isMobileMenuOpen && (
           <div className="lg:hidden py-4 space-y-2 border-t border-white/10">
             <Link
-              href="/"
+              href="/home"
               className="block px-4 py-3 text-white font-bold text-sm hover:bg-white/5 hover:text-brand-pink transition-colors uppercase"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -203,18 +203,18 @@ export default function Navigation() {
               {isMobileCommunityOpen && (
                 <div className="bg-white/5 space-y-1">
                   <Link
+                    href="/our-mission"
+                    className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Our Mission
+                  </Link>
+                  <Link
                     href="/member-journey"
                     className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Member Journey
-                  </Link>
-                  <Link
-                    href="/member-network"
-                    className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Member Network
                   </Link>
                   <Link
                     href="/members"
@@ -267,7 +267,7 @@ export default function Navigation() {
 
             {/* Apply Now Button - Mobile */}
             <Link
-              href="/apply"
+              href="/join-start/2026"
               className="block mx-4 mt-4 text-center bg-white text-brand-dark-blue px-6 py-3 font-black text-sm rounded hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase"
               onClick={() => setIsMobileMenuOpen(false)}
             >

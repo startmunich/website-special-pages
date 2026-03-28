@@ -665,9 +665,7 @@ export default function MembersPage() {
 
                   <div className="flex-shrink-0">
                     <a
-                      href="https://www.startmunich.de/apply"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/join-start/2026"
                       className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#d0006f] to-pink-600 hover:from-[#d0006f] hover:to-[#d0006f] text-white font-bold text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#d0006f]/50 overflow-hidden"
                     >
                       <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
