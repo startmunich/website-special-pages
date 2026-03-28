@@ -611,7 +611,7 @@ export default function MemberJourneyPage() {
               </div>
 
               {/* Rotating single image or grid */}
-              <div ref={eventImageRef} className="bg-white/5 border border-white/10 h-full min-h-[500px] relative overflow-hidden">
+              <div ref={eventImageRef} className="bg-white/5 border border-white/10 min-h-[500px] max-h-[600px] relative overflow-hidden">
                 {isMoreHovered || (!hoveredEventId && !isMoreHovered && currentEventIndex === startEvents.length) ? (
                   /* Grid of 4 images for "And a lot more..." */
                   <div className="grid grid-cols-2 grid-rows-2 w-full h-full gap-0">

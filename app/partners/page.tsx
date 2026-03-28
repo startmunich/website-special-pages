@@ -196,7 +196,7 @@ export default function PartnersPage() {
 
         {/* Hero Section - Restored Old Style with Stats Added */}
         <Hero
-          backgroundImage="/ourPartners/hero.JPG"
+          backgroundImage="/ourPartners/hero1.png"
           title={
             <>
               OUR

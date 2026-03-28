@@ -791,12 +791,13 @@ export default function HomePage() {
 
               {/* Right side - Image */}
               <div className="relative">
-                <div className="rounded-3xl overflow-hidden border-2 border-white/10">
+                <div className="rounded-3xl overflow-hidden border-2 border-white/10 relative">
                   <img
-                    src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1200&auto=format&fit=crop"
+                    src="/home/good.png"
                     alt="START Munich Event"
-                    className="w-full h-[500px] lg:h-[600px] object-cover"
+                    className="w-full h-[500px] lg:h-[600px] object-cover object-right"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue/50 via-transparent to-transparent"></div>
                 </div>
                 {/* Decorative blob */}
                 <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-brand-pink/20 rounded-full blur-[60px]" />

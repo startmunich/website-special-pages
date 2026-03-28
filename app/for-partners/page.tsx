@@ -316,7 +316,7 @@ export default function ForPartnersPage() {
       <main className="min-h-screen bg-brand-dark-blue">
         {/* Hero Section */}
         <Hero
-          backgroundImage="/ourPartners/hero.JPG"
+          backgroundImage="/partners/hero.JPG"
           hideChildrenOnMobile
           title={
             <>
