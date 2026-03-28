@@ -1,10 +1,30 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Script from 'next/script'
+import { useAnimatedNumber, useInView } from '@/lib/hooks'
 
 export const dynamic = 'force-dynamic'
+
+// ── Types ───────────────────────────────────────────────────────────────────────
+
+interface Partner {
+  id: string
+  name: string
+  category: string
+  logoUrl: string
+  featured?: boolean
+}
+
+interface Startup {
+  id: string
+  name: string
+  logoUrl: string
+  isSpotlight?: boolean
+  isYCombinator?: boolean
+  isEWOR?: boolean
+}
 
 // ── Images ──────────────────────────────────────────────────────────────────────
 
@@ -14,184 +34,106 @@ const heroImages = [
   "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop",
 ]
 
-const communityPhotos = [
-  { src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop", alt: "Team Collaboration" },
-  { src: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop", alt: "Workshop" },
-  { src: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop", alt: "Pitch Night" },
-  { src: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=800&auto=format&fit=crop", alt: "Conference" },
-  { src: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=800&auto=format&fit=crop", alt: "Community Dinner" },
-  { src: "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=800&auto=format&fit=crop", alt: "Networking Event" },
-]
+// ── Fetch Partners ──────────────────────────────────────────────────────────────
+
+async function fetchPartners(): Promise<Partner[]> {
+  try {
+    const baseUrl = typeof window !== 'undefined'
+      ? window.location.origin
+      : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+
+    const response = await fetch(`${baseUrl}/api/partners`, {
+      cache: 'no-store',
+    })
+
+    if (!response.ok) {
+      console.error(`API error: ${response.status} ${response.statusText}`)
+      return []
+    }
+
+    return await response.json()
+  } catch (error) {
+    console.error('Error fetching partners:', error)
+    return []
+  }
+}
+
+// ── Fetch Startups ──────────────────────────────────────────────────────────────
+
+async function fetchStartups(): Promise<Startup[]> {
+  try {
+    const baseUrl = typeof window !== 'undefined'
+      ? window.location.origin
+      : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+
+    const response = await fetch(`${baseUrl}/api/startups`, {
+      cache: 'no-store',
+    })
+
+    if (!response.ok) {
+      console.error(`API error: ${response.status} ${response.statusText}`)
+      return []
+    }
+
+    return await response.json()
+  } catch (error) {
+    console.error('Error fetching startups:', error)
+    return []
+  }
+}
 
 // ── Data ────────────────────────────────────────────────────────────────────────
 
 const facts = [
-  { label: "Members", value: 300, suffix: "+", icon: "👥" },
-  { label: "Diversity (MINT)", value: 65, suffix: "%", icon: "🌈" },
-  { label: "Founders", value: 120, suffix: "+", icon: "🚀" },
-  { label: "Capital Raised", value: 500, suffix: "M€+", icon: "💰" },
-  { label: "Members in YC & other top programs", value: 25, suffix: "+", icon: "🏆" },
+  { label: "Members", value: 300, suffix: "+" },
+  { label: "Diversity (MINT)", value: 65, suffix: "%" },
+  { label: "Capital Raised", value: 500, suffix: "M+", prefix: "€" },
+  { label: "Members in YC & other top programs", value: 25, suffix: "+" },
 ]
-
-const partnerLogos = [
-  { name: "UnternehmerTUM", logo: "https://logo.clearbit.com/unternehmertum.de" },
-  { name: "Google", logo: "https://logo.clearbit.com/google.com" },
-  { name: "SAP", logo: "https://logo.clearbit.com/sap.com" },
-  { name: "Microsoft", logo: "https://logo.clearbit.com/microsoft.com" },
-  { name: "Amazon Web Services", logo: "https://logo.clearbit.com/aws.amazon.com" },
-  { name: "TU Munich", logo: "https://logo.clearbit.com/tum.de" },
-  { name: "Sequoia Capital", logo: "https://logo.clearbit.com/sequoiacap.com" },
-  { name: "Nvidia", logo: "https://logo.clearbit.com/nvidia.com" },
-  { name: "Accel", logo: "https://logo.clearbit.com/accel.com" },
-  { name: "Andreessen Horowitz", logo: "https://logo.clearbit.com/a16z.com" },
-]
-
-const notableStartups = [
-  {
-    name: "Celonis",
-    description: "Process mining leader now valued at $13B, co-founded by START alumni.",
-    logo: "https://logo.clearbit.com/celonis.com",
-    tag: "Unicorn",
-    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    name: "Personio",
-    description: "Europe's leading HR platform, building the people operating system.",
-    logo: "https://logo.clearbit.com/personio.de",
-    tag: "Unicorn",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    name: "Helsing",
-    description: "AI-powered defence technology, shaping Europe's sovereignty.",
-    logo: "https://logo.clearbit.com/helsing.ai",
-    tag: "Scale-up",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    name: "Isar Aerospace",
-    description: "Developing launch vehicles to provide dedicated access to space.",
-    logo: "https://logo.clearbit.com/isaraerospace.com",
-    tag: "Scale-up",
-    image: "https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=800&auto=format&fit=crop",
-  },
-]
-
-const notableAlumni = [
-  {
-    name: "Jessica Sauter",
-    role: "Co-Founder & CEO, VoltStorage",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop",
-    quote: "START gave me the courage to take the leap.",
-  },
-  {
-    name: "Moritz Helmich",
-    role: "Co-Founder, Finanzguru",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
-    quote: "The network you build here lasts a lifetime.",
-  },
-  {
-    name: "Laura Wagner",
-    role: "Founder & CTO, MedTech AI",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop",
-    quote: "From student to founder in one semester.",
-  },
-]
-
-const specialReasons = [
-  {
-    icon: "🎓",
-    title: "Biggest Entrepreneurship Initiative",
-    description: "The largest student-run entrepreneurship initiative at TU Munich — connecting academia with the startup world.",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    icon: "🌍",
-    title: "Global Network",
-    description: "Strong ties to Silicon Valley, London, Berlin, and top accelerators like Y Combinator and EWOR.",
-    image: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    icon: "🤝",
-    title: "Gemeinnützig — Non-Profit",
-    description: "We are a registered non-profit (gemeinnützig), driven purely by impact and the mission to foster entrepreneurship in Munich.",
-    image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    icon: "⚡",
-    title: "Action-Oriented Builders",
-    description: "Our members don't just talk about startups — they build them. Over 120 founders have emerged from our community.",
-    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    icon: "🏙️",
-    title: "Impact on Munich",
-    description: "We shape Munich's innovation ecosystem — from organizing flagship events to producing the next generation of founders.",
-    image: "https://images.unsplash.com/photo-1577462800662-7511e228c0e6?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    icon: "🔬",
-    title: "Unternehmertum & Innovation",
-    description: "We bridge the gap between technical excellence at TUM and the entrepreneurial skills needed to bring ideas to life.",
-    image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=800&auto=format&fit=crop",
-  },
-]
-
-const networkCities = [
-  { name: "Munich", flag: "🇩🇪", image: "https://images.unsplash.com/photo-1577462800662-7511e228c0e6?q=80&w=400&auto=format&fit=crop" },
-  { name: "Berlin", flag: "🇩🇪", image: "https://images.unsplash.com/photo-1560969184-10fe8719e047?q=80&w=400&auto=format&fit=crop" },
-  { name: "San Francisco", flag: "🇺🇸", image: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=400&auto=format&fit=crop" },
-  { name: "London", flag: "🇬🇧", image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=400&auto=format&fit=crop" },
-  { name: "New York", flag: "🇺🇸", image: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=400&auto=format&fit=crop" },
-  { name: "Singapore", flag: "🇸🇬", image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?q=80&w=400&auto=format&fit=crop" },
-  { name: "Cambridge", flag: "🇬🇧", image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=400&auto=format&fit=crop" },
-]
-
-// ── Hooks ───────────────────────────────────────────────────────────────────────
-
-function useCountUp(target: number, duration = 1800, start = false) {
-  const [count, setCount] = useState(0)
-  useEffect(() => {
-    if (!start) return
-    let current = 0
-    const steps = 60
-    const increment = target / steps
-    const interval = duration / steps
-    let step = 0
-    const timer = setInterval(() => {
-      step++
-      current += increment
-      if (step >= steps) { setCount(target); clearInterval(timer) }
-      else setCount(current)
-    }, interval)
-    return () => clearInterval(timer)
-  }, [target, duration, start])
-  return count
-}
-
-function useInView(threshold = 0.2) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    if (!ref.current) return
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect() } }, { threshold })
-    obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [threshold])
-  return { ref, visible }
-}
 
 // ── Component ───────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
   const [loaded, setLoaded] = useState(false)
   const [heroIdx, setHeroIdx] = useState(0)
+  const [turningIdx, setTurningIdx] = useState(0)
+  const [brandPartners, setBrandPartners] = useState<Partner[]>([])
+  const [featuredStartups, setFeaturedStartups] = useState<Startup[]>([])
   const factsView = useInView(0.25)
   const missionView = useInView(0.15)
-  const specialView = useInView(0.1)
-  const startupsView = useInView(0.1)
+  // const specialView = useInView(0.1)
+
+  const turningPhrases = [
+    { from: "latest research", to: "innovation" },
+    { from: "students", to: "founders" },
+    { from: "bold ideas", to: "reality" },
+    { from: "ambition", to: "impact" },
+    { from: "passion", to: "startups" },
+  ]
 
   useEffect(() => { setLoaded(true) }, [])
+
+  // Fetch brand partners from database
+  useEffect(() => {
+    const loadPartners = async () => {
+      const data = await fetchPartners()
+      // Filter for featured partners (same as "WITH WHOM WE WORKED" section)
+      const featuredPartners = data.filter(p => p.featured)
+      setBrandPartners(featuredPartners)
+    }
+    loadPartners()
+  }, [])
+
+  // Fetch featured startups from database (Featured, YC, EWOR)
+  useEffect(() => {
+    const loadStartups = async () => {
+      const data = await fetchStartups()
+      // Filter for featured, YC, or EWOR startups
+      const featured = data.filter(s => s.isSpotlight || s.isYCombinator || s.isEWOR)
+      setFeaturedStartups(featured)
+    }
+    loadStartups()
+  }, [])
 
   // Hero image crossfade
   useEffect(() => {
@@ -199,12 +141,17 @@ export default function HomePage() {
     return () => clearInterval(t)
   }, [])
 
+  // Turning phrases rotation
+  useEffect(() => {
+    const t = setInterval(() => setTurningIdx(p => (p + 1) % turningPhrases.length), 2500)
+    return () => clearInterval(t)
+  }, [turningPhrases.length])
+
   const animatedValues = [
-    useCountUp(facts[0].value, 1800, factsView.visible),
-    useCountUp(facts[1].value, 1800, factsView.visible),
-    useCountUp(facts[2].value, 1800, factsView.visible),
-    useCountUp(facts[3].value, 1800, factsView.visible),
-    useCountUp(facts[4].value, 1800, factsView.visible),
+    useAnimatedNumber(facts[0].value, !factsView.visible, 1800),
+    useAnimatedNumber(facts[1].value, !factsView.visible, 1800),
+    useAnimatedNumber(facts[2].value, !factsView.visible, 1800),
+    useAnimatedNumber(facts[3].value, !factsView.visible, 1800),
   ]
 
   return (
@@ -245,14 +192,9 @@ export default function HomePage() {
           <div className="absolute bottom-20 left-[5%] w-[400px] h-[400px] bg-brand-pink/10 rounded-full blur-[100px] animate-blob animation-delay-2000" />
           <div className="absolute top-[40%] right-[5%] w-[300px] h-[300px] bg-blue-500/10 rounded-full blur-[80px] animate-blob animation-delay-4000" />
 
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col lg:flex-row items-center gap-12">
-            {/* Left – Text */}
-            <div className="flex-1 max-w-2xl">
-              <div className={`inline-flex items-center gap-2 bg-brand-pink/20 backdrop-blur-sm border border-brand-pink/40 text-brand-pink px-5 py-2 rounded-full text-sm font-medium mb-8 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                🎓 Biggest Entrepreneurship Initiative at TUM
-              </div>
-
-              <h1 className={`text-7xl sm:text-8xl lg:text-9xl font-black tracking-tight leading-[0.9] mb-8 transition-all duration-1000 delay-200 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div className="max-w-2xl">
+<h1 className={`text-7xl sm:text-8xl lg:text-9xl font-black tracking-tight leading-[0.9] mb-8 transition-all duration-1000 delay-200 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 <span className="text-white drop-shadow-lg">DARE.</span><br />
                 <span className="text-brand-pink drop-shadow-lg">BUILD.</span><br />
                 <span className="outline-text drop-shadow-lg">BELONG.</span>
@@ -263,164 +205,372 @@ export default function HomePage() {
                 We empower the next generation of founders to dare, build, and belong.
               </p>
 
-              <div className={`flex flex-wrap gap-4 transition-all duration-1000 delay-[600ms] ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                <Link href="/member-journey" className="group relative px-10 py-4 bg-brand-pink text-white font-bold rounded-xl text-lg overflow-hidden transition-all hover:shadow-[0_0_40px_rgba(208,0,111,0.4)]">
-                  <span className="relative z-10">Join Us</span>
-                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                </Link>
-                <Link href="/for-partners" className="px-10 py-4 border-2 border-white/30 backdrop-blur-sm text-white font-bold rounded-xl hover:bg-white/10 hover:border-white/50 transition-all text-lg">
-                  Become a Partner
-                </Link>
-              </div>
             </div>
 
-            {/* Right – Floating photo collage (desktop only) */}
-            <div className={`hidden lg:block flex-1 relative h-[500px] w-full transition-all duration-1000 delay-[800ms] ${loaded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
-              <div className="absolute top-0 right-0 w-72 h-52 rounded-2xl overflow-hidden shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 border-2 border-white/10">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600&auto=format&fit=crop" alt="Team" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute top-32 right-48 w-64 h-48 rounded-2xl overflow-hidden shadow-2xl -rotate-2 hover:rotate-0 transition-transform duration-500 border-2 border-white/10">
-                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=600&auto=format&fit=crop" alt="Workshop" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute bottom-0 right-12 w-60 h-44 rounded-2xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 border-2 border-brand-pink/30">
-                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600&auto=format&fit=crop" alt="Pitch Night" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-pink/40 to-transparent" />
-              </div>
-            </div>
           </div>
 
           {/* Scroll indicator */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-            <span className="text-gray-400 text-xs tracking-widest">SCROLL</span>
-            <div className="w-px h-8 bg-gradient-to-b from-brand-pink to-transparent" />
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+            <div className="w-px h-12 bg-gradient-to-b from-white/50 to-transparent" />
           </div>
         </section>
 
-        {/* ═══════════════════════════ MISSION — BENTO GRID ═══════════════════════════ */}
-        <section className="py-28 px-4 sm:px-6 lg:px-8">
-          <div ref={missionView.ref} className="max-w-7xl mx-auto">
-            <div className={`text-center mb-20 transition-all duration-700 ${missionView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Who we are</span>
-              <h2 className="text-5xl sm:text-6xl font-black text-white mt-3 mb-4">MISSION &amp; VISION</h2>
-              <div className="w-20 h-1 bg-brand-pink mx-auto" />
-            </div>
-
-            {/* Bento grid with images */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {/* Large card — Gemeinnützig */}
-              <div className={`lg:col-span-2 relative overflow-hidden rounded-3xl group min-h-[320px] transition-all duration-700 delay-100 ${missionView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=1200&auto=format&fit=crop" alt="Community" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/60 to-transparent" />
-                <div className="relative p-10 flex flex-col justify-end h-full">
-                  <div className="w-14 h-14 bg-brand-pink/30 backdrop-blur-md rounded-2xl flex items-center justify-center text-3xl mb-4">🤲</div>
-                  <h3 className="text-3xl font-black text-white mb-3">Gemeinnützig</h3>
-                  <p className="text-gray-200 leading-relaxed max-w-lg text-lg">
-                    As a registered non-profit, everything we do is driven by impact — empowering students to become the entrepreneurs of tomorrow.
-                  </p>
-                </div>
-              </div>
-
-              {/* Tall card — Impact on Munich */}
-              <div className={`relative overflow-hidden rounded-3xl group min-h-[320px] transition-all duration-700 delay-200 ${missionView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1600&auto=format&fit=crop" alt="Munich" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/70 to-transparent" />
-                <div className="relative p-8 flex flex-col justify-end h-full">
-                  <div className="w-14 h-14 bg-brand-pink/30 backdrop-blur-md rounded-2xl flex items-center justify-center text-3xl mb-4">🏙️</div>
-                  <h3 className="text-2xl font-black text-white mb-3">Impact on Munich</h3>
-                  <p className="text-gray-200 leading-relaxed">
-                    We shape Munich's startup ecosystem by connecting students, founders, investors, and industry leaders.
-                  </p>
-                </div>
-              </div>
-
-              {/* Wide card — Unternehmertum */}
-              <div className={`lg:col-span-3 relative overflow-hidden rounded-3xl group min-h-[260px] transition-all duration-700 delay-300 ${missionView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1600&auto=format&fit=crop" alt="Innovation" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-r from-brand-dark-blue via-brand-dark-blue/70 to-transparent" />
-                <div className="relative p-10 flex flex-col justify-center h-full max-w-2xl">
-                  <div className="w-14 h-14 bg-brand-pink/30 backdrop-blur-md rounded-2xl flex items-center justify-center text-3xl mb-4">💡</div>
-                  <h3 className="text-3xl font-black text-white mb-3">Unternehmertum &amp; Innovation</h3>
-                  <p className="text-gray-200 leading-relaxed text-lg">
-                    We bridge the gap between TUM's technical excellence and the entrepreneurial skills needed to turn ideas into companies that change the world.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ═══════════════════════════ FACTS — OVER FULL-WIDTH IMAGE ═══════════════════════════ */}
-        <section ref={factsView.ref} className="relative py-32 px-4 sm:px-6 lg:px-8">
-          {/* Background image */}
-          <div className="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2070&auto=format&fit=crop" alt="" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-brand-dark-blue/85 backdrop-blur-[2px]" />
-          </div>
-
-          <div className="relative max-w-7xl mx-auto">
-            <div className={`text-center mb-16 transition-all duration-700 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">By the numbers</span>
-              <h2 className="text-5xl sm:text-6xl font-black text-white mt-3 mb-4">FACTS</h2>
-              <div className="w-20 h-1 bg-brand-pink mx-auto" />
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-              {facts.map((fact, i) => (
-                <div
-                  key={fact.label}
-                  className={`bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 text-center hover:border-brand-pink/50 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(208,0,111,0.15)] ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                  style={{ transitionDelay: `${200 + i * 100}ms` }}
-                >
-                  <div className="text-4xl mb-4">{fact.icon}</div>
-                  <div className="text-5xl sm:text-6xl font-black text-brand-pink mb-2 tabular-nums">
-                    {Math.round(animatedValues[i])}{fact.suffix}
-                  </div>
-                  <div className="text-sm text-gray-300 font-medium leading-tight">{fact.label}</div>
+        {/* ═══════════════════════════ BACKED BY BRANDS ═══════════════════════════ */}
+        <section className="py-16 overflow-hidden">
+          <p className="text-center text-gray-500 text-sm tracking-[0.2em] uppercase mb-10">Backed by brands like:</p>
+          <div className="relative">
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-brand-dark-blue to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-brand-dark-blue to-transparent z-10" />
+            <div className="animate-scroll opacity-60">
+              {[...brandPartners, ...brandPartners].map((partner, i) => (
+                <div key={`${partner.id}-${i}`} className="inline-flex items-center justify-center mx-12 h-12">
+                  <img
+                    src={partner.logoUrl}
+                    alt={partner.name}
+                    className="h-8 sm:h-10 object-contain brightness-0 invert"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement
+                      target.style.display = 'none'
+                      target.parentElement!.innerHTML = `<span class="text-white/70 font-bold text-base sm:text-lg tracking-tight">${partner.name}</span>`
+                    }}
+                  />
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ═══════════════════════════ COMMUNITY PHOTO STRIP ═══════════════════════════ */}
-        <section className="py-4 overflow-hidden">
-          <div className="animate-scroll">
-            {[...communityPhotos, ...communityPhotos].map((photo, i) => (
-              <div key={`${photo.alt}-${i}`} className="inline-block mx-2 flex-shrink-0">
-                <div className="w-80 h-52 rounded-2xl overflow-hidden">
-                  <img src={photo.src} alt={photo.alt} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+        {/* ═══════════════════════════ MISSION & VISION — SPLIT DESIGN ═══════════════════════════ */}
+        
+        {false && (
+        <section className="relative overflow-hidden">
+          <div ref={missionView.ref}>
+            {/* Hero statement with turning phrases */}
+            <div className="relative py-32 px-4 sm:px-6 lg:px-8">
+              {/* Background decorations */}
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-pink/5 rounded-full blur-[200px]" />
+                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+              </div>
+
+              <div className="relative max-w-7xl mx-auto text-center">
+                <div className={`transition-all duration-700 ${missionView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                  <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Our Purpose</span>
+                </div>
+
+                {/* Large turning phrase */}
+                <div className={`mt-10 transition-all duration-700 delay-200 ${missionView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                  <div className="text-3xl sm:text-4xl lg:text-5xl font-black leading-none flex items-baseline justify-center gap-x-3 whitespace-nowrap">
+                    <span className="text-gray-600">TURNING</span>
+                    <span className="relative inline-flex min-w-[200px] sm:min-w-[300px] lg:min-w-[400px] h-[1.1em] overflow-hidden">
+                      {turningPhrases.map((phrase, i) => (
+                        <span
+                          key={phrase.from}
+                          className={`absolute inset-0 flex items-end transition-all duration-700 ${
+                            i === turningIdx ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'
+                          }`}
+                        >
+                          <span className="text-brand-pink whitespace-nowrap">{phrase.from}</span>
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                  <div className="text-3xl sm:text-4xl lg:text-5xl font-black leading-none flex items-baseline justify-center gap-x-3 whitespace-nowrap mt-3">
+                    <span className="text-gray-600">INTO</span>
+                    <span className="relative inline-flex min-w-[180px] sm:min-w-[280px] lg:min-w-[360px] h-[1.1em] overflow-hidden">
+                      {turningPhrases.map((phrase, i) => (
+                        <span
+                          key={phrase.to}
+                          className={`absolute inset-0 flex items-end transition-all duration-700 ${
+                            i === turningIdx ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full'
+                          }`}
+                        >
+                          <span className="text-white whitespace-nowrap">{phrase.to}</span>
+                        </span>
+                      ))}
+                    </span>
+                  </div>
                 </div>
               </div>
-            ))}
+            </div>
+            {/* Split cards - TUM Image, Mission & Vision */}
+            <div className="relative">
+              {/* TUM Image - Absolute Left */}
+              <div className={`absolute left-0 top-0 bottom-0 hidden lg:block w-[280px] transition-all duration-700 delay-200 ${missionView.visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+                <div className="relative h-full overflow-hidden">
+                  <img
+                    src="https://www.tum.de/fileadmin/_processed_/f/7/csm_1436302_39af3c4190.jpg"
+                    alt="TU Munich"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-brand-dark-blue" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue/60 via-transparent to-brand-dark-blue/40" />
+                </div>
+              </div>
+
+              {/* Mission & Vision Container - Centered */}
+              <div className="grid grid-cols-1 lg:grid-cols-2">
+                {/* MISSION */}
+                <div className={`relative group transition-all duration-700 delay-300 ${missionView.visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+                  <div className="relative min-h-[500px] lg:min-h-[600px] bg-gradient-to-br from-brand-pink/20 via-brand-pink/10 to-transparent p-10 sm:p-16 flex flex-col justify-between overflow-hidden">
+                    {/* Decorative elements */}
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-brand-pink/10 rounded-full blur-[80px]" />
+                    <div className="absolute bottom-0 left-0 w-40 h-40 border border-brand-pink/20 rounded-full" />
+                    <div className="absolute top-1/2 right-10 w-px h-32 bg-gradient-to-b from-brand-pink/50 to-transparent" />
+
+                    {/* Content */}
+                    <div className="relative text-right">
+                      <div className="flex items-center gap-4 mb-8 justify-end">
+                        <span className="text-brand-pink text-sm font-bold tracking-[0.2em] uppercase">Mission</span>
+                        <div className="w-12 h-12 rounded-xl bg-brand-pink/20 border border-brand-pink/30 flex items-center justify-center">
+                          <svg className="w-6 h-6 text-brand-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>
+                        </div>
+                      </div>
+                      <h3 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
+                        Empowering<br />
+                        <span className="text-brand-pink">founders</span><br />
+                        of tomorrow
+                      </h3>
+                    </div>
+
+                    <div className="relative text-right">
+                      <p className="text-gray-300 text-lg leading-relaxed max-w-md ml-auto">
+                        We provide the education, network, and hands-on experience that transforms ambitious students into successful entrepreneurs.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* VISION - Right side */}
+                <div className={`relative group transition-all duration-700 delay-400 ${missionView.visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+                  <div className="relative min-h-[500px] lg:min-h-[600px] bg-gradient-to-bl from-white/5 via-transparent to-transparent p-10 sm:p-16 flex flex-col justify-between overflow-hidden border-l border-white/5">
+                    {/* Decorative elements */}
+                    <div className="absolute top-10 left-10 w-32 h-32 border border-white/10 rounded-full" />
+                    <div className="absolute bottom-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-[80px]" />
+                    <div className="absolute bottom-1/3 left-0 w-20 h-px bg-gradient-to-r from-brand-pink/50 to-transparent" />
+
+                    {/* Content */}
+                    <div className="relative">
+                      <div className="flex items-center gap-4 mb-8">
+                        <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center">
+                          <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                          </svg>
+                        </div>
+                        <span className="text-white/60 text-sm font-bold tracking-[0.2em] uppercase">Vision</span>
+                      </div>
+                      <h3 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
+                        Munich as<br />
+                        <span className="text-gray-500">Europe&apos;s</span><br />
+                        startup hub
+                      </h3>
+                    </div>
+
+                    <div className="relative">
+                      <p className="text-gray-400 text-lg leading-relaxed max-w-md">
+                        We envision a Munich where every ambitious idea has the chance to become reality — a thriving ecosystem that rivals Silicon Valley.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        )}
+
+        {/* ═══════════════════════════ WHAT IS START? ═══════════════════════════ */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+            {/* Group Photo */}
+            <div className="relative rounded-3xl overflow-hidden mb-16">
+              <img
+                src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=2000&auto=format&fit=crop"
+                alt="START Munich Community"
+                className="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue/60 via-transparent to-transparent" />
+            </div>
+
+            {/* Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+              {/* Left - Text Content */}
+              <div>
+                <h2 className="text-4xl sm:text-5xl font-black text-white mb-6">
+                  What is <span className="text-brand-pink">START Munich</span>?
+                </h2>
+                <p className="text-gray-300 text-lg leading-relaxed mb-4">
+                  With over 300 active members, START Munich empowers the next generation of entrepreneurs. Founded in 2015, our mission is to create{' '}
+                  <span className="text-brand-pink font-semibold">a community of students who dare to build, innovate, and lead</span>, fostering both groundbreaking ventures and meaningful connections across industries.
+                </p>
+                <p className="text-gray-300 leading-relaxed mb-6">
+                  Together with our highly-talented members, we launch ambitious startups, connect founders with industry partners and investors, host flagship events like pitch nights and founder talks, and run hands-on programs that bridge academic excellence with entrepreneurial success.
+                </p>
+
+                <div className="flex flex-wrap gap-4 mt-8">
+                  <Link href="/members" className="px-8 py-3 bg-brand-pink text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(208,0,111,0.4)] transition-all">
+                    Meet our Members
+                  </Link>
+                  <Link href="/events" className="px-8 py-3 bg-brand-pink text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(208,0,111,0.4)] transition-all">
+                    See our Events
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right - Stats Grid */}
+              <div className="flex flex-col gap-6">
+                {/* Academic Excellence Card */}
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
+                  <div className="flex items-center justify-center gap-8 mb-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Logo_of_the_Technical_University_of_Munich.svg" alt="TUM" className="h-10 brightness-0 invert opacity-80" />
+                    <span className="text-white/30 text-2xl font-light">×</span>
+                    <img src="https://www.lmu.de/fileadmin/webtool/css/images/lmu-logo-text.svg" alt="LMU" className="h-8 brightness-0 invert opacity-80" />
+                  </div>
+                  <div className="text-gray-400 text-sm uppercase tracking-wider text-center">Academic Excellence</div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-6">
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
+                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">300<span className="text-brand-pink">+</span></div>
+                  <div className="text-gray-400 text-sm uppercase tracking-wider">Active Members</div>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
+                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">2015</div>
+                  <div className="text-gray-400 text-sm uppercase tracking-wider">Founding Year</div>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
+                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">10<span className="text-brand-pink">+</span></div>
+                  <div className="text-gray-400 text-sm uppercase tracking-wider">Events / Year</div>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
+                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">800<span className="text-brand-pink">+</span></div>
+                  <div className="text-gray-400 text-sm uppercase tracking-wider">Attendees</div>
+                </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* ═══════════════════════════ PARTNERS — SCROLLING BANNER ═══════════════════════════ */}
-        <section className="py-24 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-14">
-              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Backed by the best</span>
-              <h2 className="text-5xl sm:text-6xl font-black text-white mt-3 mb-4">OUR PARTNERS</h2>
-              <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-                World-class companies and investors who believe in our mission.
-              </p>
-              <div className="w-20 h-1 bg-brand-pink mx-auto mt-4" />
+        {/* ═══════════════════════════ FACTS & STARTUPS ═══════════════════════════ */}
+        <section ref={factsView.ref} className="relative py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          {/* Abstract background elements */}
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-dark-blue via-[#0a0a2e] to-brand-dark-blue" />
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-pink/5 rounded-full blur-[150px]" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px]" />
+
+          <div className="relative max-w-7xl mx-auto">
+            {/* Section header */}
+            <div className={`mb-10 transition-all duration-700 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">By the Numbers</span>
+              <h2 className="text-5xl sm:text-6xl font-black text-white mt-3">THE FACTS</h2>
             </div>
 
-            <div className="relative overflow-hidden py-8">
-              <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-brand-dark-blue to-transparent z-10" />
-              <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-brand-dark-blue to-transparent z-10" />
+            {/* Facts - Modern asymmetric grid */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
+              {/* Big featured stat - Capital Raised */}
+              <div className={`md:col-span-7 relative group transition-all duration-700 delay-100 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="relative bg-gradient-to-br from-brand-pink/20 via-brand-pink/10 to-transparent border border-brand-pink/20 rounded-[2rem] p-10 sm:p-14 h-full overflow-hidden">
+                  {/* Decorative corner accent */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-brand-pink/10 rounded-bl-[80px]" />
+                  <div className="absolute -bottom-4 -left-4 w-24 h-24 border-2 border-brand-pink/20 rounded-full" />
+
+                  <div className="relative">
+                    <div className="text-gray-400 text-sm font-medium uppercase tracking-[0.2em] mb-4">Capital Raised</div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-7xl sm:text-8xl lg:text-[120px] font-black text-white leading-none tabular-nums">
+                        €{Math.round(animatedValues[2])}
+                      </span>
+                      <span className="text-4xl sm:text-5xl lg:text-6xl font-black text-brand-pink">M+</span>
+                    </div>
+                    <p className="text-gray-400 mt-6 max-w-sm">Raised by our alumni founders and community startups.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stacked stats */}
+              <div className="md:col-span-5 flex flex-col gap-6">
+                {/* Startups */}
+                <div className={`relative group flex-1 transition-all duration-700 delay-200 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                  <div className="relative bg-white/5 border border-white/10 rounded-[1.5rem] p-8 h-full hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300">
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <div className="text-gray-500 text-xs font-medium uppercase tracking-[0.2em] mb-2">Startups</div>
+                        <div className="text-5xl sm:text-6xl font-black text-white tabular-nums">
+                          70<span className="text-brand-pink">+</span>
+                        </div>
+                      </div>
+                      <div className="w-14 h-14 rounded-xl bg-brand-pink/10 flex items-center justify-center">
+                        <svg className="w-7 h-7 text-brand-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Two side-by-side stats */}
+                <div className="flex gap-6">
+                  {/* Diversity */}
+                  <div className={`flex-1 transition-all duration-700 delay-300 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                    <div className="relative bg-white/5 border border-white/10 rounded-[1.5rem] p-6 h-full hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300">
+                      <div className="text-gray-500 text-xs font-medium uppercase tracking-[0.2em] mb-2">MINT</div>
+                      <div className="text-4xl sm:text-5xl font-black text-white tabular-nums">
+                        {Math.round(animatedValues[1])}<span className="text-brand-pink">%</span>
+                      </div>
+                      <div className="mt-3 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-brand-pink to-brand-pink/60 rounded-full transition-all duration-1000"
+                          style={{ width: factsView.visible ? `${animatedValues[1]}%` : '0%' }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* YC & Top Programs */}
+                  <div className={`flex-1 transition-all duration-700 delay-400 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                    <div className="relative bg-white/5 border border-white/10 rounded-[1.5rem] p-6 h-full hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300">
+                      <div className="text-gray-500 text-xs font-medium uppercase tracking-[0.2em] mb-2">YC & other programs</div>
+                      <div className="text-4xl sm:text-5xl font-black text-white tabular-nums">
+                        {Math.round(animatedValues[3])}<span className="text-brand-pink">+</span>
+                      </div>
+                      <div className="mt-3 flex gap-1">
+                        {[...Array(5)].map((_, i) => (
+                          <div key={i} className={`h-1.5 flex-1 rounded-full ${i < 4 ? 'bg-brand-pink' : 'bg-white/10'}`} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Divider with line */}
+            <div className="flex items-center gap-6 mb-16">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              <span className="text-brand-pink text-sm font-bold tracking-[0.2em] uppercase">Our Startups</span>
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            </div>
+
+            {/* Startup logos */}
+            <div className="relative overflow-hidden">
+              <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0a0a2e] to-transparent z-10" />
+              <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0a0a2e] to-transparent z-10" />
               <div className="animate-scroll">
-                {[...partnerLogos, ...partnerLogos].map((partner, i) => (
-                  <div key={`${partner.name}-${i}`} className="inline-flex items-center justify-center mx-10 flex-shrink-0">
-                    <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-5 w-36 h-24 flex items-center justify-center hover:scale-110 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition-all duration-300">
+                {[...featuredStartups, ...featuredStartups].map((startup, i) => (
+                  <div key={`${startup.id}-${i}`} className="inline-flex items-center justify-center mx-6 flex-shrink-0">
+                    <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 w-36 h-20 flex items-center justify-center hover:bg-white/10 hover:border-brand-pink/30 transition-all duration-300">
                       <img
-                        src={partner.logo}
-                        alt={partner.name}
-                        className="max-h-12 max-w-[90px] object-contain"
+                        src={startup.logoUrl}
+                        alt={startup.name}
+                        className="max-h-10 max-w-[100px] object-contain brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none'
-                          ;(e.target as HTMLImageElement).parentElement!.innerHTML = `<span class="text-xs text-gray-600 font-bold text-center">${partner.name}</span>`
+                          const target = e.target as HTMLImageElement
+                          target.style.display = 'none'
+                          target.parentElement!.innerHTML = `<span class="text-sm text-white/80 font-bold text-center">${startup.name}</span>`
                         }}
                       />
                     </div>
@@ -430,211 +580,227 @@ export default function HomePage() {
             </div>
 
             <div className="text-center mt-10">
-              <Link href="/for-partners" className="group inline-flex items-center gap-2 text-brand-pink hover:text-white font-bold text-lg transition-colors">
-                Become a Partner <span className="group-hover:translate-x-1 transition-transform">→</span>
+              <Link href="/startups" className="group inline-flex items-center gap-2 text-white/70 hover:text-brand-pink font-medium transition-colors">
+                View all startups <span className="group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             </div>
           </div>
         </section>
 
-        {/* ═══════════════════════════ NOTABLE STARTUPS — IMAGE CARDS ═══════════════════════════ */}
-        <section ref={startupsView.ref} className="py-28 px-4 sm:px-6 lg:px-8">
+        {/* ═══════════════════════════ LATEST NEWS ═══════════════════════════ */}
+        <section className="py-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
           <div className="max-w-7xl mx-auto">
-            <div className={`text-center mb-20 transition-all duration-700 ${startupsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Success stories</span>
-              <h2 className="text-5xl sm:text-6xl font-black text-white mt-3 mb-4">NOTABLE STARTUPS &amp; ALUMNI</h2>
-              <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-                From student projects to unicorns — our community produces founders who change the world.
-              </p>
-              <div className="w-20 h-1 bg-brand-pink mx-auto mt-4" />
-            </div>
-
-            {/* Startup image cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
-              {notableStartups.map((startup, i) => (
-                <div
-                  key={startup.name}
-                  className={`group relative overflow-hidden rounded-3xl h-[380px] transition-all duration-700 ${startupsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                  style={{ transitionDelay: `${200 + i * 100}ms` }}
-                >
-                  <img src={startup.image} alt={startup.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/40 to-transparent group-hover:from-brand-dark-blue group-hover:via-brand-dark-blue/60 transition-all duration-500" />
-
-                  {/* Content */}
-                  <div className="relative h-full p-6 flex flex-col justify-between">
-                    <div className="flex items-center justify-between">
-                      <div className="bg-white rounded-xl w-12 h-12 flex items-center justify-center p-2 shadow-lg">
-                        <img
-                          src={startup.logo}
-                          alt=""
-                          className="max-h-7 max-w-[30px] object-contain"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).style.display = 'none'
-                            ;(e.target as HTMLImageElement).parentElement!.innerHTML = `<span class="text-sm font-bold text-gray-700">${startup.name.charAt(0)}</span>`
-                          }}
-                        />
-                      </div>
-                      <span className="text-xs bg-brand-pink/80 backdrop-blur-sm text-white px-3 py-1 rounded-full font-bold">
-                        {startup.tag}
-                      </span>
-                    </div>
-
-                    <div>
-                      <h4 className="text-2xl font-black text-white mb-2">{startup.name}</h4>
-                      <p className="text-gray-200 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        {startup.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Alumni with large photos */}
-            <div className="mb-12">
-              <h3 className="text-2xl font-black text-white mb-10 text-center">ALUMNI FOUNDERS</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-                {notableAlumni.map((alumnus) => (
-                  <div key={alumnus.name} className="group relative">
-                    <div className="relative overflow-hidden rounded-3xl h-[300px] mb-5">
-                      <img
-                        src={alumnus.image}
-                        alt={alumnus.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue/90 to-transparent" />
-                      {/* Quote overlay */}
-                      <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <p className="text-white/90 text-sm italic">&ldquo;{alumnus.quote}&rdquo;</p>
-                      </div>
-                    </div>
-                    <h4 className="text-lg font-bold text-white">{alumnus.name}</h4>
-                    <p className="text-gray-400 text-sm">{alumnus.role}</p>
-                  </div>
-                ))}
+            {/* Header with social links */}
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12">
+              <div>
+                <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Stay Updated</span>
+                <h2 className="text-5xl sm:text-6xl font-black text-white mt-3">LATEST NEWS</h2>
+              </div>
+              <div className="flex items-center gap-4">
+                <Link href="https://www.linkedin.com/company/start-munich/" target="_blank" className="group flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full hover:border-brand-pink/50 hover:bg-brand-pink/10 transition-all duration-300">
+                  <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                  <span className="text-white text-sm font-medium group-hover:text-brand-pink transition-colors">LinkedIn</span>
+                </Link>
+                <Link href="https://www.instagram.com/start.munich/" target="_blank" className="group flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full hover:border-brand-pink/50 hover:bg-brand-pink/10 transition-all duration-300">
+                  <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                  <span className="text-white text-sm font-medium group-hover:text-brand-pink transition-colors">Instagram</span>
+                </Link>
               </div>
             </div>
 
-            <div className="text-center">
-              <Link href="/startups" className="group inline-flex items-center gap-3 px-10 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold rounded-xl hover:bg-brand-pink hover:border-brand-pink transition-all duration-300 text-lg">
-                Explore All Startups <span className="group-hover:translate-x-1 transition-transform">→</span>
+            {/* News Cards - Custom Design */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Card 1 - START Labs */}
+              <Link href="https://www.linkedin.com/feed/update/urn:li:share:7440016138719272960" target="_blank" className="group relative">
+                <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
+                  <img
+                    src="https://media.licdn.com/dms/image/v2/D5622AQEh2lg_lhQjww/feedshare-shrink_1280/B56Z0A_QNzI0AU-/0/1773838075010?e=1775692800&v=beta&t=idyNOcgAy--nvZREVm78rmAppAX0uJFuOWEjrUVjIfg"
+                    alt="START Labs MedTech Edition"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <div className="text-white/60 text-xs uppercase tracking-wider mb-2">Upcoming Event</div>
+                    <div className="text-white font-bold text-xl mb-1">START Labs: MedTech Edition</div>
+                    <p className="text-white/70 text-sm">Something is coming. Block your calendar.</p>
+                  </div>
+                  <div className="absolute top-6 right-6 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Card 2 - Bay Area */}
+              <Link href="https://www.linkedin.com/feed/update/urn:li:share:7435353728989229056" target="_blank" className="group relative">
+                <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
+                  <img
+                    src="https://media.licdn.com/dms/image/v2/D4D22AQGajz8OPW6FFw/feedshare-shrink_1280/B4DZy.u0TJHIAc-/0/1772726470218?e=1775692800&v=beta&t=eNeBZE_T126RQMQfvEIfT926mx6D_VxTvIOeZ18p1_0"
+                    alt="START Goes Bay Area"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <div className="text-white/60 text-xs uppercase tracking-wider mb-2">START Goes</div>
+                    <div className="text-white font-black text-2xl mb-2">BAY AREA</div>
+                    <p className="text-white/70 text-sm">Our STARTies explore the San Francisco startup ecosystem.</p>
+                  </div>
+                  <div className="absolute top-6 right-6 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Card 3 - Lio Funding */}
+              <Link href="https://www.linkedin.com/feed/update/urn:li:share:7435603494218166272" target="_blank" className="group relative">
+                <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
+                  <img
+                    src="https://media.licdn.com/dms/image/v2/D4E22AQHk1X_AF4bZ4Q/feedshare-shrink_2048_1536/B4EZzCR.lKJEAk-/0/1772786019035?e=1775692800&v=beta&t=u5vZe8YnuTVmKWbQdOIHbEa626sXld9zhbR71XaQxZk"
+                    alt="Lio raises €30M"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <div className="text-white font-bold text-xl mb-1">Lio raises €30M</div>
+                    <p className="text-white/60 text-sm">Huge congratulations to START Munich alumni! 🎉</p>
+                  </div>
+                  <div className="absolute top-6 right-6 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                </div>
               </Link>
             </div>
           </div>
         </section>
 
-        {/* ═══════════════════════════ WHAT MAKES START SPECIAL — IMAGE-BACKED CARDS ═══════════════════════════ */}
-        <section className="py-28 px-4 sm:px-6 lg:px-8 relative">
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-dark-blue via-[#060620] to-brand-dark-blue" />
-
-          <div ref={specialView.ref} className="relative max-w-7xl mx-auto">
-            <div className={`text-center mb-20 transition-all duration-700 ${specialView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Our Difference</span>
-              <h2 className="text-5xl sm:text-6xl font-black text-white mt-3 mb-4">WHAT MAKES START SPECIAL</h2>
-              <div className="w-20 h-1 bg-brand-pink mx-auto" />
+        {/* ═══════════════════════════ START NETWORK ═══════════════════════════ */}
+        <section className="py-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+            {/* Section header */}
+            <div className="mb-16">
+              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Worldwide Connected</span>
+              <h2 className="text-5xl sm:text-6xl font-black text-white mt-3">START NETWORK</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {specialReasons.map((reason, i) => (
-                <div
-                  key={reason.title}
-                  className={`group relative overflow-hidden rounded-3xl min-h-[280px] transition-all duration-700 ${specialView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                  style={{ transitionDelay: `${150 + i * 100}ms` }}
-                >
-                  <img src={reason.image} alt="" className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/70 to-brand-dark-blue/40" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              {/* Left side - Text & Stats */}
+              <div className="relative">
+                <p className="text-gray-300 text-lg leading-relaxed mb-16 max-w-md">
+                  We're a part of the sprawling START Network. This interconnection multiplies our potential across the world, allowing us to draw inspiration from diverse cultures, share insights, and create an ecosystem that nurtures collective progress.
+                </p>
 
-                  <div className="relative p-8 flex flex-col justify-end h-full">
-                    <div className="w-12 h-12 bg-brand-pink/30 backdrop-blur-md rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
-                      {reason.icon}
-                    </div>
-                    <h3 className="text-xl font-black text-white mb-2">{reason.title}</h3>
-                    <p className="text-gray-300 leading-relaxed text-sm">{reason.description}</p>
+                {/* Globe illustration */}
+                <div className="absolute -bottom-10 -left-10 w-72 h-72 opacity-15">
+                  <svg viewBox="0 0 200 200" className="w-full h-full text-white">
+                    {/* Outer circle */}
+                    <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                    {/* Horizontal lines */}
+                    <ellipse cx="100" cy="100" rx="80" ry="30" fill="none" stroke="currentColor" strokeWidth="1" />
+                    <ellipse cx="100" cy="100" rx="80" ry="55" fill="none" stroke="currentColor" strokeWidth="0.75" />
+                    <line x1="20" y1="100" x2="180" y2="100" stroke="currentColor" strokeWidth="0.75" />
+                    {/* Vertical lines */}
+                    <ellipse cx="100" cy="100" rx="30" ry="80" fill="none" stroke="currentColor" strokeWidth="1" />
+                    <ellipse cx="100" cy="100" rx="55" ry="80" fill="none" stroke="currentColor" strokeWidth="0.75" />
+                    <line x1="100" y1="20" x2="100" y2="180" stroke="currentColor" strokeWidth="0.75" />
+                  </svg>
+                </div>
+
+                {/* Stats */}
+                <div className="flex gap-16 relative z-10">
+                  <div>
+                    <div className="text-6xl font-black text-white">16</div>
+                    <div className="text-gray-400 text-sm">Cities</div>
+                  </div>
+                  <div>
+                    <div className="text-6xl font-black text-white">11</div>
+                    <div className="text-gray-400 text-sm">Countries</div>
+                  </div>
+                  <div>
+                    <div className="text-6xl font-black text-white">+500</div>
+                    <div className="text-gray-400 text-sm">Members</div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
+              </div>
 
-        {/* ═══════════════════════════ CTA — FULL-WIDTH IMAGE BG ═══════════════════════════ */}
-        <section className="relative py-32 px-4 sm:px-6 lg:px-8">
-          <div className="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=2070&auto=format&fit=crop" alt="" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-brand-dark-blue/80 backdrop-blur-[3px]" />
-          </div>
+              {/* Right side - City names rolling */}
+              <div className="relative h-[400px] overflow-hidden">
+                <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase absolute top-0 right-0 z-10">Global Community</span>
 
-          <div className="relative max-w-4xl mx-auto text-center">
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-12 sm:p-20 shadow-2xl">
-              <h2 className="text-5xl sm:text-6xl font-black text-white mb-6">READY TO START?</h2>
-              <p className="text-gray-200 text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
-                Whether you want to join our community or partner with us to shape Munich's entrepreneurial future — there's a place for you.
-              </p>
+                {/* Fade overlays */}
+                <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-brand-dark-blue to-transparent z-10" />
+                <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-brand-dark-blue to-transparent z-10" />
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
-                <Link href="/member-journey" className="group relative px-12 py-5 bg-brand-pink text-white font-bold rounded-xl text-xl overflow-hidden transition-all hover:shadow-[0_0_50px_rgba(208,0,111,0.4)] w-full sm:w-auto text-center">
-                  <span className="relative z-10">Join Us</span>
-                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                </Link>
-                <Link href="/for-partners" className="px-12 py-5 border-2 border-brand-pink text-brand-pink font-bold rounded-xl hover:bg-brand-pink hover:text-white transition-all text-xl w-full sm:w-auto text-center">
-                  Become a Partner
-                </Link>
+                <div className="mt-12 text-right animate-scroll-vertical">
+                  {['BARCELONA', 'LISBON', 'MAASTRICHT', 'NUREMBERG', 'LAUSANNE', 'MUNICH', 'STOCKHOLM', 'VIENNA', 'BARCELONA', 'LISBON', 'MAASTRICHT', 'NUREMBERG', 'LAUSANNE', 'MUNICH', 'STOCKHOLM', 'VIENNA'].map((city, i) => (
+                    <div
+                      key={`${city}-${i}`}
+                      className={`text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.2] ${
+                        i % 5 === 0 ? 'bg-gradient-to-r from-gray-400 to-gray-200 bg-clip-text text-transparent' :
+                        i % 5 === 1 ? 'bg-gradient-to-r from-gray-500 to-gray-300 bg-clip-text text-transparent' :
+                        i % 5 === 2 ? 'text-white' :
+                        i % 5 === 3 ? 'text-brand-pink' :
+                        'bg-gradient-to-r from-gray-400 to-gray-200 bg-clip-text text-transparent'
+                      }`}
+                    >
+                      {city}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ═══════════════════════════ START NETWORK — CITY CARDS ═══════════════════════════ */}
+        {/* ═══════════════════════════ ABOUT START ═══════════════════════════ */}
         <section className="py-28 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-20">
-              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Worldwide</span>
-              <h2 className="text-5xl sm:text-6xl font-black text-white mt-3 mb-4">START NETWORK</h2>
-              <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-                Our community stretches far beyond Munich — connecting founders, alumni, and partners across the globe.
-              </p>
-              <div className="w-20 h-1 bg-brand-pink mx-auto mt-4" />
-            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              {/* Left side - Content */}
+              <div>
+                <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">About START Munich</span>
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mt-4 mb-8 leading-tight">
+                  Driven by passion. <span className="text-brand-pink">Built by students.</span>
+                </h2>
 
-            {/* City image cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-16">
-              {networkCities.map((city) => (
-                <div key={city.name} className="group relative overflow-hidden rounded-2xl h-48 cursor-default">
-                  <img src={city.image} alt={city.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-brand-dark-blue/60 group-hover:bg-brand-pink/40 transition-colors duration-500" />
-                  <div className="relative h-full flex flex-col items-center justify-center">
-                    <span className="text-3xl mb-2">{city.flag}</span>
-                    <span className="text-white font-bold text-lg">{city.name}</span>
-                  </div>
+                <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                  START Munich is the largest student-run entrepreneurship initiative at TU Munich, empowering the next generation of founders through education, networking, and hands-on experience.
+                </p>
+                <p className="text-gray-400 leading-relaxed mb-8">
+                  We believe in the power of student-driven innovation and provide a platform where bold ideas can become reality.
+                </p>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-3 mb-10">
+                  {['Education', 'Community', 'Hands-on experience'].map((tag) => (
+                    <span key={tag} className="px-5 py-2 border border-brand-pink/30 rounded-full text-white text-sm hover:bg-brand-pink/10 transition-colors">
+                      {tag}
+                    </span>
+                  ))}
                 </div>
-              ))}
-            </div>
 
-            {/* Network stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto mb-14">
-              {[
-                { value: "7+", label: "Cities Worldwide" },
-                { value: "500+", label: "Alumni Network" },
-                { value: "50+", label: "Partner Organizations" },
-              ].map((stat) => (
-                <div key={stat.label} className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 text-center hover:border-brand-pink/40 transition-all duration-300">
-                  <div className="text-4xl font-black text-brand-pink mb-2">{stat.value}</div>
-                  <div className="text-gray-400 text-sm">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* Links */}
-            <div className="flex flex-wrap justify-center gap-8">
-              {[
-                { href: "/members", label: "Meet our Members" },
-                { href: "/startups", label: "Our Startups" },
-                { href: "/events", label: "Upcoming Events" },
-              ].map((link) => (
-                <Link key={link.href} href={link.href} className="group inline-flex items-center gap-2 text-brand-pink hover:text-white font-bold transition-colors">
-                  {link.label} <span className="group-hover:translate-x-1 transition-transform">→</span>
+                <Link href="/member-journey" className="group inline-flex items-center gap-3 px-8 py-4 bg-brand-pink text-white font-bold rounded-xl text-lg hover:shadow-[0_0_40px_rgba(208,0,111,0.4)] transition-all mb-10">
+                  <span>Discover How Our Community Is Run</span>
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
                 </Link>
-              ))}
+              </div>
+
+              {/* Right side - Image */}
+              <div className="relative">
+                <div className="rounded-3xl overflow-hidden border-2 border-white/10">
+                  <img
+                    src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1200&auto=format&fit=crop"
+                    alt="START Munich Event"
+                    className="w-full h-[500px] lg:h-[600px] object-cover"
+                  />
+                </div>
+                {/* Decorative blob */}
+                <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-brand-pink/20 rounded-full blur-[60px]" />
+              </div>
             </div>
           </div>
         </section>

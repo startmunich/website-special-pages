@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import Script from 'next/script'
 import Marquee from "react-fast-marquee";
 import Hero from "@/components/Hero"
@@ -30,7 +30,7 @@ interface Partner {
 interface FAQ {
   id: string
   question: string
-  answer: string
+  answer: ReactNode
 }
 
 // Fetch partners from API
@@ -60,32 +60,32 @@ async function fetchPartners(): Promise<Partner[]> {
 const testimonials: Testimonial[] = [
   {
     id: "t1",
-    partnerName: "Sequoia Capital",
+    partnerName: "OpenAI (ex AWS)",
     partnerLogo: "https://logo.clearbit.com/sequoiacap.com",
-    personName: "Sarah Chen",
-    personRole: "Partner",
-    personImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=500&auto=format&fit=crop",
-    story: "Working with START Munich has been incredibly rewarding. The quality of founders and their commitment to building meaningful companies sets them apart from other student organizations we've partnered with.",
+    personName: "Tilman Resch",
+    personRole: "Account Director",
+    personImage: "https://media.licdn.com/dms/image/v2/D4D03AQF6wOnopNWfbA/profile-displayphoto-crop_800_800/B4DZgEljg0HMAI-/0/1752423627430?e=1775692800&v=beta&t=lD73yCVZxPdCAZ7UYmP-C6rDgocVotGq_Vd1BlvafA8",
+    story: "Supporting Munich Road to Start Hack as a tool sponsor was a great experience for our team at AWS. It gave us the opportunity to engage directly with a highly motivated student community, introduce our tools in a practical setting, and have authentic conversations with future builders and founders. We really appreciated the openness and energy of the event.",
     quote: "START Munich has consistently delivered exceptional founders. Their community's quality and entrepreneurial spirit are unmatched in the European ecosystem."
   },
   {
     id: "t2",
-    partnerName: "Google",
+    partnerName: "Alstin Partners",
     partnerLogo: "https://logo.clearbit.com/google.com",
-    personName: "Michael Weber",
-    personRole: "Startup Programs Lead",
+    personName: "Carl Beichert",
+    personRole: "Executive Assistant to the CEO",
     personImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=500&auto=format&fit=crop",
-    story: "Our partnership with START Munich gives us access to Europe's brightest entrepreneurial talent. The workshops and mentorship sessions we've hosted have been some of our most engaging and impactful.",
+    story: "We’ve worked together on a couple of events by now, and it’s always been a good experience. What I appreciated was how flexible the team was, but also the drive behind it all, there was always real initiative to push things forward and turn ideas into something bigger. At the same time, they brought structure and experience into both new and ongoing projects, which made the collaboration feel easy and productive.",
     quote: "Partnering with START has given us direct access to innovative minds solving real problems. The caliber of projects and founders is world-class."
   },
   {
     id: "t3",
-    partnerName: "UnternehmerTUM",
+    partnerName: "Lio",
     partnerLogo: "https://logo.clearbit.com/unternehmertum.de",
-    personName: "Anna Schmidt",
-    personRole: "Director of Partnerships",
+    personName: "Vladimir Keil",
+    personRole: "CEO & Founder",
     personImage: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=500&auto=format&fit=crop",
-    story: "The synergy between UnternehmerTUM and START Munich creates a powerful ecosystem for student founders. Their members consistently impress us with their professionalism and drive to succeed.",
+    story: "As a former member of START, I’m still surprised by what this community can bring together. In our collaborations, they brought again and again impressive people and strong ideas to the table, and some of the connections we made there have been truly valuable as Ask Lio continues to grow.",
     quote: "START members bring fresh perspectives and incredible drive. Our collaboration has led to successful incubations and meaningful innovation."
   }
 ]
@@ -93,33 +93,40 @@ const testimonials: Testimonial[] = [
 const faqs: FAQ[] = [
   {
     id: "faq1",
-    question: "What are the partnership tiers?",
-    answer: "We offer three partnership levels: Gold (€15,000/year), Silver (€10,000/year), and Bronze (€5,000/year). Each tier includes different benefits like event sponsorships, recruiting access, and brand visibility."
+    question: "How long is the timeline to collaboration?",
+    answer: (
+      <>
+        We can move fast and sometimes launch within days. Please check our event{" "}
+        <a href="/domain/events" className="text-brand-pink hover:underline">
+          calendar
+        </a>{" "}
+        first. If you want to join a specific event, contact us as early as possible so we can plan it with you.
+      </>
+    )
   },
   {
     id: "faq2",
     question: "How can we recruit START members?",
-    answer: "Partners get exclusive access to our talent pool through dedicated recruiting events, direct CV database access, and priority placement in our job board. You can also host office tours and info sessions."
+    answer:
+      "Partners get exclusive access to our talent pool through dedicated recruiting events, curated CV database access of consenting community members and event attendees, and priority placement on our job board. You can also host office tours and info sessions."
   },
   {
     id: "faq3",
     question: "What events can partners sponsor?",
-    answer: "Partners can sponsor our flagship events including the Annual Pitch Competition, Startup Week, monthly workshops, networking nights, and our international conference. Custom event collaboration is also possible."
+    answer:
+      "Partners can sponsor flagship formats like Road to START Summit, START Sprint, workshops, networking nights, and more. Reach out and we’ll find or build the right format together."
   },
   {
     id: "faq4",
-    question: "Can partners mentor our founders?",
-    answer: "Absolutely! We encourage partners to provide mentorship through our structured mentorship program, office hours, and workshop sessions. This is one of the most impactful ways to engage with our community."
+    question: "What is the partnership duration?",
+    answer:
+      "Depending on your goals, partnerships can be event-specific or long-term, for example for one semester or a full year."
   },
   {
     id: "faq5",
-    question: "What is the partnership duration?",
-    answer: "Standard partnerships run for one academic year (October-September) with the option to renew. We also offer semester-based partnerships for specific initiatives or events."
-  },
-  {
-    id: "faq6",
     question: "How do we get started?",
-    answer: "Simply reach out to our partnerships team at m.heumader@startmunich.de or use the contact form below. We'll schedule a call to discuss your goals and how START can help achieve them."
+    answer:
+      "Send us a message anytime. We’ll quickly set up a short intro call to understand your goals and propose the best next steps."
   }
 ]
 
@@ -127,12 +134,12 @@ const partnershipOpportunities = [
   {
     icon: "🎤",
     title: "Event Sponsorship",
-    description: "Sponsor flagship events like our Annual Pitch Competition, Startup Week, and networking nights to gain visibility among 300+ entrepreneurial students."
+    description: "Sponsor flagship events like our Annual Pitch Competition, Hackathons, and domain specific networking events to gain visibility among thousands of participants."
   },
   {
     icon: "🎯",
     title: "Recruit Top Talent",
-    description: "Get direct access to our highly motivated member base through recruiting events, CV databases, and exclusive hiring opportunities."
+    description: "Get direct access to our highly motivated member base through personal engagement, CV databases, and exclusive hiring opportunities."
   },
   {
     icon: "🧑‍🏫",
@@ -147,7 +154,7 @@ const partnershipOpportunities = [
   {
     icon: "🏆",
     title: "Pitch Competitions",
-    description: "Judge our competitions, offer prizes, and get early access to innovative startups seeking funding and partnerships."
+    description: "Judge our competitions, offer prizes, and be a thought leader to access to innovative startups seeking funding and partnerships."
   },
   {
     icon: "🤝",
@@ -160,23 +167,23 @@ const whyStartSpecial = [
   {
     icon: "🎓",
     title: "Academic Excellence",
-    description: "Direct access to one of Europe's top technical universities. TUM consistently ranks among the best in engineering, business, and research programs.",
+    description: "Direct access to Munich's top universities. Our network spans TUM, LMU, HM and many more, connecting your organization with outstanding talent across engineering, business, research, and applied sciences.",
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Logo_of_the_Technical_University_of_Munich.svg/1200px-Logo_of_the_Technical_University_of_Munich.svg.png"
   },
   {
-    icon: "🚀",
-    title: "Proven Track Record",
-    description: "Our alumni have founded 100+ companies, raised €500M+ in funding, and created hundreds of jobs across Europe."
+    icon: "🧠",
+    title: "Thought Leadership",
+    description: "Share your expertise through workshops, talks, panels, and hands-on formats. START gives your team a credible stage in front of ambitious students, builders, and future founders."
   },
   {
-    icon: "🌟",
-    title: "START Quality",
-    description: "We maintain a selective membership process, ensuring you engage with highly motivated, pre-vetted entrepreneurial talent."
+    icon: "📣",
+    title: "Branding",
+    description: "Build sustained visibility across our flagship events, communication channels, and partner activations. We help your brand show up in a context that feels relevant and high-signal."
   },
   {
-    icon: "🌍",
-    title: "Student Network",
-    description: "Well connected students from TUM, LMU, and other Munich universities. Our community spans across 11k+ followers on social media, with an engaged audience of future founders, engineers, and business leaders actively seeking career opportunities and partnerships."
+    icon: "🤝",
+    title: "Partner Network",
+    description: "Become part of a strong Munich ecosystem of partners, founders, and student operators. The value goes beyond single events and creates long-term relationships across the network."
   }
 ]
 
@@ -184,52 +191,61 @@ const eventPhotos = [
   {
     id: "ep1",
     url: "/partners/partnerEvents/RTSH.JPG",
-    caption: "Road to Startup Hero"
+    caption: "Road to START Hack 26",
+    href: "/events/rtsh"
   },
   {
     id: "ep2",
     url: "/partners/partnerEvents/RTSH2.JPG",
-    caption: "Road to Startup Hero"
+    caption: "Road to START Hack 26",
+    href: "/events/rtsh"
   },
   {
     id: "ep3",
     url: "/partners/partnerEvents/RTSS1.jpg",
-    caption: "Road to Startup School"
+    caption: "Road to START Summit 26",
+    href: "/events/rtss"
   },
   {
     id: "ep4",
     url: "/partners/partnerEvents/RTSS2.JPG",
-    caption: "Road to Startup School"
+    caption: "Road to START Summit 26",
+    href: "/events/rtss"
   },
   {
     id: "ep5",
     url: "/partners/partnerEvents/PitchUNetwork.JPG",
-    caption: "Pitch & Network Event"
+    caption: "Pitch & Network"
   },
   {
     id: "ep6",
     url: "/partners/partnerEvents/MHL1.jpg",
-    caption: "Munich Hacks for Legaltech"
+    caption: "Munich Hacking Legal 25",
+    href: "/events/leagel-hack"
   },
   {
     id: "ep7",
     url: "/partners/partnerEvents/MHL2.jpg",
-    caption: "Munich Hacks for Legaltech"
+    caption: "Munich Hacking Legal 25",
+    href: "/events/leagel-hack"
   },
   {
     id: "ep8",
     url: "/partners/partnerEvents/IsarUnfiltered.jpg",
-    caption: "Isar Unfiltered"
+    caption: "Isar Unfiltered",
+    href: "/events/iu/home"
   },
   {
     id: "ep9",
     url: "/partners/partnerEvents/IsarUnfiltered2.jpg",
-    caption: "Isar Unfiltered"
+    caption: "Isar Unfiltered",
+    href: "/events/iu/home"
   },
   {
     id: "ep10",
     url: "/partners/partnerEvents/FounderFailTails.JPG",
-    caption: "Founder Fail Tales"
+    caption: "Founder Fail Tales",
+    href: "/events/founder-fail-tales-4"
   }
 ]
 
@@ -301,6 +317,7 @@ export default function ForPartnersPage() {
         {/* Hero Section */}
         <Hero
           backgroundImage="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074&auto=format&fit=crop"
+          hideChildrenOnMobile
           title={
             <>
               FOR
@@ -311,7 +328,7 @@ export default function ForPartnersPage() {
           description="Partner with Europe's leading student entrepreneurship community and shape the future of innovation"
         >
           {/* MD Partnerships Card */}
-          <HeroCard accentColor="brand-pink">
+          <HeroCard>
             <div className="mb-4 mx-auto w-40 h-40 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-brand-pink/50 transition-all duration-300">
               <img
                 src="/partners/md-partnerships.jpg"
@@ -319,12 +336,12 @@ export default function ForPartnersPage() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <h3 className="text-lg font-bold text-white mb-1">MD Partnerships</h3>
+            <h3 className="text-lg font-bold text-white mb-1">Marius Heumader</h3>
             <p className="text-brand-pink text-sm font-semibold mb-4">Head of Partnerships</p>
 
             {/* Contact Button */}
             <a
-              href="mailto:m.heumader@startmunich.de"
+              href="#get-in-touch"
               className="group/btn inline-flex items-center gap-2 px-6 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50 w-full justify-center"
             >
               <svg
@@ -340,18 +357,18 @@ export default function ForPartnersPage() {
                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                 />
               </svg>
-              <span>Contact Us</span>
+              <span>Get in Touch</span>
             </a>
           </HeroCard>
         </Hero>
-
+        
         {/* Partner Overview - Logos - Full Width */}
         <section className="py-12 lg:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-4">
               <div>
                 <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                  WITH WHOM WE  <span className="outline-text">WORKED:</span>
+                  WITH WHOM WE ARE <span className="outline-text">WORKING</span>
                 </h2>
                 <p className="text-gray-400 text-lg max-w-3xl">
                   Trusted by leading companies and organizations
@@ -405,25 +422,41 @@ export default function ForPartnersPage() {
                 WHY PARTNER <span className="outline-text">WITH START</span>
               </h2>
               <p className="text-gray-400 text-lg max-w-3xl">
-                Why leading companies choose to partner with START Munich
+                A practical partnership model built around academic excellence, thought leadership, branding, and strong network effects in Munich.
               </p>
             </div>
 
             {/* Bento Grid Layout */}
             <div className="relative grid grid-cols-1 md:grid-cols-2 gap-5">
-              {/* Large featured card with TUM logo */}
+              {/* Large featured card with university logos */}
               <div
                 className="md:row-span-2 group relative overflow-hidden"
                 style={{ animation: `fadeInUp 0.6s ease-out 0s both` }}
               >
                 <div className="relative h-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border-2 border-white/20 hover:border-brand-pink p-8 transition-all duration-500 flex flex-col justify-center">
                   <div className="mb-5">
-                    <div className="w-full max-w-[160px] h-16 bg-white rounded-lg flex items-center justify-center p-3 mb-4">
-                      <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Logo_of_the_Technical_University_of_Munich.svg/1200px-Logo_of_the_Technical_University_of_Munich.svg.png"
-                        alt="TUM Logo"
-                        className="max-w-full max-h-full object-contain"
-                      />
+                    <div className="flex flex-wrap gap-3 mb-4">
+                      <div className="w-full max-w-[160px] h-16 bg-white rounded-lg flex items-center justify-center p-3">
+                        <img
+                          src="/partners/Logo_of_the_Technical_University_of_Munich.svg"
+                          alt="TUM Logo"
+                          className="max-w-full max-h-full object-contain"
+                        />
+                      </div>
+                      <div className="w-full max-w-[160px] h-16 bg-white rounded-lg flex items-center justify-center p-3">
+                        <img
+                          src="/partners/LMU_Muenchen_Logo.svg.png"
+                          alt="LMU Logo"
+                          className="max-w-full max-h-full object-contain"
+                        />
+                      </div>
+                      <div className="w-full max-w-[160px] h-16 bg-white rounded-lg flex items-center justify-center p-3">
+                        <img
+                          src="/partners/HM_Logo.png"
+                          alt="HM Logo"
+                          className="max-w-full max-h-full object-contain"
+                        />
+                      </div>
                     </div>
                   </div>
                   <h3 className="text-2xl font-black text-white mb-3 group-hover:text-brand-pink transition-colors">
@@ -518,7 +551,6 @@ export default function ForPartnersPage() {
                   </div>
                 </div>
               </div>
-
               {/* Top right horizontal card */}
               <div
                 className="md:col-span-2 group relative overflow-hidden"
@@ -609,21 +641,40 @@ export default function ForPartnersPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {eventPhotos.slice(photoIndex, photoIndex + 6).map((photo) => (
-                  <div
-                    key={photo.id}
-                    className="group relative overflow-hidden rounded-xl aspect-video border border-white/10 hover:border-brand-pink/50 transition-all duration-300"
-                  >
-                    <img
-                      src={photo.url}
-                      alt={photo.caption}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <p className="text-white font-bold text-lg">{photo.caption}</p>
+                  photo.href ? (
+                    <a
+                      key={photo.id}
+                      href={photo.href}
+                      className="group relative overflow-hidden rounded-xl aspect-video border border-white/10 hover:border-brand-pink/50 transition-all duration-300 block"
+                    >
+                      <img
+                        src={photo.url}
+                        alt={photo.caption}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute bottom-0 left-0 right-0 p-6">
+                          <p className="text-white font-bold text-lg">{photo.caption}</p>
+                        </div>
+                      </div>
+                    </a>
+                  ) : (
+                    <div
+                      key={photo.id}
+                      className="group relative overflow-hidden rounded-xl aspect-video border border-white/10 hover:border-brand-pink/50 transition-all duration-300"
+                    >
+                      <img
+                        src={photo.url}
+                        alt={photo.caption}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute bottom-0 left-0 right-0 p-6">
+                          <p className="text-white font-bold text-lg">{photo.caption}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )
                 ))}
               </div>
 
@@ -678,50 +729,28 @@ export default function ForPartnersPage() {
           </section>
 
           {/* Call to Action */}
-          <section>
+          <section id="get-in-touch">
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a1a3e] via-brand-dark-blue to-[#0d0d1f] border-2 border-brand-pink/50 shadow-2xl shadow-brand-pink/20">
               {/* Decorative Elements */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-brand-pink/10 rounded-full blur-3xl"></div>
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-brand-pink/5 rounded-full blur-3xl"></div>
 
               <div className="relative p-8 md:p-12">
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
-                  {/* Left side - Title and description */}
-                  <div className="lg:max-w-lg">
+                <div className="mx-auto max-w-2xl text-center">
                     <h3 className="text-3xl md:text-5xl font-black text-white mb-4">
                       READY TO <span className="outline-text">PARTNER?</span>
                     </h3>
                     <p className="text-lg text-gray-300 mb-6">
                       Join our network of leading companies and get in touch with ambitious students from TUM, LMU, and other Munich universities.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <button className="px-8 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50 text-lg">
+                    <div className="flex justify-center">
+                      <a
+                        href="/partners"
+                        className="px-8 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50 text-lg"
+                      >
                         Get in Touch
-                      </button>
-                      <button className="px-8 py-3 border-2 border-brand-pink text-brand-pink hover:bg-brand-pink/10 font-bold rounded-lg transition-all duration-300 text-lg">
-                        Download Info
-                      </button>
+                      </a>
                     </div>
-                  </div>
-
-                  {/* Right side - Three cards */}
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <div className="bg-white/5 p-5 rounded-lg">
-                      <div className="text-3xl mb-2">📧</div>
-                      <h4 className="text-white font-bold mb-1">Email Us</h4>
-                      <p className="text-gray-400 text-sm">m.heumader@startmunich.de</p>
-                    </div>
-                    <div className="bg-white/5 p-5 rounded-lg">
-                      <div className="text-3xl mb-2">📅</div>
-                      <h4 className="text-white font-bold mb-1">Schedule a Call</h4>
-                      <p className="text-gray-400 text-sm">Book a 30-min intro meeting</p>
-                    </div>
-                    <div className="bg-white/5 p-5 rounded-lg">
-                      <div className="text-3xl mb-2">📄</div>
-                      <h4 className="text-white font-bold mb-1">Info Pack</h4>
-                      <p className="text-gray-400 text-sm">Learn about our offerings</p>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

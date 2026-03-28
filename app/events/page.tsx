@@ -5,7 +5,7 @@ import Link from "next/link"
 import Script from "next/script"
 import { useRouter } from "next/navigation"
 
-import { EventCard, TimelineMarker, ScrollIndicator, SpecialEventCard } from "@/components/EventComponents"
+import { EventCard, TimelineMarker, ScrollIndicator } from "@/components/EventComponents"
 import Hero from "@/components/Hero"
 import HeroCard from "@/components/HeroCard"
 import PastEventsGrid from "@/components/PastEventsGrid"
@@ -23,14 +23,6 @@ interface RecurringEvent {
   icon: string
   image: string
   category: string
-}
-
-interface SpecialEvent {
-  id: string
-  name: string
-  description: string
-  category: string
-  image: string
 }
 
 const recurringEvents: RecurringEvent[] = [
@@ -96,32 +88,12 @@ const recurringEvents: RecurringEvent[] = [
   }
 ]
 
-const specialEvents: SpecialEvent[] = [
-  {
-    id: "start-lab",
-    name: "START Lab",
-    description: "An intensive program where startups work on solving real challenges with expert mentorship, resources, and a structured approach to innovation and growth.",
-    category: "Hackathon",
-    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop"
-  },
-  {
-    id: "isar-unfiltered",
-    name: "Isar Unfiltered",
-    description: "Raw, honest conversations with founders and entrepreneurs about the realities of building companies. No sugar-coating, just authentic stories and lessons learned.",
-    category: "Founder Event",
-    image: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=2070&auto=format&fit=crop"
-  }
-]
-
 export default function EventsPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
   const sliderRef = useRef<HTMLDivElement>(null)
-  const specialEventsSliderRef = useRef<HTMLDivElement>(null)
   const dragState = useRef({ isDragging: false, startX: 0, scrollLeft: 0 })
-  const specialEventsDragState = useRef({ isDragging: false, startX: 0, scrollLeft: 0 })
   const [scrollProgress, setScrollProgress] = useState(0)
-  const [specialEventsScrollProgress, setSpecialEventsScrollProgress] = useState(0)
   const [hoveredEvent, setHoveredEvent] = useState<string | null>(null)
 
   useEffect(() => {
@@ -149,23 +121,6 @@ export default function EventsPage() {
     return () => slider.removeEventListener('scroll', updateScroll)
   }, [loading])
 
-  useEffect(() => {
-    const slider = specialEventsSliderRef.current
-    if (!slider || loading) return
-
-    const updateScroll = () => {
-      const maxScroll = slider.scrollWidth - slider.clientWidth
-      const progress = maxScroll > 0 ? (slider.scrollLeft / maxScroll) * 100 : 0
-      setSpecialEventsScrollProgress(progress)
-    }
-
-    slider.addEventListener('scroll', updateScroll)
-    updateScroll()
-    setTimeout(updateScroll, 100)
-
-    return () => slider.removeEventListener('scroll', updateScroll)
-  }, [loading])
-
   const handleDrag = {
     start: (e: React.MouseEvent) => {
       const slider = sliderRef.current
@@ -184,27 +139,6 @@ export default function EventsPage() {
     },
     end: () => {
       dragState.current.isDragging = false
-    }
-  }
-
-  const handleSpecialEventsDrag = {
-    start: (e: React.MouseEvent) => {
-      const slider = specialEventsSliderRef.current
-      if (!slider) return
-      specialEventsDragState.current = {
-        isDragging: true,
-        startX: e.pageX - slider.offsetLeft,
-        scrollLeft: slider.scrollLeft
-      }
-    },
-    move: (e: React.MouseEvent) => {
-      if (!specialEventsDragState.current.isDragging || !specialEventsSliderRef.current) return
-      e.preventDefault()
-      const x = e.pageX - specialEventsSliderRef.current.offsetLeft
-      specialEventsSliderRef.current.scrollLeft = specialEventsDragState.current.scrollLeft - (x - specialEventsDragState.current.startX) * 2
-    },
-    end: () => {
-      specialEventsDragState.current.isDragging = false
     }
   }
 
@@ -326,14 +260,14 @@ export default function EventsPage() {
           description="Connect, learn, and grow with Munich's most vibrant student entrepreneur community through our curated events"
         >
           {/* Statistics Boxes - Matching Startup Cards Style */}
-          <div className="flex flex-col gap-6">
+          <div className="grid grid-cols-2 lg:flex lg:flex-col gap-4 lg:gap-6">
             {/** Stat 1 **/}
             <HeroCard>
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                   {Math.floor(animatedHackathons)}
                 </span>
-                <span className="text-3xl font-bold text-[#d0006f]">+</span>
+                <span className="text-xl lg:text-3xl font-bold text-[#d0006f]">+</span>
               </div>
               <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Hackathons Yearly</p>
             </HeroCard>
@@ -341,10 +275,10 @@ export default function EventsPage() {
             {/** Stat 2 **/}
             <HeroCard>
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 group-hover:to-[#d0006f] transition">
+                <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
                   {Math.floor(animatedPublicEvents)}
                 </span>
-                <span className="text-3xl font-bold text-[#d0006f]">+</span>
+                <span className="text-xl lg:text-3xl font-bold text-[#d0006f]">+</span>
               </div>
               <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Public Events Yearly</p>
             </HeroCard>
@@ -367,51 +301,29 @@ export default function EventsPage() {
                 </p>
               </div>
 
-              {/* Social Follow Banner */}
-              {/* <div className="rounded-2xl bg-white/5 border border-white/10 p-5 lg:min-w-[500px] flex-shrink-0"> */}
-              <div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                  <div className="flex items-center gap-3">
-                    {/* <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                      </svg>
-                    </div> */}
-                    <div>
-                      <h3 className="text-base font-bold text-white">
-                        Never miss an event!
-                      </h3>
-                      <p className="text-gray-400 text-sm">
-                        Follow us on social media
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 sm:ml-auto">
-                    <a
-                      href="https://www.linkedin.com/company/start-munich"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0077b5] hover:bg-[#005885] transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#0077b5]/30"
-                    >
-                      <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                      </svg>
-                      <span className="text-white font-semibold">LinkedIn</span>
-                    </a>
-                    <a
-                      href="https://www.instagram.com/start_munich"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[#833AB4] via-[#E1306C] to-[#F77737] hover:opacity-90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#E1306C]/30"
-                    >
-                      <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                      </svg>
-                      <span className="text-white font-semibold">Instagram</span>
-                    </a>
-                  </div>
-                </div>
+              <div className="flex items-center gap-2.5 flex-shrink-0">
+                <a
+                  href="https://www.linkedin.com/company/start-munich"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.06] border border-white/10 hover:border-[#0077b5]/50 hover:bg-[#0077b5]/15 transition-all duration-300 hover:shadow-lg hover:shadow-[#0077b5]/10"
+                >
+                  <svg className="w-[18px] h-[18px] text-[#0077b5] group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                  <span className="text-white/80 group-hover:text-white text-sm font-medium transition-colors">LinkedIn</span>
+                </a>
+                <a
+                  href="https://www.instagram.com/start_munich"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.06] border border-white/10 hover:border-[#E1306C]/50 hover:bg-[#E1306C]/15 transition-all duration-300 hover:shadow-lg hover:shadow-[#E1306C]/10"
+                >
+                  <svg className="w-[18px] h-[18px] text-[#E1306C] group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                  </svg>
+                  <span className="text-white/80 group-hover:text-white text-sm font-medium transition-colors">Instagram</span>
+                </a>
               </div>
             </div>
 
@@ -735,45 +647,6 @@ export default function EventsPage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Special Events Section */}
-          {false && (
-            <div className="mb-20">
-              <div className="mb-10">
-                <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                  PUBLIC <span className="outline-text">Special</span> Events
-                </h2>
-                <p className="text-gray-400 text-lg">
-                  Unique experiences and initiatives that make our community special
-                </p>
-              </div>
-
-              <div className="relative">
-                <div
-                  ref={specialEventsSliderRef}
-                  onMouseDown={handleSpecialEventsDrag.start}
-                  onMouseUp={handleSpecialEventsDrag.end}
-                  onMouseMove={handleSpecialEventsDrag.move}
-                  onMouseLeave={handleSpecialEventsDrag.end}
-                  className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-2 cursor-grab active:cursor-grabbing"
-                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                >
-                  {specialEvents.map((event, index) => (
-                    <SpecialEventCard
-                      key={event.id}
-                      event={event}
-                      index={index}
-                    />
-                  ))}
-                </div>
-
-                <ScrollIndicator sliderRef={specialEventsSliderRef} scrollProgress={specialEventsScrollProgress} />
-
-                {/* Gradient Fade Edges */}
-                <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#00002c]/50 to-transparent pointer-events-none"></div>
-              </div>
-            </div>
-          )}
-
           {/* Member Exclusive Events Section */}
           <div className="mb-16">
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a1a3e] via-[#00002c] to-[#0d0d1f] border-2 border-[#d0006f]/50 shadow-2xl shadow-[#d0006f]/20">
@@ -821,7 +694,7 @@ export default function EventsPage() {
           </div>
 
           {/* Past Events Calendar Section */}
-          <div className="mb-20">
+          <div className="pb-20">
             <div className="mb-10">
               <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
                 PAST EVENTS

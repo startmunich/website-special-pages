@@ -23,6 +23,8 @@ export default function UpcomingEventsGrid() {
   const [events, setEvents] = useState<LumaEventWrapper[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [showAll, setShowAll] = useState(false)
+  const mobileLimit = 3
 
   useEffect(() => {
     async function fetchUpcomingEvents() {
@@ -91,8 +93,9 @@ export default function UpcomingEventsGrid() {
     <div>
       {/* Events Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {events.map((eventWrapper) => {
+        {events.map((eventWrapper, index) => {
           const event = eventWrapper.event
+          const hiddenOnMobile = !showAll && index >= mobileLimit
 
           // Parse the date and handle different formats
           let formattedDate = 'Date unavailable'
@@ -121,8 +124,7 @@ export default function UpcomingEventsGrid() {
               href={event.url}
               target="_blank"
               rel="noopener noreferrer"
-              
-              className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20 flex flex-col"
+              className={`group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20 flex flex-col ${hiddenOnMobile ? 'hidden md:flex' : ''}`}
             >
               {/* Event Image */}
               {event.cover_url && (
@@ -133,22 +135,21 @@ export default function UpcomingEventsGrid() {
                     className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/60 via-[#00002c]/15 to-transparent"></div>
+
+                  {/* Date Badge */}
+                  <div className="absolute top-3 right-3 bg-[#00002c]/80 backdrop-blur-md border border-white/10 rounded-xl px-3 py-1.5 text-center">
+                    <div className="text-[#d0006f] text-xs font-black uppercase tracking-wider">
+                      {formattedDate.split(' ')[0]}
+                    </div>
+                    <div className="text-white text-lg font-black leading-tight">
+                      {formattedDate.split(' ')[1]?.replace(',', '')}
+                    </div>
+                  </div>
                 </div>
               )}
 
-              {/* Date Badge - between image and content */}
-              <div className="px-4 pt-3">
-                <div className="inline-block">
-                  <div className="px-3 py-1 rounded-md bg-[#d0006f]/20 border border-[#d0006f]/40">
-                    <p className="text-xs text-[#d0006f] font-bold uppercase tracking-wide">
-                      {formattedDate}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
               {/* Content */}
-              <div className="px-4 pb-4 pt-2">
+              <div className="p-4">
                 <h3 className="text-base font-bold text-white mb-2 line-clamp-3">
                   {event.name}
                 </h3>
@@ -158,14 +159,6 @@ export default function UpcomingEventsGrid() {
                     {event.description}
                   </p>
                 )}
-
-                {/* Link indicator */}
-                {/* <div className="flex items-center gap-2 mt-5 text-[#d0006f] text-base font-semibold">
-                  <span>View Details</span>
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </div> */}
               </div>
 
               {/* Hover effect accent */}
@@ -174,6 +167,21 @@ export default function UpcomingEventsGrid() {
           )
         })}
       </div>
+
+      {/* See more button - mobile only */}
+      {!showAll && events.length > mobileLimit && (
+        <div className="md:hidden mt-6 text-center">
+          <button
+            onClick={() => setShowAll(true)}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-white font-bold text-sm hover:bg-white/10 hover:border-brand-pink/30 transition-all"
+          >
+            See {events.length - mobileLimit} more events
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   )
 }

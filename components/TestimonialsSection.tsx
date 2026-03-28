@@ -8,9 +8,8 @@ export interface TestimonialItem {
     company: string // This can be company name or partner name
     image: string
     story: string
-    quote: string
-    logo?: string // Optional additional logo (like partner logo)
-    logoAlt?: string // Optional alt text for the logo
+    quote?: string
+    logos?: { src: string; url?: string }[] // Optional logos with optional links
 }
 
 interface TestimonialsSectionProps {
@@ -41,43 +40,54 @@ export default function TestimonialsSection({
                 {items.map((item) => (
                     <div
                         key={item.id}
-                        className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-brand-pink overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#0f122f]/30"
+                        className="relative bg-white/5 border border-white/10 overflow-hidden"
                     >
                         {/* Image */}
                         <div className="relative h-64 w-full overflow-hidden">
                             <img
                                 src={item.image}
                                 alt={item.name}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                className="w-full h-full object-cover"
                             />
-                            {/* Removed gradient overlay */}
-
-                            {/* Partner logo overlay - only if logo is provided */}
-                            {item.logo && (
-                                <div className="absolute top-4 right-4 bg-white rounded p-2 shadow-lg">
-                                    <img
-                                        src={item.logo}
-                                        alt={item.logoAlt || item.company}
-                                        className="w-8 h-8 object-contain"
-                                        onError={(e) => {
-                                            const target = e.target as HTMLImageElement
-                                            target.style.display = 'none'
-                                        }}
-                                    />
-                                </div>
-                            )}
                         </div>
 
                         {/* Content */}
                         <div className="p-6">
-                            {/* Person Info */}
-                            <div className="mb-4">
-                                <h3 className="text-lg font-bold text-white mb-1">{item.name}</h3>
-                                <p className="text-sm text-brand-pink font-semibold mb-1">{item.role}</p>
-                                <p className="text-xs text-gray-400">{item.company}</p>
+                            {/* Person Info with Logo */}
+                            <div className="mb-4 flex justify-between items-start">
+                                <div>
+                                    <h3 className="text-lg font-bold text-white mb-1">{item.name}</h3>
+                                    <p className="text-sm text-brand-pink font-semibold mb-1">{item.role}</p>
+                                    <p className="text-xs text-gray-400">{item.company}</p>
+                                </div>
+                                {item.logos && item.logos.length > 0 && (
+                                    <div className="flex flex-col gap-2 flex-shrink-0 ml-4">
+                                        {item.logos.map((logo, index) => {
+                                            const logoImg = (
+                                                <img
+                                                    src={logo.src}
+                                                    alt={item.company}
+                                                    className="h-5 w-auto w-auto object-contain"
+                                                    onError={(e) => {
+                                                        const target = e.target as HTMLImageElement
+                                                        target.style.display = 'none'
+                                                    }}
+                                                />
+                                            )
+                                            return logo.url ? (
+                                                <a key={index} href={logo.url} target="_blank" rel="noopener noreferrer" className="rounded p-1 shadow-lg hover:opacity-80 transition-opacity">
+                                                    {logoImg}
+                                                </a>
+                                            ) : (
+                                                <div key={index} className="rounded p-1 shadow-lg">
+                                                    {logoImg}
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                )}
                             </div>
 
-                            {/* Story */}
                             {/* Story */}
                             <div className="pt-4 border-t border-white/10">
                                 <blockquote className="border-l-2 border-brand-pink pl-4 py-1">
@@ -88,8 +98,6 @@ export default function TestimonialsSection({
                             </div>
                         </div>
 
-                        {/* Hover effect accent */}
-                        <div className="absolute bottom-0 left-0 w-full h-1 bg-[#1f2345] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                     </div>
                 ))}
             </div>

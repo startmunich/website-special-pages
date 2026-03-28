@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import "./globals.css"
 import Navigation from "@/components/Navigation"
+import Footer from "@/components/Footer"
 
 export const metadata: Metadata = {
   title: "START Munich - Our Startups",
@@ -14,9 +15,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="flex flex-col min-h-screen">
         <Navigation />
-        {children}
+        <main className="flex-grow">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   )

@@ -29,7 +29,7 @@ export default function Navigation() {
       <div className="mx-auto px-10 lg:px-20">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+          <Link href="/home" className="flex items-center hover:opacity-80 transition-opacity">
             <Image
               src="/startlogo.svg"
               alt="START Munich"
@@ -82,6 +82,18 @@ export default function Navigation() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                         Member Journey
+                      </span>
+                    </Link>
+                    <Link
+                      href="/our-mission"
+                      onClick={() => setIsCommunityOpen(false)}
+                      className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        Our Mission
                       </span>
                     </Link>
                     <Link
@@ -179,7 +191,7 @@ export default function Navigation() {
         {isMobileMenuOpen && (
           <div className="lg:hidden py-4 space-y-2 border-t border-white/10">
             <Link
-              href="/"
+              href="/home"
               className="block px-4 py-3 text-white font-bold text-sm hover:bg-white/5 hover:text-brand-pink transition-colors uppercase"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -205,6 +217,13 @@ export default function Navigation() {
 
               {isMobileCommunityOpen && (
                 <div className="bg-white/5 space-y-1">
+                  <Link
+                    href="/our-mission"
+                    className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Our Mission
+                  </Link>
                   <Link
                     href="/member-journey"
                     className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"

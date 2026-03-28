@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from 'react'
  * @param loading - Whether the component is still loading
  * @param duration - Animation duration in milliseconds (default: 1500)
  * @param steps - Number of animation steps (default: 60)
- * @returns The current animated value
+ * @returns The current animated value (floored to integer)
  */
 export function useAnimatedNumber(
   target: number,
@@ -34,7 +34,7 @@ export function useAnimatedNumber(
           setAnimatedValue(target)
           clearInterval(timer)
         } else {
-          setAnimatedValue(currentValue)
+          setAnimatedValue(Math.floor(currentValue))
         }
       }, interval)
 

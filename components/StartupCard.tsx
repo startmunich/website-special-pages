@@ -13,8 +13,6 @@ interface StartupCardProps {
   summary: string
   category?: string[]
   foundingYear?: string | number
-  totalRaised?: string
-  investmentRound?: string
   founders?: Founder[]
   isMTZ?: boolean
   badge?: {
@@ -32,8 +30,6 @@ export default function StartupCard({
   summary,
   category,
   foundingYear,
-  totalRaised,
-  investmentRound,
   founders = [],
   isMTZ,
   badge,
@@ -42,8 +38,6 @@ export default function StartupCard({
   return (
     <Link
       href={`/startup-details/${id}`}
-      target="_blank"
-      rel="noopener noreferrer"
       className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block flex flex-col h-full"
     >
       {/* Logo Section */}
@@ -99,18 +93,6 @@ export default function StartupCard({
         {showDetails && foundingYear && (
           <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-500 mb-4">
             <span>Founded {foundingYear}</span>
-            {totalRaised && totalRaised !== "€0" && (
-              <>
-                <span>•</span>
-                <span>{totalRaised} raised</span>
-              </>
-            )}
-            {investmentRound && (
-              <>
-                <span>•</span>
-                <span>{investmentRound}</span>
-              </>
-            )}
           </div>
         )}
 

@@ -163,18 +163,6 @@ export default function StartupDetailsPage({ params }: { params: { id: string } 
                   <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Founded</p>
                   <p className="text-base font-semibold text-white">{company.foundingYear}</p>
                 </div>
-                {company.totalRaised && company.totalRaised !== "€0" && (
-                  <div className="bg-white/5 rounded-lg p-3 border border-white/10">
-                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Funding</p>
-                    <p className="text-base font-semibold text-white">{company.totalRaised}</p>
-                  </div>
-                )}
-                {company.investmentRound && (
-                  <div className="bg-white/5 rounded-lg p-3 border border-white/10">
-                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Stage</p>
-                    <p className="text-base font-semibold text-white">{company.investmentRound}</p>
-                  </div>
-                )}
               </div>
             </div>
 
