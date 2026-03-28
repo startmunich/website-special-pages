@@ -310,21 +310,25 @@ export default function MembersPage() {
           executiveBoard: boardItem.executiveBoard.map((member) => {
             const match = matchByRole(member.role)
             const fallback = getFallbackImageByRole(member.role)
+            const hasMatch = !!match
             return {
               ...member,
-              name: match?.name || member.name,
+              name: match?.name || (hasMatch ? member.name : 'N/A'),
               profileImage: match?.profileImage || member.profileImage || '',
               imageUrl: match?.profileImage || member.profileImage || member.imageUrl || fallback,
+              _hasMatch: hasMatch, // Track if data came from API
             }
           }),
           departmentBoard: boardItem.departmentBoard.map((member) => {
             const match = matchByRole(member.role)
             const fallback = getFallbackImageByRole(member.role)
+            const hasMatch = !!match
             return {
               ...member,
-              name: match?.name || member.name,
+              name: match?.name || (hasMatch ? member.name : 'N/A'),
               profileImage: match?.profileImage || member.profileImage || '',
               imageUrl: match?.profileImage || member.profileImage || member.imageUrl || fallback,
+              _hasMatch: hasMatch, // Track if data came from API
             }
           }),
         }
@@ -795,8 +799,8 @@ export default function MembersPage() {
                                   className="w-full h-64 object-cover"
                                 />
                               ) : (
-                                <div className="w-full h-64 flex items-center justify-center bg-[#00002c] text-white text-4xl font-black">
-                                  {getInitials(member.name)}
+                                <div className="w-full h-64 flex items-center justify-center bg-[#00002c] text-[#b8c4d8] text-4xl font-black opacity-90">
+                                  {member.name === 'N/A' ? 'N/A' : getInitials(member.name)}
                                 </div>
                               )}
                               <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
@@ -826,8 +830,8 @@ export default function MembersPage() {
                                   className="w-full h-48 object-cover"
                                 />
                               ) : (
-                                <div className="w-full h-48 flex items-center justify-center bg-[#00002c] text-white text-3xl font-black">
-                                  {getInitials(member.name)}
+                                <div className="w-full h-48 flex items-center justify-center bg-[#00002c] text-[#b8c4d8] text-3xl font-black opacity-90">
+                                  {member.name === 'N/A' ? 'N/A' : getInitials(member.name)}
                                 </div>
                               )}
                               <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
