@@ -1,12 +1,45 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { bayAreaYearContent, type BayAreaYearId } from '@/lib/startGoesBayAreaData'
+import MemberCard from '@/components/MemberCard'
+
+interface Member {
+    id: number
+    name: string
+    imageUrl: string
+    linkedinUrl?: string
+}
 
 export default function BayAreaYearTabs() {
     const [activeYear, setActiveYear] = useState<BayAreaYearId>('2026')
+    const [members, setMembers] = useState<Member[]>([])
+    const [loading, setLoading] = useState(true)
 
     const activeContent = bayAreaYearContent.find((item) => item.id === activeYear) ?? bayAreaYearContent[0]
+
+    // Fetch members on mount
+    useEffect(() => {
+        const loadMembers = async () => {
+            try {
+                const response = await fetch('/api/members')
+                if (!response.ok) throw new Error('Failed to fetch members')
+                const data = await response.json()
+                setMembers(data)
+            } catch (error) {
+                console.error('Error fetching members:', error)
+                setMembers([])
+            } finally {
+                setLoading(false)
+            }
+        }
+        loadMembers()
+    }, [])
+
+    // Get team member data from API by matching names
+    const getTeamMemberData = (name: string) => {
+        return members.find(m => m.name.toLowerCase() === name.toLowerCase())
+    }
 
     return (
         <div>
@@ -152,16 +185,32 @@ export default function BayAreaYearTabs() {
                     <p className="text-sm text-gray-400 mb-6">{activeContent.teamIntro}</p>
 
                     {activeContent.teamMembers.length > 0 ? (
-                        <div className="space-y-3">
-                            {activeContent.teamMembers.map((member) => (
-                                <article
-                                    key={`${activeContent.id}-${member.name}`}
-                                    className="bg-[#011152]/30 border border-white/10 p-4 flex items-center justify-between gap-3"
-                                >
-                                    <h4 className="text-sm font-bold text-white">{member.name}</h4>
-                                    <p className="text-xs text-gray-400 uppercase tracking-wide">{member.role}</p>
-                                </article>
-                            ))}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {activeContent.teamMembers.map((member) => {
+                                const memberData = getTeamMemberData(member.name)
+                                // Fallback: show team member even if not found in API (shows placeholder image)
+                                if (memberData) {
+                                    return (
+                                        <MemberCard
+                                            key={`${activeContent.id}-${member.name}`}
+                                            name={member.name}
+                                            role={member.role}
+                                            imageUrl={memberData.imageUrl}
+                                            linkedinUrl={memberData.linkedinUrl}
+                                        />
+                                    )
+                                } else {
+                                    // Fallback for team members not in API yet
+                                    return (
+                                        <MemberCard
+                                            key={`${activeContent.id}-${member.name}`}
+                                            name={member.name}
+                                            role={member.role}
+                                            imageUrl="/batch.jpeg"
+                                        />
+                                    )
+                                }
+                            })}
                         </div>
                     ) : (
                         <div className="border border-white/10 bg-[#011152]/30 p-5">
