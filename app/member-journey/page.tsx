@@ -149,8 +149,7 @@ const startEvents: StartEvent[] = [
     frequency: "Monthly",
     icon: "📅",
     images: [
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop"
+      "/memberJourney/monthly/2.jpg"
     ]
   },
   {
@@ -161,8 +160,7 @@ const startEvents: StartEvent[] = [
     frequency: "Weekly",
     icon: "💼",
     images: [
-      "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1522199755839-a2bacb67c546?q=80&w=800&auto=format&fit=crop"
+      "/memberJourney/departmentwork/1.png"
     ]
   },
   {
@@ -173,8 +171,7 @@ const startEvents: StartEvent[] = [
     frequency: "Monthly",
     icon: "🔨",
     images: [
-      "https://images.unsplash.com/photo-1515162305280-9da0c0b0fb47?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1529333166433-0c1df022bdd7?q=80&w=800&auto=format&fit=crop"
+      "/memberJourney/builderWeekend/1.jpg"
     ]
   },
   {
@@ -185,8 +182,9 @@ const startEvents: StartEvent[] = [
     frequency: "",
     icon: "🎓",
     images: [
-      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=800&auto=format&fit=crop"
+      "/memberJourney/memberworkshop/1.jpg",
+      "/memberJourney/memberworkshop/2.png",
+      "/memberJourney/memberworkshop/3.jpeg"
     ]
   },
   {
@@ -197,8 +195,9 @@ const startEvents: StartEvent[] = [
     frequency: "",
     icon: "🏢",
     images: [
-      "https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=800&auto=format&fit=crop"
+      "/memberJourney/startupVisit/1.png",
+      "/memberJourney/startupVisit/2.png",
+      "/memberJourney/startupVisit/3.jpg"
     ]
   }
 ]

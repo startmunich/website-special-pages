@@ -316,7 +316,7 @@ export default function ForPartnersPage() {
       <main className="min-h-screen bg-brand-dark-blue">
         {/* Hero Section */}
         <Hero
-          backgroundImage="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074&auto=format&fit=crop"
+          backgroundImage="/ourPartners/hero.JPG"
           hideChildrenOnMobile
           title={
             <>
@@ -341,7 +341,7 @@ export default function ForPartnersPage() {
 
             {/* Contact Button */}
             <a
-              href="#get-in-touch"
+              href="https://tally.so/r/3xpGQG"
               className="group/btn inline-flex items-center gap-2 px-6 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50 w-full justify-center"
             >
               <svg
@@ -745,7 +745,7 @@ export default function ForPartnersPage() {
                     </p>
                     <div className="flex justify-center">
                       <a
-                        href="/partners"
+                        href="https://tally.so/r/3xpGQG"
                         className="px-8 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50 text-lg"
                       >
                         Get in Touch

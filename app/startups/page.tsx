@@ -189,7 +189,7 @@ export default function StartupsPage() {
       <main className="min-h-screen bg-[#00002c] overflow-x-hidden">
         {/* Hero Section with Full-Width Image */}
         <Hero
-          backgroundImage="/hero-image.jpg"
+          backgroundImage="/ourStartups/hero.jpg"
           title={
             <>
               START MUNICH

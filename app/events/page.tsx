@@ -249,7 +249,7 @@ export default function EventsPage() {
       <main className="min-h-screen bg-[#00002c]">
         {/* Hero Section */}
         <Hero
-          backgroundImage="/hero-image.jpg"
+          backgroundImage="/Events/hero.JPG"
           title={
             <>
               START MUNICH

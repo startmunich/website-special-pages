@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Script from "next/script"
 import Hero from "@/components/Hero"
@@ -71,6 +71,7 @@ export default function MembersPage() {
   const [batchMembers, setBatchMembers] = useState<Member[]>([])
   const [loadingBatch, setLoadingBatch] = useState(false)
   const [boardLoading, setBoardLoading] = useState(false)
+  const batchContentRef = useRef<HTMLDivElement>(null)
   const itemsPerPage = 12
 
   // Feature flags
@@ -352,6 +353,18 @@ export default function MembersPage() {
     void loadAllBoards()
   }, [])
 
+  // Close expanded batch when clicking outside the content area
+  const handleOutsideClick = useCallback((e: MouseEvent) => {
+    if (expandedBatch && batchContentRef.current && !batchContentRef.current.contains(e.target as Node)) {
+      setExpandedBatch(null)
+    }
+  }, [expandedBatch])
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick)
+    return () => document.removeEventListener('mousedown', handleOutsideClick)
+  }, [handleOutsideClick])
+
   const [boards, setBoards] = useState<Board[]>([
     {
       id: '25-26',
@@ -524,7 +537,7 @@ export default function MembersPage() {
     // Bestimme das Bild: Nur wenn nach WS21 UND ein Mapping existiert
     let groupImageUrl = '/batch.jpeg' // Default
     if (shouldShowImage && batchKey && batchImageMap[batchKey]) {
-      groupImageUrl = `/images/batches_group_pictures/${batchImageMap[batchKey]}`
+      groupImageUrl = `/ourMembers/batches_group_pictures/${batchImageMap[batchKey]}`
     }
 
     return {
@@ -991,7 +1004,7 @@ export default function MembersPage() {
 
             {/* Show expanded batch full width if selected */}
             {expandedBatch ? (
-              <div>
+              <div ref={batchContentRef}>
                 <button
                   onClick={() => setExpandedBatch(null)}
                   className="mb-6 text-white/60 hover:text-white flex items-center gap-2 transition-colors"
@@ -1007,8 +1020,11 @@ export default function MembersPage() {
                     <h3 className="text-2xl md:text-3xl font-black text-white text-left">
                       {batch.name}
                     </h3>
-                    <div className="w-full block relative bg-white/5 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20">
-                      {/* Background Image - Large (80% viewport height) */}
+                    <div
+                      onClick={() => setExpandedBatch(null)}
+                      className="w-full block relative bg-white/5 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20 cursor-pointer"
+                    >
+                      {/* Background Image - Large (80% viewport height) - Click to close */}
                       <div className="relative w-full h-[70vh] md:h-[70vh] overflow-hidden bg-[#00002c]">
                         <img
                           src={batch.groupImageUrl}
@@ -1023,7 +1039,7 @@ export default function MembersPage() {
                     </div>
 
                     {/* Members Grid */}
-                    <div className="animate-in fade-in slide-in-from-top-4 duration-500">
+                    <div className="mt-8 animate-in fade-in slide-in-from-top-4 duration-500">
                       {loadingBatch ? (
                         <div className="flex justify-center items-center py-12">
                           <p className="text-white">Loading batch members...</p>
@@ -1052,16 +1068,6 @@ export default function MembersPage() {
                                 )}
 
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/40 via-[#00002c]/10 to-transparent"></div>
-
-                                {member.linkedinUrl && (
-                                  <div className="absolute top-2 right-2">
-                                    <div className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center">
-                                      <svg className="w-4 h-4 text-[#0077b5]" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                                      </svg>
-                                    </div>
-                                  </div>
-                                )}
 
                                 <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
                                   <h4 className="font-black text-white text-xl mb-1">{member.name}</h4>

@@ -196,7 +196,7 @@ export default function PartnersPage() {
 
         {/* Hero Section - Restored Old Style with Stats Added */}
         <Hero
-          backgroundImage="/ourPartners/hero.png"
+          backgroundImage="/ourPartners/hero.JPG"
           title={
             <>
               OUR
@@ -358,7 +358,7 @@ export default function PartnersPage() {
             layout="split"
             buttons={[
               { label: "View Partnership Benefits", href: "/for-partners" },
-              { label: "Contact Us", href: "mailto:m.heumader@startmunich.de", variant: "secondary" }
+              { label: "Contact Us", href: "https://tally.so/r/3xpGQG", variant: "secondary" }
             ]}
           />
 
