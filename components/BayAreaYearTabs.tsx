@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
     bayAreaYearContent,
     type BayAreaVisit,
@@ -16,11 +16,17 @@ interface Member {
     linkedinUrl?: string
 }
 
-export default function BayAreaYearTabs() {
-    const [activeYear, setActiveYear] = useState<BayAreaYearId>('2026')
+interface BayAreaYearTabsProps {
+    activeYear: BayAreaYearId
+}
+
+export default function BayAreaYearTabs({ activeYear }: BayAreaYearTabsProps) {
     const [members, setMembers] = useState<Member[]>([])
 
-    const activeContent = bayAreaYearContent.find((item) => item.id === activeYear) ?? bayAreaYearContent[0]
+    const activeContent = useMemo(
+        () => bayAreaYearContent.find((item) => item.id === activeYear) ?? bayAreaYearContent[0],
+        [activeYear]
+    )
 
     // Fetch members on mount
     useEffect(() => {
@@ -68,27 +74,6 @@ export default function BayAreaYearTabs() {
 
     return (
         <div>
-            <div className="flex flex-wrap gap-3 mb-8">
-                {bayAreaYearContent.map((year) => {
-                    const isActive = year.id === activeYear
-
-                    return (
-                        <button
-                            key={year.id}
-                            type="button"
-                            onClick={() => setActiveYear(year.id)}
-                            className={`px-4 py-2 border text-sm font-bold uppercase tracking-wide transition-colors ${isActive
-                                ? 'bg-brand-pink text-white border-brand-pink'
-                                : 'bg-white/5 text-gray-300 border-white/15 hover:bg-white/10'
-                                }`}
-                        >
-                            {year.label}
-                            {year.isPreview ? <span className="ml-2 text-xs opacity-80">Preview</span> : null}
-                        </button>
-                    )
-                })}
-            </div>
-
             <div className="mb-6 bg-white/5 border border-white/10 p-4 md:p-6">
                 <img
                     src={activeContent.groupPictureUrl}
