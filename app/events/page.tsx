@@ -33,7 +33,7 @@ const recurringEvents: RecurringEvent[] = [
     month: "October",
     frequency: "Once per year",
     icon: "presentation",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop",
+    image: "/events/eventCards/summit.JPG",
     category: "Pitch Event"
   },
   {
@@ -43,7 +43,7 @@ const recurringEvents: RecurringEvent[] = [
     month: "November",
     frequency: "Once per year",
     icon: "code",
-    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop",
+    image: "/events/eventCards/hack.JPG",
     category: "Hackathon"
   },
   {
@@ -53,7 +53,7 @@ const recurringEvents: RecurringEvent[] = [
     month: "March",
     frequency: "Once per year",
     icon: "code",
-    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2070&auto=format&fit=crop",
+    image: "/events/eventCards/legal.jpg",
     category: "Hackathon"
   },
   {
@@ -63,7 +63,7 @@ const recurringEvents: RecurringEvent[] = [
     month: "October & April",
     frequency: "Once per semester",
     icon: "info",
-    image: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?q=80&w=2070&auto=format&fit=crop",
+    image: "/events/eventCards/info.JPG",
     category: "Talk"
   },
   {
@@ -73,7 +73,7 @@ const recurringEvents: RecurringEvent[] = [
     month: "October & April",
     frequency: "Once per semester",
     icon: "stories",
-    image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=2070&auto=format&fit=crop",
+    image: "/events/eventCards/fail.JPG",
     category: "Talk"
   },
   {
@@ -83,7 +83,7 @@ const recurringEvents: RecurringEvent[] = [
     month: "January & June",
     frequency: "Once per semester",
     icon: "presentation",
-    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2070&auto=format&fit=crop",
+    image: "/events/eventCards/pitch.JPG",
     category: "Pitch Event"
   }
 ]

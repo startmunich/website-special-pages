@@ -149,7 +149,10 @@ const startEvents: StartEvent[] = [
     frequency: "Monthly",
     icon: "📅",
     images: [
-      "/memberJourney/monthly/2.jpg"
+      "/memberJourney/monthly/2.jpg",
+      "/memberJourney/monthly/3.png",
+      "/memberJourney/monthly/4.png",
+      "/memberJourney/monthly/1.JPG"
     ]
   },
   {
@@ -249,9 +252,24 @@ export default function MemberJourneyPage() {
   const timelineSliderRef = useRef<HTMLDivElement>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [hoveredEventId, setHoveredEventId] = useState<string | null>(null)
+  const [lockedEventId, setLockedEventId] = useState<string | null>(null)
   const [isMoreHovered, setIsMoreHovered] = useState(false)
+  const [isMoreLocked, setIsMoreLocked] = useState(false)
   const autoRotateTimerRef = useRef<NodeJS.Timeout | null>(null)
   const eventImageRef = useRef<HTMLDivElement>(null)
+  const eventsSectionRef = useRef<HTMLDivElement>(null)
+
+  // Unlock selection when clicking outside the events section
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (eventsSectionRef.current && !eventsSectionRef.current.contains(e.target as Node)) {
+        setLockedEventId(null)
+        setIsMoreLocked(false)
+      }
+    }
+    document.addEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [])
 
   // Animated counter for hero stats
   const semesterCount = useAnimatedNumber(2, loading, 500)
@@ -264,14 +282,17 @@ export default function MemberJourneyPage() {
     "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=800&auto=format&fit=crop"
   ]
 
-  const eventImages = hoveredEventId
+  const activeEventId = lockedEventId || hoveredEventId
+  const activeMore = isMoreLocked || isMoreHovered
+
+  const eventImages = activeEventId
     ? startEvents
-      .find((event) => event.id === hoveredEventId)
-      ?.images.map((img) => ({ src: img, title: startEvents.find((e) => e.id === hoveredEventId)!.title })) || []
+      .find((event) => event.id === activeEventId)
+      ?.images.map((img) => ({ src: img, title: startEvents.find((e) => e.id === activeEventId)!.title })) || []
     : []
 
-  // Get current event for auto-rotation (only if not showing "more")
-  const currentEvent = !hoveredEventId && !isMoreHovered && currentEventIndex < startEvents.length
+  // Get current event for auto-rotation (only if nothing is active)
+  const currentEvent = !activeEventId && !activeMore && currentEventIndex < startEvents.length
     ? startEvents[currentEventIndex]
     : null
   const currentEventImages = currentEvent
@@ -317,8 +338,8 @@ export default function MemberJourneyPage() {
 
   // Auto-rotate events every 5 seconds
   useEffect(() => {
-    if (loading || hoveredEventId || isMoreHovered) {
-      // Clear timer if hovering
+    if (loading || activeEventId || activeMore) {
+      // Clear timer if locked or hovering
       if (autoRotateTimerRef.current) {
         clearInterval(autoRotateTimerRef.current)
         autoRotateTimerRef.current = null
@@ -335,28 +356,27 @@ export default function MemberJourneyPage() {
         clearInterval(autoRotateTimerRef.current)
       }
     }
-  }, [loading, hoveredEventId, isMoreHovered])
+  }, [loading, activeEventId, activeMore])
 
   // Reset image index when event changes
   useEffect(() => {
     setEventImageIndex(0)
-  }, [hoveredEventId, isMoreHovered, currentEventIndex])
+  }, [activeEventId, activeMore, currentEventIndex])
 
-  // When hovering ends, continue auto-rotation from the hovered item
+  // When hovering ends, continue auto-rotation from the active item
   useEffect(() => {
-    if (!hoveredEventId && !isMoreHovered) {
-      return // Don't reset - let auto-rotation continue from current position
+    if (!activeEventId && !activeMore) {
+      return
     }
-    // Set currentEventIndex to match the hovered item so auto-rotation continues from there
-    if (hoveredEventId) {
-      const index = startEvents.findIndex(e => e.id === hoveredEventId)
+    if (activeEventId) {
+      const index = startEvents.findIndex(e => e.id === activeEventId)
       if (index !== -1) {
         setCurrentEventIndex(index)
       }
-    } else if (isMoreHovered) {
+    } else if (activeMore) {
       setCurrentEventIndex(startEvents.length)
     }
-  }, [hoveredEventId, isMoreHovered])
+  }, [activeEventId, activeMore])
 
   if (loading) {
     return (
@@ -556,25 +576,27 @@ export default function MemberJourneyPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+            <div ref={eventsSectionRef} className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch lg:h-[650px]">
               {/* Single large card with all events */}
               <div
-                className="bg-white/5 border border-white/10 p-8"
+                className="bg-white/5 border border-white/10 p-8 overflow-y-auto"
                 onMouseLeave={() => {
-                  setHoveredEventId(null)
-                  setIsMoreHovered(false)
+                  if (!lockedEventId && !isMoreLocked) {
+                    setHoveredEventId(null)
+                    setIsMoreHovered(false)
+                  }
                 }}
               >
                 <div className="space-y-2">
                   {startEvents.map((event, index) => {
-                    const isActive = hoveredEventId === event.id || (!hoveredEventId && !isMoreHovered && currentEventIndex === index)
+                    const isActive = activeEventId === event.id || (!activeEventId && !activeMore && currentEventIndex === index)
                     return (
                       <div
                         key={event.id}
                         className={`flex items-start gap-4 p-4 cursor-pointer transition-all duration-200 rounded-lg border-l-4 ${isActive ? 'border-l-brand-pink bg-brand-pink/10' : 'border-l-transparent hover:bg-white/5'}`}
-                        onMouseEnter={() => setHoveredEventId(event.id)}
-                        onMouseLeave={() => setHoveredEventId(null)}
-                        onClick={() => { setHoveredEventId(event.id); scrollToEventImage() }}
+                        onMouseEnter={() => { if (!lockedEventId && !isMoreLocked) setHoveredEventId(event.id) }}
+                        onMouseLeave={() => { if (!lockedEventId && !isMoreLocked) setHoveredEventId(null) }}
+                        onClick={() => { setLockedEventId(event.id); setIsMoreLocked(false); setIsMoreHovered(false); setHoveredEventId(null); scrollToEventImage() }}
                       >
                         <span className="text-4xl flex-shrink-0">{event.icon}</span>
                         <div className="flex-1">
@@ -589,19 +611,19 @@ export default function MemberJourneyPage() {
 
                   {/* "And a lot more..." */}
                   {(() => {
-                    const isMoreActive = isMoreHovered || (!hoveredEventId && !isMoreHovered && currentEventIndex === startEvents.length)
+                    const isMoreActive = activeMore || (!activeEventId && !activeMore && currentEventIndex === startEvents.length)
                     return (
                       <div
                         className={`flex items-start gap-4 p-4 cursor-pointer transition-all duration-200 rounded-lg border-l-4 ${isMoreActive ? 'border-l-brand-pink bg-brand-pink/10' : 'border-l-transparent hover:bg-white/5'}`}
-                        onMouseEnter={() => setIsMoreHovered(true)}
-                        onMouseLeave={() => setIsMoreHovered(false)}
-                        onClick={() => { setIsMoreHovered(true); scrollToEventImage() }}
+                        onMouseEnter={() => { if (!lockedEventId && !isMoreLocked) setIsMoreHovered(true) }}
+                        onMouseLeave={() => { if (!lockedEventId && !isMoreLocked) setIsMoreHovered(false) }}
+                        onClick={() => { setIsMoreLocked(true); setLockedEventId(null); setHoveredEventId(null); setIsMoreHovered(false); scrollToEventImage() }}
                       >
                         <span className="text-4xl flex-shrink-0">✨</span>
                         <div className="flex-1">
                           <h3 className="text-white font-bold text-lg mb-2">And a lot more...</h3>
                           <p className="text-gray-300 text-sm leading-relaxed">
-                            Discover many more exciting events and opportunities as part of the START Munich community.
+                            Discover many more exciting events and opportunities.
                           </p>
                         </div>
                       </div>
@@ -611,8 +633,8 @@ export default function MemberJourneyPage() {
               </div>
 
               {/* Rotating single image or grid */}
-              <div ref={eventImageRef} className="bg-white/5 border border-white/10 min-h-[500px] max-h-[600px] relative overflow-hidden">
-                {isMoreHovered || (!hoveredEventId && !isMoreHovered && currentEventIndex === startEvents.length) ? (
+              <div ref={eventImageRef} className="bg-white/5 border border-white/10 relative overflow-hidden">
+                {activeMore || (!activeEventId && !activeMore && currentEventIndex === startEvents.length) ? (
                   /* Grid of 4 images for "And a lot more..." */
                   <div className="grid grid-cols-2 grid-rows-2 w-full h-full gap-0">
                     {moreImages.map((img, i) => (
@@ -632,7 +654,7 @@ export default function MemberJourneyPage() {
                       </div>
                     </div>
                   </div>
-                ) : hoveredEventId && eventImages.length > 0 ? (
+                ) : activeEventId && eventImages.length > 0 ? (
                   /* Hovered event with manual navigation */
                   <>
                     <div className="relative w-full h-full">

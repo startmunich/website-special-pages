@@ -64,7 +64,7 @@ export const EventCard = ({
           alt={event.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/80 via-[#00002c]/20 to-transparent"></div>
       </div>
 
       {/* Content */}

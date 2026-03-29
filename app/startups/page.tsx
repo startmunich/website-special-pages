@@ -75,6 +75,15 @@ export default function StartupsPage() {
       const data = await fetchCompanies()
       setCompanies(data)
       setLoading(false)
+
+      // Restore scroll position after returning from startup detail
+      const savedScroll = sessionStorage.getItem('startups-scroll')
+      if (savedScroll) {
+        requestAnimationFrame(() => {
+          window.scrollTo(0, parseInt(savedScroll))
+          sessionStorage.removeItem('startups-scroll')
+        })
+      }
     }
     loadCompanies()
   }, [])
