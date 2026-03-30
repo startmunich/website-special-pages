@@ -153,6 +153,9 @@ export default function HomePage() {
     useAnimatedNumber(facts[2].value, !factsView.visible, 1800),
     useAnimatedNumber(facts[3].value, !factsView.visible, 1800),
   ]
+  const animatedCapital = useAnimatedNumber(3, !factsView.visible, 1800)
+  const animatedStartups70 = useAnimatedNumber(70, !factsView.visible, 1800)
+  const animatedUnicorn = useAnimatedNumber(1, !factsView.visible, 1200)
 
   return (
     <>
@@ -478,7 +481,7 @@ export default function HomePage() {
                     <div className="text-gray-400 text-sm font-medium uppercase tracking-[0.2em] mb-4">Capital Raised</div>
                     <div className="flex items-baseline gap-2">
                       <span className="text-7xl sm:text-8xl lg:text-[120px] font-black text-white leading-none tabular-nums">
-                        €3<span className="text-brand-pink">B+</span>
+                        €{Math.round(animatedCapital)}<span className="text-brand-pink">B+</span>
                       </span>
                     </div>
                     <p className="text-gray-400 mt-6 max-w-sm">Raised by our alumni founders and community startups.</p>
@@ -495,7 +498,7 @@ export default function HomePage() {
                       <div>
                         <div className="text-gray-500 text-xs font-medium uppercase tracking-[0.2em] mb-2">Startups</div>
                         <div className="text-5xl sm:text-6xl font-black text-white tabular-nums">
-                          70<span className="text-brand-pink">+</span>
+                          {Math.round(animatedStartups70)}<span className="text-brand-pink">+</span>
                         </div>
                       </div>
                       <div className="w-14 h-14 rounded-xl bg-brand-pink/10 flex items-center justify-center">
@@ -529,7 +532,7 @@ export default function HomePage() {
                     <div className="relative bg-white/5 border border-white/10 rounded-[1.5rem] p-6 h-full hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300">
                       <div className="text-gray-500 text-xs font-medium uppercase tracking-[0.2em] mb-2">Unicorn</div>
                       <div className="text-4xl sm:text-5xl font-black text-white tabular-nums">
-                        1
+                        {Math.round(animatedUnicorn)}
                       </div>
                       <div className="mt-2 flex gap-1">
                         <div className="h-1.5 w-full rounded-full bg-brand-pink" />

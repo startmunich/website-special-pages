@@ -164,7 +164,7 @@ const startEvents: StartEvent[] = [
     images: [
       "/memberJourney/departmentwork/2.jpg",
       "/memberJourney/departmentwork/1.JPG"
-      
+
     ]
   },
   {
@@ -209,7 +209,7 @@ const memberStories: MemberStory[] = [
     id: "story-1",
     name: "Felix Haas",
     role: "Founder & Investor",
-    company: "IDNow | Bits & Pretzels",
+    company: "IDNow | Bits & Pretzels",
     image: "/memberJourney/alumni/FelixHaas.png",
     story: "At START Munich, I laid the foundation for my current network. From this starting point, I built several companies, invested in more than 80 start-ups and helped set up Bits & Pretzels.",
     department: "Alumni",
@@ -328,7 +328,6 @@ export default function MemberJourneyPage() {
   // Auto-rotate events every 5 seconds
   useEffect(() => {
     if (loading || activeEventId || activeMore) {
-      // Clear timer if locked or hovering
       if (autoRotateTimerRef.current) {
         clearInterval(autoRotateTimerRef.current)
         autoRotateTimerRef.current = null
@@ -410,7 +409,6 @@ export default function MemberJourneyPage() {
           description="Become a member and spend two active semesters contributing to the community"
         >
           <div className="grid grid-cols-2 lg:flex lg:flex-col gap-4 lg:gap-6">
-            {/* Stat Card 1 - 2 Semesters */}
             <HeroCard>
               <div className="flex items-baseline justify-center gap-2 mb-3">
                 <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
@@ -421,7 +419,6 @@ export default function MemberJourneyPage() {
               <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Semesters</p>
             </HeroCard>
 
-            {/* Stat Card 2 - Infinite Possibilities */}
             <HeroCard>
               <div className="flex items-baseline justify-center gap-2 mb-3">
                 <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
@@ -433,16 +430,14 @@ export default function MemberJourneyPage() {
           </div>
         </Hero>
 
-        {/* Content Below Hero */}
-
-
-        {/* Member Journey Timeline Section */}
-        <div className="mb-20 w-full pt-8 lg:pt-20">
+        {/* ═══ MEMBER JOURNEY TIMELINE ═══ */}
+        <div className="mb-0 w-full pt-12 lg:pt-28">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-              YOUR <span className="outline-text">MEMBER JOURNEY</span>
+            <span className="text-brand-pink text-sm font-bold tracking-[0.2em] uppercase block mb-1">Your Path</span>
+            <h2 className="text-3xl md:text-4xl font-black text-white">
+              MEMBER <span className="outline-text">JOURNEY</span>
             </h2>
-            <p className="text-gray-400 text-lg mb-4">
+            <p className="text-gray-400 text-lg mt-2 max-w-xl">
               The 5 milestones of your first two semesters at START Munich
             </p>
           </div>
@@ -452,42 +447,39 @@ export default function MemberJourneyPage() {
               ref={timelineSliderRef}
               className="overflow-x-auto scrollbar-hide pb-12 cursor-grab active:cursor-grabbing"
             >
-              {/* Timeline Events */}
-              <div className="flex gap-6 min-w-max px-8 lg:px-20">
+              <div className="flex gap-5 min-w-max px-8 lg:px-20">
                 {timelineEvents.map((event, index) => (
                   <div
                     key={event.id}
-                    className="group relative timeline-card-animate w-[340px] flex-shrink-0"
-                    style={{
-                      animationDelay: `${index * 0.15}s`
-                    }}
+                    className="group relative timeline-card-animate w-[320px] flex-shrink-0"
+                    style={{ animationDelay: `${index * 0.15}s` }}
                   >
-                    {/* Event Card */}
-                    <div className="relative h-full bg-white/5 border border-white/20 overflow-hidden transition-all duration-300 hover:border-brand-pink/50">
-                      <div className="p-8 h-full flex flex-col">
-                        {/* Number with divider */}
+                    <div className="relative h-full bg-white/[0.06] backdrop-blur-sm rounded-3xl border border-white/10 overflow-hidden transition-all duration-500 hover:border-brand-pink/40 hover:bg-white/[0.09]">
+                      {/* Pink accent top bar */}
+                      <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-pink/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                      <div className="p-8">
+                        {/* Step number + divider */}
                         <div className="flex items-center gap-4 mb-6">
-                          <span className="text-4xl font-black text-white tracking-tight">
+                          <span className="text-5xl font-black text-white/20 tracking-tight tabular-nums leading-none">
                             0{index + 1}
                           </span>
-                          <div className="h-[1px] flex-1 bg-white/20"></div>
+                          <div className="h-px flex-1 bg-gradient-to-r from-white/20 to-transparent" />
+                          <span className="text-2xl">{event.icon}</span>
                         </div>
 
-                        {/* Title with emoji */}
-                        <h3 className="text-lg font-black text-white mb-3">
-                          {event.title} <span className="ml-1">{event.icon}</span>
+                        <h3 className="text-xl font-black text-white mb-3 group-hover:text-brand-pink transition-colors duration-300">
+                          {event.title}
                         </h3>
 
-                        {/* Description */}
-                        <p className="text-sm text-gray-400 leading-relaxed mb-5">
+                        <p className="text-sm text-gray-400 leading-relaxed mb-6">
                           {event.description}
                         </p>
 
-                        {/* Details List */}
                         <div className="space-y-3">
                           {(event.details as string[]).map((detail, i) => (
                             <div key={i} className="flex items-start gap-3">
-                              <div className="w-1.5 h-1.5 bg-brand-pink rounded-full mt-1.5 flex-shrink-0"></div>
+                              <div className="w-1 h-1 bg-brand-pink rounded-full mt-[0.45rem] flex-shrink-0" />
                               <span className="text-sm text-gray-400 leading-relaxed">{detail}</span>
                             </div>
                           ))}
@@ -505,70 +497,63 @@ export default function MemberJourneyPage() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 lg:pb-20">
+        {/* ═══ MAIN CONTENT ═══ */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-28 space-y-32">
 
-          {/* Departments Section */}
-          <div className="mb-20">
+          {/* ═══ DEPARTMENTS ═══ */}
+          <section>
             <div className="mb-12">
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
+              <span className="text-brand-pink text-sm font-bold tracking-[0.2em] uppercase block mb-1">Where You Fit</span>
+              <h2 className="text-3xl md:text-4xl font-black text-white">
                 OUR <span className="outline-text">DEPARTMENTS</span>
               </h2>
-              <p className="text-gray-400 text-lg">
+              <p className="text-gray-400 text-lg mt-2 max-w-xl">
                 Choose your department and contribute to our community
               </p>
             </div>
 
-            {/* Departments Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 items-stretch">
               {departments.map((dept) => (
-                <div
-                  key={dept.id}
-                  className="relative bg-white/5 border border-white/10 overflow-hidden"
-                >
-                  {/* Header with gradient */}
-                  <div className="bg-brand-secondary-blue p-6 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-brand-pink/10 rounded-full blur-2xl -mr-8 -mt-8"></div>
-                    <div className="relative z-10">
-                      <div className="text-4xl mb-3">{dept.icon}</div>
-                      <h3 className="text-xl font-bold text-white">{dept.name}</h3>
+                <div key={dept.id} className="group h-full">
+                  <div className="relative h-full bg-white/[0.06] backdrop-blur-sm rounded-3xl border border-white/10 hover:border-brand-pink/30 hover:bg-white/[0.09] p-7 transition-all duration-500">
+                    <div>
+                      <div className="w-12 h-12 bg-brand-pink/15 rounded-2xl flex items-center justify-center mb-4">
+                        <span className="text-2xl">{dept.icon}</span>
+                      </div>
+                      <h3 className="text-lg font-black text-white mb-2 group-hover:text-brand-pink transition-colors">{dept.name}</h3>
+                      <p className="text-gray-400 text-xs leading-relaxed">{dept.description}</p>
                     </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6">
-                    <p className="text-sm text-gray-300 leading-relaxed mb-4">{dept.description}</p>
-
-                    <div className="space-y-2">
-                      <p className="text-xs text-brand-pink font-semibold">Key Responsibilities:</p>
+                    <div className="pt-4 mt-4 border-t border-white/5">
+                      <p className="text-xs text-brand-pink font-bold tracking-[0.15em] uppercase mb-2">Responsibilities</p>
                       {dept.responsibilities.map((resp, i) => (
-                        <div key={i} className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 bg-brand-pink rounded-full flex-shrink-0"></div>
-                          <span className="text-xs text-gray-400">{resp}</span>
+                        <div key={i} className="flex items-start gap-2 mt-2">
+                          <div className="w-1 h-1 bg-brand-pink rounded-full mt-1.5 flex-shrink-0" />
+                          <span className="text-xs text-gray-500 leading-relaxed">{resp}</span>
                         </div>
                       ))}
                     </div>
                   </div>
-
                 </div>
               ))}
             </div>
-          </div>
+          </section>
 
-          {/* Internal Events Section */}
-          <div className="mb-20">
+          {/* ═══ INTERNAL EVENTS ═══ */}
+          <section>
             <div className="mb-12">
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
+              <span className="text-brand-pink text-sm font-bold tracking-[0.2em] uppercase block mb-1">Community Life</span>
+              <h2 className="text-3xl md:text-4xl font-black text-white">
                 INTERNAL <span className="outline-text">EVENTS</span>
               </h2>
-              <p className="text-gray-400 text-lg">
+              <p className="text-gray-400 text-lg mt-2 max-w-xl">
                 Regular events and activities for our member community
               </p>
             </div>
 
-            <div ref={eventsSectionRef} className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch lg:h-[650px]">
-              {/* Single large card with all events */}
+            <div ref={eventsSectionRef} className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch lg:h-[620px]">
+              {/* Event list card */}
               <div
-                className="bg-white/5 border border-white/10 p-8"
+                className="bg-white/[0.06] backdrop-blur-sm rounded-3xl border border-white/10 p-8"
                 onMouseLeave={() => {
                   if (!lockedEventId && !isMoreLocked) {
                     setHoveredEventId(null)
@@ -576,21 +561,28 @@ export default function MemberJourneyPage() {
                   }
                 }}
               >
-                <div className="space-y-2">
+                <div className="space-y-1">
                   {startEvents.map((event, index) => {
                     const isActive = activeEventId === event.id || (!activeEventId && !activeMore && currentEventIndex === index)
                     return (
                       <div
                         key={event.id}
-                        className={`flex items-start gap-4 p-4 cursor-pointer transition-all duration-200 rounded-lg border-l-4 ${isActive ? 'border-l-brand-pink bg-brand-pink/10' : 'border-l-transparent hover:bg-white/5'}`}
+                        className={`flex items-start gap-4 p-4 cursor-pointer transition-all duration-200 rounded-2xl ${isActive ? 'bg-brand-pink/10 border border-brand-pink/30' : 'border border-transparent hover:bg-white/5'}`}
                         onMouseEnter={() => { if (!lockedEventId && !isMoreLocked) setHoveredEventId(event.id) }}
                         onMouseLeave={() => { if (!lockedEventId && !isMoreLocked) setHoveredEventId(null) }}
                         onClick={() => { setLockedEventId(event.id); setIsMoreLocked(false); setIsMoreHovered(false); setHoveredEventId(null); scrollToEventImage() }}
                       >
-                        <span className="text-4xl flex-shrink-0">{event.icon}</span>
-                        <div className="flex-1">
-                          <h3 className="text-white font-bold text-lg mb-2">{event.title}</h3>
-                          <p className="text-gray-300 text-sm leading-relaxed">
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-200 ${isActive ? 'bg-brand-pink/20' : 'bg-white/5'}`}>
+                          <span className="text-xl">{event.icon}</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className={`font-bold text-base transition-colors duration-200 ${isActive ? 'text-white' : 'text-gray-200'}`}>{event.title}</h3>
+                            {event.frequency && (
+                              <span className="text-xs text-brand-pink/70 font-semibold bg-brand-pink/10 px-2 py-0.5 rounded-full flex-shrink-0">{event.frequency}</span>
+                            )}
+                          </div>
+                          <p className="text-gray-400 text-sm leading-relaxed">
                             {event.description}
                           </p>
                         </div>
@@ -598,20 +590,22 @@ export default function MemberJourneyPage() {
                     )
                   })}
 
-                  {/* "And a lot more..." */}
+                  {/* And a lot more */}
                   {(() => {
                     const isMoreActive = activeMore || (!activeEventId && !activeMore && currentEventIndex === startEvents.length)
                     return (
                       <div
-                        className={`flex items-start gap-4 p-4 cursor-pointer transition-all duration-200 rounded-lg border-l-4 ${isMoreActive ? 'border-l-brand-pink bg-brand-pink/10' : 'border-l-transparent hover:bg-white/5'}`}
+                        className={`flex items-start gap-4 p-4 cursor-pointer transition-all duration-200 rounded-2xl ${isMoreActive ? 'bg-brand-pink/10 border border-brand-pink/30' : 'border border-transparent hover:bg-white/5'}`}
                         onMouseEnter={() => { if (!lockedEventId && !isMoreLocked) setIsMoreHovered(true) }}
                         onMouseLeave={() => { if (!lockedEventId && !isMoreLocked) setIsMoreHovered(false) }}
                         onClick={() => { setIsMoreLocked(true); setLockedEventId(null); setHoveredEventId(null); setIsMoreHovered(false); scrollToEventImage() }}
                       >
-                        <span className="text-4xl flex-shrink-0">✨</span>
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-200 ${isMoreActive ? 'bg-brand-pink/20' : 'bg-white/5'}`}>
+                          <span className="text-xl">✨</span>
+                        </div>
                         <div className="flex-1">
-                          <h3 className="text-white font-bold text-lg mb-2">And a lot more...</h3>
-                          <p className="text-gray-300 text-sm leading-relaxed">
+                          <h3 className={`font-bold text-base mb-1 transition-colors duration-200 ${isMoreActive ? 'text-white' : 'text-gray-200'}`}>And a lot more...</h3>
+                          <p className="text-gray-400 text-sm leading-relaxed">
                             Discover many more exciting events and opportunities.
                           </p>
                         </div>
@@ -621,10 +615,9 @@ export default function MemberJourneyPage() {
                 </div>
               </div>
 
-              {/* Rotating single image or grid */}
-              <div ref={eventImageRef} className="bg-white/5 border border-white/10 relative overflow-hidden">
+              {/* Image panel */}
+              <div ref={eventImageRef} className="bg-white/[0.06] rounded-3xl border border-white/10 relative overflow-hidden">
                 {activeMore || (!activeEventId && !activeMore && currentEventIndex === startEvents.length) ? (
-                  /* Grid of 4 images for "And a lot more..." */
                   <div className="grid grid-cols-2 grid-rows-2 w-full h-full gap-0">
                     {moreImages.map((img, i) => (
                       <div key={i} className="relative w-full h-full overflow-hidden">
@@ -633,11 +626,11 @@ export default function MemberJourneyPage() {
                           alt={`More activities ${i + 1}`}
                           className="w-full h-full object-cover fade-swap"
                         />
-                        <div className="absolute inset-0 bg-brand-dark-blue/20"></div>
+                        <div className="absolute inset-0 bg-brand-dark-blue/20" />
                       </div>
                     ))}
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="bg-black/70 backdrop-blur-sm px-8 py-4 border-2 border-brand-pink">
+                      <div className="bg-black/70 backdrop-blur-md px-8 py-4 rounded-2xl border border-brand-pink/40">
                         <p className="text-2xl font-black text-white">AND MORE...</p>
                       </div>
                     </div>
@@ -677,7 +670,7 @@ export default function MemberJourneyPage() {
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                         </button>
                       </div>
-                      <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white text-xs font-semibold">
+                      <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white text-xs font-semibold tabular-nums">
                         {idx + 1} / {images.length}
                       </div>
                     </div>
@@ -685,43 +678,44 @@ export default function MemberJourneyPage() {
                 })()}
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* Community Specials Section */}
-          <div className="mb-20">
+          {/* ═══ COMMUNITY SPECIALS ═══ */}
+          <section>
             <div className="mb-12">
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
+              <span className="text-brand-pink text-sm font-bold tracking-[0.2em] uppercase block mb-1">Exclusive Access</span>
+              <h2 className="text-3xl md:text-4xl font-black text-white">
                 COMMUNITY <span className="outline-text">SPECIALS</span>
               </h2>
-              <p className="text-gray-400 text-lg">
+              <p className="text-gray-400 text-lg mt-2 max-w-xl">
                 Unique opportunities exclusively for START Munich members
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* START goes Bay Area */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Bay Area */}
               <a
                 href="https://www.startbayarea.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative overflow-hidden bg-white/5 border border-white/10 rounded-lg hover:border-brand-pink/50 transition-colors duration-300 cursor-pointer"
+                className="group relative overflow-hidden bg-white/[0.06] backdrop-blur-sm rounded-3xl border border-white/10 hover:border-brand-pink/40 transition-all duration-500 block"
               >
-                <div className="aspect-video relative overflow-hidden">
+                <div className="aspect-video relative overflow-hidden rounded-t-3xl">
                   <img
                     src="/memberJourney/SF.png"
                     alt="San Francisco Bay Area"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-3">
+                <div className="p-8">
+                  <h3 className="text-2xl font-black text-white mb-3 group-hover:text-brand-pink transition-colors">
                     START goes Bay Area
                   </h3>
-                  <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                  <p className="text-gray-300 text-sm leading-relaxed mb-5">
                     A selective international exchange program connecting outstanding entrepreneurial talent from Europe with the innovation ecosystem of the San Francisco Bay Area. The program brings together a curated group of 20 participants and enables direct interaction with founders, researchers, and investors at leading technology and innovation organizations.
                   </p>
-                  <span className="inline-flex items-center gap-2 text-brand-pink font-semibold text-sm group-hover:gap-3 transition-all">
+                  <span className="inline-flex items-center gap-2 text-brand-pink font-bold text-sm group-hover:gap-3 transition-all">
                     Learn more
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -730,43 +724,43 @@ export default function MemberJourneyPage() {
                 </div>
               </a>
 
-              {/* Research Partnership */}
-              <div className="relative overflow-hidden bg-white/5 border border-white/10 rounded-lg">
-                <div className="aspect-video relative overflow-hidden">
+              {/* Cambridge */}
+              <div className="group relative overflow-hidden bg-white/[0.06] backdrop-blur-sm rounded-3xl border border-white/10 hover:border-brand-pink/30 transition-all duration-500">
+                <div className="aspect-video relative overflow-hidden rounded-t-3xl">
                   <img
                     src="/memberJourney/cambridge-aerial.png"
                     alt="University Research"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-3">
+                <div className="p-8">
+                  <h3 className="text-2xl font-black text-white mb-3">
                     Research Stay @ Cambridge
                   </h3>
-                  <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                  <p className="text-gray-300 text-sm leading-relaxed mb-5">
                     Spend a research stay with our partners at the University of Cambridge and Technical University of Munich. Gain access to world-class academic resources, mentorship from leading researchers, and the opportunity to contribute to cutting-edge entrepreneurship research.
                   </p>
-                  <div className="flex items-center gap-4 text-gray-400 text-sm">
-                    <div className="flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex items-center gap-1.5 text-xs text-gray-400 font-semibold bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                       </svg>
-                      <span>Cambridge</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      Cambridge
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 text-xs text-gray-400 font-semibold bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                       </svg>
-                      <span>TUM</span>
-                    </div>
+                      TUM
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* Member Stories Section */}
+          {/* Member Stories */}
           <TestimonialsSection
             title={<>
               <span className="outline-text">MEMBER </span> STORIES
@@ -783,7 +777,7 @@ export default function MemberJourneyPage() {
             }))}
           />
 
-          {/* CTA Section */}
+          {/* CTA */}
           <CTA
             title="Ready to Join?"
             description="Start your entrepreneurial journey with START Munich today. Apply to become a member and experience our vibrant community."
@@ -795,53 +789,35 @@ export default function MemberJourneyPage() {
 
         </div>
       </main>
+
+      <style jsx global>{`
+        .fade-swap {
+          animation: fadeSwap 0.8s ease-in-out;
+        }
+        @keyframes fadeSwap {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        .timeline-card-animate {
+          animation: slideInFromLeft 0.6s ease-out forwards;
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        @keyframes slideInFromLeft {
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        .overflow-x-auto {
+          scroll-behavior: smooth;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+      `}</style>
     </>
   )
 }
-
-{/* Global styles for animations */ }
-<style jsx global>{`
-  .fade-swap {
-    animation: fadeSwap 0.8s ease-in-out;
-  }
-  @keyframes fadeSwap {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  /* Timeline card entrance animation */
-  .timeline-card-animate {
-    animation: slideInFromLeft 0.6s ease-out forwards;
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  @keyframes slideInFromLeft {
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  /* Custom scrollbar styling for horizontal scroll */
-  .scrollbar-thin-horizontal::-webkit-scrollbar {
-    height: 8px;
-  }
-  .scrollbar-thin-horizontal::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-  }
-  .scrollbar-thin-horizontal::-webkit-scrollbar-thumb {
-    background: rgba(255, 0, 107, 0.5);
-    border-radius: 10px;
-    transition: background 0.3s;
-  }
-  .scrollbar-thin-horizontal::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 0, 107, 0.8);
-  }
-
-  /* Smooth scroll behavior */
-  .overflow-x-auto {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
-`}</style>
