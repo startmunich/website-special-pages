@@ -40,7 +40,7 @@ export default function TestimonialsSection({
                 {items.map((item) => (
                     <div
                         key={item.id}
-                        className="relative bg-white/5 border border-white/10 overflow-hidden"
+                        className="relative bg-white/[0.06] rounded-3xl border border-white/10 overflow-hidden hover:border-brand-pink/30 transition-all duration-300"
                     >
                         {/* Image */}
                         <div className="relative h-64 w-full overflow-hidden">
