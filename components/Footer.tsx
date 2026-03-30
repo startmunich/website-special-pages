@@ -3,7 +3,7 @@ import Link from 'next/link'
 export default function Footer() {
   return (
     <footer className="bg-brand-dark-blue">
-      <div className= "mx-auto px-6 md:px-20 py-10">
+      <div className="mx-auto px-6 md:px-20 pt-10 pb-0">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Donate Link - Left */}
           <a
@@ -77,6 +77,11 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
+      {/* Bottom bar */}
+        <div className="mx-auto px-6 md:px-20 py-4 flex flex-col sm:flex-row items-center justify-between gap-1 text-white/40 text-xs">
+          <span>© {new Date().getFullYear()} START Munich. All rights reserved.</span>
+        </div>
     </footer>
   )
 }

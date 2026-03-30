@@ -87,7 +87,7 @@ const timelineEvents: TimelineEvent[] = [
     image: placeholderImage,
     details: [
       "Join the Bay Area trip, 2 weeks, 20+ curated visits to top startups, VCs, and labs",
-      "Write your thesis with Cambridge through direct research collaboration",
+      "Research Stay @ Cambridge through direct research collaboration",
       "Become part of the START Network, 20+ chapters worldwide",
       "Find co-founders or start your own venture within a community of 70+ startups, including teams backed by Y Combinator"
     ]
@@ -742,10 +742,10 @@ export default function MemberJourneyPage() {
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-white mb-3">
-                    Thesis with Cambridge & TUM
+                    Research Stay @ Cambridge
                   </h3>
                   <p className="text-gray-300 text-sm leading-relaxed mb-4">
-                    Write your thesis with our research partners at the University of Cambridge and Technical University of Munich. Gain access to world-class academic resources, mentorship from leading researchers, and the opportunity to contribute to cutting-edge entrepreneurship research.
+                    Spend a research stay with our partners at the University of Cambridge and Technical University of Munich. Gain access to world-class academic resources, mentorship from leading researchers, and the opportunity to contribute to cutting-edge entrepreneurship research.
                   </p>
                   <div className="flex items-center gap-4 text-gray-400 text-sm">
                     <div className="flex items-center gap-2">
