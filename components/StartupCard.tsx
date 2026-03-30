@@ -71,10 +71,10 @@ export default function StartupCard({
             )}
           </div>
 
-          {/* Category Tags */}
-          {category && category.length > 0 && showDetails && (
+          {/* Category Tags + Founded */}
+          {showDetails && (category && category.length > 0 || foundingYear) && (
             <div className="flex flex-wrap gap-2 mb-3">
-              {category.slice(0, 2).map((cat, idx) => (
+              {category && category.slice(0, 2).map((cat, idx) => (
                 <span
                   key={idx}
                   className="inline-flex items-center px-2 py-1 text-xs font-medium bg-white/10 text-gray-300 rounded"
@@ -82,6 +82,11 @@ export default function StartupCard({
                   {cat}
                 </span>
               ))}
+              {foundingYear && (
+                <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-white/10 text-gray-300 rounded">
+                  Founded {foundingYear}
+                </span>
+              )}
             </div>
           )}
         </div>
@@ -91,13 +96,6 @@ export default function StartupCard({
             {summary}
           </p>
         </div>
-
-        {/* Metadata */}
-        {showDetails && foundingYear && (
-          <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-500 mb-4">
-            <span>Founded {foundingYear}</span>
-          </div>
-        )}
 
         {/* Founders Section */}
         {founders.length > 0 && showDetails && (

@@ -221,13 +221,13 @@ export default function HomePage() {
           <div className="relative">
             <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-brand-dark-blue to-transparent z-10" />
             <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-brand-dark-blue to-transparent z-10" />
-            <div className="animate-scroll opacity-60">
+            <div className="animate-scroll">
               {[...brandPartners, ...brandPartners].map((partner, i) => (
                 <div key={`${partner.id}-${i}`} className="inline-flex items-center justify-center mx-12 h-12">
                   <img
                     src={partner.logoUrl}
                     alt={partner.name}
-                    className="h-8 sm:h-10 object-contain brightness-0 invert"
+                    className="h-8 sm:h-10 object-contain bg-white rounded p-1"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement
                       target.style.display = 'none'
@@ -555,14 +555,14 @@ export default function HomePage() {
             <div className="relative overflow-hidden">
               <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-brand-dark-blue to-transparent z-10" />
               <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-brand-dark-blue to-transparent z-10" />
-              <div className="animate-scroll">
+              <div className="animate-scroll-nonstop">
                 {[...featuredStartups, ...featuredStartups].map((startup, i) => (
                   <div key={`${startup.id}-${i}`} className="inline-flex items-center justify-center mx-6 flex-shrink-0">
-                    <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 w-36 h-20 flex items-center justify-center hover:bg-white/10 hover:border-brand-pink/30 transition-all duration-300">
+                    <div className="bg-white rounded-xl p-4 w-36 h-20 flex items-center justify-center hover:border-brand-pink/30 transition-all duration-300">
                       <img
                         src={startup.logoUrl}
                         alt={startup.name}
-                        className="max-h-10 max-w-[100px] object-contain brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                        className="max-h-10 max-w-[100px] object-contain"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement
                           target.style.display = 'none'
