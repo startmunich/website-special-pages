@@ -403,7 +403,7 @@ export default function HomePage() {
                   What is <span className="text-brand-pink">START Munich</span>?
                 </h2>
                 <p className="text-gray-300 text-lg leading-relaxed mb-4">
-                  With over 300 active members, START Munich empowers the next generation of entrepreneurs. Founded in 2015, our mission is to create{' '}
+                  With over 70 active members and 500+ alumni, START Munich empowers the next generation of entrepreneurs. Founded in 2003, our mission is to create{' '}
                   <span className="text-brand-pink font-semibold">a community of students who dare to build, innovate, and lead</span>, fostering both groundbreaking ventures and meaningful connections across industries.
                 </p>
                 <p className="text-gray-300 leading-relaxed mb-6">
@@ -411,8 +411,8 @@ export default function HomePage() {
                 </p>
 
                 <div className="flex flex-wrap gap-4 mt-8">
-                  <Link href="/members" className="px-8 py-3 bg-brand-pink text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(208,0,111,0.4)] transition-all">
-                    Meet our Members
+                  <Link href="/about-us" className="px-8 py-3 bg-brand-pink text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(208,0,111,0.4)] transition-all">
+                    About Us
                   </Link>
                   <Link href="/events" className="px-8 py-3 bg-brand-pink text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(208,0,111,0.4)] transition-all">
                     See our Events
@@ -434,20 +434,20 @@ export default function HomePage() {
 
                 <div className="grid grid-cols-2 gap-6">
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
-                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">300<span className="text-brand-pink">+</span></div>
+                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">70<span className="text-brand-pink">+</span></div>
                   <div className="text-gray-400 text-sm uppercase tracking-wider">Active Members</div>
                 </div>
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
-                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">2015</div>
+                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">2003</div>
                   <div className="text-gray-400 text-sm uppercase tracking-wider">Founding Year</div>
                 </div>
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
-                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">10<span className="text-brand-pink">+</span></div>
-                  <div className="text-gray-400 text-sm uppercase tracking-wider">Events / Year</div>
+                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">500<span className="text-brand-pink">+</span></div>
+                  <div className="text-gray-400 text-sm uppercase tracking-wider">Alumni</div>
                 </div>
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
-                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">800<span className="text-brand-pink">+</span></div>
-                  <div className="text-gray-400 text-sm uppercase tracking-wider">Attendees</div>
+                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">65<span className="text-brand-pink">%</span></div>
+                  <div className="text-gray-400 text-sm uppercase tracking-wider">STEM</div>
                 </div>
                 </div>
               </div>
@@ -478,9 +478,8 @@ export default function HomePage() {
                     <div className="text-gray-400 text-sm font-medium uppercase tracking-[0.2em] mb-4">Capital Raised</div>
                     <div className="flex items-baseline gap-2">
                       <span className="text-7xl sm:text-8xl lg:text-[120px] font-black text-white leading-none tabular-nums">
-                        €{Math.round(animatedValues[2])}
+                        €3<span className="text-brand-pink">B+</span>
                       </span>
-                      <span className="text-4xl sm:text-5xl lg:text-6xl font-black text-brand-pink">M+</span>
                     </div>
                     <p className="text-gray-400 mt-6 max-w-sm">Raised by our alumni founders and community startups.</p>
                   </div>
@@ -510,24 +509,8 @@ export default function HomePage() {
 
                 {/* Two side-by-side stats */}
                 <div className="flex gap-6">
-                  {/* Diversity */}
-                  <div className={`flex-1 transition-all duration-700 delay-300 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <div className="relative bg-white/5 border border-white/10 rounded-[1.5rem] p-6 h-full hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300">
-                      <div className="text-gray-500 text-xs font-medium uppercase tracking-[0.2em] mb-2">MINT</div>
-                      <div className="text-4xl sm:text-5xl font-black text-white tabular-nums">
-                        {Math.round(animatedValues[1])}<span className="text-brand-pink">%</span>
-                      </div>
-                      <div className="mt-3 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-brand-pink to-brand-pink/60 rounded-full transition-all duration-1000"
-                          style={{ width: factsView.visible ? `${animatedValues[1]}%` : '0%' }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
                   {/* YC & Top Programs */}
-                  <div className={`flex-1 transition-all duration-700 delay-400 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                  <div className={`flex-1 transition-all duration-700 delay-300 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                     <div className="relative bg-white/5 border border-white/10 rounded-[1.5rem] p-6 h-full hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300">
                       <div className="text-gray-500 text-xs font-medium uppercase tracking-[0.2em] mb-2">YC & other programs</div>
                       <div className="text-4xl sm:text-5xl font-black text-white tabular-nums">
@@ -537,6 +520,19 @@ export default function HomePage() {
                         {[...Array(5)].map((_, i) => (
                           <div key={i} className={`h-1.5 flex-1 rounded-full ${i < 4 ? 'bg-brand-pink' : 'bg-white/10'}`} />
                         ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Unicorn */}
+                  <div className={`flex-1 transition-all duration-700 delay-400 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                    <div className="relative bg-white/5 border border-white/10 rounded-[1.5rem] p-6 h-full hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300">
+                      <div className="text-gray-500 text-xs font-medium uppercase tracking-[0.2em] mb-2">Unicorn</div>
+                      <div className="text-4xl sm:text-5xl font-black text-white tabular-nums">
+                        1
+                      </div>
+                      <div className="mt-2 flex gap-1">
+                        <div className="h-1.5 w-full rounded-full bg-brand-pink" />
                       </div>
                     </div>
                   </div>
@@ -679,7 +675,7 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto">
             {/* Section header */}
             <div className="mb-16">
-              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Worldwide Connected</span>
+              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Global Community</span>
               <h2 className="text-5xl sm:text-6xl font-black text-white mt-3">START NETWORK</h2>
             </div>
 
@@ -709,11 +705,11 @@ export default function HomePage() {
                 {/* Stats */}
                 <div className="flex gap-16 relative z-10">
                   <div>
-                    <div className="text-6xl font-black text-white">16</div>
+                    <div className="text-6xl font-black text-white">22</div>
                     <div className="text-gray-400 text-sm">Cities</div>
                   </div>
                   <div>
-                    <div className="text-6xl font-black text-white">11</div>
+                    <div className="text-6xl font-black text-white">12</div>
                     <div className="text-gray-400 text-sm">Countries</div>
                   </div>
                   <div>
@@ -736,6 +732,7 @@ export default function HomePage() {
                     <div
                       key={`${city}-${i}`}
                       className={`text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.2] ${
+                        city === 'MUNICH' ? 'text-brand-pink' :
                         i % 5 === 0 ? 'bg-gradient-to-r from-gray-400 to-gray-200 bg-clip-text text-transparent' :
                         i % 5 === 1 ? 'bg-gradient-to-r from-gray-500 to-gray-300 bg-clip-text text-transparent' :
                         i % 5 === 2 ? 'text-white' :
@@ -764,7 +761,7 @@ export default function HomePage() {
                 </h2>
 
                 <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                  START Munich is the largest student-run entrepreneurship initiative at TU Munich, empowering the next generation of founders through education, networking, and hands-on experience.
+                  START Munich is the largest student-run entrepreneurship initiative in Munich, empowering the next generation of founders through education, networking, and hands-on experience.
                 </p>
                 <p className="text-gray-400 leading-relaxed mb-8">
                   We believe in the power of student-driven innovation and provide a platform where bold ideas can become reality.
