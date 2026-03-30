@@ -351,7 +351,7 @@ export default function ForPartnersPage() {
             {/* Contact Button */}
             <a
               href="https://tally.so/r/3xpGQG"
-              className="group/btn inline-flex items-center gap-2 px-6 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50 w-full justify-center"
+              className="group/btn inline-flex items-center gap-2 px-6 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50 w-full justify-center"
             >
               <svg
                 className="w-5 h-5 group-hover/btn:scale-110 transition-transform duration-300"

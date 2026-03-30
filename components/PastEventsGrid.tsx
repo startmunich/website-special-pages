@@ -19,7 +19,7 @@ interface LumaEventWrapper {
   tags: string[]
 }
 
-const EVENTS_PER_PAGE = 9
+const EVENTS_PER_PAGE = 12
 
 export default function PastEventsGrid() {
   const [events, setEvents] = useState<LumaEventWrapper[]>([])
@@ -103,7 +103,7 @@ export default function PastEventsGrid() {
   return (
     <div>
       {/* Events Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         {currentEvents.map((eventWrapper) => {
           const event = eventWrapper.event
 
@@ -113,35 +113,34 @@ export default function PastEventsGrid() {
               href={event.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20 flex flex-col"
+              className="group relative bg-white/5 rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/40 flex flex-col"
             >
-              {/* Event Image */}
-              {event.cover_url && (
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-black/20">
-                  <img
-                    src={event.cover_url}
-                    alt={event.name}
-                    className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/60 via-[#00002c]/15 to-transparent"></div>
+              {/* Inset rounded image */}
+              <div className="p-3 pb-0">
+                <div className="relative overflow-hidden rounded-xl bg-black/20">
+                  {event.cover_url ? (
+                    <img
+                      src={event.cover_url}
+                      alt={event.name}
+                      className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-700 ease-out"
+                    />
+                  ) : (
+                    <div className="h-36 bg-gradient-to-br from-[#1a1a3e] to-[#0a0a2e] rounded-xl" />
+                  )}
                 </div>
-              )}
+              </div>
 
-              {/* Content */}
-              <div className="p-4">
-                <h3 className="text-base font-bold text-white mb-2 line-clamp-3">
+              {/* Text content area */}
+              <div className="px-4 pt-4 pb-5 flex-1 flex flex-col">
+                <h3 className="text-sm font-bold text-white mb-1.5 leading-snug line-clamp-2">
                   {event.name}
                 </h3>
-
                 {event.description && (
-                  <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">
+                  <p className="text-gray-400 text-xs leading-relaxed line-clamp-2 flex-1">
                     {event.description}
                   </p>
                 )}
               </div>
-
-              {/* Hover effect accent */}
-              <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
             </a>
           )
         })}
@@ -149,15 +148,15 @@ export default function PastEventsGrid() {
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 mt-8">
+        <div className="flex items-center justify-center gap-3 mt-10">
           {/* Previous Button */}
           <button
             onClick={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
-            className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+            className={`w-11 h-11 rounded-full font-semibold transition-all duration-300 flex items-center justify-center ${
               currentPage === 1
-                ? 'bg-white/5 text-gray-500 cursor-not-allowed'
-                : 'bg-white/10 text-white hover:bg-[#d0006f] hover:text-white'
+                ? 'bg-white/5 text-gray-600 cursor-not-allowed'
+                : 'bg-white/10 text-white hover:bg-[#d0006f]'
             }`}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -168,17 +167,15 @@ export default function PastEventsGrid() {
           {/* Page Numbers */}
           <div className="flex items-center gap-2">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-              // Show first page, last page, current page, and pages around current
               const showPage =
                 page === 1 ||
                 page === totalPages ||
                 (page >= currentPage - 1 && page <= currentPage + 1)
 
               if (!showPage) {
-                // Show ellipsis
                 if (page === currentPage - 2 || page === currentPage + 2) {
                   return (
-                    <span key={page} className="text-gray-500 px-2">
+                    <span key={page} className="text-gray-600 px-1">
                       ...
                     </span>
                   )
@@ -190,9 +187,9 @@ export default function PastEventsGrid() {
                 <button
                   key={page}
                   onClick={() => goToPage(page)}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                  className={`w-11 h-11 rounded-full font-bold text-sm transition-all duration-300 ${
                     currentPage === page
-                      ? 'bg-[#d0006f] text-white'
+                      ? 'bg-[#d0006f] text-white shadow-lg shadow-[#d0006f]/30'
                       : 'bg-white/10 text-white hover:bg-white/20'
                   }`}
                 >
@@ -206,10 +203,10 @@ export default function PastEventsGrid() {
           <button
             onClick={() => goToPage(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+            className={`w-11 h-11 rounded-full font-semibold transition-all duration-300 flex items-center justify-center ${
               currentPage === totalPages
-                ? 'bg-white/5 text-gray-500 cursor-not-allowed'
-                : 'bg-white/10 text-white hover:bg-[#d0006f] hover:text-white'
+                ? 'bg-white/5 text-gray-600 cursor-not-allowed'
+                : 'bg-white/10 text-white hover:bg-[#d0006f]'
             }`}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

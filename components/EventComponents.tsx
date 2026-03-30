@@ -36,70 +36,45 @@ export const EventCard = ({
       onClick={onClick}
       className={`
         flex-shrink-0
-        ${isFlagship ? 'w-[85%] sm:w-[340px]' : 'w-[80%] sm:w-[280px]'}
+        ${isFlagship ? 'w-[85%] sm:w-[340px]' : 'w-[80%] sm:w-[300px]'}
         group relative
         ${isFlagship ? 'bg-gradient-to-br from-[#d0006f]/10 via-white/5 to-[#d0006f]/5' : 'bg-white/5'}
-        ${isHovered ? 'bg-white/10' : ''}
-        border-2
-        ${isHovered ? 'border-[#d0006f]' : 'border-white/10'}
-        rounded-lg overflow-hidden transition-all duration-300
-        ${isFlagship
-          ? `${isHovered ? 'shadow-2xl shadow-[#d0006f]/20' : ''}`
-          : `${isHovered ? 'shadow-xl shadow-[#d0006f]/20' : ''}`
-        }
+        rounded-[1.75rem] overflow-hidden transition-all duration-500
+        border-2 ${isHovered ? 'border-[#d0006f]' : 'border-transparent'}
+        ${isHovered ? 'scale-[1.02] shadow-2xl shadow-black/40' : 'shadow-xl shadow-black/20'}
         ${onClick ? 'cursor-pointer' : ''}
         ${className}
       `}
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      {/* Flagship left accent bar */}
-      {isFlagship && (
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#d0006f]"></div>
-      )}
-
-      {/* Event Image */}
-      <div className="relative h-48 w-full overflow-hidden">
+      {/* Full card background image */}
+      <div className={`relative ${isFlagship ? 'h-[240px]' : 'h-[200px]'} w-full overflow-hidden`}>
         <img
           src={event.image}
           alt={event.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/80 via-[#00002c]/20 to-transparent"></div>
+
+        {/* Top gradient for category badge */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent" />
+
+        {/* Bottom gradient for text overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+
+        {/* Category badge - top left */}
       </div>
 
-      {/* Content */}
-      <div className="p-4">
-        <h3 className="text-lg font-bold text-white mb-2">
+      {/* Text content area */}
+      <div className="px-6 py-4">
+        <span className="inline-block text-[#d0006f] text-xs font-bold uppercase tracking-widest mb-2">{event.category}</span>
+        <h3 className="text-lg font-black text-white mb-1 leading-tight">
           {event.name}
         </h3>
-
-        {isFlagship && (
-          <p className="text-xs font-semibold text-[#d0006f] mb-2 uppercase tracking-wide">Flagship Event</p>
-        )}
-        
-        <div className="flex items-center gap-2 mb-4">
-          <svg className="w-5 h-5 text-[#d0006f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <span className="text-base font-semibold text-[#d0006f]">
-            {event.month}, {event.category}
-          </span>
-        </div>
-
-        <p className="text-base text-gray-400 leading-relaxed">
+        <p className="text-white/40 text-xs font-medium mb-2">{event.month}</p>
+        <p className="text-gray-400 text-sm leading-relaxed">
           {event.description}
         </p>
       </div>
-
-      {/* Hover effect accent */}
-      <div className={`absolute bottom-0 left-0 w-full ${isFlagship ? 'h-2' : 'h-1'} bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300`}></div>
-      
-      {/* Flagship glow effect */}
-      {isFlagship && (
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#d0006f]/10 via-pink-500/10 to-[#d0006f]/10 blur-xl"></div>
-        </div>
-      )}
     </div>
   )
 }
@@ -126,31 +101,42 @@ export const SpecialEventCard = ({
     <div
       className={`
         flex-shrink-0 w-[90%] sm:w-[400px]
-        relative
-        bg-white/5
-        border border-white/10
-        rounded-lg overflow-hidden
+        group relative
+        rounded-[1.75rem] overflow-hidden
+        shadow-xl shadow-black/20 hover:shadow-2xl hover:shadow-black/40
+        transition-all duration-500 hover:scale-[1.02]
         ${className}
       `}
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      {/* Event Image */}
-      <div className="relative h-64 w-full overflow-hidden">
+      {/* Full card image area */}
+      <div className="relative h-72 w-full overflow-hidden">
         <img
           src={event.image}
           alt={event.name}
-          className="w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+
+        {/* Category badge - top left */}
+        <div className="absolute top-5 left-5">
+          <span className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md text-white border border-white/20">
+            {event.category}
+          </span>
+        </div>
+
+        {/* Bottom text overlay */}
+        <div className="absolute bottom-0 left-0 right-0 p-6">
+          <h3 className="text-xl font-black text-white mb-1 leading-tight drop-shadow-lg">
+            {event.name}
+          </h3>
+        </div>
       </div>
 
-      {/* Content */}
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-white mb-2">
-          {event.name}
-        </h3>
-
-        <p className="text-sm text-gray-400 leading-relaxed">
+      {/* Bottom info bar */}
+      <div className="bg-[#0a0a2e] px-6 py-4">
+        <p className="text-sm text-gray-400 leading-relaxed line-clamp-2">
           {event.description}
         </p>
       </div>
@@ -205,10 +191,10 @@ export const TimelineMarker = ({
           }}
         ></div>
         <div className={`absolute ${positionClass} left-1/2 -translate-x-1/2 whitespace-nowrap`}>
-          <div 
-            className="text-xs px-3 py-1.5 rounded-lg bg-[#1a1a3e] border border-white/20"
+          <div
+            className="text-xs px-3.5 py-1.5 rounded-full bg-[#0a0a2e] border border-white/10 shadow-lg shadow-black/20"
           >
-            <p className="text-white font-medium">{label}</p>
+            <p className="text-white font-bold">{label}</p>
           </div>
         </div>
       </div>
@@ -223,12 +209,12 @@ export interface ScrollIndicatorProps {
 }
 
 export const ScrollIndicator = ({ sliderRef, scrollProgress }: ScrollIndicatorProps) => (
-  <div className="relative h-2 bg-white/10 rounded-full mt-6 overflow-hidden">
-    <div 
+  <div className="relative h-1.5 bg-white/[0.06] rounded-full mt-8 overflow-hidden">
+    <div
       className="absolute h-full rounded-full transition-all duration-200"
       style={{
         background: 'linear-gradient(to right, #d0006f, rgb(236, 72, 153), #d0006f)',
-        opacity: 0.4,
+        opacity: 0.5,
         width: `${sliderRef.current ? (sliderRef.current.clientWidth / sliderRef.current.scrollWidth) * 100 : 30}%`,
         left: `${sliderRef.current ? scrollProgress * (1 - sliderRef.current.clientWidth / sliderRef.current.scrollWidth) : 0}%`
       }}

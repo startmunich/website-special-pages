@@ -92,20 +92,17 @@ export default function UpcomingEventsGrid() {
   return (
     <div>
       {/* Events Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {events.map((eventWrapper, index) => {
           const event = eventWrapper.event
           const hiddenOnMobile = !showAll && index >= mobileLimit
 
-          // Parse the date and handle different formats
-          let formattedDate = 'Date unavailable'
-
+          // Format date for subheader
+          let formattedDate = ''
           try {
             const dateStr = event.start_at
-
             if (dateStr) {
               const eventDate = new Date(dateStr)
-
               if (!isNaN(eventDate.getTime())) {
                 formattedDate = eventDate.toLocaleDateString('en-US', {
                   month: 'short',
@@ -114,8 +111,8 @@ export default function UpcomingEventsGrid() {
                 })
               }
             }
-          } catch (err) {
-            console.error('Error parsing date:', err, event)
+          } catch {
+            // ignore
           }
 
           return (
@@ -124,45 +121,32 @@ export default function UpcomingEventsGrid() {
               href={event.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20 flex flex-col ${hiddenOnMobile ? 'hidden md:flex' : ''}`}
+              className={`group relative bg-white/5 rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/40 flex flex-col ${hiddenOnMobile ? 'hidden sm:flex' : ''}`}
             >
-              {/* Event Image */}
-              {event.cover_url && (
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-black/20">
-                  <img
-                    src={event.cover_url}
-                    alt={event.name}
-                    className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/60 via-[#00002c]/15 to-transparent"></div>
-
-                  {/* Date Badge */}
-                  <div className="absolute top-3 right-3 bg-[#00002c]/80 backdrop-blur-md border border-white/10 rounded-xl px-3 py-1.5 text-center">
-                    <div className="text-[#d0006f] text-xs font-black uppercase tracking-wider">
-                      {formattedDate.split(' ')[0]}
-                    </div>
-                    <div className="text-white text-lg font-black leading-tight">
-                      {formattedDate.split(' ')[1]?.replace(',', '')}
-                    </div>
-                  </div>
+              {/* Inset rounded image */}
+              <div className="p-3 pb-0">
+                <div className="relative overflow-hidden rounded-xl bg-black/20">
+                  {event.cover_url ? (
+                    <img
+                      src={event.cover_url}
+                      alt={event.name}
+                      className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-700 ease-out"
+                    />
+                  ) : (
+                    <div className="h-36 bg-gradient-to-br from-[#1a1a3e] to-[#0a0a2e] rounded-xl" />
+                  )}
                 </div>
-              )}
-
-              {/* Content */}
-              <div className="p-4">
-                <h3 className="text-base font-bold text-white mb-2 line-clamp-3">
-                  {event.name}
-                </h3>
-
-                {event.description && (
-                  <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">
-                    {event.description}
-                  </p>
-                )}
               </div>
 
-              {/* Hover effect accent */}
-              <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+              {/* Text content area */}
+              <div className="px-4 pt-4 pb-5 flex-1 flex flex-col">
+                <h3 className="text-sm font-bold text-white mb-1 leading-snug line-clamp-2">
+                  {event.name}
+                </h3>
+                {formattedDate && (
+                  <p className="text-gray-400 text-xs font-semibold mb-1.5">{formattedDate}</p>
+                )}
+              </div>
             </a>
           )
         })}
@@ -173,7 +157,7 @@ export default function UpcomingEventsGrid() {
         <div className="md:hidden mt-6 text-center">
           <button
             onClick={() => setShowAll(true)}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-white font-bold text-sm hover:bg-white/10 hover:border-brand-pink/30 transition-all"
+            className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/10 backdrop-blur-md border border-white/15 rounded-full text-white font-bold text-sm hover:bg-[#d0006f] hover:border-[#d0006f] transition-all duration-300"
           >
             See {events.length - mobileLimit} more events
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
