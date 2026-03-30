@@ -7,51 +7,61 @@ import Hero from "@/components/Hero"
 export const dynamic = 'force-dynamic'
 
 interface Company {
+  id: string
   name: string
-  logo?: string
+  type: string
+  logoUrl: string
 }
 
-const vcCompanies: Company[] = [
-  { name: "Sequoia Capital" },
-  { name: "Andreessen Horowitz" },
-  { name: "Y Combinator" },
-  { name: "Accel" },
-  { name: "Index Ventures" },
-  { name: "Lightspeed Venture" },
-  { name: "Balderton Capital" },
-  { name: "Cherry Ventures" },
-]
+async function fetchCompanies(): Promise<Company[]> {
+  try {
+    const baseUrl = typeof window !== 'undefined'
+      ? window.location.origin
+      : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
 
-const consultingCompanies: Company[] = [
-  { name: "McKinsey & Company" },
-  { name: "Boston Consulting Group" },
-  { name: "Bain & Company" },
-  { name: "Deloitte" },
-  { name: "PwC" },
-  { name: "EY" },
-  { name: "KPMG" },
-  { name: "Accenture" },
-]
+    const response = await fetch(`${baseUrl}/api/member-network`, { cache: 'no-store' })
+    if (!response.ok) throw new Error('Failed to fetch')
+    return await response.json()
+  } catch (error) {
+    console.error('Error fetching member network:', error)
+    return []
+  }
+}
 
-const techCompanies: Company[] = [
-  { name: "Google" },
-  { name: "Meta" },
-  { name: "Amazon" },
-  { name: "Microsoft" },
-  { name: "Apple" },
-  { name: "Netflix" },
-  { name: "Tesla" },
-  { name: "Spotify" },
-  { name: "Uber" },
-  { name: "Airbnb" },
-]
+function LogoCard({ company }: { company: Company }) {
+  const [imgFailed, setImgFailed] = useState(false)
+  const initials = company.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
+
+  return (
+    <div className="bg-white rounded-xl p-5 border border-white/10 hover:border-[#d0006f]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/10 flex items-center justify-center min-h-[100px]">
+      {company.logoUrl && !imgFailed ? (
+        <img
+          src={company.logoUrl}
+          alt={company.name}
+          className="max-w-full max-h-14 object-contain"
+          onError={() => setImgFailed(true)}
+        />
+      ) : (
+        <h3 className="text-gray-700 font-bold text-center text-lg">{company.name}</h3>
+      )}
+    </div>
+  )
+}
 
 export default function MemberNetworkPage() {
   const [loading, setLoading] = useState(true)
+  const [companies, setCompanies] = useState<Company[]>([])
 
   useEffect(() => {
-    setLoading(false)
+    fetchCompanies().then((data) => {
+      setCompanies(data)
+      setLoading(false)
+    })
   }, [])
+
+  // Group by Type
+  const categories = Array.from(new Set(companies.map(c => c.type)))
+    .sort((a, b) => companies.filter(c => c.type === b).length - companies.filter(c => c.type === a).length)
 
   if (loading) {
     return (
@@ -82,11 +92,9 @@ export default function MemberNetworkPage() {
         `}
       </Script>
 
-
       <main className="min-h-screen bg-[#00002c]">
-        {/* Hero Section */}
         <Hero
-          backgroundImage="/hero-image.jpg"
+          backgroundImage="/ourMembers/hero.png"
           title={
             <>
               MEMBER
@@ -97,7 +105,6 @@ export default function MemberNetworkPage() {
           description="Discover where our talented members are making their mark across the industry"
         />
 
-        {/* Content Below Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-20">
 
           <div className="mb-16">
@@ -109,61 +116,21 @@ export default function MemberNetworkPage() {
             </p>
           </div>
 
-          {/* Venture Capital Section */}
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-8">
-              Venture Capital
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {vcCompanies.map((company, index) => (
-                <div
-                  key={index}
-                  className="bg-white/5 rounded-2xl p-8 border border-white/10 hover:border-[#d0006f]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/10 flex items-center justify-center min-h-[140px]"
-                >
-                  <h3 className="text-white font-bold text-center text-lg">
-                    {company.name}
-                  </h3>
-                </div>
-              ))}
+          {categories.map((category) => (
+            <div key={category} className="mb-16">
+              <h2 className="text-xl md:text-2xl font-black text-white mb-6">
+                {category}
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {companies
+                  .filter(c => c.type === category)
+                  .map((company) => (
+                    <LogoCard key={company.id} company={company} />
+                  ))}
+              </div>
             </div>
-          </div>
+          ))}
 
-          {/* Consulting Section */}
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-8">
-              Consulting
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {consultingCompanies.map((company, index) => (
-                <div
-                  key={index}
-                  className="bg-white/5 rounded-2xl p-8 border border-white/10 hover:border-[#d0006f]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/10 flex items-center justify-center min-h-[140px]"
-                >
-                  <h3 className="text-white font-bold text-center text-lg">
-                    {company.name}
-                  </h3>
-                </div>
-              ))}
-            </div>
-          </div>
-          {/* Tech Section */}
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-8">
-              Tech
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {techCompanies.map((company, index) => (
-                <div
-                  key={index}
-                  className="bg-white/5 rounded-2xl p-8 border border-white/10 hover:border-[#d0006f]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/10 flex items-center justify-center min-h-[140px]"
-                >
-                  <h3 className="text-white font-bold text-center text-lg">
-                    {company.name}
-                  </h3>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </main>
     </>
