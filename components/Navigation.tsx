@@ -77,17 +77,23 @@ export default function Navigation() {
                       onClick={() => setIsCommunityOpen(false)}
                       className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
                     >
-                      <span>
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                         Member Journey
                       </span>
                     </Link>
                     <Link
-                      href="/our-mission"
+                      href="/about-us"
                       onClick={() => setIsCommunityOpen(false)}
                       className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
                     >
-                      <span>
-                        Our Mission
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        About Us
                       </span>
                     </Link>
                     <Link
@@ -95,7 +101,10 @@ export default function Navigation() {
                       onClick={() => setIsCommunityOpen(false)}
                       className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
                     >
-                      <span>
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                         Our Members
                       </span>
                     </Link>
@@ -104,7 +113,10 @@ export default function Navigation() {
                       onClick={() => setIsCommunityOpen(false)}
                       className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
                     >
-                      <span>
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                         Our Partners
                       </span>
                     </Link>
@@ -113,8 +125,23 @@ export default function Navigation() {
                       onClick={() => setIsCommunityOpen(false)}
                       className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
                     >
-                      <span>
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                         Our Jobs
+                      </span>
+                    </Link>
+                    <Link
+                      href="/member-network"
+                      onClick={() => setIsCommunityOpen(false)}
+                      className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        Member Network
                       </span>
                     </Link>
                   </div>
@@ -147,7 +174,7 @@ export default function Navigation() {
           {/* Apply Now Button - Desktop */}
           <div className="hidden lg:flex items-center">
             <Link
-              href="/join-start/2026"
+              href="/apply"
               className="bg-white text-brand-dark-blue px-4 py-1.5 font-bold text-sm rounded hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase tracking-wide"
             >
               APPLY NOW
@@ -203,11 +230,11 @@ export default function Navigation() {
               {isMobileCommunityOpen && (
                 <div className="bg-white/5 space-y-1">
                   <Link
-                    href="/our-mission"
+                    href="/about-us"
                     className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Our Mission
+                    About Us
                   </Link>
                   <Link
                     href="/member-journey"
@@ -236,6 +263,13 @@ export default function Navigation() {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Our Jobs
+                  </Link>
+                  <Link
+                    href="/member-network"
+                    className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Member Network
                   </Link>
                 </div>
               )}
@@ -267,7 +301,7 @@ export default function Navigation() {
 
             {/* Apply Now Button - Mobile */}
             <Link
-              href="/join-start/2026"
+              href="/apply"
               className="block mx-4 mt-4 text-center bg-white text-brand-dark-blue px-6 py-3 font-black text-sm rounded hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase"
               onClick={() => setIsMobileMenuOpen(false)}
             >
