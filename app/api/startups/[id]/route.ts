@@ -66,9 +66,9 @@ function transformNocoDBRecord(record: any): Company {
 // GET single startup by ID
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const id = params.id;
+  const { id } = await params;
   console.log('========== FETCHING SINGLE STARTUP ==========');
   console.log('Startup ID:', id);
   console.log('🔍 Environment Variables:');
@@ -85,7 +85,7 @@ export async function GET(
 
   try {
     const response = await fetch(
-      `${NOCODB_BASE_URL}/api/v2/tables/${NOCODB_TABLE_ID}/records/${params.id}`,
+      `${NOCODB_BASE_URL}/api/v2/tables/${NOCODB_TABLE_ID}/records/${id}`,
       {
         headers: {
           'xc-token': NOCODB_API_TOKEN,
@@ -115,8 +115,9 @@ export async function GET(
 // PUT update startup by ID
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   if (!NOCODB_API_TOKEN || !NOCODB_TABLE_ID) {
     return NextResponse.json(
       { error: 'NocoDB not configured' },
@@ -204,7 +205,7 @@ export async function PUT(
 
     // First, get the current record to preserve existing attachments
     const getResponse = await fetch(
-      `${NOCODB_BASE_URL}/api/v2/tables/${NOCODB_TABLE_ID}/records/${params.id}`,
+      `${NOCODB_BASE_URL}/api/v2/tables/${NOCODB_TABLE_ID}/records/${id}`,
       {
         headers: {
           'xc-token': NOCODB_API_TOKEN,
@@ -220,7 +221,7 @@ export async function PUT(
     }
 
     const currentRecord = await getResponse.json();
-    const ncId = currentRecord.Id || currentRecord.id || params.id;
+    const ncId = currentRecord.Id || currentRecord.id || id;
 
     // Handle attachments: if new upload exists, use it; if it's a URL (from edit form showing existing), preserve current
     let finalCompanyLogo = currentRecord['Company Logo'];
@@ -308,8 +309,9 @@ export async function PUT(
 // DELETE startup by ID
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   if (!NOCODB_API_TOKEN || !NOCODB_TABLE_ID) {
     return NextResponse.json(
       { error: 'NocoDB not configured' },
@@ -328,7 +330,7 @@ export async function DELETE(
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          Id: params.id
+          Id: id
         }),
       }
     );
