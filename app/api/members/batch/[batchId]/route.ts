@@ -27,9 +27,9 @@ interface Member {
 
 export async function GET(
   request: Request,
-  { params }: { params: { batchId: string } }
+  { params }: { params: Promise<{ batchId: string }> }
 ) {
-  const { batchId } = params
+  const { batchId } = await params
 
   const resolveApiBatch = (batchId: string): string => {
     const normalized = batchId.trim().toLowerCase()

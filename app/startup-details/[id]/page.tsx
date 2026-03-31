@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import Link from "next/link"
 import { notFound, useRouter } from "next/navigation"
 import type { Company } from "@/lib/types"
@@ -17,7 +17,8 @@ async function fetchCompanies(): Promise<Company[]> {
   }
 }
 
-export default function StartupDetailsPage({ params }: { params: { id: string } }) {
+export default function StartupDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
   const router = useRouter()
   const [company, setCompany] = useState<Company | null>(null)
   const [loading, setLoading] = useState(true)
@@ -26,7 +27,7 @@ export default function StartupDetailsPage({ params }: { params: { id: string } 
     const loadCompany = async () => {
       setLoading(true)
       const companies = await fetchCompanies()
-      const foundCompany = companies.find(c => c.id.toString() === params.id)
+      const foundCompany = companies.find(c => c.id.toString() === id)
       
       if (!foundCompany) {
         notFound()
@@ -37,7 +38,7 @@ export default function StartupDetailsPage({ params }: { params: { id: string } 
       setLoading(false)
     }
     loadCompany()
-  }, [params.id])
+  }, [id])
 
   if (loading) {
     return (
