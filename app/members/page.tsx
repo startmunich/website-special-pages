@@ -1,11 +1,11 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Script from "next/script"
 import Hero from "@/components/Hero"
 import HeroCard from "@/components/HeroCard"
 import { useAnimatedNumber } from "@/lib/useAnimatedNumber"
+import { useInView } from "@/lib/hooks"
 
 export const dynamic = 'force-dynamic'
 
@@ -26,19 +26,12 @@ interface Member {
   gender?: string
 }
 
-interface Batch {
-  name: string
-  semester: string
-  year: string
-  groupImageUrl: string
-  memberCount: number
-}
-
 interface BoardMember {
   name: string
   role: string
   imageUrl: string
   profileImage?: string
+  _hasMatch?: boolean
 }
 
 interface Board {
@@ -50,38 +43,65 @@ interface Board {
   departmentBoard: BoardMember[]
 }
 
-// Fetch members from API
 async function fetchMembers(): Promise<Member[]> {
   try {
-    const response = await fetch('/api/members');
-    if (!response.ok) throw new Error('Failed to fetch members');
-    return await response.json();
+    const response = await fetch('/api/members')
+    if (!response.ok) throw new Error('Failed to fetch members')
+    return await response.json()
   } catch (error) {
-    console.error('Error fetching members:', error);
-    return [];
+    console.error('Error fetching members:', error)
+    return []
   }
 }
 
 export default function MembersPage() {
   const [members, setMembers] = useState<Member[]>([])
-  const [loading, setLoading] = useState(true)
   const [expandedBatch, setExpandedBatch] = useState<string | null>(null)
   const [expandedBoard, setExpandedBoard] = useState<string | null>(null)
-  const [currentPage, setCurrentPage] = useState(1)
   const [batchMembers, setBatchMembers] = useState<Member[]>([])
   const [loadingBatch, setLoadingBatch] = useState(false)
   const [boardLoading, setBoardLoading] = useState(false)
   const batchContentRef = useRef<HTMLDivElement>(null)
-  const itemsPerPage = 12
+  const [boards, setBoards] = useState<Board[]>([
+    {
+      id: '25-26', name: 'Board 25-26', year: '2025-2026', imageUrl: '/ourMembers/hero.png',
+      executiveBoard: [
+        { name: 'BOARD MEMBER', role: 'CFO', imageUrl: '/ourMembers/hero.png' },
+        { name: 'BOARD MEMBER', role: 'President', imageUrl: '/ourMembers/hero.png' },
+        { name: 'BOARD MEMBER', role: 'Vice President', imageUrl: '/ourMembers/hero.png' },
+      ],
+      departmentBoard: [
+        { name: 'BOARD MEMBER', role: 'MD Events', imageUrl: '/ourMembers/hero.png' },
+        { name: 'BOARD MEMBER', role: 'MD Marketing', imageUrl: '/ourMembers/hero.png' },
+        { name: 'BOARD MEMBER', role: 'MD People', imageUrl: '/ourMembers/hero.png' },
+        { name: 'BOARD MEMBER', role: 'MD Finance & Operations', imageUrl: '/ourMembers/hero.png' },
+        { name: 'BOARD MEMBER', role: 'MD Partnerships', imageUrl: '/ourMembers/hero.png' },
+      ],
+    },
+    {
+      id: '24-25', name: 'Board 24-25', year: '2024-2025', imageUrl: '/ourMembers/hero.png',
+      executiveBoard: [
+        { name: 'SIMON BURMER', role: 'CFO', imageUrl: '/ourMembers/hero.png' },
+        { name: 'ALI SERAG EL DIN', role: 'President', imageUrl: '/ourMembers/hero.png' },
+        { name: 'DEFNE AYTUNA', role: 'Vice President', imageUrl: '/ourMembers/hero.png' },
+      ],
+      departmentBoard: [
+        { name: 'MOHAMMED THABIT', role: 'MD Events', imageUrl: '/ourMembers/hero.png' },
+        { name: 'PIOTR NOBIS', role: 'MD Marketing', imageUrl: '/ourMembers/hero.png' },
+        { name: 'ANNA HELETYCH', role: 'MD People', imageUrl: '/ourMembers/hero.png' },
+        { name: 'NIKLAS SIMAKOV', role: 'MD Finance & Operations', imageUrl: '/ourMembers/hero.png' },
+        { name: 'MARIUS HEUMADER', role: 'MD Partnerships', imageUrl: '/ourMembers/hero.png' },
+      ],
+    },
+  ])
 
-  // Feature flags
-  const showAdvisoryBoard = false // Set to true to show the advisory board section
+  const analyticsView = useInView(0.1)
+  const boardsView = useInView(0.1)
+  const batchesView = useInView(0.1)
 
-  // Use animated number hook for statistics (faster animation - 800ms)
-  const animatedActiveMembers = useAnimatedNumber(192, loading, 800)
-  const animatedAlumniCount = useAnimatedNumber(800, loading, 800)
+  const animatedActiveMembers = useAnimatedNumber(192, false, 1000)
+  const animatedAlumniCount = useAnimatedNumber(800, false, 1000)
 
-  // Helper functions - defined early so they can be used in useEffects
   const getInitials = (name: string) => {
     const words = name.trim().split(/\s+/)
     if (words.length === 0) return ''
@@ -92,24 +112,21 @@ export default function MembersPage() {
   const isPlaceholderImage = (url?: string) => {
     if (!url) return true
     const normalized = url.toLowerCase().trim()
-    return normalized === '/batch.jpeg' || normalized.endsWith('/batch.jpeg') || 
-           normalized === '/batch.jpg' || normalized.endsWith('/batch.jpg') ||
-           normalized === '/batch.png' || normalized.endsWith('/batch.png') ||
-           normalized === '/example.png' || normalized.endsWith('/example.png')
+    return normalized === '/batch.jpeg' || normalized.endsWith('/batch.jpeg') ||
+      normalized === '/batch.jpg' || normalized.endsWith('/batch.jpg') ||
+      normalized === '/batch.png' || normalized.endsWith('/batch.png') ||
+      normalized === '/example.png' || normalized.endsWith('/example.png') ||
+      normalized === '/ourmembers/hero.png' || normalized.endsWith('/ourmembers/hero.png')
   }
 
-  // Load members on mount
   useEffect(() => {
     const loadMembers = async () => {
-      setLoading(true)
       const data = await fetchMembers()
       setMembers(data)
-      setLoading(false)
     }
     loadMembers()
   }, [])
 
-  // Load batch members when expandedBatch changes
   useEffect(() => {
     if (expandedBatch) {
       const loadBatchMembers = async () => {
@@ -118,29 +135,20 @@ export default function MembersPage() {
           const response = await fetch(`/api/members/batch/${encodeURIComponent(expandedBatch)}`)
           if (response.ok) {
             const data = await response.json()
-            console.log('API Response data:', data)
             if (Array.isArray(data) && data.length > 0) {
-              // Log first few members to check imageUrl
-              console.log('First member imageUrl:', data[0]?.imageUrl)
-              console.log('Checking if placeholder:', isPlaceholderImage(data[0]?.imageUrl))
-              // Transform API response to add profileImage field (clean up placeholder images)
               const transformedData = data.map((member: Member) => ({
                 ...member,
                 profileImage: isPlaceholderImage(member.imageUrl) ? undefined : member.imageUrl
               }))
-              console.log('Transformed data:', transformedData)
               setBatchMembers(transformedData)
             } else {
-              // Fallback to mock members, keeps the same card styling
               setBatchMembers(members.filter(m => m.batch === expandedBatch))
             }
           } else {
-            // Fallback to filtering from all members
             setBatchMembers(members.filter(m => m.batch === expandedBatch))
           }
         } catch (error) {
           console.error('Error fetching batch members:', error)
-          // Fallback to filtering from all members
           setBatchMembers(members.filter(m => m.batch === expandedBatch))
         }
         setLoadingBatch(false)
@@ -152,12 +160,7 @@ export default function MembersPage() {
   }, [expandedBatch, members])
 
   const normalize = (text: string) =>
-    text
-      .toLowerCase()
-      .replace(/[\.\-&\/]/g, ' ')
-      .replace(/[^a-z0-9\s]/g, '')
-      .replace(/\s+/g, ' ')
-      .trim()
+    text.toLowerCase().replace(/[\.\-&\/]/g, ' ').replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim()
 
   const roleSynonyms: Record<string, string[]> = {
     cfo: ['chief financial officer', 'chief financial officer (cfo)'],
@@ -171,166 +174,94 @@ export default function MembersPage() {
   }
 
   const roleFallbackImages: Record<string, string> = {
-    cfo: '/batch.jpeg',
-    president: '/batch.jpeg',
-    'vice president': '/batch.jpeg',
-    'md events': '/batch.jpeg',
-    'md marketing': '/batch.jpeg',
-    'md people': '/batch.jpeg',
-    'md finance operations': '/batch.jpeg',
-    'md finance & operations': '/batch.jpeg',
-    'md partnerships': '/batch.jpeg',
+    cfo: '/ourMembers/hero.png', president: '/ourMembers/hero.png', 'vice president': '/ourMembers/hero.png',
+    'md events': '/ourMembers/hero.png', 'md marketing': '/ourMembers/hero.png', 'md people': '/ourMembers/hero.png',
+    'md finance operations': '/ourMembers/hero.png', 'md finance & operations': '/ourMembers/hero.png', 'md partnerships': '/ourMembers/hero.png',
   }
 
-  const getFallbackImageByRole = (role: string) => {
-    const normalizedRole = normalize(role)
-    return (
-      roleFallbackImages[normalizedRole] ||
-      Object.entries(roleFallbackImages).find(([key]) => normalizedRole.includes(key))?.[1] ||
-      '/batch.jpeg'
-    )
-  }
+  const getFallbackImageByRole = (role: string) =>
+    roleFallbackImages[normalize(role)] ||
+    Object.entries(roleFallbackImages).find(([key]) => normalize(role).includes(key))?.[1] ||
+    '/ourMembers/hero.png'
 
   const termStartYearFromBoard = (board: Board) => {
     if (board.year && board.year.includes('-')) {
-      const [from, to] = board.year.split('-').map((v) => v.trim())
-      if (/^\d{4}$/.test(from)) {
-        return from
-      }
+      const [from] = board.year.split('-').map(v => v.trim())
+      if (/^\d{4}$/.test(from)) return from
     }
-
-    const parts = board.id.split('-').map((p) => Number(p.trim()))
+    const parts = board.id.split('-').map(p => Number(p.trim()))
     if (parts.length === 2 && !Number.isNaN(parts[0])) {
       const from = parts[0] < 100 ? 2000 + parts[0] : parts[0]
       return `${from}`
     }
-
     return '2024'
   }
 
   const findByRole = (normalizedBoardMembers: any[]) => (role: string) => {
     if (!role) return null
     const normalizedRole = normalize(role)
-
-    let match = normalizedBoardMembers.find((m) => normalize(m.role || '') === normalizedRole)
+    let match = normalizedBoardMembers.find(m => normalize(m.role || '') === normalizedRole)
     if (match) return match
-
-    const normalizedRoleKey = Object.keys(roleSynonyms).find((key) => {
-      return key === normalizedRole || roleSynonyms[key].includes(normalizedRole)
-    })
-
+    const normalizedRoleKey = Object.keys(roleSynonyms).find(key =>
+      key === normalizedRole || roleSynonyms[key].includes(normalizedRole)
+    )
     if (normalizedRoleKey) {
       const aliases = [normalizedRoleKey, ...(roleSynonyms[normalizedRoleKey] || [])].map(normalize)
-      match = normalizedBoardMembers.find((m) => {
+      match = normalizedBoardMembers.find(m => {
         const candidate = normalize(m.role || '')
-        return aliases.some((alias) => candidate.includes(alias) || alias.includes(candidate))
+        return aliases.some(alias => candidate.includes(alias) || alias.includes(candidate))
       })
       if (match) return match
     }
-
-    match = normalizedBoardMembers.find((m) => {
+    return normalizedBoardMembers.find(m => {
       const candidateRole = normalize(m.role || '')
       return candidateRole.includes(normalizedRole) || normalizedRole.includes(candidateRole)
-    })
-    if (match) return match
-
-    return null
+    }) || null
   }
 
   const loadBoardMembers = async (boardId: string) => {
     setBoardLoading(true)
     try {
-      const board = boards.find((b) => b.id === boardId)
+      const board = boards.find(b => b.id === boardId)
       if (!board) return
-
       const termStartYear = termStartYearFromBoard(board)
       const response = await fetch(`/api/board?termStartYears=${encodeURIComponent(termStartYear)}`)
-      if (!response.ok) {
-        console.warn('Board API not available for', termStartYear)
-        return
-      }
-
+      if (!response.ok) return
       const data = await response.json()
       if (!data) return
-
-      const candidateData = Array.isArray(data)
-        ? data
-        : data?.data && Array.isArray(data.data)
-          ? data.data
-          : []
-
+      const candidateData = Array.isArray(data) ? data : data?.data && Array.isArray(data.data) ? data.data : []
       const rawMembers: any[] = []
       candidateData.forEach((item: any) => {
-        if (item && Array.isArray(item.members)) {
-          rawMembers.push(...item.members)
-        } else if (item && Array.isArray(item.boardMembers)) {
-          rawMembers.push(...item.boardMembers)
-        } else if (item && Array.isArray(item.memberList)) {
-          rawMembers.push(...item.memberList)
-        } else if (item && item.name && item.role) {
-          rawMembers.push(item)
-        }
+        if (item && Array.isArray(item.members)) rawMembers.push(...item.members)
+        else if (item && Array.isArray(item.boardMembers)) rawMembers.push(...item.boardMembers)
+        else if (item && Array.isArray(item.memberList)) rawMembers.push(...item.memberList)
+        else if (item && item.name && item.role) rawMembers.push(item)
       })
-
       if (rawMembers.length === 0) return
-
       const normalizedBoardMembers = rawMembers.flatMap((member: any) => {
         const normalizedName = member.name || member.fullName || member.displayName || 'Board Member'
         const normalizedRole = member.role || member.position || member.title || ''
         const profileImage = member.profileImage || ''
-
-        const splitRoles = normalizedRole
-          .split(',')
-          .map((r: string) => r.trim())
-          .filter((r: string) => r.length > 0)
-
-        if (splitRoles.length <= 1) {
-          return [{
-            ...member,
-            name: normalizedName,
-            role: normalizedRole,
-            profileImage,
-          }]
-        }
-
-        return splitRoles.map((rolePart: string) => ({
-          ...member,
-          name: normalizedName,
-          role: rolePart,
-          profileImage,
-        }))
+        const splitRoles = normalizedRole.split(',').map((r: string) => r.trim()).filter((r: string) => r.length > 0)
+        if (splitRoles.length <= 1) return [{ ...member, name: normalizedName, role: normalizedRole, profileImage }]
+        return splitRoles.map((rolePart: string) => ({ ...member, name: normalizedName, role: rolePart, profileImage }))
       })
-
       const matchByRole = findByRole(normalizedBoardMembers)
-
-      setBoards((prev) => prev.map((boardItem) => {
+      setBoards(prev => prev.map(boardItem => {
         if (boardItem.id !== boardId) return boardItem
-
         return {
           ...boardItem,
-          executiveBoard: boardItem.executiveBoard.map((member) => {
+          executiveBoard: boardItem.executiveBoard.map(member => {
             const match = matchByRole(member.role)
             const fallback = getFallbackImageByRole(member.role)
             const hasMatch = !!match
-            return {
-              ...member,
-              name: match?.name || (hasMatch ? member.name : 'N/A'),
-              profileImage: match?.profileImage || member.profileImage || '',
-              imageUrl: match?.profileImage || member.profileImage || member.imageUrl || fallback,
-              _hasMatch: hasMatch, // Track if data came from API
-            }
+            return { ...member, name: match?.name || (hasMatch ? member.name : 'N/A'), profileImage: match?.profileImage || member.profileImage || '', imageUrl: match?.profileImage || member.profileImage || member.imageUrl || fallback, _hasMatch: hasMatch }
           }),
-          departmentBoard: boardItem.departmentBoard.map((member) => {
+          departmentBoard: boardItem.departmentBoard.map(member => {
             const match = matchByRole(member.role)
             const fallback = getFallbackImageByRole(member.role)
             const hasMatch = !!match
-            return {
-              ...member,
-              name: match?.name || (hasMatch ? member.name : 'N/A'),
-              profileImage: match?.profileImage || member.profileImage || '',
-              imageUrl: match?.profileImage || member.profileImage || member.imageUrl || fallback,
-              _hasMatch: hasMatch, // Track if data came from API
-            }
+            return { ...member, name: match?.name || (hasMatch ? member.name : 'N/A'), profileImage: match?.profileImage || member.profileImage || '', imageUrl: match?.profileImage || member.profileImage || member.imageUrl || fallback, _hasMatch: hasMatch }
           }),
         }
       }))
@@ -342,22 +273,15 @@ export default function MembersPage() {
   }
 
   useEffect(() => {
-    if (expandedBoard) {
-      loadBoardMembers(expandedBoard)
-    }
+    if (expandedBoard) loadBoardMembers(expandedBoard)
   }, [expandedBoard])
 
   useEffect(() => {
-    const loadAllBoards = async () => {
-      for (const board of boards) {
-        await loadBoardMembers(board.id)
-      }
-    }
-
-    void loadAllBoards()
+    void (async () => {
+      for (const board of boards) await loadBoardMembers(board.id)
+    })()
   }, [])
 
-  // Close expanded batch when clicking outside the content area
   const handleOutsideClick = useCallback((e: MouseEvent) => {
     if (expandedBatch && batchContentRef.current && !batchContentRef.current.contains(e.target as Node)) {
       setExpandedBatch(null)
@@ -369,224 +293,88 @@ export default function MembersPage() {
     return () => document.removeEventListener('mousedown', handleOutsideClick)
   }, [handleOutsideClick])
 
-  const [boards, setBoards] = useState<Board[]>([
-    {
-      id: '25-26',
-      name: 'Board 25-26',
-      year: '2025-2026',
-      imageUrl: '/batch.jpeg',
-      executiveBoard: [
-        { name: 'BOARD MEMBER', role: 'CFO', imageUrl: '/batch.jpeg' },
-        { name: 'BOARD MEMBER', role: 'President', imageUrl: '/batch.jpeg' },
-        { name: 'BOARD MEMBER', role: 'Vice President', imageUrl: '/batch.jpeg' },
-      ],
-      departmentBoard: [
-        { name: 'BOARD MEMBER', role: 'MD Events', imageUrl: '/batch.jpeg' },
-        { name: 'BOARD MEMBER', role: 'MD Marketing', imageUrl: '/batch.jpeg' },
-        { name: 'BOARD MEMBER', role: 'MD People', imageUrl: '/batch.jpeg' },
-        { name: 'BOARD MEMBER', role: 'MD Finance & Operations', imageUrl: '/batch.jpeg' },
-        { name: 'BOARD MEMBER', role: 'MD Partnerships', imageUrl: '/batch.jpeg' },
-      ],
-    },
-    {
-      id: '24-25',
-      name: 'Board 24-25',
-      year: '2024-2025',
-      imageUrl: '/batch.jpeg',
-      executiveBoard: [
-        { name: 'SIMON BURMER', role: 'CFO', imageUrl: '/batch.jpeg' },
-        { name: 'ALI SERAG EL DIN', role: 'President', imageUrl: '/batch.jpeg' },
-        { name: 'DEFNE AYTUNA', role: 'Vice President', imageUrl: '/batch.jpeg' },
-      ],
-      departmentBoard: [
-        { name: 'MOHAMMED THABIT', role: 'MD Events', imageUrl: '/batch.jpeg' },
-        { name: 'PIOTR NOBIS', role: 'MD Marketing', imageUrl: '/batch.jpeg' },
-        { name: 'ANNA HELETYCH', role: 'MD People', imageUrl: '/batch.jpeg' },
-        { name: 'NIKLAS SIMAKOV', role: 'MD Finance & Operations', imageUrl: '/batch.jpeg' },
-        { name: 'MARIUS HEUMADER', role: 'MD Partnerships', imageUrl: '/batch.jpeg' },
-      ],
-    },
-  ])
-
-  // Extract unique batches and ensure older batches are always present
-  // Use consistent names like Winter/Summer to match your naming convention
   const defaultBatches = ['Winter 2021', 'Winter 2022', 'Summer 2022']
-  const allBatches = Array.from(
-    new Set([
-      ...members.map(member => member.batch),
-      ...defaultBatches,
-    ])
-  )
-    .filter(batch => batch)
-    .sort()
-    .reverse()
+  const allBatches = Array.from(new Set([...members.map(m => m.batch), ...defaultBatches]))
+    .filter(Boolean).sort().reverse()
 
-  // Extract unique study subjects
-  const allStudies = Array.from(
-    new Set(members.map(member => member.study).filter((study): study is string => !!study))
-  ).sort()
-
-  // Calculate analytics
-  const totalMembers = members.length
-  const maleMembers = members.filter(m => m.gender?.toLowerCase() === 'male').length
-  const femaleMembers = members.filter(m => m.gender?.toLowerCase() === 'female').length
-
-  // Fixed gender distribution as requested
   const malePercentage = 61
   const femalePercentage = 39
 
-  // Study topics distribution
-  const studyDistribution = members.reduce((acc, member) => {
-    if (member.study) {
-      acc[member.study] = (acc[member.study] || 0) + 1
-    }
-    return acc
-  }, {} as Record<string, number>)
-
-  // Top Study Fields (fixed)
   const topStudies = [
-    { study: 'Business Administration', count: 0, percentage: 35 },
-    { study: 'Computer Science', count: 0, percentage: 35 },
-    { study: 'Engineering', count: 0, percentage: 15 },
-    { study: 'Others', count: 0, percentage: 15 },
+    { study: 'Business Administration', percentage: 35 },
+    { study: 'Computer Science', percentage: 35 },
+    { study: 'Engineering', percentage: 15 },
+    { study: 'Others', percentage: 15 },
   ]
 
-  // Top Universities (fixed)
   const topUniversities = [
-    { university: 'TUM', count: 0, percentage: 65 },
-    { university: 'LMU', count: 0, percentage: 20 },
-    { university: 'HM', count: 0, percentage: 7 },
-    { university: 'AMD', count: 0, percentage: 3 },
-    { university: 'Others', count: 0, percentage: 5 },
+    { university: 'TUM', percentage: 65 },
+    { university: 'LMU', percentage: 20 },
+    { university: 'HM', percentage: 7 },
+    { university: 'Others', percentage: 8 },
   ]
 
-  // Mapping von Batch-Namen zu Bilddateinamen
   const batchImageMap: Record<string, string> = {
-    'ws21': 'WS21.jpg',
-    'ws22': 'WS22.jpg',
-    'ws23': 'WS23.JPG',
-    'ws24': 'WS24.JPG',
-    'ws25': 'WS25.JPG',
-    'ss22': 'SS22.jpg',
-    'ss23': 'SS23.JPG',
-    'ss24': 'SS24.jpg',
-    'ss25': 'SS25.jpg'
+    ws21: 'WS21.jpg', ws22: 'WS22.jpg', ws23: 'WS23.JPG', ws24: 'WS24.JPG', ws25: 'WS25.JPG',
+    ss22: 'SS22.jpg', ss23: 'SS23.JPG', ss24: 'SS24.jpg', ss25: 'SS25.jpg',
   }
 
-  // Funktion um Batch-Namen zu normalisieren (z.B. "Summer 2023" -> "ss23")
   function getBatchImageKey(batchName: string): string | null {
     const normalized = batchName.toLowerCase().trim()
-
-    // Versuche "Winter/Summer YYYY" Format zu matchen.
     const fullMatch = normalized.match(/^(winter|summer)\s+(\d{4})$/)
-    if (fullMatch) {
-      const semester = fullMatch[1] === 'winter' ? 'ws' : 'ss'
-      const year = fullMatch[2].slice(-2) // Letzte 2 Ziffern
-      return `${semester}${year}`
-    }
-
-    // Versuche "WS/SS YYYY" Format mit vierstelliger Jahreszahl zu matchen
+    if (fullMatch) return `${fullMatch[1] === 'winter' ? 'ws' : 'ss'}${fullMatch[2].slice(-2)}`
     const fourDigitMatch = normalized.match(/^(ws|ss)\s*(\d{4})$/)
-    if (fourDigitMatch) {
-      const semester = fourDigitMatch[1]
-      const year = fourDigitMatch[2].slice(-2)
-      return `${semester}${year}`
-    }
-
-    // Versuche "WS/SS YY" Format zu matchen
+    if (fourDigitMatch) return `${fourDigitMatch[1]}${fourDigitMatch[2].slice(-2)}`
     const shortMatch = normalized.match(/^(ws|ss)\s*(\d{2})$/)
-    if (shortMatch) {
-      return `${shortMatch[1]}${shortMatch[2]}`
-    }
-
+    if (shortMatch) return `${shortMatch[1]}${shortMatch[2]}`
     return null
   }
 
-  // Prüfe ob ein Batch ab WS21 ist
   function isAfterWS21(batchName: string): boolean {
     const normalized = batchName.toLowerCase().trim()
-
-    // Extrahiere Jahr und Semester
     let year: number | null = null
     let isWinter = false
-
     const fullMatch = normalized.match(/^(winter|summer)\s+(\d{4})$/)
-    if (fullMatch) {
-      year = parseInt(fullMatch[2].slice(-2))
-      isWinter = fullMatch[1] === 'winter'
-    }
-
+    if (fullMatch) { year = parseInt(fullMatch[2].slice(-2)); isWinter = fullMatch[1] === 'winter' }
     const shortMatch = normalized.match(/^(ws|ss)\s*(\d{2})$/)
-    if (shortMatch) {
-      year = parseInt(shortMatch[2])
-      isWinter = shortMatch[1] === 'ws'
-    }
-
+    if (shortMatch) { year = parseInt(shortMatch[2]); isWinter = shortMatch[1] === 'ws' }
     if (year === null) return false
-
-    // WS21 = Winter 2021 ist der Cutoff
-    // Alles ab WS21 soll angezeigt werden
     if (year > 21) return true
     if (year === 21 && isWinter) return true
-
     return false
   }
 
-  // Group members by batch for batch cards
-  const batchGroups = allBatches.map(batchName => {
-    const batchMembers = members.filter(m => m.batch === batchName)
+  const sortedBatches = allBatches.map(batchName => {
     const batchKey = getBatchImageKey(batchName)
     const shouldShowImage = isAfterWS21(batchName)
-
-    // Bestimme das Bild: Nur wenn nach WS21 UND ein Mapping existiert
-    let groupImageUrl = '/batch.jpeg' // Default
+    let groupImageUrl = '/ourMembers/hero.png'
     if (shouldShowImage && batchKey && batchImageMap[batchKey]) {
       groupImageUrl = `/ourMembers/batches_group_pictures/${batchImageMap[batchKey]}`
     }
-
     return {
       name: batchName,
       semester: batchName.split(' ')[0] || 'Batch',
       year: batchName.split(' ')[1] || '',
       groupImageUrl,
-      memberCount: batchMembers.length
+      memberCount: members.filter(m => m.batch === batchName).length,
     }
-  })
-
-  // Sort batches by year (newest first), then by semester
-  const sortedBatches = batchGroups.sort((a, b) => {
+  }).sort((a, b) => {
     const yearDiff = parseInt(b.year) - parseInt(a.year)
     if (yearDiff !== 0) return yearDiff
-    // If same year, Winter comes before Summer
     if (a.semester.toLowerCase().includes('winter') || a.semester.toLowerCase().startsWith('w')) return -1
     if (b.semester.toLowerCase().includes('winter') || b.semester.toLowerCase().startsWith('w')) return 1
     return 0
   })
 
-  // No filtering needed anymore, show all members in batches
-
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-2xl font-bold text-[#00002c]">Loading members...</p>
-        </div>
-      </main>
-    )
-  }
 
   return (
     <>
       <Script id="iframe-height-sender" strategy="afterInteractive">
         {`
           function sendHeight() {
-            const h = Math.max(
-              document.documentElement.scrollHeight,
-              document.body.scrollHeight
-            );
+            const h = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
             parent.postMessage({ type: "EMBED_HEIGHT", height: h }, "*");
           }
-
           window.addEventListener("load", sendHeight);
           const ro = new ResizeObserver(sendHeight);
           ro.observe(document.documentElement);
@@ -594,10 +382,11 @@ export default function MembersPage() {
         `}
       </Script>
 
-      <main className="min-h-screen bg-[#00002c]">
-        {/* Hero Section with Full-Width Image */}
+      <main className="min-h-screen bg-brand-dark-blue text-white overflow-x-hidden">
+
+        {/* ═══ HERO ═══ */}
         <Hero
-          backgroundImage="/ourMembers/hero.png"
+          backgroundImage="/ourNetwork/hero.png"
           title={
             <>
               START MUNICH
@@ -605,219 +394,158 @@ export default function MembersPage() {
               <span className="outline-text">MEMBERS</span>
             </>
           }
-          description="Meet the ambitious student entrepreneurs building the future of technology and innovation"
+          description="Meet the ambitious student entrepreneurs building the future of technology and innovation."
         >
-          {/* Statistics Boxes - Matching Startup Cards Style */}
           <div className="grid grid-cols-2 lg:flex lg:flex-col gap-4 lg:gap-6">
-            {/** Active Members Card **/}
             <HeroCard>
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
+                <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300">
                   {Math.floor(animatedActiveMembers)}
                 </span>
               </div>
               <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Active Members</p>
             </HeroCard>
-
-            {/** Alumni Card **/}
             <HeroCard>
               <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
+                <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300">
                   {Math.floor(animatedAlumniCount)}
                 </span>
-                <span className="text-xl lg:text-3xl font-bold text-[#d0006f]">+</span>
+                <span className="text-xl lg:text-3xl font-bold text-brand-pink">+</span>
               </div>
               <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Alumni</p>
             </HeroCard>
           </div>
         </Hero>
 
-        {/* Content Below Hero */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Join Our Community CTA
-          <div className="mb-16 relative">
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#d0006f]/20 via-[#00002c] to-[#d0006f]/10 border border-[#d0006f]/30 p-1">
-              <div className="absolute inset-0 bg-gradient-to-r from-[#d0006f]/20 via-transparent to-[#d0006f]/20 animate-pulse"></div>
-              
-              <div className="relative bg-[#00002c] rounded-xl p-8 md:p-12">
-                <div className="absolute top-10 right-10 w-32 h-32 bg-[#d0006f]/30 rounded-full blur-3xl animate-blob"></div>
-                <div className="absolute bottom-10 left-10 w-40 h-40 bg-[#d0006f]/20 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
-                
-                <div className="relative flex flex-col md:flex-row items-center justify-between gap-8">
-                  <div className="flex-1 text-center md:text-left">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#d0006f]/20 border border-[#d0006f]/40 rounded-full mb-4">
-                      <div className="w-2 h-2 bg-[#d0006f] rounded-full animate-pulse"></div>
-                      <span className="text-[#d0006f] font-bold text-xs tracking-widest uppercase">Applications Open</span>
-                    </div>
-                    
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-                      Become Part of{" "}
-                      <span className="no-stroke bg-gradient-to-r from-[#d0006f] via-pink-400 to-[#d0006f] bg-clip-text text-transparent animate-pulse">
-                        Our Community
-                      </span>
-                    </h2>
-                    
-                    <p className="text-lg text-gray-300 mb-6 max-w-2xl leading-relaxed">
-                      Join Munich's most vibrant student entrepreneur community and build your startup with like-minded founders.
-                    </p>
-                  </div>
-
-                  <div className="flex-shrink-0">
-                    <a
-                      href="/join-start/2026"
-                      className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#d0006f] to-pink-600 hover:from-[#d0006f] hover:to-[#d0006f] text-white font-bold text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#d0006f]/50 overflow-hidden"
-                    >
-                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
-                      <span className="relative">Apply Now</span>
-                      <svg className="relative w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </div>
+          {/* ═══ COMMUNITY ANALYTICS ═══ */}
+          <section ref={analyticsView.ref} className="py-12">
+            <div className={`mb-8 transition-all duration-700 ${analyticsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">By the Numbers</span>
+              <h2 className="text-3xl md:text-4xl font-black text-white mt-2">COMMUNITY ANALYTICS</h2>
             </div>
-          </div> */}
 
-          {/* Analytics Section */}
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-8">
-              COMMUNITY <span className="outline-text">ANALYTICS</span>
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Gender Distribution */}
-              <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-6 border border-white/20 hover:border-[#d0006f] transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/20">
-                <div className="mb-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                      <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-                      </svg>
-                    </div>
-                    <p className="text-sm text-gray-400 font-medium">Gender Distribution</p>
-                  </div>
-                  <div className="space-y-3">
-                    <div>
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-xs text-gray-400">Male</span>
-                        <span className="text-sm font-bold text-white">{malePercentage}%</span>
-                      </div>
-                      <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-blue-500 to-blue-400 transition-all duration-1000"
-                          style={{ width: `${malePercentage}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-xs text-gray-400">Female</span>
-                        <span className="text-sm font-bold text-white">{femalePercentage}%</span>
-                      </div>
-                      <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-pink-500 to-pink-400 transition-all duration-1000"
-                          style={{ width: `${femalePercentage}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Study Topics Distribution */}
-              <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-6 border border-white/20 hover:border-[#d0006f] transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/20">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                    <svg className="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-700 delay-150 ${analyticsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              {/* Gender */}
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-8 hover:border-brand-pink/30 transition-all duration-300">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-brand-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                   </div>
-                  <p className="text-sm text-gray-400 font-medium">Top Study Fields</p>
+                  <span className="text-brand-pink text-xs font-bold tracking-[0.25em] uppercase">Gender Distribution</span>
                 </div>
-                <div className="space-y-2">
-                  {topStudies.map(({ study, count, percentage }, index) => (
-                    <div key={study} className="flex items-center justify-between">
-                      <span className="text-xs text-gray-300 truncate flex-1">{study}</span>
-                      <span className="text-xs font-bold text-[#d0006f] ml-2">{percentage}%</span>
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-gray-400 text-sm">Male</span>
+                      <span className="text-white font-bold text-sm">{malePercentage}%</span>
+                    </div>
+                    <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-1000" style={{ width: `${malePercentage}%` }} />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-gray-400 text-sm">Female</span>
+                      <span className="text-white font-bold text-sm">{femalePercentage}%</span>
+                    </div>
+                    <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-brand-pink to-pink-400 rounded-full transition-all duration-1000" style={{ width: `${femalePercentage}%` }} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Study Fields */}
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-8 hover:border-brand-pink/30 transition-all duration-300">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-brand-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                  </div>
+                  <span className="text-brand-pink text-xs font-bold tracking-[0.25em] uppercase">Top Study Fields</span>
+                </div>
+                <div className="space-y-3">
+                  {topStudies.map(({ study, percentage }) => (
+                    <div key={study} className="flex items-center justify-between gap-4">
+                      <span className="text-gray-300 text-sm truncate">{study}</span>
+                      <span className="text-brand-pink text-sm font-bold flex-shrink-0">{percentage}%</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* University Distribution */}
-              <div className="group relative backdrop-blur-lg bg-gradient-to-br from-white/10 to-white/5 p-6 border border-white/20 hover:border-[#d0006f] transition-all duration-300 hover:shadow-lg hover:shadow-[#d0006f]/20">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-                    <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              {/* Universities */}
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-8 hover:border-brand-pink/30 transition-all duration-300">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-brand-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                   </div>
-                  <p className="text-sm text-gray-400 font-medium">Top Universities</p>
+                  <span className="text-brand-pink text-xs font-bold tracking-[0.25em] uppercase">Top Universities</span>
                 </div>
-                <div className="space-y-2">
-                  {topUniversities.length > 0 ? (
-                    topUniversities.map(({ university, count, percentage }, index) => (
-                      <div key={university} className="flex items-center justify-between">
-                        <span className="text-xs text-gray-300 truncate flex-1">{university}</span>
-                        <span className="text-xs font-bold text-[#d0006f] ml-2">{percentage}%</span>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-xs text-gray-400">No university data available</p>
-                  )}
+                <div className="space-y-3">
+                  {topUniversities.map(({ university, percentage }) => (
+                    <div key={university} className="flex items-center justify-between gap-4">
+                      <span className="text-gray-300 text-sm truncate">{university}</span>
+                      <span className="text-brand-pink text-sm font-bold flex-shrink-0">{percentage}%</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* The Boards Section */}
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-8">
-              THE <span className="outline-text">BOARDS</span>
-            </h2>
+          {/* Divider */}
+          <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-            {/* Show expanded board if selected */}
+          {/* ═══ THE BOARDS ═══ */}
+          <section ref={boardsView.ref} className="py-12">
+            <div className={`mb-8 transition-all duration-700 ${boardsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Leadership</span>
+              <h2 className="text-3xl md:text-4xl font-black text-white mt-2">THE BOARDS</h2>
+            </div>
+
             {expandedBoard ? (
-              <div>
+              <div className={`transition-all duration-700 ${boardsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 <button
                   onClick={() => setExpandedBoard(null)}
-                  className="mb-6 text-white/60 hover:text-white flex items-center gap-2 transition-colors"
+                  className="mb-8 group flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                   </svg>
-                  Back to all boards
+                  <span className="text-sm font-medium">Back to all boards</span>
                 </button>
 
-                {boards.filter(board => board.id === expandedBoard).map((board) => (
-                  <div key={board.id} className="animate-in fade-in slide-in-from-top-4 duration-500 space-y-12">
+                {boards.filter(b => b.id === expandedBoard).map(board => (
+                  <div key={board.id} className="space-y-10">
                     {/* Executive Board */}
                     <div>
-                      <h3 className="text-2xl md:text-3xl font-black text-white mb-6 text-center">
-                        THE <span className="outline-text">EXECUTIVE BOARD</span>
-                      </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                        {board.executiveBoard.map((member, index) => (
-                          <div key={index} className="group relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg">
-                            <div className="relative">
+                      <div className="flex items-center gap-3 mb-6">
+                        <div className="w-6 h-px bg-brand-pink" />
+                        <span className="text-brand-pink text-xs font-bold tracking-[0.35em] uppercase">Executive Board</span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-4 max-w-2xl">
+                        {board.executiveBoard.map((member, i) => (
+                          <div key={i} className="group relative">
+                            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-brand-pink/30 transition-all duration-300">
                               {member.profileImage ? (
-                                <img
-                                  src={member.profileImage}
-                                  alt={member.name}
-                                  className="w-full h-64 object-cover"
-                                />
+                                <img src={member.profileImage} alt={member.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
                               ) : (
-                                <div className="w-full h-64 flex items-center justify-center bg-[#00002c] text-[#b8c4d8] text-4xl font-black opacity-90">
+                                <div className="w-full h-full flex items-center justify-center text-white/20 text-3xl font-black">
                                   {member.name === 'N/A' ? 'N/A' : getInitials(member.name)}
                                 </div>
                               )}
-                              <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-                              <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
-                                <h4 className="font-black text-white text-xl mb-1">{member.name}</h4>
-                                <p className="text-white text-sm font-semibold">{member.role}</p>
+                              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/20 to-transparent" />
+                              <div className="absolute bottom-0 left-0 right-0 p-4">
+                                <p className="font-black uppercase text-white text-xs leading-tight tracking-wide">{member.name}</p>
+                                <p className="text-brand-pink text-[10px] font-semibold mt-1 uppercase tracking-widest">{member.role}</p>
                               </div>
                             </div>
                           </div>
@@ -827,28 +555,25 @@ export default function MembersPage() {
 
                     {/* Department Board */}
                     <div>
-                      <h3 className="text-2xl md:text-3xl font-black text-white mb-6 text-center">
-                        THE <span className="outline-text">DEPARTMENT BOARD</span>
-                      </h3>
-                      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-6xl mx-auto">
-                        {board.departmentBoard.map((member, index) => (
-                          <div key={index} className="group relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg">
-                            <div className="relative">
+                      <div className="flex items-center gap-3 mb-6">
+                        <div className="w-6 h-px bg-brand-pink" />
+                        <span className="text-brand-pink text-xs font-bold tracking-[0.35em] uppercase">Department Board</span>
+                      </div>
+                      <div className="grid grid-cols-5 gap-4 max-w-6xl">
+                        {board.departmentBoard.map((member, i) => (
+                          <div key={i} className="group relative">
+                            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-brand-pink/30 transition-all duration-300">
                               {member.profileImage ? (
-                                <img
-                                  src={member.profileImage}
-                                  alt={member.name}
-                                  className="w-full h-48 object-cover"
-                                />
+                                <img src={member.profileImage} alt={member.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
                               ) : (
-                                <div className="w-full h-48 flex items-center justify-center bg-[#00002c] text-[#b8c4d8] text-3xl font-black opacity-90">
+                                <div className="w-full h-full flex items-center justify-center text-white/20 text-3xl font-black">
                                   {member.name === 'N/A' ? 'N/A' : getInitials(member.name)}
                                 </div>
                               )}
-                              <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-                              <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
-                                <h4 className="font-bold text-white text-sm mb-1">{member.name}</h4>
-                                <p className="text-pink-300 text-xs font-semibold">{member.role}</p>
+                              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/20 to-transparent" />
+                              <div className="absolute bottom-0 left-0 right-0 p-4">
+                                <p className="font-black uppercase text-white text-xs leading-tight tracking-wide">{member.name}</p>
+                                <p className="text-brand-pink text-[10px] font-semibold mt-1 uppercase tracking-widest">{member.role}</p>
                               </div>
                             </div>
                           </div>
@@ -859,221 +584,95 @@ export default function MembersPage() {
                 ))}
               </div>
             ) : (
-              /* Show grid of board cards */
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {boards.map((board) => (
+              <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 delay-150 ${boardsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                {boards.map((board, i) => (
                   <button
                     key={board.id}
                     onClick={() => setExpandedBoard(board.id)}
-                    className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20 text-left"
+                    className="group relative bg-white/5 border border-white/10 rounded-3xl overflow-hidden hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300 text-left"
+                    style={{ transitionDelay: `${i * 100}ms` }}
                   >
-                    <div className="relative overflow-hidden">
-                      <img
-                        src={board.imageUrl}
-                        alt={board.name}
-                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/60 to-transparent"></div>
-                      <div className="absolute bottom-0 left-0 right-0 p-4">
-                        <h3 className="text-xl md:text-2xl font-black text-white">{board.name}</h3>
-                        <p className="text-sm text-gray-300 mt-1">Click to view board members</p>
+                    <div className="relative overflow-hidden h-52">
+                      <img src={board.imageUrl} alt={board.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/50 to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 className="text-xl font-black text-white uppercase tracking-tight">{board.name}</h3>
+                        <p className="text-gray-400 text-xs mt-1 uppercase tracking-wider">{board.year}</p>
                       </div>
                     </div>
-                    <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                    <div className="px-6 py-4 flex items-center justify-between">
+                      <span className="text-gray-400 text-sm">{board.executiveBoard.length + board.departmentBoard.length} members</span>
+                      <span className="text-brand-pink text-sm font-medium group-hover:translate-x-1 transition-transform inline-block">View board →</span>
+                    </div>
                   </button>
                 ))}
               </div>
             )}
-          </div>
+          </section>
 
-          {/* The Advisory Boards Section */}
-          {showAdvisoryBoard && (
-            <div className="mb-16">
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-8">
-                <span className="outline-text">THE</span> ADVISORY BOARDS
-              </h2>
+          {/* Divider */}
+          <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-              {/* Show expanded board if selected */}
-              {expandedBoard ? (
-                <div>
-                  <button
-                    onClick={() => setExpandedBoard(null)}
-                    className="mb-6 text-white/60 hover:text-white flex items-center gap-2 transition-colors"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    Back to all boards
-                  </button>
-
-                  {boards.filter(board => board.id === expandedBoard).map((board) => (
-                    <div key={board.id} className="animate-in fade-in slide-in-from-top-4 duration-500 space-y-12">
-                      {/* Executive Board */}
-                      <div>
-                        <h3 className="text-2xl md:text-3xl font-black text-white mb-6 text-center">
-                          THE <span className="outline-text">EXECUTIVE BOARD</span>
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                          {board.executiveBoard.map((member, index) => (
-                            <div key={index} className="group relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg">
-                              <div className="relative">
-                                {member.profileImage ? (
-                                  <img
-                                    src={member.profileImage}
-                                    alt={member.name}
-                                    className="w-full h-64 object-cover"
-                                  />
-                                ) : (
-                                  <div className="w-full h-64 bg-[#00002c]" />
-                                )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-                                <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
-                                  <h4 className="font-black text-white text-xl mb-1">{member.name}</h4>
-                                  <p className="text-white text-sm font-semibold">{member.role}</p>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Department Board */}
-                      <div>
-                        <h3 className="text-2xl md:text-3xl font-black text-white mb-6 text-center">
-                          THE <span className="outline-text">DEPARTMENT BOARD</span>
-                        </h3>
-                        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-6xl mx-auto">
-                          {board.departmentBoard.map((member, index) => (
-                            <div key={index} className="group relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg">
-                              <div className="relative">
-                                {member.profileImage || member.imageUrl ? (
-                                  <img
-                                    src={member.profileImage || member.imageUrl}
-                                    alt={member.name}
-                                    className="w-full h-48 object-cover"
-                                  />
-                                ) : (
-                                  <div className="w-full h-48 bg-[#00002c]" />
-                                )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/50 to-transparent"></div>
-                                <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
-                                  <h4 className="font-bold text-white text-sm mb-1">{member.name}</h4>
-                                  <p className="text-pink-300 text-xs font-semibold">{member.role}</p>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                /* Show grid of board cards */
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {boards.map((board) => (
-                    <button
-                      key={board.id}
-                      onClick={() => setExpandedBoard(board.id)}
-                      className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20 text-left"
-                    >
-                      <div className="relative overflow-hidden">
-                        <img
-                          src={board.imageUrl}
-                          alt={board.name}
-                          className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c] via-[#00002c]/60 to-transparent"></div>
-                        <div className="absolute bottom-0 left-0 right-0 p-4">
-                          <h3 className="text-xl md:text-2xl font-black text-white">{board.name}</h3>
-                          <p className="text-sm text-gray-300 mt-1">Click to view board members</p>
-                        </div>
-                      </div>
-                      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                    </button>
-                  ))}
-                </div>
-              )}
+          {/* ═══ OUR BATCHES ═══ */}
+          <section ref={batchesView.ref} className="py-12">
+            <div className={`mb-8 transition-all duration-700 ${batchesView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Our Community</span>
+              <h2 className="text-3xl md:text-4xl font-black text-white mt-2">OUR BATCHES</h2>
             </div>
-          )}
 
-
-          {/* Batch Images Section */}
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-8">
-              OUR <span className="outline-text">BATCHES</span>
-            </h2>
-
-            {/* Show expanded batch full width if selected */}
             {expandedBatch ? (
               <div ref={batchContentRef}>
                 <button
                   onClick={() => setExpandedBatch(null)}
-                  className="mb-6 text-white/60 hover:text-white flex items-center gap-2 transition-colors"
+                  className="mb-8 group flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                   </svg>
-                  Back to all batches
+                  <span className="text-sm font-medium">Back to all batches</span>
                 </button>
 
-                {sortedBatches.filter(b => b.name === expandedBatch).map((batch) => (
-                  <div key={batch.name} className="space-y-6">
-                    <h3 className="text-2xl md:text-3xl font-black text-white text-left">
-                      {batch.name}
-                    </h3>
+                {sortedBatches.filter(b => b.name === expandedBatch).map(batch => (
+                  <div key={batch.name} className="space-y-8">
+                    <h3 className="text-3xl sm:text-4xl font-black text-white">{batch.name}</h3>
+
                     <div
                       onClick={() => setExpandedBatch(null)}
-                      className="w-full block relative bg-white/5 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20 cursor-pointer"
+                      className="w-full relative rounded-3xl overflow-hidden border border-white/10 cursor-pointer hover:border-brand-pink/30 transition-all duration-300"
                     >
-                      {/* Background Image - Large (80% viewport height) - Click to close */}
-                      <div className="relative w-full h-[70vh] md:h-[70vh] overflow-hidden bg-[#00002c]">
-                        <img
-                          src={batch.groupImageUrl}
-                          alt={batch.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/40 via-[#00002c]/10 to-transparent"></div>
+                      <div className="relative w-full h-[70vh] overflow-hidden bg-white/5">
+                        <img src={batch.groupImageUrl} alt={batch.name} className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue/40 via-transparent to-transparent" />
                       </div>
-
-                      {/* Hover effect accent */}
-                      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                     </div>
 
-                    {/* Members Grid */}
-                    <div className="mt-8 animate-in fade-in slide-in-from-top-4 duration-500">
+                    <div className="mt-6">
                       {loadingBatch ? (
-                        <div className="flex justify-center items-center py-12">
-                          <p className="text-white">Loading batch members...</p>
+                        <div className="flex justify-center items-center py-16">
+                          <div className="w-10 h-10 border-2 border-brand-pink/30 border-t-brand-pink rounded-full animate-spin" />
                         </div>
                       ) : (
-                        <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 gap-4">
-                          {batchMembers.map((member) => (
+                        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                          {batchMembers.map(member => (
                             <a
                               key={member.id}
                               href={member.linkedinUrl || '#'}
-                              target={member.linkedinUrl ? "_blank" : undefined}
-                              rel={member.linkedinUrl ? "noopener noreferrer" : undefined}
-                              className={`group relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg hover:scale-105 ${member.linkedinUrl ? 'cursor-pointer' : 'cursor-default'} z-10 aspect-square`}
+                              target={member.linkedinUrl ? '_blank' : undefined}
+                              rel={member.linkedinUrl ? 'noopener noreferrer' : undefined}
+                              className={`group relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300 aspect-square ${member.linkedinUrl ? 'cursor-pointer' : 'cursor-default'}`}
                             >
                               <div className="relative w-full h-full">
                                 {member.profileImage ? (
-                                  <img
-                                    src={member.profileImage}
-                                    alt={member.name}
-                                    className="w-full h-full object-cover"
-                                  />
+                                  <img src={member.profileImage} alt={member.name} className="w-full h-full object-cover" />
                                 ) : (
-                                  <div className="w-full h-full flex items-center justify-center bg-[#00002c] text-[#b8c4d8] text-4xl font-black opacity-90">
+                                  <div className="w-full h-full flex items-center justify-center text-white/20 text-3xl font-black">
                                     {getInitials(member.name)}
                                   </div>
                                 )}
-
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/40 via-[#00002c]/10 to-transparent"></div>
-
+                                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue/60 via-transparent to-transparent" />
                                 <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
-                                  <h4 className="font-black text-white text-xl mb-1">{member.name}</h4>
-                                  <p className="text-pink-300 text-xs font-semibold">{member.study || member.role}</p>
+                                  <p className="font-black text-white text-sm leading-tight">{member.name}</p>
+                                  <p className="text-brand-pink text-xs mt-0.5">{member.study || member.role}</p>
                                 </div>
                               </div>
                             </a>
@@ -1085,35 +684,37 @@ export default function MembersPage() {
                 ))}
               </div>
             ) : (
-              /* Show grid of batch thumbnails */
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {sortedBatches.map((batch) => (
-                  <div key={batch.name} className="space-y-3">
-                    <h3 className="text-xl md:text-2xl font-black text-white">
-                      {batch.name}
-                    </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {sortedBatches.map((batch, i) => (
+                  <div
+                    key={batch.name}
+                    className={`transition-all duration-700 ${batchesView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                    style={{ transitionDelay: `${150 + i * 80}ms` }}
+                  >
                     <button
                       onClick={() => setExpandedBatch(batch.name)}
-                      className="w-full group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d0006f] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[#d0006f]/20"
+                      className="w-full group relative rounded-3xl overflow-hidden border border-white/10 hover:border-brand-pink/30 transition-all duration-300"
                     >
-                      {/* Background Image */}
-                      <div className="relative h-[400px] overflow-hidden bg-[#00002c]">
+                      <div className="relative h-72 sm:h-80 overflow-hidden bg-white/5">
                         <img
                           src={batch.groupImageUrl}
                           alt={batch.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/40 via-[#00002c]/10 to-transparent"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue/70 via-transparent to-transparent" />
+                        <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
+                          <h3 className="text-xl sm:text-2xl font-black text-white">{batch.name}</h3>
+                          <span className="text-white/50 text-xs font-bold uppercase tracking-widest">Explore →</span>
+                        </div>
                       </div>
-
-                      {/* Hover effect accent */}
-                      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d0006f] to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                     </button>
                   </div>
                 ))}
               </div>
             )}
-          </div>        </div>
+          </section>
+
+        </div>
       </main>
     </>
   )

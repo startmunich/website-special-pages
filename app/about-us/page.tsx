@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useInView } from '@/lib/hooks'
 import Hero from '@/components/Hero'
+import HeroCard from '@/components/HeroCard'
 
 const executiveBoard = [
   { name: "Simon Burmer", role: "CFO", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face" },
@@ -29,8 +30,8 @@ const advisoryBoard = [
 ]
 
 const missionPartners = [
-  { name: "MTZ", description: "The Münchner Technologiezentrum provides office space, business coaching, and networking for young tech companies near Olympic Park — helping startups grow from first idea to market.", logo: "", image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop" },
-  { name: "Munich Startup", description: "Munich's official startup portal connecting founders with resources, investors, and the local ecosystem — mapping the city's innovation landscape and amplifying its startup scene.", logo: "", image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop" },
+  { name: "MTZ", description: "The Münchner Technologiezentrum provides office space, business coaching, and networking for young tech companies near Olympic Park — helping startups grow from first idea to market.", logo: "https://mtz.de/wp-content/uploads/2021/10/White-1.svg", image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop" },
+  { name: "Munich Startup", description: "Munich's official startup portal connecting founders with resources, investors, and the local ecosystem — mapping the city's innovation landscape and amplifying its startup scene.", logo: "https://www.munich-startup.de/wp-content/themes/munichstartup/dist/images/munich-startup-logo-w.svg", image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop" },
 ]
 
 export default function AboutUsPage() {
@@ -44,10 +45,33 @@ export default function AboutUsPage() {
   return (
     <main className="min-h-screen bg-brand-dark-blue text-white overflow-x-hidden">
       <Hero
-        backgroundImage="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=2070&auto=format&fit=crop"
-        title={<>About <span className="text-brand-pink">Us</span></>}
-        description="We empower the next generation of founders to dare, build, and belong."
-      />
+        backgroundImage="/aboutUs/hero.jpg"
+        title={
+          <>
+            WHO WE
+            <br />
+            <span className="outline-text">ARE</span>
+          </>
+        }
+        description="A student-led community at the heart of Munich's startup scene — turning bold ideas into real ventures since 2014."
+      >
+        <div className="grid grid-cols-2 lg:flex lg:flex-col gap-4 lg:gap-6">
+          <HeroCard>
+            <div className="flex items-baseline justify-center gap-2 mb-3">
+              <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300">10</span>
+              <span className="text-xl lg:text-3xl font-bold text-brand-pink">+</span>
+            </div>
+            <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Years Active</p>
+          </HeroCard>
+          <HeroCard>
+            <div className="flex items-baseline justify-center gap-2 mb-3">
+              <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300">300</span>
+              <span className="text-xl lg:text-3xl font-bold text-brand-pink">+</span>
+            </div>
+            <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Members</p>
+          </HeroCard>
+        </div>
+      </Hero>
 
       {/* ═══ 01 VISION & MISSION — bold editorial ═══ */}
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8" ref={missionView.ref}>

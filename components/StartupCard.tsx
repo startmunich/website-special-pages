@@ -41,7 +41,7 @@ export default function StartupCard({
     <Link
       href={`/startup-details/${id}`}
       onClick={() => sessionStorage.setItem('startups-scroll', String(window.scrollY))}
-      className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer block flex flex-col h-full"
+      className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer block flex flex-col h-full"
     >
       {/* Logo Section */}
       <div className="flex items-center justify-center bg-white p-8 h-48">

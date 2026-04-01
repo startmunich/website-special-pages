@@ -318,7 +318,7 @@ export default function PartnersPage() {
                       className="group relative"
                     >
                       {/* Logo Card - Reverted to Original Styling */}
-                      <div className="relative bg-white rounded-lg p-6 h-32 flex items-center justify-center transition-all duration-300 group-hover:shadow-xl group-hover:shadow-brand-pink/20 group-hover:scale-105 border-2 border-transparent group-hover:border-brand-pink">
+                      <div className="relative bg-white rounded-2xl p-6 h-32 flex items-center justify-center transition-all duration-300 group-hover:shadow-xl group-hover:shadow-brand-pink/20 group-hover:scale-105 border-2 border-transparent group-hover:border-brand-pink">
                         <img
                           src={partner.logoUrl}
                           alt={partner.name}

@@ -94,7 +94,7 @@ export default function MemberNetworkPage() {
 
       <main className="min-h-screen bg-[#00002c]">
         <Hero
-          backgroundImage="/ourMembers/hero.png"
+          backgroundImage="/memberNetwork/hero.png"
           title={
             <>
               MEMBER
@@ -107,13 +107,17 @@ export default function MemberNetworkPage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-20">
 
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-              Where Our <span className="text-[#d0006f]">Members</span> Work
-            </h2>
-            <p className="text-gray-400 text-lg">
-              Explore the companies and organizations where our community members are building their careers.
-            </p>
+          <div className="mb-16 w-full relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a1a3e] via-[#00002c] to-[#0d0d1f] border-2 border-[#d0006f]/50 shadow-2xl shadow-[#d0006f]/20 p-8 md:p-10">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d0006f]/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#d0006f]/5 rounded-full blur-3xl"></div>
+            <div className="relative">
+              <h2 className="text-xl md:text-2xl font-bold text-white mb-3">
+                Where Our Members Work
+              </h2>
+              <p className="text-gray-400">
+                Our community spans some of the world's leading companies, research institutions, and startups. From global tech giants to early-stage ventures, START Munich members are building careers that make an impact.
+              </p>
+            </div>
           </div>
 
           {categories.map((category) => (

@@ -73,6 +73,18 @@ export default function Navigation() {
                 <div className="absolute top-full left-0 mt-3 w-64 bg-brand-dark-blue border border-white/20 shadow-2xl rounded-xl overflow-hidden animate-fadeIn">
                   <div className="py-2">
                     <Link
+                      href="/about-us"
+                      onClick={() => setIsCommunityOpen(false)}
+                      className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        About Us
+                      </span>
+                    </Link>
+                                       <Link
                       href="/member-journey"
                       onClick={() => setIsCommunityOpen(false)}
                       className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
@@ -85,7 +97,7 @@ export default function Navigation() {
                       </span>
                     </Link>
                     <Link
-                      href="/about-us"
+                      href="/member-network"
                       onClick={() => setIsCommunityOpen(false)}
                       className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
                     >
@@ -93,9 +105,11 @@ export default function Navigation() {
                         <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
-                        About Us
+                        Member Network
                       </span>
                     </Link>
+
+
                     <Link
                       href="/members"
                       onClick={() => setIsCommunityOpen(false)}
@@ -132,18 +146,8 @@ export default function Navigation() {
                         Our Jobs
                       </span>
                     </Link>
-                    <Link
-                      href="/member-network"
-                      onClick={() => setIsCommunityOpen(false)}
-                      className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
-                    >
-                      <span className="flex items-center">
-                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                        Member Network
-                      </span>
-                    </Link>
+ 
+                    
                   </div>
                 </div>
               )}

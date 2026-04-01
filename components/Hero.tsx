@@ -27,7 +27,7 @@ export default function Hero({
                     <img
                         src={backgroundImage}
                         alt="Hero Background"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-[center_75%]"
                     />
                     <div className={cn("absolute inset-0 h-full", overlayOpacity)}></div>
                 </div>

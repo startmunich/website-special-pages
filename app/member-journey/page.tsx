@@ -446,7 +446,7 @@ export default function MemberJourneyPage() {
           <div className="relative group/timeline">
             <div
               ref={timelineSliderRef}
-              className="overflow-x-auto scrollbar-hide pb-12 cursor-grab active:cursor-grabbing"
+              className="overflow-x-auto scrollbar-hide pb-1 cursor-grab active:cursor-grabbing max-w-7xl mx-auto"
             >
               <div className="flex gap-5 min-w-max px-8 lg:px-20">
                 {timelineEvents.map((event, index) => (
@@ -503,7 +503,7 @@ export default function MemberJourneyPage() {
 
           {/* ═══ DEPARTMENTS ═══ */}
           <section>
-            <div className="mb-12">
+            <div className="mb-1">
               <span className="text-brand-pink text-sm font-bold tracking-[0.2em] uppercase block mb-1">Where You Fit</span>
               <h2 className="text-3xl md:text-4xl font-black text-white">
                 OUR <span className="outline-text">DEPARTMENTS</span>

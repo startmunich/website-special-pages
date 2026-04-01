@@ -29,9 +29,10 @@ interface Startup {
 // ── Images ──────────────────────────────────────────────────────────────────────
 
 const heroImages = [
-  "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop",
+  "/home/heroBackground/sprint.jpg",
+  "/home/heroBackground/isar.jpg",
+  "/home/heroBackground/rtsh.jpeg",
+  "/home/heroBackground/legal.jpg",
 ]
 
 // ── Fetch Partners ──────────────────────────────────────────────────────────────
@@ -391,7 +392,7 @@ export default function HomePage() {
             {/* Group Photo */}
             <div className="relative rounded-3xl overflow-hidden mb-16">
               <img
-                src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=2000&auto=format&fit=crop"
+                src="/home/Landing_Team_1.jpeg"
                 alt="START Munich Community"
                 className="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover"
               />
