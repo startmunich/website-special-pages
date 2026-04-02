@@ -30,8 +30,9 @@ const advisoryBoard = [
 ]
 
 const missionPartners = [
-  { name: "MTZ", description: "The Münchner Technologiezentrum provides office space, business coaching, and networking for young tech companies near Olympic Park — helping startups grow from first idea to market.", logo: "https://mtz.de/wp-content/uploads/2021/10/White-1.svg", image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop" },
-  { name: "Munich Startup", description: "Munich's official startup portal connecting founders with resources, investors, and the local ecosystem — mapping the city's innovation landscape and amplifying its startup scene.", logo: "https://www.munich-startup.de/wp-content/themes/munichstartup/dist/images/munich-startup-logo-w.svg", image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop" },
+  { name: "MTZ", description: "The Münchner Technologiezentrum provides office space, business coaching, and networking for young tech companies near Olympic Park — helping startups grow from first idea to market.", logo: "https://mtz.de/wp-content/uploads/2021/10/White-1.svg", image: "/aboutUs/missionPartner/mtz.jpg" },
+  { name: "Munich Startup", description: "Munich's official startup portal connecting founders with resources, investors, and the local ecosystem — mapping the city's innovation landscape and amplifying its startup scene.", logo: "https://www.munich-startup.de/wp-content/themes/munichstartup/dist/images/munich-startup-logo-w.svg", image: "/aboutUs/missionPartner/MunichStartup.png" },
+  { name: "CDTM & Manage and More", description: "CDTM and Manage and More are two of Munich's most respected entrepreneurship programs — one a joint TU Munich and LMU institution, the other UnternehmerTUM's flagship scholarship. Where they build structured paths for selected talents, we build the community around them. Different in form, aligned in mission: turning Munich's students into tomorrow's founders.", image: "/aboutUs/missionPartner/CDTM.png", image2: "/aboutUs/missionPartner/mandm.jpeg" },
 ]
 
 export default function AboutUsPage() {
@@ -101,7 +102,7 @@ export default function AboutUsPage() {
                 Empowering<br />founders of<br /><span className="text-brand-pink">tomorrow.</span>
               </h3>
               <p className="text-gray-400 text-base lg:text-lg leading-relaxed max-w-md">
-                We provide the education, network, and hands-on experience that transforms ambitious students into successful entrepreneurs.
+                A self-driven community where learning happens by doing — and every member gets what is needed to build things that truly matters.
               </p>
             </div>
 
@@ -116,23 +117,18 @@ export default function AboutUsPage() {
                 <span className="text-white/50 text-xs font-bold tracking-[0.35em] uppercase">Vision</span>
               </div>
               <h3 className="text-3xl lg:text-4xl xl:text-5xl font-black text-white leading-[1.05] mb-10">
-                Munich as<br />Europe&apos;s<br /><span className="text-white/30">startup hub.</span>
+                Being the launchpad for <span className="text-white/30">innovation</span>
               </h3>
               <p className="text-gray-400 text-base lg:text-lg leading-relaxed max-w-md">
-                We envision a Munich where every ambitious idea has the chance to become reality — a thriving ecosystem that rivals Silicon Valley.
+                We envision START as the place for ambitious students within the Munich ecosystem, where ideas are turned into real innovations.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      </div>
-
       {/* ═══ 02 MISSION PARTNERS ═══ */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8" ref={partnersView.ref}>
+      <section className="pt-1 pb-16 px-4 sm:px-6 lg:px-8" ref={partnersView.ref}>
         <div className="max-w-7xl mx-auto">
           <div className={`mb-10 transition-all duration-700 ${partnersView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <span className="text-brand-pink text-sm font-bold tracking-[0.35em] uppercase">Mission Partners</span>
@@ -142,17 +138,36 @@ export default function AboutUsPage() {
           <div className={`flex flex-col gap-6 transition-all duration-700 delay-200 ${partnersView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             {missionPartners.map((partner, i) => (
               <div key={i} className="group bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden hover:border-brand-pink/30 hover:bg-white/[0.05] transition-all duration-300 flex flex-col md:flex-row">
-                <div className="md:w-72 lg:w-80 flex-shrink-0 h-48 md:h-auto overflow-hidden">
-                  <img src={partner.image} alt={partner.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className={`md:w-72 lg:w-80 flex-shrink-0 overflow-hidden ${partner.image2 ? 'h-48 md:h-auto' : 'h-48'}`}>
+                  {partner.image2 ? (
+                    <div className="flex h-full">
+                      <img src={partner.image} alt={partner.name} className="w-1/2 h-full object-contain bg-white p-3 group-hover:scale-105 transition-transform duration-500" />
+                      <div className="w-1 bg-brand-dark-blue flex-shrink-0" />
+                      <img src={partner.image2} alt={partner.name} className="w-1/2 h-full object-contain bg-white p-3 group-hover:scale-105 transition-transform duration-500" />
+                    </div>
+                  ) : (
+                    <img src={partner.image} alt={partner.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  )}
                 </div>
                 <div className="p-8 lg:p-10 flex flex-col justify-center gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 group-hover:border-brand-pink/30 flex items-center justify-center transition-colors flex-shrink-0">
-                      {partner.logo
-                        ? <img src={partner.logo} alt={partner.name} className="w-7 h-7 object-contain" />
-                        : <span className="text-white/30 text-xs font-bold uppercase">{partner.name.charAt(0)}</span>
-                      }
-                    </div>
+                    {partner.image2 ? (
+                      <>
+                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 group-hover:border-brand-pink/30 flex items-center justify-center transition-colors flex-shrink-0">
+                          <img src={partner.image} alt="CDTM" className="w-7 h-7 object-contain" />
+                        </div>
+                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 group-hover:border-brand-pink/30 flex items-center justify-center transition-colors flex-shrink-0">
+                          <img src={partner.image2} alt="Manage and More" className="w-7 h-7 object-contain" />
+                        </div>
+                      </>
+                    ) : (
+                      <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 group-hover:border-brand-pink/30 flex items-center justify-center transition-colors flex-shrink-0">
+                        {partner.logo
+                          ? <img src={partner.logo} alt={partner.name} className="w-7 h-7 object-contain" />
+                          : <span className="text-white/30 text-xs font-bold uppercase">{partner.name.charAt(0)}</span>
+                        }
+                      </div>
+                    )}
                     <h3 className="font-black uppercase text-white tracking-wide text-lg">{partner.name}</h3>
                   </div>
                   <p className="text-gray-400 text-sm leading-relaxed">{partner.description}</p>
@@ -162,6 +177,12 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
+
+      {/* Divider */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      </div>
+
 
       {/* ═══ 03 EXECUTIVE BOARD — side-by-side layout ═══ */}
       <section className="pt-28 pb-4 px-4 sm:px-6 lg:px-8 relative" ref={execView.ref}>
@@ -185,8 +206,8 @@ export default function AboutUsPage() {
                   className={`flex flex-col items-center text-center group transition-all duration-500 ${execView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
                   style={{ transitionDelay: `${200 + i * 100}ms` }}
                 >
-                  <div className="w-38 h-50 lg:w-48 lg:h-[15rem] rounded-xl overflow-hidden border-2 border-white/10 group-hover:border-brand-pink/50 transition-colors mb-3">
-                    <img src={member.photo} alt={member.name} className="w-full h-full object-cover object-top" />
+                  <div className="w-38 h-50 lg:w-48 lg:h-[15rem] rounded-xl overflow-hidden border-2 border-white/10 pointer-events-none select-none mb-3">
+                    <img src={member.photo} alt={member.name} className="w-full h-full object-cover object-top" draggable={false} />
                   </div>
                   <p className="font-black uppercase text-white text-xs lg:text-sm tracking-wide leading-tight">{member.name}</p>
                   <p className="text-brand-pink text-[11px] lg:text-xs font-semibold mt-1 uppercase tracking-widest">{member.role}</p>
@@ -213,8 +234,8 @@ export default function AboutUsPage() {
                   className={`flex flex-col items-center text-center group transition-all duration-500 ${deptView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
                   style={{ transitionDelay: `${200 + i * 100}ms` }}
                 >
-                  <div className="w-36 h-48 lg:w-44 lg:h-56 rounded-xl overflow-hidden border-2 border-white/10 group-hover:border-brand-pink/50 transition-colors mb-3">
-                    <img src={member.photo} alt={member.name} className="w-full h-full object-cover object-top" />
+                  <div className="w-36 h-48 lg:w-44 lg:h-56 rounded-xl overflow-hidden border-2 border-white/10 pointer-events-none select-none mb-3">
+                    <img src={member.photo} alt={member.name} className="w-full h-full object-cover object-top" draggable={false} />
                   </div>
                   <p className="font-black uppercase text-white text-xs lg:text-sm tracking-wide leading-tight">{member.name}</p>
                   <p className="text-gray-500 text-[11px] lg:text-xs mt-1 uppercase tracking-wider">{member.role}</p>
