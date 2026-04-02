@@ -8,6 +8,7 @@ interface HeroProps {
     className?: string
     overlayOpacity?: string
     hideChildrenOnMobile?: boolean
+    imagePosition?: string
 }
 
 export default function Hero({
@@ -17,7 +18,8 @@ export default function Hero({
     children,
     className = "h-[650px]", // Before it was "h-[600px]"
     overlayOpacity = "bg-brand-dark-blue/70",
-    hideChildrenOnMobile = false
+    hideChildrenOnMobile = false,
+    imagePosition = "center 45%"
 }: HeroProps) {
     return (
         <>
@@ -27,7 +29,8 @@ export default function Hero({
                     <img
                         src={backgroundImage}
                         alt="Hero Background"
-                        className="w-full h-full object-cover object-[center_45%]"
+                        className="w-full h-full object-cover"
+                        style={{ objectPosition: imagePosition }}
                     />
                     <div className={cn("absolute inset-0 h-full", overlayOpacity)}></div>
                 </div>
