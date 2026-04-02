@@ -99,7 +99,7 @@ export default function MembersPage() {
   const boardsView = useInView(0.1)
   const batchesView = useInView(0.1)
 
-  const animatedActiveMembers = useAnimatedNumber(192, false, 1000)
+  const animatedActiveMembers = useAnimatedNumber(70, false, 1000)
   const animatedAlumniCount = useAnimatedNumber(800, false, 1000)
 
   const getInitials = (name: string) => {
@@ -386,7 +386,7 @@ export default function MembersPage() {
 
         {/* ═══ HERO ═══ */}
         <Hero
-          backgroundImage="/ourNetwork/hero.png"
+          backgroundImage="/ourMembers/hero.png"
           title={
             <>
               START MUNICH
@@ -402,6 +402,7 @@ export default function MembersPage() {
                 <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300">
                   {Math.floor(animatedActiveMembers)}
                 </span>
+                <span className="text-xl lg:text-3xl font-bold text-brand-pink">+</span>
               </div>
               <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Active Members</p>
             </HeroCard>

@@ -53,12 +53,12 @@ export default function AboutUsPage() {
             <span className="outline-text">ARE</span>
           </>
         }
-        description="A student-led community at the heart of Munich's startup scene — turning bold ideas into real ventures since 2014."
+        description="A student-led community at the heart of Munich's startup scene — turning bold ideas into real ventures since 2003."
       >
         <div className="grid grid-cols-2 lg:flex lg:flex-col gap-4 lg:gap-6">
           <HeroCard>
             <div className="flex items-baseline justify-center gap-2 mb-3">
-              <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300">10</span>
+              <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300">20</span>
               <span className="text-xl lg:text-3xl font-bold text-brand-pink">+</span>
             </div>
             <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Years Active</p>

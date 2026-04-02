@@ -64,7 +64,7 @@ const recurringEvents: RecurringEvent[] = [
     frequency: "Once per year",
     icon: "code",
     image: "/events/eventCards/summit.JPG",
-    category: "Workshop"
+    category: "Incubator"
   },
   {
     id: "info-event",
@@ -386,7 +386,7 @@ export default function EventsPage() {
                     left={calculateTimelinePosition(1, 15)}
                     color="#ff1744"
                     label="Pitch & Network"
-                    position="bottom"
+                    position="top"
                     hoveredEvent={hoveredEvent}
                     onHover={handleTimelineMarkerHover}
                     onLeave={() => setHoveredEvent(null)}
@@ -397,7 +397,7 @@ export default function EventsPage() {
                     left={calculateTimelinePosition(3, 15)}
                     color="#9c27b0"
                     label="Legal Hack"
-                    position="top"
+                    position="bottom"
                     hoveredEvent={hoveredEvent}
                     onHover={handleTimelineMarkerHover}
                     onLeave={() => setHoveredEvent(null)}
@@ -408,7 +408,7 @@ export default function EventsPage() {
                     left={calculateTimelinePosition(4, 15)}
                     color="#4a90e2"
                     label="Info Event"
-                    position="bottom"
+                    position="top"
                     hoveredEvent={hoveredEvent}
                     onHover={handleTimelineMarkerHover}
                     onLeave={() => setHoveredEvent(null)}
@@ -504,7 +504,7 @@ export default function EventsPage() {
                   </div>
                   <div className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.04] rounded-full">
                     <div className="w-2.5 h-2.5 bg-[#ff9800] rounded-full"></div>
-                    <span className="text-xs text-gray-300 font-medium">Workshops</span>
+                    <span className="text-xs text-gray-300 font-medium">Incubator</span>
                   </div>
                   <div className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.04] rounded-full">
                     <div className="w-2.5 h-2.5 bg-[#4a90e2] rounded-full"></div>
@@ -631,7 +631,7 @@ export default function EventsPage() {
                   </div>
                   <div className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.04] rounded-full">
                     <div className="w-2.5 h-2.5 rounded-full bg-[#ff9800]"></div>
-                    <span className="text-xs text-gray-300 font-medium">Workshops</span>
+                    <span className="text-xs text-gray-300 font-medium">Incubator</span>
                   </div>
                   <div className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.04] rounded-full">
                     <div className="w-2.5 h-2.5 rounded-full bg-[#4a90e2]"></div>

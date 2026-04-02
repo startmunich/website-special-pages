@@ -297,25 +297,18 @@ export default function Navigation() {
                     Member Journey
                   </Link>
                   <Link
-                    href="/members"
-                    className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Our Members
-                  </Link>
-                  <Link
-                    href="/jobs"
-                    className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Our Jobs
-                  </Link>
-                  <Link
                     href="/member-network"
                     className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Member Network
+                  </Link>
+                  <Link
+                    href="/members"
+                    className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Our Members
                   </Link>
                 </div>
               )}
