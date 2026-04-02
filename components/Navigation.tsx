@@ -6,15 +6,21 @@ import Image from 'next/image'
 
 export default function Navigation() {
   const [isCommunityOpen, setIsCommunityOpen] = useState(false)
+  const [isPartnerOpen, setIsPartnerOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobileCommunityOpen, setIsMobileCommunityOpen] = useState(false)
+  const [isMobilePartnerOpen, setIsMobilePartnerOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const partnerDropdownRef = useRef<HTMLDivElement>(null)
 
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsCommunityOpen(false)
+      }
+      if (partnerDropdownRef.current && !partnerDropdownRef.current.contains(event.target as Node)) {
+        setIsPartnerOpen(false)
       }
     }
 
@@ -123,18 +129,6 @@ export default function Navigation() {
                       </span>
                     </Link>
                     <Link
-                      href="/partners"
-                      onClick={() => setIsCommunityOpen(false)}
-                      className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
-                    >
-                      <span className="flex items-center">
-                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                        Our Partners
-                      </span>
-                    </Link>
-                    <Link
                       href="/jobs"
                       onClick={() => setIsCommunityOpen(false)}
                       className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
@@ -167,22 +161,77 @@ export default function Navigation() {
               EVENTS
             </Link>
 
-            <Link
-              href="/for-partners"
-              className="text-white font-bold text-base hover:text-brand-pink transition-colors uppercase tracking-wide"
+            {/* Partner Dropdown */}
+            <div
+              ref={partnerDropdownRef}
+              className="relative"
             >
-              FOR PARTNERS
-            </Link>
+              <button
+                onClick={() => setIsPartnerOpen(!isPartnerOpen)}
+                className="text-white font-bold text-base hover:text-brand-pink transition-colors uppercase tracking-wide flex items-center space-x-1"
+              >
+                <span>PARTNER</span>
+                <svg
+                  className={`w-4 h-4 transition-transform ${isPartnerOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {isPartnerOpen && (
+                <div className="absolute top-full left-0 mt-3 w-64 bg-brand-dark-blue border border-white/20 shadow-2xl rounded-xl overflow-hidden animate-fadeIn">
+                  <div className="py-2">
+                    <Link
+                      href="/for-partners"
+                      onClick={() => setIsPartnerOpen(false)}
+                      className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        For Partners
+                      </span>
+                    </Link>
+                    <Link
+                      href="/partners"
+                      onClick={() => setIsPartnerOpen(false)}
+                      className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        Our Partners
+                      </span>
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Apply Now Button - Desktop */}
+          {/* Apply Now / All Jobs Split Button - Desktop */}
           <div className="hidden lg:flex items-center">
-            <Link
-              href="/apply"
-              className="bg-white text-brand-dark-blue px-4 py-1.5 font-bold text-sm rounded hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase tracking-wide"
-            >
-              APPLY NOW
-            </Link>
+            <div className="flex rounded overflow-hidden gap-[2px] bg-brand-dark-blue">
+              <Link
+                href="/apply"
+                className="bg-white text-brand-dark-blue px-4 py-1.5 font-bold text-sm hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase tracking-wide"
+              >
+                APPLY NOW
+              </Link>
+              <a
+                href="https://jobs.startmunich.de/jobs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white text-brand-dark-blue px-4 py-1.5 font-bold text-sm hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase tracking-wide"
+              >
+                JOBS
+              </a>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -255,13 +304,6 @@ export default function Navigation() {
                     Our Members
                   </Link>
                   <Link
-                    href="/partners"
-                    className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Our Partners
-                  </Link>
-                  <Link
                     href="/jobs"
                     className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -295,22 +337,62 @@ export default function Navigation() {
               EVENTS
             </Link>
 
-            <Link
-              href="/for-partners"
-              className="block px-4 py-3 text-white font-bold text-sm hover:bg-white/5 hover:text-brand-pink transition-colors uppercase"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              FOR PARTNERS
-            </Link>
+            {/* Mobile Partner Dropdown */}
+            <div>
+              <button
+                onClick={() => setIsMobilePartnerOpen(!isMobilePartnerOpen)}
+                className="w-full flex items-center justify-between px-4 py-3 text-white font-bold text-sm hover:bg-white/5 hover:text-brand-pink transition-colors uppercase"
+              >
+                <span>PARTNER</span>
+                <svg
+                  className={`w-4 h-4 transition-transform ${isMobilePartnerOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
 
-            {/* Apply Now Button - Mobile */}
-            <Link
-              href="/apply"
-              className="block mx-4 mt-4 text-center bg-white text-brand-dark-blue px-6 py-3 font-black text-sm rounded hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              APPLY NOW
-            </Link>
+              {isMobilePartnerOpen && (
+                <div className="bg-white/5 space-y-1">
+                  <Link
+                    href="/for-partners"
+                    className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    For Partners
+                  </Link>
+                  <Link
+                    href="/partners"
+                    className="block px-8 py-2 text-white text-sm hover:text-brand-pink transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Our Partners
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Apply Now / All Jobs Split Button - Mobile */}
+            <div className="flex mx-4 mt-4 rounded overflow-hidden gap-[2px] bg-brand-dark-blue">
+              <Link
+                href="/apply"
+                className="flex-1 text-center bg-white text-brand-dark-blue px-6 py-3 font-black text-sm hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                APPLY NOW
+              </Link>
+              <a
+                href="https://jobs.startmunich.de/jobs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 text-center bg-white text-brand-dark-blue px-6 py-3 font-black text-sm hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                JOBS
+              </a>
+            </div>
           </div>
         )}
       </div>

@@ -376,9 +376,9 @@ export default function ForPartnersPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-4">
               <div>
-                <p className="text-brand-pink text-sm font-bold tracking-[0.2em] uppercase mb-3">Trusted Partners</p>
+                <p className="text-brand-pink text-sm font-bold tracking-[0.2em] uppercase mb-3">Partners & Collaborators</p>
                 <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                  WITH WHOM <span className="outline-text">WORKED</span>
+                  WHO WE <span className="outline-text">WORK</span> WITH
                 </h2>
                 <p className="text-gray-400 text-lg max-w-3xl">
                   Trusted by leading companies and organizations
