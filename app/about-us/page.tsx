@@ -1,22 +1,22 @@
 "use client"
 
 import { useState } from 'react'
-import { useInView } from '@/lib/hooks'
+import { useInView, useAnimatedNumber } from '@/lib/hooks'
 import Hero from '@/components/Hero'
 import HeroCard from '@/components/HeroCard'
 
 const executiveBoard = [
-  { name: "Simon Burmer", role: "CFO", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face" },
-  { name: "Ali Serag El Din", role: "President", photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=500&fit=crop&crop=face" },
-  { name: "Defne Aytuna", role: "Vice President", photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop&crop=face" },
+  { name: "Simon Burmer", role: "CFO", photo: "/aboutUs/Board/Simon.png" },
+  { name: "Ali Serag El Din", role: "President", photo: "/aboutUs/Board/Ali.png" },
+  { name: "Defne Aytuna", role: "Vice President", photo: "/aboutUs/Board/Defne.png" },
 ]
 
 const departmentBoard = [
-  { name: "Mohammed Thabit", role: "MD Events", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face" },
-  { name: "Piotr Nobis", role: "MD Marketing", photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face" },
-  { name: "Anna Heletych", role: "MD People", photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop&crop=face" },
-  { name: "Niklas Simakov", role: "MD Finance & Operations", photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=500&fit=crop&crop=face" },
-  { name: "Marius Heumader", role: "MD Partnerships", photo: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=400&h=500&fit=crop&crop=face" },
+  { name: "Mohammed Thabit", role: "MD Events", photo: "/aboutUs/Board/Mohammed.png" },
+  { name: "Piotr Nobis", role: "MD Marketing", photo: "/aboutUs/Board/Piotr.png" },
+  { name: "Anna Heletych", role: "MD People", photo: "/aboutUs/Board/Anna.png" },
+  { name: "Niklas Simakov", role: "MD Finance & Operations", photo: "/aboutUs/Board/Niklas.png" },
+  { name: "Marius Heumader", role: "MD Partnerships", photo: "/aboutUs/Board/Marius.png" },
 ]
 
 const advisoryBoard = [
@@ -35,7 +35,9 @@ const missionPartners = [
 ]
 
 export default function AboutUsPage() {
-  const [selectedAdvisor, setSelectedAdvisor] = useState<number | null>(null)
+  const [selectedAdvisor, setSelectedAdvisor] = useState<number | null>(0)
+  const animatedYears = useAnimatedNumber(20)
+  const animatedMembers = useAnimatedNumber(300)
   const missionView = useInView(0.1)
   const partnersView = useInView(0.1)
   const execView = useInView(0.1)
@@ -58,14 +60,14 @@ export default function AboutUsPage() {
         <div className="grid grid-cols-2 lg:flex lg:flex-col gap-4 lg:gap-6">
           <HeroCard>
             <div className="flex items-baseline justify-center gap-2 mb-3">
-              <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300">20</span>
+              <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300">{animatedYears}</span>
               <span className="text-xl lg:text-3xl font-bold text-brand-pink">+</span>
             </div>
             <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Years Active</p>
           </HeroCard>
           <HeroCard>
             <div className="flex items-baseline justify-center gap-2 mb-3">
-              <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300">300</span>
+              <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300">{animatedMembers}</span>
               <span className="text-xl lg:text-3xl font-bold text-brand-pink">+</span>
             </div>
             <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Members</p>
@@ -166,30 +168,28 @@ export default function AboutUsPage() {
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-pink/5 rounded-full blur-[160px] pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto">
-          <div className={`grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-12 lg:gap-16 items-start transition-all duration-700 ${execView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            {/* Left: sticky heading */}
-            <div className="lg:sticky lg:top-28">
+          <div className={`grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-12 lg:gap-16 items-center transition-all duration-700 ${execView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            {/* Left: heading */}
+            <div>
               <span className="text-brand-pink text-xs font-bold tracking-[0.4em] uppercase block mb-4">Meet the Team</span>
-              <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-none tracking-tight mb-6">
+              <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-none tracking-tight">
                 THE<br />EXECUTIVE<br />BOARD
               </h2>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
-                Leading START Munich&apos;s strategic direction and day-to-day operations.
-              </p>
             </div>
 
             {/* Right: portrait cards */}
-            <div className={`grid grid-cols-2 sm:grid-cols-3 gap-4 transition-all duration-700 delay-200 ${execView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              {executiveBoard.map((member) => (
-                <div key={member.name} className="group relative">
-                  <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-brand-pink/30 transition-all duration-300">
-                    <img src={member.photo} alt={member.name} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#05112a] via-[#05112a]/30 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-5">
-                      <p className="font-black uppercase text-white text-sm leading-tight tracking-wide">{member.name}</p>
-                      <p className="text-brand-pink text-xs font-semibold mt-1 uppercase tracking-widest">{member.role}</p>
-                    </div>
+            <div className={`flex flex-wrap mr-9 justify-center lg:justify-between gap-y-8 transition-all duration-700 delay-200 ${execView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              {executiveBoard.map((member, i) => (
+                <div
+                  key={member.name}
+                  className={`flex flex-col items-center text-center group transition-all duration-500 ${execView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+                  style={{ transitionDelay: `${200 + i * 100}ms` }}
+                >
+                  <div className="w-38 h-50 lg:w-48 lg:h-[15rem] rounded-xl overflow-hidden border-2 border-white/10 group-hover:border-brand-pink/50 transition-colors mb-3">
+                    <img src={member.photo} alt={member.name} className="w-full h-full object-cover object-top" />
                   </div>
+                  <p className="font-black uppercase text-white text-xs lg:text-sm tracking-wide leading-tight">{member.name}</p>
+                  <p className="text-brand-pink text-[11px] lg:text-xs font-semibold mt-1 uppercase tracking-widest">{member.role}</p>
                 </div>
               ))}
             </div>
@@ -213,7 +213,7 @@ export default function AboutUsPage() {
                   className={`flex flex-col items-center text-center group transition-all duration-500 ${deptView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
                   style={{ transitionDelay: `${200 + i * 100}ms` }}
                 >
-                  <div className="w-28 h-36 lg:w-32 lg:h-44 rounded-xl overflow-hidden border-2 border-white/10 group-hover:border-brand-pink/50 transition-colors mb-3">
+                  <div className="w-36 h-48 lg:w-44 lg:h-56 rounded-xl overflow-hidden border-2 border-white/10 group-hover:border-brand-pink/50 transition-colors mb-3">
                     <img src={member.photo} alt={member.name} className="w-full h-full object-cover object-top" />
                   </div>
                   <p className="font-black uppercase text-white text-xs lg:text-sm tracking-wide leading-tight">{member.name}</p>
