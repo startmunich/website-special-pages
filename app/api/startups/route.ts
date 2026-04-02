@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { Company, Founder } from '@/lib/types';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = process.env.NODE_ENV === 'development' ? 0 : 3600;
 
 const NOCODB_API_TOKEN = process.env.NOCODB_API_TOKEN;
 const NOCODB_BASE_URL = process.env.NOCODB_BASE_URL || 'https://ndb.startmunich.de';
@@ -97,7 +97,7 @@ export async function GET() {
           'xc-token': NOCODB_API_TOKEN,
           'Content-Type': 'application/json',
         },
-        cache: 'no-store',
+        next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 3600 },
       }
     );
 

@@ -25,6 +25,8 @@ interface Member {
   gender?: string
 }
 
+export const revalidate = process.env.NODE_ENV === 'development' ? 0 : 3600
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ batchId: string }> }
@@ -73,7 +75,7 @@ export async function GET(
           'Authorization': `Bearer ${API_KEY}`,
           'Content-Type': 'application/json',
         },
-        cache: 'no-store',
+        next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 3600 },
       }
     )
 

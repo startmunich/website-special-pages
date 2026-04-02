@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = process.env.NODE_ENV === 'development' ? 0 : 3600
 
 export async function GET(request: Request) {
   const url = new URL(request.url)
@@ -16,7 +16,7 @@ export async function GET(request: Request) {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${API_KEY}`,
         },
-        cache: 'no-store',
+        next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 3600 },
       }
     )
 
