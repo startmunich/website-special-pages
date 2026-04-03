@@ -143,9 +143,8 @@ export default function StartGoesBayAreaContent() {
 
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
                 <div className="mb-10">
-                    <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                        PROGRAM <span className="outline-text">OVERVIEW</span>
-                    </h2>
+                    <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Program</span>
+                    <h3 className="text-4xl sm:text-5xl font-black text-white mt-3">OVERVIEW</h3>
                     <p className="text-gray-400 text-lg">
                         Built from our 2026 trip plan: high-intensity learning, direct ecosystem access, and execution-focused outcomes.
                     </p>
@@ -164,8 +163,18 @@ export default function StartGoesBayAreaContent() {
                 </div>
             </section>
 
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+            <section className="pb-20">
                 <BayAreaYearTabs activeYear={activeYear} />
+            </section>
+
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
+                <div className="mb-10">
+                    <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Next Steps</span>
+                    <h3 className="text-4xl sm:text-5xl font-black text-white mt-3">GET IN TOUCH</h3>
+                    <p className="text-gray-400 text-lg mt-3 max-w-3xl">
+                        If you want to collaborate, host a session, or support the program, this is where the conversation starts.
+                    </p>
+                </div>
             </section>
 
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
