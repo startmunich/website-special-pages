@@ -3,12 +3,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
     bayAreaYearContent,
-    type BayAreaVisit,
-    type BayAreaWeekGroup,
-    type BayAreaYearId,
 } from '@/lib/startGoesBayAreaData'
 import MemberCard from '@/components/MemberCard'
-import BayAreaYearPreview from '@/components/BayAreaYearPreview'
+import BayAreaYearPreview from './BayAreaYearPreview'
+import type { BayAreaVisit, BayAreaWeekGroup, BayAreaYearId } from '../types'
 
 interface Member {
     id: number
@@ -181,7 +179,6 @@ export default function BayAreaYearTabs({ activeYear }: BayAreaYearTabsProps) {
                                                                 </div>
 
                                                                 <p className="text-gray-300 mt-1">{visit.description}</p>
-                                                                {visit.note ? <p className="text-gray-400 mt-1">{visit.note}</p> : null}
                                                             </>
                                                         )
 

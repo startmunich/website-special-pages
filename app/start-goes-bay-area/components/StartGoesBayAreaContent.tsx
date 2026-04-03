@@ -2,15 +2,15 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import CTA from '@/components/CTA'
-import BayAreaYearTabs from '@/components/BayAreaYearTabs'
+import BayAreaYearTabs from './BayAreaYearTabs'
 import Hero from '@/components/Hero'
 import HeroCard from '@/components/HeroCard'
 import {
     bayAreaHeroHighlights,
     bayAreaOverviewItems,
     bayAreaYearContent,
-    type BayAreaYearId,
 } from '@/lib/startGoesBayAreaData'
+import type { BayAreaYearId } from '../types'
 
 const HERO_BACKGROUND_BY_YEAR: Record<BayAreaYearId, string> = {
     '2025': '/bayarea/years/2025.jpg',
