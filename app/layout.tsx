@@ -69,7 +69,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen bg-brand-dark-blue">
         <Navigation />
         <main className="flex-grow">
           {children}
