@@ -212,7 +212,7 @@ export default function AboutUsPage() {
             </div>
 
             {/* Right: portrait cards */}
-            <div className={`flex flex-wrap lg:mr-9 justify-center lg:justify-between gap-x-8 gap-y-8 transition-all duration-700 delay-200 ${execView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <div className={`grid grid-cols-2 lg:flex lg:flex-wrap lg:mr-9 justify-center lg:justify-between gap-x-8 gap-y-8 transition-all duration-700 delay-200 ${execView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
               {executiveBoard.map((member, i) => (
                 <div
                   key={member.name}
@@ -240,7 +240,7 @@ export default function AboutUsPage() {
               <span className="text-brand-pink text-xs font-bold tracking-[0.35em] uppercase">Department Board</span>
             </div>
 
-            <div className="flex flex-wrap justify-between gap-y-8 gap-x-4">
+            <div className="grid grid-cols-2 lg:flex lg:flex-wrap lg:justify-between gap-y-8 gap-x-4">
               {departmentBoard.map((member, i) => (
                 <div
                   key={member.name}
