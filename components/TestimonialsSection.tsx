@@ -1,5 +1,6 @@
 
 import React from 'react'
+import Image from 'next/image'
 
 export interface TestimonialItem {
     id: string
@@ -44,10 +45,12 @@ export default function TestimonialsSection({
                     >
                         {/* Image */}
                         <div className="relative h-64 w-full overflow-hidden">
-                            <img
+                            <Image
                                 src={item.image}
                                 alt={item.name}
-                                className="w-full h-full object-cover"
+                                fill
+                                unoptimized
+                                className="object-cover"
                             />
                         </div>
 

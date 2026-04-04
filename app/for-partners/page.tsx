@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, type ReactNode } from 'react'
+import Image from 'next/image'
 import Script from 'next/script'
 import Hero from "@/components/Hero"
 import HeroCard from "@/components/HeroCard"
@@ -338,11 +339,12 @@ export default function ForPartnersPage() {
         >
           {/* MD Partnerships Card */}
           <HeroCard>
-            <div className="mb-4 mx-auto w-40 h-40 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-brand-pink/50 transition-all duration-300">
-              <img
+            <div className="mb-4 mx-auto relative w-40 h-40 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-brand-pink/50 transition-all duration-300">
+              <Image
                 src="/partners/md-partnerships.jpg"
                 alt="MD Partnerships"
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
             </div>
             <h3 className="text-lg font-bold text-white mb-1">Marius Heumader</h3>
@@ -442,23 +444,30 @@ export default function ForPartnersPage() {
                   <div className="mb-6">
                     <div className="flex flex-wrap gap-3 mb-4">
                       <div className="w-full max-w-[160px] h-16 bg-white rounded-2xl flex items-center justify-center p-3 shadow-md">
-                        <img
+                        <Image
                           src="/partners/Logo_of_the_Technical_University_of_Munich.svg"
                           alt="TUM Logo"
+                          width={134}
+                          height={40}
                           className="max-w-full max-h-full object-contain"
+                          unoptimized
                         />
                       </div>
                       <div className="w-full max-w-[160px] h-16 bg-white rounded-2xl flex items-center justify-center p-3 shadow-md">
-                        <img
+                        <Image
                           src="/partners/LMU_Muenchen_Logo.svg.png"
                           alt="LMU Logo"
+                          width={134}
+                          height={40}
                           className="max-w-full max-h-full object-contain"
                         />
                       </div>
                       <div className="w-full max-w-[160px] h-16 bg-white rounded-2xl flex items-center justify-center p-3 shadow-md">
-                        <img
+                        <Image
                           src="/partners/HM_Logo.png"
                           alt="HM Logo"
+                          width={134}
+                          height={40}
                           className="max-w-full max-h-full object-contain"
                         />
                       </div>
@@ -594,6 +603,7 @@ export default function ForPartnersPage() {
 
 
           {/* Partner Testimonials */}
+          { false &&
           <TestimonialsSection
             title={<>
               PARTNER <span className="outline-text">TESTIMONIALS</span>
@@ -611,7 +621,7 @@ export default function ForPartnersPage() {
               logoAlt: t.partnerName
             }))}
           />
-
+          }
 
           {/* Pictures of Partners at Events */}
           <section>
@@ -653,19 +663,21 @@ export default function ForPartnersPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {eventPhotos.slice(photoIndex, photoIndex + 6).map((photo) => {
+              {eventPhotos.map((photo, index) => {
+                const isVisible = index >= photoIndex && index < photoIndex + 6
                 const Wrapper = photo.href ? 'a' : 'div'
                 const wrapperProps = photo.href ? { href: photo.href } : {}
                 return (
                   <Wrapper
                     key={photo.id}
                     {...wrapperProps}
-                    className="group relative overflow-hidden rounded-3xl aspect-video border border-white/10 hover:border-brand-pink/40 transition-all duration-300 block shadow-lg hover:shadow-brand-pink/10"
+                    className={`group relative overflow-hidden rounded-3xl aspect-video border border-white/10 hover:border-brand-pink/40 transition-all duration-300 block shadow-lg hover:shadow-brand-pink/10${!isVisible ? ' hidden' : ''}`}
                   >
-                    <img
+                    <Image
                       src={photo.url}
                       alt={photo.caption}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl">
                       <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -733,7 +745,7 @@ export default function ForPartnersPage() {
               <div className="absolute top-0 right-0 w-80 h-80 bg-brand-pink/10 rounded-full blur-[100px]"></div>
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-pink/5 rounded-full blur-[80px]"></div>
 
-              <div className="relative p-10 md:p-16">
+              <div className="relative p-8 md:p-10">
                 <div className="mx-auto max-w-2xl text-center">
                     <p className="text-brand-pink text-sm font-bold tracking-[0.2em] uppercase mb-4">Let's Connect</p>
                     <h3 className="text-3xl md:text-5xl font-black text-white mb-5">

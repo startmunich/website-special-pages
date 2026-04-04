@@ -33,8 +33,14 @@ const advisoryBoard = [
 const missionPartners = [
   { name: "MTZ", description: "The Münchner Technologiezentrum provides office space, business coaching, and networking for young tech companies near Olympic Park — helping startups grow from first idea to market.", logo: "https://mtz.de/wp-content/uploads/2021/10/White-1.svg", image: "/aboutUs/missionPartner/mtz.jpg" },
   { name: "Munich Startup", description: "Munich's official startup portal connecting founders with resources, investors, and the local ecosystem — mapping the city's innovation landscape and amplifying its startup scene.", logo: "https://www.munich-startup.de/wp-content/themes/munichstartup/dist/images/munich-startup-logo-w.svg", image: "/aboutUs/missionPartner/MunichStartup.png" },
-  { name: "CDTM & Manage and More", description: "CDTM and Manage and More are two of Munich's most respected entrepreneurship programs — one a joint TU Munich and LMU institution, the other UnternehmerTUM's flagship scholarship. Where they build structured paths for selected talents, we build the community around them. Different in form, aligned in mission: turning Munich's students into tomorrow's founders.", image: "/aboutUs/missionPartner/CDTM.png", image2: "/aboutUs/missionPartner/mandm.jpeg" },
+  { name: "CDTM and Manage & More", descriptionParts: [
+    { text: "CDTM and Manage & More share our mission in empowering the next generation of founders in Munich. " },
+    { text: "START Munich and CDTM / M&M are not complementary. We are a community that encourages learning by doing, while they are educational programs that provide structured curriculum. ", pink: true },
+    { text: "Many of our best members also join CDTM or M&M, handling the intensive time commitment coming from being part of both." },
+  ], image: "/aboutUs/missionPartner/CDTM.png", image2: "/aboutUs/missionPartner/mandm.jpeg" },
 ]
+
+const showAdvisoryBoard = process.env.NEXT_PUBLIC_SHOW_ADVISORY_BOARD === 'true'
 
 export default function AboutUsPage() {
   const [selectedAdvisor, setSelectedAdvisor] = useState<number | null>(0)
@@ -133,36 +139,36 @@ export default function AboutUsPage() {
         <div className="max-w-7xl mx-auto">
           <div className={`mb-10 transition-all duration-700 ${partnersView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <span className="text-brand-pink text-sm font-bold tracking-[0.35em] uppercase">Mission Partners</span>
-            <p className="text-gray-500 text-base mt-2 max-w-lg">Organisations who share our mission and support us in building Munich&apos;s next generation of founders.</p>
+            <p className="text-gray-500 text-base mt-2">Organisations who share our mission and support us in building Munich&apos;s next generation of founders.</p>
           </div>
 
           <div className={`flex flex-col gap-6 transition-all duration-700 delay-200 ${partnersView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             {missionPartners.map((partner, i) => (
-              <div key={i} className="group bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden hover:border-brand-pink/30 hover:bg-white/[0.05] transition-all duration-300 flex flex-col md:flex-row">
+              <div key={i} className="bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden flex flex-col md:flex-row">
                 <div className={`md:w-72 lg:w-80 flex-shrink-0 overflow-hidden relative ${partner.image2 ? 'h-48 md:h-auto' : 'h-48'}`}>
                   {partner.image2 ? (
                     <div className="flex h-full">
-                      <Image src={partner.image} alt={partner.name} width={200} height={150} className="w-1/2 h-full object-contain bg-white p-3 group-hover:scale-105 transition-transform duration-500" />
+                      <Image src={partner.image} alt={partner.name} width={200} height={150} className="w-1/2 h-full object-contain bg-white p-3" />
                       <div className="w-1 bg-brand-dark-blue flex-shrink-0" />
-                      <Image src={partner.image2} alt={partner.name} width={200} height={150} className="w-1/2 h-full object-contain bg-white p-3 group-hover:scale-105 transition-transform duration-500" />
+                      <Image src={partner.image2} alt={partner.name} width={200} height={150} className="w-1/2 h-full object-contain bg-white p-3" />
                     </div>
                   ) : (
-                    <Image src={partner.image} alt={partner.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <Image src={partner.image} alt={partner.name} fill className="object-cover" />
                   )}
                 </div>
                 <div className="p-8 lg:p-10 flex flex-col justify-center gap-4">
                   <div className="flex items-center gap-4">
                     {partner.image2 ? (
                       <>
-                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 group-hover:border-brand-pink/30 flex items-center justify-center transition-colors flex-shrink-0">
+                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0">
                           <Image src={partner.image} alt="CDTM" width={28} height={28} className="object-contain" />
                         </div>
-                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 group-hover:border-brand-pink/30 flex items-center justify-center transition-colors flex-shrink-0">
+                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0">
                           <Image src={partner.image2} alt="Manage and More" width={28} height={28} className="object-contain" />
                         </div>
                       </>
                     ) : (
-                      <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 group-hover:border-brand-pink/30 flex items-center justify-center transition-colors flex-shrink-0">
+                      <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0">
                         {partner.logo
                           ? <Image src={partner.logo} alt={partner.name} width={28} height={28} className="object-contain" />
                           : <span className="text-white/30 text-xs font-bold uppercase">{partner.name.charAt(0)}</span>
@@ -171,7 +177,13 @@ export default function AboutUsPage() {
                     )}
                     <h3 className="font-black uppercase text-white tracking-wide text-lg">{partner.name}</h3>
                   </div>
-                  <p className="text-gray-400 text-sm leading-relaxed">{partner.description}</p>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    {'descriptionParts' in partner
+                      ? partner.descriptionParts.map((part, i) => (
+                          <span key={i} className={part.pink ? 'text-brand-pink' : undefined}>{part.text}</span>
+                        ))
+                      : partner.description}
+                  </p>
                 </div>
               </div>
             ))}
@@ -248,6 +260,7 @@ export default function AboutUsPage() {
       </section>
 
       {/* ═══ 05 ADVISORY BOARD — thumbnail grid with expandable detail ═══ */}
+      {showAdvisoryBoard && (
       <section className="pt-4 pb-28 px-4 sm:px-6 lg:px-8" ref={advView.ref}>
         <div className="max-w-7xl mx-auto">
           <div className={`flex items-center gap-3 mb-12 transition-all duration-700 ${advView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
@@ -301,6 +314,7 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
+      )}
     </main>
   )
 }
