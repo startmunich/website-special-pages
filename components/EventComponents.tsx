@@ -36,12 +36,12 @@ export const EventCard = ({
       onClick={onClick}
       className={`
         flex-shrink-0
-        ${isFlagship ? 'w-[85%] sm:w-[340px]' : 'w-[80%] sm:w-[300px]'}
+        ${isFlagship ? 'w-[85%] sm:w-[340px]' : 'w-[65%] sm:w-[240px]'}
         group relative
         ${isFlagship ? 'bg-gradient-to-br from-[#d0006f]/10 via-white/5 to-[#d0006f]/5' : 'bg-white/5'}
         rounded-[1.75rem] overflow-hidden transition-all duration-500
         border-2 ${isHovered ? 'border-[#d0006f]' : 'border-transparent'}
-        ${isHovered ? 'scale-[1.02] shadow-2xl shadow-black/40' : 'shadow-xl shadow-black/20'}
+        ${onClick && isHovered ? 'scale-[1.02] shadow-2xl shadow-black/40' : 'shadow-xl shadow-black/20'}
         ${onClick ? 'cursor-pointer' : ''}
         ${className}
       `}
@@ -52,7 +52,7 @@ export const EventCard = ({
         <img
           src={event.image}
           alt={event.name}
-          className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out ${onClick ? 'group-hover:scale-110' : ''}`}
         />
 
         {/* Top gradient for category badge */}
@@ -65,15 +65,23 @@ export const EventCard = ({
       </div>
 
       {/* Text content area */}
-      <div className="px-6 py-4">
+      <div className="px-6 py-4 flex flex-col flex-1">
         <span className="inline-block text-[#d0006f] text-xs font-bold uppercase tracking-widest mb-2">{event.category}</span>
         <h3 className="text-lg font-black text-white mb-1 leading-tight">
           {event.name}
         </h3>
         <p className="text-white/40 text-xs font-medium mb-2">{event.month}</p>
-        <p className="text-gray-400 text-sm leading-relaxed">
+        <p className="text-gray-400 text-sm leading-relaxed flex-1">
           {event.description}
         </p>
+        {onClick && (
+          <div className="mt-4 pt-3 border-t border-white/10 flex items-center gap-1.5 text-white/50 text-xs font-medium">
+            <span>Learn more</span>
+            <svg className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </div>
+        )}
       </div>
     </div>
   )
