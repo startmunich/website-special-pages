@@ -181,11 +181,11 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
             <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-brand-dark-blue to-transparent z-10" />
             <div className="animate-scroll">
               {[...brandPartners, ...brandPartners].map((partner, i) => (
-                <div key={`${partner.id}-${i}`} className="inline-flex items-center justify-center mx-12 w-32 h-12">
+                <div key={`${partner.id}-${i}`} className="inline-flex items-center justify-center mx-9 h-[54px] opacity-80 hover:opacity-100 hover:-translate-y-px transition-all duration-200">
                   <img
                     src={partner.logoUrl}
                     alt={partner.name}
-                    className="w-full h-10 object-contain bg-white rounded p-1"
+                    className="h-[48px] w-auto max-w-[200px] object-contain"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement
                       target.style.display = 'none'

@@ -42,8 +42,13 @@ async function fetchFeaturedPartners(): Promise<Partner[]> {
                (featured === true || featured === 1 || String(featured).toLowerCase() === 'true')
       })
       .map((r: any) => {
-        let logoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(r.Name || 'Partner')}&size=300&background=4f46e5&color=fff&bold=true&font-size=0.4`
-        if (r.Logo?.[0]?.signedPath) logoUrl = `${NOCODB_BASE_URL}/${r.Logo[0].signedPath}`
+        const logos: any[] = r.Logo || []
+        // Some partners have two images uploaded; always use the last one so that
+        // a newer/preferred logo can be added as a second upload without removing the original.
+        const logo = logos.length > 0 ? logos[logos.length - 1] : null
+        const logoUrl = logo?.signedPath
+          ? `${NOCODB_BASE_URL}/${logo.signedPath}`
+          : `https://ui-avatars.com/api/?name=${encodeURIComponent(r.Name || 'Partner')}&size=300&background=4f46e5&color=fff&bold=true&font-size=0.4`
         return { id: r.Id || String(Math.random()), name: r.Name || 'Partner', category: r.Categrory || 'Other', logoUrl, featured: true }
       })
   } catch {
