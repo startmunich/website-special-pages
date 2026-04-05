@@ -7,17 +7,17 @@ import Hero from '@/components/Hero'
 import HeroCard from '@/components/HeroCard'
 
 const executiveBoard = [
-  { name: "Simon Burmer", role: "CFO", photo: "/aboutUs/Board/Simon.png" },
-  { name: "Ali Serag El Din", role: "President", photo: "/aboutUs/Board/Ali.png" },
-  { name: "Defne Aytuna", role: "Vice President", photo: "/aboutUs/Board/Defne.png" },
+  { name: "Simon Burmer", role: "CFO", photo: "/aboutUs/Board/Simon-opt.png" },
+  { name: "Ali Serag El Din", role: "President", photo: "/aboutUs/Board/Ali-opt.png" },
+  { name: "Defne Aytuna", role: "Vice President", photo: "/aboutUs/Board/Defne-opt.png" },
 ]
 
 const departmentBoard = [
-  { name: "Mohammed Thabit", role: "MD Events", photo: "/aboutUs/Board/Mohammed.png" },
-  { name: "Piotr Nobis", role: "MD Marketing", photo: "/aboutUs/Board/Piotr.png" },
-  { name: "Anna Heletych", role: "MD People", photo: "/aboutUs/Board/Anna.png" },
-  { name: "Niklas Simakov", role: "MD Finance & Operations", photo: "/aboutUs/Board/Niklas.png" },
-  { name: "Marius Heumader", role: "MD Partnerships", photo: "/aboutUs/Board/Marius.png" },
+  { name: "Mohammed Thabit", role: "MD Events", photo: "/aboutUs/Board/Mohammed-opt.png" },
+  { name: "Piotr Nobis", role: "MD Marketing", photo: "/aboutUs/Board/Piotr-opt.png" },
+  { name: "Anna Heletych", role: "MD People", photo: "/aboutUs/Board/Anna-opt.png" },
+  { name: "Niklas Simakov", role: "MD Finance & Operations", photo: "/aboutUs/Board/Niklas-opt.png" },
+  { name: "Marius Heumader", role: "MD Partnerships", photo: "/aboutUs/Board/Marius-opt.png" },
 ]
 
 const advisoryBoard = [
@@ -31,13 +31,13 @@ const advisoryBoard = [
 ]
 
 const missionPartners = [
-  { name: "MTZ", description: "The Münchner Technologiezentrum provides office space, business coaching, and networking for young tech companies near Olympic Park — helping startups grow from first idea to market.", logo: "https://mtz.de/wp-content/uploads/2021/10/White-1.svg", image: "/aboutUs/missionPartner/mtz.jpg" },
-  { name: "Munich Startup", description: "Munich's official startup portal connecting founders with resources, investors, and the local ecosystem — mapping the city's innovation landscape and amplifying its startup scene.", logo: "https://www.munich-startup.de/wp-content/themes/munichstartup/dist/images/munich-startup-logo-w.svg", image: "/aboutUs/missionPartner/MunichStartup.png" },
+  { name: "MTZ", description: "The Münchner Technologiezentrum provides office space, business coaching, and networking for young tech companies near Olympic Park — helping startups grow from first idea to market.", logo: "https://mtz.de/wp-content/uploads/2021/10/White-1.svg", image: "/aboutUs/missionPartner/mtz-opt.jpg" },
+  { name: "Munich Startup", description: "Munich's official startup portal connecting founders with resources, investors, and the local ecosystem — mapping the city's innovation landscape and amplifying its startup scene.", logo: "https://www.munich-startup.de/wp-content/themes/munichstartup/dist/images/munich-startup-logo-w.svg", image: "/aboutUs/missionPartner/MunichStartup-opt.png" },
   { name: "CDTM and Manage & More", descriptionParts: [
     { text: "CDTM and Manage & More share our mission in empowering the next generation of founders in Munich. " },
     { text: "START Munich and CDTM / M&M are not complementary. We are a community that encourages learning by doing, while they are educational programs that provide structured curriculum. ", pink: true },
     { text: "Many of our best members also join CDTM or M&M, handling the intensive time commitment coming from being part of both." },
-  ], image: "/aboutUs/missionPartner/CDTM.png", image2: "/aboutUs/missionPartner/mandm.jpeg" },
+  ], image: "/aboutUs/missionPartner/CDTM-opt.png", image2: "/aboutUs/missionPartner/mandm-opt.jpeg" },
 ]
 
 const showAdvisoryBoard = process.env.NEXT_PUBLIC_SHOW_ADVISORY_BOARD === 'true'
@@ -55,7 +55,7 @@ export default function AboutUsPage() {
   return (
     <main className="min-h-screen bg-brand-dark-blue text-white overflow-x-hidden">
       <Hero
-        backgroundImage="/aboutUs/hero.jpg"
+        backgroundImage="/aboutUs/hero-opt.jpg"
         title={
           <>
             WHO WE
@@ -153,7 +153,7 @@ export default function AboutUsPage() {
                       <Image src={partner.image2} alt={partner.name} width={200} height={150} className="w-1/2 h-full object-contain bg-white p-3" />
                     </div>
                   ) : (
-                    <Image src={partner.image} alt={partner.name} fill className="object-cover" />
+                    <Image src={partner.image} alt={partner.name} fill sizes="(max-width: 768px) 100vw, 320px" className="object-cover" />
                   )}
                 </div>
                 <div className="p-8 lg:p-10 flex flex-col justify-center gap-4">
@@ -220,7 +220,7 @@ export default function AboutUsPage() {
                   style={{ transitionDelay: `${200 + i * 100}ms` }}
                 >
                   <div className="relative w-36 h-48 lg:w-48 lg:h-[15rem] rounded-xl overflow-hidden border-2 border-white/10 pointer-events-none select-none mb-3">
-                    <Image src={member.photo} alt={member.name} fill className="object-cover object-top" draggable={false} />
+                    <Image src={member.photo} alt={member.name} fill sizes="(max-width: 1024px) 144px, 192px" className="object-cover object-top" draggable={false} />
                   </div>
                   <p className="font-black uppercase text-white text-xs lg:text-sm tracking-wide leading-tight">{member.name}</p>
                   <p className="text-brand-pink text-[11px] lg:text-xs font-semibold mt-1 uppercase tracking-widest">{member.role}</p>
@@ -248,7 +248,7 @@ export default function AboutUsPage() {
                   style={{ transitionDelay: `${200 + i * 100}ms` }}
                 >
                   <div className="relative w-36 h-48 lg:w-44 lg:h-56 rounded-xl overflow-hidden border-2 border-white/10 pointer-events-none select-none mb-3">
-                    <Image src={member.photo} alt={member.name} fill className="object-cover object-top" draggable={false} />
+                    <Image src={member.photo} alt={member.name} fill sizes="(max-width: 1024px) 144px, 192px" className="object-cover object-top" draggable={false} />
                   </div>
                   <p className="font-black uppercase text-white text-xs lg:text-sm tracking-wide leading-tight">{member.name}</p>
                   <p className="text-gray-500 text-[11px] lg:text-xs mt-1 uppercase tracking-wider">{member.role}</p>
@@ -279,7 +279,7 @@ export default function AboutUsPage() {
                 className={`group text-left transition-all duration-300 ${selectedAdvisor === i ? 'scale-[0.97]' : ''}`}
               >
                 <div className={`relative aspect-[3/4] rounded-xl overflow-hidden border-2 transition-colors duration-300 ${selectedAdvisor === i ? 'border-brand-pink' : 'border-white/10 hover:border-white/30'}`}>
-                  <Image src={member.photo} alt={member.name} fill className="object-cover object-top" />
+                  <Image src={member.photo} alt={member.name} fill sizes="(max-width: 768px) 25vw, 12vw" className="object-cover object-top" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#05112a]/80 via-transparent to-transparent" />
                 </div>
                 <p className={`font-bold uppercase text-xs tracking-wide leading-tight mt-2 transition-colors ${selectedAdvisor === i ? 'text-brand-pink' : 'text-white'}`}>{member.name}</p>
@@ -293,7 +293,7 @@ export default function AboutUsPage() {
             {selectedAdvisor !== null && (
               <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 lg:p-8 flex items-start gap-6">
                 <div className="hidden sm:block relative flex-shrink-0 w-20 h-24 rounded-xl overflow-hidden border-2 border-brand-pink">
-                  <Image src={advisoryBoard[selectedAdvisor].photo} alt={advisoryBoard[selectedAdvisor].name} fill className="object-cover object-top" />
+                  <Image src={advisoryBoard[selectedAdvisor].photo} alt={advisoryBoard[selectedAdvisor].name} fill sizes="80px" className="object-cover object-top" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between gap-4">

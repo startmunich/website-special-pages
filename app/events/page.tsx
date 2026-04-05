@@ -33,7 +33,7 @@ const recurringEvents: RecurringEvent[] = [
     month: "October",
     frequency: "Once per year",
     icon: "presentation",
-    image: "/events/eventCards/summit.JPG",
+    image: "/events/eventCards/summit-opt.jpg",
     category: "Pitch Event"
   },
   {
@@ -43,7 +43,7 @@ const recurringEvents: RecurringEvent[] = [
     month: "November",
     frequency: "Once per year",
     icon: "code",
-    image: "/events/eventCards/hack.JPG",
+    image: "/events/eventCards/hack-opt.jpg",
     category: "Hackathon"
   },
   {
@@ -53,7 +53,7 @@ const recurringEvents: RecurringEvent[] = [
     month: "March",
     frequency: "Once per year",
     icon: "code",
-    image: "/events/eventCards/legal.jpg",
+    image: "/events/eventCards/legal-opt.jpg",
     category: "Hackathon"
   },
   {
@@ -63,7 +63,7 @@ const recurringEvents: RecurringEvent[] = [
     month: "May",
     frequency: "Once per year",
     icon: "code",
-    image: "/events/eventCards/labs.JPG",
+    image: "/events/eventCards/labs-opt.jpg",
     category: "Incubator"
   },
   {
@@ -73,7 +73,7 @@ const recurringEvents: RecurringEvent[] = [
     month: "October & April",
     frequency: "Once per semester",
     icon: "info",
-    image: "/events/eventCards/info.JPG",
+    image: "/events/eventCards/info-opt.jpg",
     category: "Talk"
   },
   {
@@ -83,7 +83,7 @@ const recurringEvents: RecurringEvent[] = [
     month: "October & April",
     frequency: "Once per semester",
     icon: "stories",
-    image: "/events/eventCards/fail.JPG",
+    image: "/events/eventCards/fail-opt.jpg",
     category: "Talk"
   },
   {
@@ -93,7 +93,7 @@ const recurringEvents: RecurringEvent[] = [
     month: "January & June",
     frequency: "Once per semester",
     icon: "presentation",
-    image: "/events/eventCards/pitch.JPG",
+    image: "/events/eventCards/pitch-opt.jpg",
     category: "Pitch Event"
   }
 ]
@@ -259,7 +259,7 @@ export default function EventsPage() {
       <main className="min-h-screen bg-[#00002c]">
         {/* Hero Section */}
         <Hero
-          backgroundImage="/events/hero.jpg"
+          backgroundImage="/events/hero-opt.jpg"
           title={
             <>
               START MUNICH
@@ -304,7 +304,7 @@ export default function EventsPage() {
               {/* Background image */}
               <div className="absolute inset-0">
                 <img
-                  src="/events/eventCards/legal.jpg"
+                  src="/events/eventCards/legal-opt.jpg"
                   alt="Munich Hacking Legal"
                   className="w-full h-full object-cover"
                 />

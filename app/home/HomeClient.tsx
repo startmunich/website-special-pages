@@ -36,14 +36,14 @@ export interface Startup {
 // ── Images ──────────────────────────────────────────────────────────────────────
 
 const heroImages = [
-  "/home/heroBackground/sprint.jpg",
-  "/home/heroBackground/isar.jpg",
-  "/home/heroBackground/legal.jpg",
-  "/home/heroBackground/background2.jpg",
-  "/home/heroBackground/background.jpg",
-  "/home/heroBackground/background1.jpeg",
-  "/home/heroBackground/rtsh.jpeg",
-  "/home/heroBackground/background4.png",
+  "/home/heroBackground/sprint-opt.jpg",
+  "/home/heroBackground/isar-opt.jpg",
+  "/home/heroBackground/legal-opt.jpg",
+  "/home/heroBackground/background2-opt.jpg",
+  "/home/heroBackground/background-opt.jpg",
+  "/home/heroBackground/background1-opt.jpeg",
+  "/home/heroBackground/rtsh-opt.jpeg",
+  "/home/heroBackground/background4-opt.png",
 ]
 
 // ── Data ────────────────────────────────────────────────────────────────────────
@@ -204,7 +204,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
             {/* Group Photo */}
             <div className="relative rounded-3xl overflow-hidden mb-16 h-[300px] sm:h-[400px] lg:h-[500px]">
               <Image
-                src="/home/Landing_Team_1.jpeg"
+                src="/home/Landing_Team_1-opt.jpeg"
                 alt="START Munich Community"
                 fill
                 loading="lazy"
@@ -631,7 +631,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               <div className="relative">
                 <div className="rounded-3xl overflow-hidden border-2 border-white/10 relative h-[500px] lg:h-[600px]">
                   <Image
-                    src="/home/good.png"
+                    src="/home/good-opt.png"
                     alt="START Munich Event"
                     fill
                     loading="lazy"

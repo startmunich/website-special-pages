@@ -147,7 +147,7 @@ export default async function ForPartnersPage() {
       <main className="min-h-screen bg-brand-dark-blue">
         {/* Hero Section */}
         <Hero
-          backgroundImage="/partners/hero.JPG"
+          backgroundImage="/partners/hero-opt.jpg"
           hideChildrenOnMobile
           title={
             <>
@@ -162,7 +162,7 @@ export default async function ForPartnersPage() {
           <HeroCard>
             <div className="mb-4 mx-auto relative w-40 h-40 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-brand-pink/50 transition-all duration-300">
               <Image
-                src="/partners/md-partnerships.jpg"
+                src="/partners/md-partnerships-opt.jpg"
                 alt="MD Partnerships"
                 fill
                 className="object-cover"
@@ -276,7 +276,7 @@ export default async function ForPartnersPage() {
                       </div>
                       <div className="w-full max-w-[160px] h-16 bg-white rounded-2xl flex items-center justify-center p-3 shadow-md">
                         <Image
-                          src="/partners/LMU_Muenchen_Logo.svg.png"
+                          src="/partners/LMU_Muenchen_Logo.svg-opt.png"
                           alt="LMU Logo"
                           width={134}
                           height={40}
@@ -285,7 +285,7 @@ export default async function ForPartnersPage() {
                       </div>
                       <div className="w-full max-w-[160px] h-16 bg-white rounded-2xl flex items-center justify-center p-3 shadow-md">
                         <Image
-                          src="/partners/HM_Logo.png"
+                          src="/partners/HM_Logo-opt.png"
                           alt="HM Logo"
                           width={134}
                           height={40}

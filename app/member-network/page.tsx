@@ -94,7 +94,7 @@ export default function MemberNetworkPage() {
 
       <main className="min-h-screen bg-[#00002c]">
         <Hero
-          backgroundImage="/memberNetwork/hero.png"
+          backgroundImage="/memberNetwork/hero-opt.png"
           title={
             <>
               MEMBER

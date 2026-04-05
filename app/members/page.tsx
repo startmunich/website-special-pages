@@ -65,33 +65,33 @@ export default function MembersPage() {
   const batchContentRef = useRef<HTMLDivElement>(null)
   const [boards, setBoards] = useState<Board[]>([
     {
-      id: '25-26', name: 'Board 25-26', year: '2025-2026', imageUrl: '/ourMembers/hero.png',
+      id: '25-26', name: 'Board 25-26', year: '2025-2026', imageUrl: '/ourMembers/hero-opt.png',
       executiveBoard: [
-        { name: 'BOARD MEMBER', role: 'CFO', imageUrl: '/ourMembers/hero.png' },
-        { name: 'BOARD MEMBER', role: 'President', imageUrl: '/ourMembers/hero.png' },
-        { name: 'BOARD MEMBER', role: 'Vice President', imageUrl: '/ourMembers/hero.png' },
+        { name: 'BOARD MEMBER', role: 'CFO', imageUrl: '/ourMembers/hero-opt.png' },
+        { name: 'BOARD MEMBER', role: 'President', imageUrl: '/ourMembers/hero-opt.png' },
+        { name: 'BOARD MEMBER', role: 'Vice President', imageUrl: '/ourMembers/hero-opt.png' },
       ],
       departmentBoard: [
-        { name: 'BOARD MEMBER', role: 'MD Events', imageUrl: '/ourMembers/hero.png' },
-        { name: 'BOARD MEMBER', role: 'MD Marketing', imageUrl: '/ourMembers/hero.png' },
-        { name: 'BOARD MEMBER', role: 'MD People', imageUrl: '/ourMembers/hero.png' },
-        { name: 'BOARD MEMBER', role: 'MD Finance & Operations', imageUrl: '/ourMembers/hero.png' },
-        { name: 'BOARD MEMBER', role: 'MD Partnerships', imageUrl: '/ourMembers/hero.png' },
+        { name: 'BOARD MEMBER', role: 'MD Events', imageUrl: '/ourMembers/hero-opt.png' },
+        { name: 'BOARD MEMBER', role: 'MD Marketing', imageUrl: '/ourMembers/hero-opt.png' },
+        { name: 'BOARD MEMBER', role: 'MD People', imageUrl: '/ourMembers/hero-opt.png' },
+        { name: 'BOARD MEMBER', role: 'MD Finance & Operations', imageUrl: '/ourMembers/hero-opt.png' },
+        { name: 'BOARD MEMBER', role: 'MD Partnerships', imageUrl: '/ourMembers/hero-opt.png' },
       ],
     },
     {
-      id: '24-25', name: 'Board 24-25', year: '2024-2025', imageUrl: '/ourMembers/hero.png',
+      id: '24-25', name: 'Board 24-25', year: '2024-2025', imageUrl: '/ourMembers/hero-opt.png',
       executiveBoard: [
-        { name: 'SIMON BURMER', role: 'CFO', imageUrl: '/ourMembers/hero.png' },
-        { name: 'ALI SERAG EL DIN', role: 'President', imageUrl: '/ourMembers/hero.png' },
-        { name: 'DEFNE AYTUNA', role: 'Vice President', imageUrl: '/ourMembers/hero.png' },
+        { name: 'SIMON BURMER', role: 'CFO', imageUrl: '/ourMembers/hero-opt.png' },
+        { name: 'ALI SERAG EL DIN', role: 'President', imageUrl: '/ourMembers/hero-opt.png' },
+        { name: 'DEFNE AYTUNA', role: 'Vice President', imageUrl: '/ourMembers/hero-opt.png' },
       ],
       departmentBoard: [
-        { name: 'MOHAMMED THABIT', role: 'MD Events', imageUrl: '/ourMembers/hero.png' },
-        { name: 'PIOTR NOBIS', role: 'MD Marketing', imageUrl: '/ourMembers/hero.png' },
-        { name: 'ANNA HELETYCH', role: 'MD People', imageUrl: '/ourMembers/hero.png' },
-        { name: 'NIKLAS SIMAKOV', role: 'MD Finance & Operations', imageUrl: '/ourMembers/hero.png' },
-        { name: 'MARIUS HEUMADER', role: 'MD Partnerships', imageUrl: '/ourMembers/hero.png' },
+        { name: 'MOHAMMED THABIT', role: 'MD Events', imageUrl: '/ourMembers/hero-opt.png' },
+        { name: 'PIOTR NOBIS', role: 'MD Marketing', imageUrl: '/ourMembers/hero-opt.png' },
+        { name: 'ANNA HELETYCH', role: 'MD People', imageUrl: '/ourMembers/hero-opt.png' },
+        { name: 'NIKLAS SIMAKOV', role: 'MD Finance & Operations', imageUrl: '/ourMembers/hero-opt.png' },
+        { name: 'MARIUS HEUMADER', role: 'MD Partnerships', imageUrl: '/ourMembers/hero-opt.png' },
       ],
     },
   ])
@@ -113,11 +113,11 @@ export default function MembersPage() {
   const isPlaceholderImage = (url?: string) => {
     if (!url) return true
     const normalized = url.toLowerCase().trim()
-    return normalized === '/batch.jpeg' || normalized.endsWith('/batch.jpeg') ||
-      normalized === '/batch.jpg' || normalized.endsWith('/batch.jpg') ||
-      normalized === '/batch.png' || normalized.endsWith('/batch.png') ||
-      normalized === '/example.png' || normalized.endsWith('/example.png') ||
-      normalized === '/ourmembers/hero.png' || normalized.endsWith('/ourmembers/hero.png')
+    return normalized === '/batch-opt.jpeg' || normalized.endsWith('/batch-opt.jpeg') ||
+      normalized === '/batch-opt.jpg' || normalized.endsWith('/batch-opt.jpg') ||
+      normalized === '/batch-opt.png' || normalized.endsWith('/batch-opt.png') ||
+      normalized === '/example-opt.png' || normalized.endsWith('/example-opt.png') ||
+      normalized === '/ourmembers/hero-opt.png' || normalized.endsWith('/ourmembers/hero-opt.png')
   }
 
   useEffect(() => {
@@ -175,15 +175,15 @@ export default function MembersPage() {
   }
 
   const roleFallbackImages: Record<string, string> = {
-    cfo: '/ourMembers/hero.png', president: '/ourMembers/hero.png', 'vice president': '/ourMembers/hero.png',
-    'md events': '/ourMembers/hero.png', 'md marketing': '/ourMembers/hero.png', 'md people': '/ourMembers/hero.png',
-    'md finance operations': '/ourMembers/hero.png', 'md finance & operations': '/ourMembers/hero.png', 'md partnerships': '/ourMembers/hero.png',
+    cfo: '/ourMembers/hero-opt.png', president: '/ourMembers/hero-opt.png', 'vice president': '/ourMembers/hero-opt.png',
+    'md events': '/ourMembers/hero-opt.png', 'md marketing': '/ourMembers/hero-opt.png', 'md people': '/ourMembers/hero-opt.png',
+    'md finance operations': '/ourMembers/hero-opt.png', 'md finance & operations': '/ourMembers/hero-opt.png', 'md partnerships': '/ourMembers/hero-opt.png',
   }
 
   const getFallbackImageByRole = (role: string) =>
     roleFallbackImages[normalize(role)] ||
     Object.entries(roleFallbackImages).find(([key]) => normalize(role).includes(key))?.[1] ||
-    '/ourMembers/hero.png'
+    '/ourMembers/hero-opt.png'
 
   const termStartYearFromBoard = (board: Board) => {
     if (board.year && board.year.includes('-')) {
@@ -316,8 +316,8 @@ export default function MembersPage() {
   ]
 
   const batchImageMap: Record<string, string> = {
-    ws21: 'WS21.jpg', ws22: 'WS22.jpg', ws23: 'WS23.JPG', ws24: 'WS24.JPG', ws25: 'WS25.JPG',
-    ss22: 'SS22.jpg', ss23: 'SS23.JPG', ss24: 'SS24.jpg', ss25: 'SS25.jpg',
+    ws21: 'WS21-opt.jpg', ws22: 'WS22-opt.jpg', ws23: 'WS23-opt.jpg', ws24: 'WS24-opt.jpg', ws25: 'WS25-opt.jpg',
+    ss22: 'SS22-opt.jpg', ss23: 'SS23-opt.jpg', ss24: 'SS24-opt.jpg', ss25: 'SS25-opt.jpg',
   }
 
   function getBatchImageKey(batchName: string): string | null {
@@ -348,7 +348,7 @@ export default function MembersPage() {
   const sortedBatches = allBatches.map(batchName => {
     const batchKey = getBatchImageKey(batchName)
     const shouldShowImage = isAfterWS21(batchName)
-    let groupImageUrl = '/ourMembers/hero.png'
+    let groupImageUrl = '/ourMembers/hero-opt.png'
     if (shouldShowImage && batchKey && batchImageMap[batchKey]) {
       groupImageUrl = `/ourMembers/batches_group_pictures/${batchImageMap[batchKey]}`
     }
@@ -387,7 +387,7 @@ export default function MembersPage() {
 
         {/* ═══ HERO ═══ */}
         <Hero
-          backgroundImage="/ourMembers/hero.png"
+          backgroundImage="/ourMembers/hero-opt.png"
           title={
             <>
               START MUNICH
@@ -538,7 +538,7 @@ export default function MembersPage() {
                           <div key={i} className="group relative">
                             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-brand-pink/30 transition-all duration-300">
                               {member.profileImage ? (
-                                <Image src={member.profileImage} alt={member.name} fill className="object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+                                <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 15vw" className="object-cover object-top group-hover:scale-105 transition-transform duration-500" />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center text-white/20 text-3xl font-black">
                                   {member.name === 'N/A' ? 'N/A' : getInitials(member.name)}
@@ -566,7 +566,7 @@ export default function MembersPage() {
                           <div key={i} className="group relative">
                             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-brand-pink/30 transition-all duration-300">
                               {member.profileImage ? (
-                                <Image src={member.profileImage} alt={member.name} fill className="object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+                                <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 15vw" className="object-cover object-top group-hover:scale-105 transition-transform duration-500" />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center text-white/20 text-3xl font-black">
                                   {member.name === 'N/A' ? 'N/A' : getInitials(member.name)}
@@ -595,7 +595,7 @@ export default function MembersPage() {
                     style={{ transitionDelay: `${i * 100}ms` }}
                   >
                     <div className="relative overflow-hidden h-52">
-                      <Image src={board.imageUrl} alt={board.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <Image src={board.imageUrl} alt={board.name} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
                       <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/50 to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-6">
                         <h3 className="text-xl font-black text-white uppercase tracking-tight">{board.name}</h3>
@@ -643,7 +643,7 @@ export default function MembersPage() {
                       className="w-full relative rounded-3xl overflow-hidden border border-white/10 cursor-pointer hover:border-brand-pink/30 transition-all duration-300"
                     >
                       <div className="relative w-full h-[70vh] overflow-hidden bg-white/5">
-                        <Image src={batch.groupImageUrl} alt={batch.name} fill className="object-cover" />
+                        <Image src={batch.groupImageUrl} alt={batch.name} fill sizes="100vw" className="object-cover" />
                         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue/40 via-transparent to-transparent" />
                       </div>
                     </div>
@@ -669,7 +669,7 @@ export default function MembersPage() {
                             >
                               <div className="relative w-full h-full">
                                 {member.profileImage ? (
-                                  <Image src={member.profileImage} alt={member.name} fill className="object-cover" />
+                                  <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 33vw, 10vw" className="object-cover" />
                                 ) : (
                                   <div className="w-full h-full flex items-center justify-center text-white/20 text-3xl font-black">
                                     {getInitials(member.name)}
