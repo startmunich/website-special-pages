@@ -32,6 +32,7 @@ interface BoardMember {
   role: string
   imageUrl: string
   profileImage?: string
+  linkedinUrl?: string
   _hasMatch?: boolean
 }
 
@@ -65,7 +66,7 @@ export default function MembersPage() {
   const batchContentRef = useRef<HTMLDivElement>(null)
   const [boards, setBoards] = useState<Board[]>([
     {
-      id: '25-26', name: 'Board 25-26', year: '2025-2026', imageUrl: '/ourMembers/hero-opt.png',
+      id: '25-26', name: 'Board 25-26', year: '2025-2026', imageUrl: '/ourMembers/boads/boad26.jpeg',
       executiveBoard: [
         { name: 'BOARD MEMBER', role: 'CFO', imageUrl: '/ourMembers/hero-opt.png' },
         { name: 'BOARD MEMBER', role: 'President', imageUrl: '/ourMembers/hero-opt.png' },
@@ -80,7 +81,7 @@ export default function MembersPage() {
       ],
     },
     {
-      id: '24-25', name: 'Board 24-25', year: '2024-2025', imageUrl: '/ourMembers/hero-opt.png',
+      id: '24-25', name: 'Board 24-25', year: '2024-2025', imageUrl: '',
       executiveBoard: [
         { name: 'SIMON BURMER', role: 'CFO', imageUrl: '/ourMembers/hero-opt.png' },
         { name: 'ALI SERAG EL DIN', role: 'President', imageUrl: '/ourMembers/hero-opt.png' },
@@ -117,6 +118,7 @@ export default function MembersPage() {
       normalized === '/batch-opt.jpg' || normalized.endsWith('/batch-opt.jpg') ||
       normalized === '/batch-opt.png' || normalized.endsWith('/batch-opt.png') ||
       normalized === '/example-opt.png' || normalized.endsWith('/example-opt.png') ||
+      normalized === '/example.png' || normalized.endsWith('/example.png') ||
       normalized === '/ourmembers/hero-opt.png' || normalized.endsWith('/ourmembers/hero-opt.png')
   }
 
@@ -298,8 +300,8 @@ export default function MembersPage() {
   const allBatches = Array.from(new Set([...members.map(m => m.batch), ...defaultBatches]))
     .filter(Boolean).sort().reverse()
 
-  const malePercentage = 61
-  const femalePercentage = 39
+  const malePercentage = 59
+  const femalePercentage = 41
 
   const topStudies = [
     { study: 'Computer Science', percentage: 40 },
@@ -535,10 +537,10 @@ export default function MembersPage() {
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                         {board.executiveBoard.map((member, i) => (
-                          <div key={i} className="group relative">
-                            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-brand-pink/30 transition-all duration-300">
+                          <a key={i} href={member.linkedinUrl || '#'} target={member.linkedinUrl ? '_blank' : undefined} rel={member.linkedinUrl ? 'noopener noreferrer' : undefined} className={`relative${member.linkedinUrl ? ' cursor-pointer' : ' cursor-default'}`}>
+                            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-white/5 border border-white/10">
                               {member.profileImage ? (
-                                <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 15vw" className="object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+                                <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 15vw" className="object-cover object-top" />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center text-white/20 text-3xl font-black">
                                   {member.name === 'N/A' ? 'N/A' : getInitials(member.name)}
@@ -550,7 +552,7 @@ export default function MembersPage() {
                                 <p className="text-brand-pink text-[10px] font-semibold mt-1 uppercase tracking-widest">{member.role}</p>
                               </div>
                             </div>
-                          </div>
+                          </a>
                         ))}
                       </div>
                     </div>
@@ -563,10 +565,10 @@ export default function MembersPage() {
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                         {board.departmentBoard.map((member, i) => (
-                          <div key={i} className="group relative">
-                            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-brand-pink/30 transition-all duration-300">
+                          <a key={i} href={member.linkedinUrl || '#'} target={member.linkedinUrl ? '_blank' : undefined} rel={member.linkedinUrl ? 'noopener noreferrer' : undefined} className={`relative${member.linkedinUrl ? ' cursor-pointer' : ' cursor-default'}`}>
+                            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-white/5 border border-white/10">
                               {member.profileImage ? (
-                                <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 15vw" className="object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+                                <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 15vw" className="object-cover object-top" />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center text-white/20 text-3xl font-black">
                                   {member.name === 'N/A' ? 'N/A' : getInitials(member.name)}
@@ -578,7 +580,7 @@ export default function MembersPage() {
                                 <p className="text-brand-pink text-[10px] font-semibold mt-1 uppercase tracking-widest">{member.role}</p>
                               </div>
                             </div>
-                          </div>
+                          </a>
                         ))}
                       </div>
                     </div>
@@ -595,7 +597,13 @@ export default function MembersPage() {
                     style={{ transitionDelay: `${i * 100}ms` }}
                   >
                     <div className="relative overflow-hidden h-52">
-                      <Image src={board.imageUrl} alt={board.name} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                      {board.imageUrl ? (
+                        <Image src={board.imageUrl} alt={board.name} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-white/5 to-white/[0.02] flex items-center justify-center">
+                          <span className="text-white/10 text-6xl font-black tracking-tight">{board.year}</span>
+                        </div>
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/50 to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-6">
                         <h3 className="text-xl font-black text-white uppercase tracking-tight">{board.name}</h3>
@@ -671,8 +679,10 @@ export default function MembersPage() {
                                 {member.profileImage ? (
                                   <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 33vw, 10vw" className="object-cover" />
                                 ) : (
-                                  <div className="w-full h-full flex items-center justify-center text-white/20 text-3xl font-black">
-                                    {getInitials(member.name)}
+                                  <div className="w-full h-full flex items-center justify-center bg-white/5">
+                                    <span className="text-white/50 text-2xl font-black tracking-wider">
+                                      {getInitials(member.name)}
+                                    </span>
                                   </div>
                                 )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue/60 via-transparent to-transparent" />
