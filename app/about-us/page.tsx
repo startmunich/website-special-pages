@@ -127,7 +127,7 @@ export default function AboutUsPage() {
                 Being the launchpad for <span className="text-white/30">innovation</span>
               </h3>
               <p className="text-gray-400 text-base lg:text-lg leading-relaxed max-w-md">
-                We envision START as the place for ambitious students within the Munich ecosystem, where ideas are turned into real innovations.
+                We envision START as <i>the</i> place for ambitious students in Munich, where ideas are turned into real innovations.
               </p>
             </div>
           </div>
