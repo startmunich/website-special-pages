@@ -531,8 +531,8 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               {/* Left side - Text & Stats */}
               <div className="relative">
                 <p className="text-gray-300 text-lg leading-relaxed mb-16 max-w-md">
-                  We&apos;re a part of the sprawling START Network. This interconnection multiplies our potential across the world, allowing us to draw inspiration from diverse cultures, share insights, and create an ecosystem that nurtures collective progress.
-                </p>
+                 We are part of the START Network. At START Munich are one of the 22 START chapters across Europe and Latin America. Thus we not only have our local community, but also have access to a peer network of equally driven students around the world.
+                </p>  
 
                 {/* Globe illustration */}
                 <div className="absolute -bottom-10 -left-10 w-72 h-72 opacity-15">

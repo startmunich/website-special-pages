@@ -207,7 +207,7 @@ export default function AboutUsPage() {
             <div>
               <span className="text-brand-pink text-xs font-bold tracking-[0.4em] uppercase block mb-4">Meet the Team</span>
               <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-none tracking-tight">
-                THE<br />EXECUTIVE<br />BOARD
+                THE BOARD
               </h2>
             </div>
 
@@ -223,7 +223,7 @@ export default function AboutUsPage() {
                     <Image src={member.photo} alt={member.name} fill className="object-cover object-top" draggable={false} />
                   </div>
                   <p className="font-black uppercase text-white text-xs lg:text-sm tracking-wide leading-tight">{member.name}</p>
-                  <p className="text-brand-pink text-[11px] lg:text-xs font-semibold mt-1 uppercase tracking-widest">{member.role}</p>
+                  <p className="text-gray-500 text-[11px] lg:text-xs font-semibold mt-1 uppercase tracking-widest">{member.role}</p>
                 </div>
               ))}
             </div>
