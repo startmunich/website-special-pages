@@ -3,32 +3,9 @@ import Script from 'next/script'
 import Hero from "@/components/Hero"
 import HeroCard from "@/components/HeroCard"
 import PhotoGallery from './PhotoGallery'
+import { getAllPartners } from '@/lib/partners'
 
 export const revalidate = 3600
-
-interface Partner {
-  id: string
-  name: string
-  logoUrl: string
-  featured?: boolean
-}
-
-async function fetchPartners(): Promise<Partner[]> {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-    const response = await fetch(`${baseUrl}/api/partners`, {
-      next: { revalidate: 3600 },
-    })
-    if (!response.ok) {
-      console.error(`API error: ${response.status} ${response.statusText}`)
-      return []
-    }
-    return await response.json()
-  } catch (error) {
-    console.error('Error fetching partners:', error)
-    return []
-  }
-}
 
 const faqs = [
   {
@@ -123,7 +100,7 @@ const whyStartSpecial = [
 ]
 
 export default async function ForPartnersPage() {
-  const partners = await fetchPartners()
+  const partners = await getAllPartners()
 
   return (
     <>
