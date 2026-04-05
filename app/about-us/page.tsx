@@ -226,7 +226,7 @@ export default function AboutUsPage() {
                     <Image src={member.photo} alt={member.name} fill sizes="(max-width: 640px) 144px, 192px" className="object-cover object-top" draggable={false} />
                   </div>
                   <p className="font-black uppercase text-white text-xs lg:text-sm tracking-wide leading-tight group-hover:text-brand-pink transition-colors">{member.name}</p>
-                  <p className="text-brand-pink text-[11px] lg:text-xs font-semibold mt-1 uppercase tracking-widest">{member.role}</p>
+                  <p className="text-gray-500 text-[11px] lg:text-xs font-semibold mt-1 uppercase tracking-widest">{member.role}</p>
                 </a>
               ))}
             </div>
@@ -240,7 +240,7 @@ export default function AboutUsPage() {
           <div className={`bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 lg:p-10 transition-all duration-700 ${deptView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <div className="flex items-center gap-3 mb-8">
               <div className="w-6 h-px bg-brand-pink" />
-              <span className="text-brand-pink text-xs font-bold tracking-[0.35em] uppercase">Department Board</span>
+              <span className="text-brand-pink text-xs font-bold tracking-[0.35em] uppercase">The Department Board</span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 justify-items-center gap-y-8 gap-x-4">
