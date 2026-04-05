@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: "%s | START Munich",
   },
   description:
-    "START Munich is the largest student-run entrepreneurship community at TU Munich. We empower the next generation of founders to dare, build, and belong.",
+    "START Munich is the largest student-run entrepreneurship community in Munich. We empower the next generation of founders to dare, build, and belong.",
   metadataBase: new URL("https://www.startmunich.de"),
   alternates: {
     canonical: "/",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     siteName: "START Munich",
     title: "START Munich",
     description:
-      "START Munich is the largest student-run entrepreneurship community at TU Munich. We empower the next generation of founders to dare, build, and belong.",
+      "START Munich is the largest student-run entrepreneurship community in Munich. We empower the next generation of founders to dare, build, and belong.",
     images: [
       {
         url: "/startIcon.png",

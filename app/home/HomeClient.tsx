@@ -553,7 +553,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 {/* Stats */}
                 <div className="flex gap-8 sm:gap-16 relative z-10">
                   <div>
-                    <div className="text-5xl sm:text-6xl font-black text-white">21</div>
+                    <div className="text-5xl sm:text-6xl font-black text-white">22</div>
                     <div className="text-gray-400 text-sm">Cities</div>
                   </div>
                   <div>
@@ -575,11 +575,11 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-brand-dark-blue to-transparent z-10" />
 
                 <div className="mt-12 text-right animate-scroll-vertical">
-                  {['BERLIN', 'BARCELONA', 'HAMBURG', 'HELSINKI', 'LAUSANNE', 'LONDON', 'LIMA', 'LISBON', 'MAASTRICHT', 'MEXICO CITY', 'MILANO', 'MÜNCHEN', 'PARIS', 'NÜRNBERG', 'QUITO', 'SAO PAOLO', 'STUTTGART', 'VADUZ', 'VIENNA', 'WARSAW', 'ST. GALLEN', 'BERLIN', 'BARCELONA', 'HAMBURG', 'HELSINKI', 'LAUSANNE', 'LONDON', 'LIMA', 'LISBON', 'MAASTRICHT', 'MEXICO CITY', 'MILANO', 'MÜNCHEN', 'PARIS', 'NÜRNBERG', 'QUITO', 'SAO PAOLO', 'STUTTGART', 'VADUZ', 'VIENNA', 'WARSAW', 'ST. GALLEN'].map((city, i) => (
+                  {['BERLIN', 'BARCELONA', 'HAMBURG', 'HELSINKI', 'LAUSANNE', 'LONDON', 'LIMA', 'LISBON', 'MAASTRICHT', 'MEXICO CITY', 'MILANO', 'MUNICH', 'PARIS', 'NUREMBERG', 'QUITO', 'SAO PAOLO', 'STUTTGART', 'VADUZ', 'VIENNA', 'WARSAW', 'ST. GALLEN', 'BERLIN', 'BARCELONA', 'HAMBURG', 'HELSINKI', 'LAUSANNE', 'LONDON', 'LIMA', 'LISBON', 'MAASTRICHT', 'MEXICO CITY', 'MILANO', 'MUNICH', 'PARIS', 'NUREMBERG', 'QUITO', 'SAO PAOLO', 'STUTTGART', 'VADUZ', 'VIENNA', 'WARSAW', 'ST. GALLEN'].map((city, i) => (
                     <div
                       key={`${city}-${i}`}
                       className={`text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.2] ${
-                        city === 'MÜNCHEN' || (i % 21) % 4 === 3 ? 'text-brand-pink' :
+                        city === 'MUNICH' || (i % 21) % 4 === 3 ? 'text-brand-pink' :
                         (i % 21) % 4 === 0 ? 'bg-gradient-to-r from-gray-400 to-gray-200 bg-clip-text text-transparent' :
                         (i % 21) % 4 === 1 ? 'text-white' :
                         'bg-gradient-to-r from-gray-500 to-gray-300 bg-clip-text text-transparent'

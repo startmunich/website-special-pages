@@ -144,7 +144,7 @@ const startEvents: StartEvent[] = [
   {
     id: "monthly",
     title: "The Monthly",
-    description: "Every month all Munich Straties meet and get updated on START events or pitch their startups. Location: MTZ",
+    description: "Every month all Munich STARTies meet and get updated on START events or pitch their startups. Location: MTZ",
     category: "Meeting",
     frequency: "Monthly",
     icon: "📅",
@@ -157,7 +157,7 @@ const startEvents: StartEvent[] = [
   {
     id: "department-work",
     title: "Department Work",
-    description: "Work with your department. Be weekly in presence in the MTZ.",
+    description: "Work with your department. Meet weekly at the MTZ.",
     category: "Department",
     frequency: "Weekly",
     icon: "💼",
@@ -925,7 +925,7 @@ export default function MemberJourneyPage() {
             description="Start your entrepreneurial journey with START Munich today. Apply to become a member and experience our vibrant community."
             buttons={[
               { label: "Apply Now", href: "/apply" },
-              { label: "Learn More", href: "/about", variant: "secondary" }
+              { label: "Learn More", href: "/about-us", variant: "secondary" }
             ]}
           />
 
