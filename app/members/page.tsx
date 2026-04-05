@@ -102,7 +102,7 @@ export default function MembersPage() {
   const batchesView = useInView(0.1)
 
   const animatedActiveMembers = useAnimatedNumber(70, false, 1000)
-  const animatedAlumniCount = useAnimatedNumber(500, false, 1000)
+  const animatedAlumniCount = useAnimatedNumber(600, false, 1000)
 
   const getInitials = (name: string) => {
     const words = name.trim().split(/\s+/)
