@@ -732,7 +732,7 @@ export default function EventsPage() {
                       onClick={
                         event.id === 'legal-hack' ? () => window.open('https://www.hacking-legal.org/', '_blank')
                         : event.id === 'rtsh' ? () => window.open('https://hack.startmunich.de/events/rtsh', '_blank')
-                        : event.id === 'rtss' ? () => window.open('https://www.startmunich.de/events/rtss', '_blank')
+                        : event.id === 'rtss' ? () => window.open('https://summit.startmunich.de/events/rtss', '_blank')
                         : event.id === 'start-labs' ? () => window.open('https://www.startmunich.de', '_blank')
                         : undefined
                       }
