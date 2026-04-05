@@ -35,7 +35,7 @@ const missionPartners = [
   { name: "Munich Startup", description: "Munich's official startup portal connecting founders with resources, investors, and the local ecosystem — mapping the city's innovation landscape and amplifying its startup scene.", logo: "https://www.munich-startup.de/wp-content/themes/munichstartup/dist/images/munich-startup-logo-w.svg", image: "/aboutUs/missionPartner/MunichStartup.png" },
   { name: "CDTM and Manage & More", descriptionParts: [
     { text: "CDTM and Manage & More share our mission in empowering the next generation of founders in Munich. " },
-    { text: "START Munich and CDTM / M&M are not complementary. We are a community that encourages learning by doing, while they are educational programs that provide structured curriculum. ", pink: true },
+    { text: "START Munich and CDTM / M&M are complementary. We are a community that encourages learning by doing, while they are educational programs that provide structured curriculum. ", pink: true },
     { text: "Many of our best members also join CDTM or M&M, handling the intensive time commitment coming from being part of both." },
   ], image: "/aboutUs/missionPartner/CDTM.png", image2: "/aboutUs/missionPartner/mandm.jpeg" },
 ]
