@@ -159,7 +159,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               </h1>
 
               <p className={`text-lg sm:text-xl text-gray-200 max-w-lg mb-10 leading-relaxed transition-all duration-1000 delay-400 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                START Munich is the largest student-run entrepreneurship community at TU Munich.
+                START Munich is the largest student-run entrepreneurship community in Munich.
                 We empower the next generation of founders to dare, build, and belong.
               </p>
 

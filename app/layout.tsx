@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary",
     title: "START Munich – Europe's Student Entrepreneurship Community",
     description:
-      "The largest student-run entrepreneurship community at TU Munich.",
+      "The largest student-run entrepreneurship community in Munich.",
     images: ["/startIcon.png"],
   },
   icons: {
