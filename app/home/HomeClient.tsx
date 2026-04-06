@@ -185,7 +185,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                   <img
                     src={partner.logoUrl}
                     alt={partner.name}
-                    className="h-[48px] w-auto max-w-[200px] object-contain"
+                    className="h-[48px] w-auto max-w-[200px] object-contain grayscale"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement
                       target.style.display = 'none'

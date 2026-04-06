@@ -312,7 +312,7 @@ export default function EventsPage() {
               </div>
 
               {/* Content */}
-              <div className="relative p-8 md:p-14 flex flex-col lg:flex-row items-start lg:items-center gap-8">
+              <div className="relative p-8 md:p-12 flex flex-col lg:flex-row items-start lg:items-center gap-8">
                 <div className="flex-1">
                   {/* Badges */}
                   <div className="flex flex-wrap items-center gap-3 mb-5">
