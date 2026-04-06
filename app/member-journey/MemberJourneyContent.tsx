@@ -144,7 +144,7 @@ const startEvents: StartEvent[] = [
   {
     id: "monthly",
     title: "The Monthly",
-    description: "Every month all Munich STARTies meet and get updated on START events or pitch their startups. Location: MTZ",
+    description: "Each month all active members meet at MTZ to share updates, pitch their startups, and connect across the community.",
     category: "Meeting",
     frequency: "Monthly",
     icon: "📅",
@@ -157,7 +157,7 @@ const startEvents: StartEvent[] = [
   {
     id: "department-work",
     title: "Department Work",
-    description: "Work with your department. Meet weekly at the MTZ.",
+    description: "Meet with your department at our MTZ office to align on projects and progress.",
     category: "Department",
     frequency: "Weekly",
     icon: "💼",
@@ -688,7 +688,7 @@ export default function MemberJourneyPage() {
                 INTERNAL <span className="outline-text">EVENTS</span>
               </h2>
               <p className="text-gray-400 text-lg mt-2 max-w-xl">
-                Regular events and activities for our member community
+                Regular events and activities of our community
               </p>
             </div>
 
