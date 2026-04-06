@@ -275,20 +275,20 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
         </section>
 
         {/* ═══════════════════════════ FACTS & STARTUPS ═══════════════════════════ */}
-        <section ref={factsView.ref} className="relative py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <section ref={factsView.ref} className="relative py-28 px-4 sm:px-6 lg:px-8 overflow-hidden bg-white">
 
           <div className="relative max-w-7xl mx-auto">
             {/* Section header */}
             <div className={`mb-10 transition-all duration-700 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Our Startups</span>
-              <h2 className="text-5xl sm:text-6xl font-black text-white mt-3">THE FACTS</h2>
+              <span className="text-black text-sm font-medium tracking-[0.3em] uppercase">Already built by STARTies</span>
+              <h2 className="text-5xl sm:text-6xl font-black text-black mt-3">OUR TRACK RECORD</h2>
             </div>
 
             {/* Facts - Modern asymmetric grid */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
               {/* Big featured stat - Capital Raised */}
               <div className={`md:col-span-7 relative group transition-all duration-700 delay-100 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="relative bg-gradient-to-br from-brand-pink/20 via-brand-pink/10 to-transparent border border-brand-pink/20 rounded-[2rem] p-10 sm:p-14 h-full overflow-hidden">
+                <div style={{"backgroundColor": "#00002c"}} className="relative bg-gradient-to-br from-brand-pink/20 via-brand-pink/10 to-transparent border border-brand-pink/20 rounded-[2rem] p-10 sm:p-14 h-full overflow-hidden">
                   {/* Decorative corner accent */}
                   <div className="absolute top-0 right-0 w-32 h-32 bg-brand-pink/10 rounded-bl-[80px]" />
                   <div className="absolute -bottom-4 -left-4 w-24 h-24 border-2 border-brand-pink/20 rounded-full" />
@@ -309,7 +309,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               <div className="md:col-span-5 flex flex-col gap-6">
                 {/* Startups */}
                 <div className={`relative group flex-1 transition-all duration-700 delay-200 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                  <div className="relative bg-white/5 border border-white/10 rounded-[1.5rem] p-8 h-full hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300">
+                  <div style={{"backgroundColor": "#00002c"}} className="relative bg-white/5 border border-white/10 rounded-[1.5rem] p-8 h-full hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300">
                     <div className="flex items-end justify-between">
                       <div>
                         <div className="text-gray-500 text-xs font-medium uppercase tracking-[0.2em] mb-2">Startups</div>
@@ -330,7 +330,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 <div className="flex gap-6">
                   {/* YC & Top Programs */}
                   <div className={`flex-1 transition-all duration-700 delay-300 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <div className="relative bg-white/5 border border-white/10 rounded-[1.5rem] p-6 h-full hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300">
+                    <div style={{"backgroundColor": "#00002c"}} className="relative bg-white/5 border border-white/10 rounded-[1.5rem] p-6 h-full hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300">
                       <div className="text-gray-500 text-xs font-medium uppercase tracking-[0.2em] mb-2">YC & other programs</div>
                       <div className="text-4xl sm:text-5xl font-black text-white tabular-nums">
                         {Math.round(animatedValues[3])}<span className="text-brand-pink">+</span>
@@ -345,7 +345,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
 
                   {/* Unicorn */}
                   <div className={`flex-1 transition-all duration-700 delay-400 ${factsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <div className="relative bg-white/5 border border-white/10 rounded-[1.5rem] p-6 h-full hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300">
+                    <div style={{"backgroundColor": "#00002c"}} className="relative bg-white/5 border border-white/10 rounded-[1.5rem] p-6 h-full hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300">
                       <div className="text-gray-500 text-xs font-medium uppercase tracking-[0.2em] mb-2">Unicorn</div>
                       <div className="text-4xl sm:text-5xl font-black text-white tabular-nums">
                         {Math.round(animatedUnicorn)}
@@ -361,8 +361,8 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
 
             {/* Startup logos */}
             <div className="relative overflow-hidden">
-              <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-brand-dark-blue to-transparent z-10" />
-              <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-brand-dark-blue to-transparent z-10" />
+              <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10" />
+              <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10" />
               <div className="animate-scroll-nonstop">
                 {[...featuredStartups, ...featuredStartups].map((startup, i) => (
                   <div key={`${startup.id}-${i}`} className="inline-flex items-center justify-center mx-6 flex-shrink-0">
