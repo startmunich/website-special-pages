@@ -26,7 +26,7 @@ export default function CTA({
 }: CTAProps) {
   const renderButton = (button: CTAButton, index: number) => {
     const isPrimary = button.variant === 'primary' || (index === 0 && !button.variant)
-    const baseClasses = "px-8 py-3 font-bold rounded-lg transition-all duration-300"
+    const baseClasses = "px-8 py-3 font-bold rounded-full transition-all duration-300"
     const primaryClasses = "bg-[#d0006f] hover:bg-[#d0006f]/90 text-white hover:shadow-lg hover:shadow-[#d0006f]/50"
     const secondaryClasses = "border border-[#d0006f] text-[#d0006f] hover:bg-[#d0006f]/10"
 

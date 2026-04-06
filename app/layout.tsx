@@ -16,9 +16,6 @@ export const metadata: Metadata = {
   description:
     "START Munich is the largest student-run entrepreneurship community in Munich. We empower the next generation of founders to dare, build, and belong.",
   metadataBase: new URL("https://www.startmunich.de"),
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     url: "https://www.startmunich.de",

@@ -1,9 +1,23 @@
 import Image from 'next/image'
 import Script from 'next/script'
+import type { Metadata } from 'next'
 import Hero from "@/components/Hero"
 import HeroCard from "@/components/HeroCard"
 import PhotoGallery from './PhotoGallery'
 import { getAllPartners } from '@/lib/partners'
+
+export const metadata: Metadata = {
+  title: 'Partner With Us',
+  description:
+    'Partner with START Munich to reach top talent from TUM, LMU, and HM. Sponsor events, host workshops, and recruit Munich\'s most ambitious student entrepreneurs.',
+  alternates: { canonical: 'https://www.startmunich.de/for-partners' },
+  openGraph: {
+    url: 'https://www.startmunich.de/for-partners',
+    title: 'Partner With Us | START Munich',
+    description:
+      'Partner with START Munich to reach top talent from TUM, LMU, and HM. Sponsor events, host workshops, and recruit Munich\'s most ambitious student entrepreneurs.',
+  },
+}
 
 export const revalidate = 3600
 
@@ -102,8 +116,30 @@ const whyStartSpecial = [
 export default async function ForPartnersPage() {
   const partners = await getAllPartners()
 
+  // Plain-text FAQ answers for JSON-LD (faq1 has JSX, so we provide a text fallback)
+  const faqPlainText: Record<string, string> = {
+    faq1: 'We can move fast and sometimes launch within days. Please check our event calendar first. If you want to join a specific event, contact us as early as possible so we can plan it with you.',
+  }
+
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: typeof faq.answer === 'string' ? faq.answer : faqPlainText[faq.id] ?? '',
+      },
+    })),
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <Script id="iframe-height-sender" strategy="afterInteractive">
         {`
           function sendHeight() {
@@ -199,11 +235,13 @@ export default async function ForPartnersPage() {
             <div className="animate-scroll-nonstop">
               {[...partners.filter(p => p.featured), ...partners.filter(p => p.featured)].map((partner, i) => (
                 <div key={`${partner.id}-${i}`} className="inline-flex items-center justify-center mx-6 flex-shrink-0">
-                  <div className="bg-white rounded-xl p-4 w-36 h-20 flex items-center justify-center">
-                    <img
+                  <div className="bg-white rounded-xl p-4 w-36 h-20 flex items-center justify-center relative">
+                    <Image
                       src={partner.logoUrl}
                       alt={partner.name}
-                      className="max-h-10 max-w-[100px] object-contain"
+                      fill
+                      className="object-contain p-4"
+                      sizes="144px"
                     />
                   </div>
                 </div>
