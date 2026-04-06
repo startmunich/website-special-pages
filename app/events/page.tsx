@@ -476,7 +476,7 @@ export default function EventsPage() {
 
                   <TimelineMarker
                     eventId="fail-tales"
-                    left={calculateTimelinePosition(5, 15)}
+                    left={calculateTimelinePosition(4, 15)}
                     color="#4a90e2"
                     label="Fail Tales"
                     position="top"
@@ -600,24 +600,13 @@ export default function EventsPage() {
 
                   <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.04]">
                     <div className="w-14 flex-shrink-0 text-gray-400 text-sm font-bold">Apr</div>
-                    <button
-                      onClick={() => scrollToEventMobile('info-event')}
-                      className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-                    >
-                      <div className="w-3 h-3 bg-[#4a90e2] rounded-full flex-shrink-0"></div>
-                      <span className="text-sm text-white">Info Event</span>
-                    </button>
-                  </div>
-
-                  <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.04]">
-                    <div className="w-14 flex-shrink-0 text-gray-400 text-sm font-bold">May</div>
                     <div className="flex flex-col gap-2">
                       <button
-                        onClick={() => scrollToEventMobile('start-labs')}
+                        onClick={() => scrollToEventMobile('info-event')}
                         className="flex items-center gap-2 hover:opacity-80 transition-opacity"
                       >
-                        <div className="w-3 h-3 bg-[#ff9800] rounded-full flex-shrink-0"></div>
-                        <span className="text-sm text-white">START Labs</span>
+                        <div className="w-3 h-3 bg-[#4a90e2] rounded-full flex-shrink-0"></div>
+                        <span className="text-sm text-white">Info Event</span>
                       </button>
                       <button
                         onClick={() => scrollToEventMobile('fail-tales')}
@@ -627,6 +616,17 @@ export default function EventsPage() {
                         <span className="text-sm text-white">Fail Tales</span>
                       </button>
                     </div>
+                  </div>
+
+                  <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.04]">
+                    <div className="w-14 flex-shrink-0 text-gray-400 text-sm font-bold">May</div>
+                    <button
+                      onClick={() => scrollToEventMobile('start-labs')}
+                      className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                    >
+                      <div className="w-3 h-3 bg-[#ff9800] rounded-full flex-shrink-0"></div>
+                      <span className="text-sm text-white">START Labs</span>
+                    </button>
                   </div>
 
                   <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.04]">

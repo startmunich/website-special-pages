@@ -115,7 +115,7 @@ export default function Navigation() {
                       </span>
                     </Link>
                     <Link
-                      href="/jobs"
+                      href="https://jobs.startmunich.de/jobs"
                       onClick={() => setIsCommunityOpen(false)}
                       className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
                     >
@@ -314,7 +314,7 @@ export default function Navigation() {
                       Our Members
                     </Link>
                     <Link
-                      href="/jobs"
+                      href="https://jobs.startmunich.de/jobs"
                       className="block pl-4 py-2.5 text-white/80 text-base font-semibold hover:text-brand-pink transition-colors"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
