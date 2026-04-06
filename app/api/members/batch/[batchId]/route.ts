@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { getMembersByBatch } from '@/lib/mockMembers'
 
 interface ExternalMember {
   id: number
@@ -81,8 +80,7 @@ export async function GET(
 
     if (!response.ok) {
       console.error(`API error: ${response.status} ${response.statusText}`)
-      const fallbackMembers = getMembersByBatch(batchId)
-      return NextResponse.json(fallbackMembers)
+      return NextResponse.json([])
     }
 
     const data = await response.json()
@@ -91,10 +89,7 @@ export async function GET(
       : data.members || data.data || []
 
     if (!Array.isArray(dataMembers) || dataMembers.length === 0) {
-      const fallbackMembers = getMembersByBatch(batchId)
-      if (fallbackMembers.length > 0) {
-        return NextResponse.json(fallbackMembers)
-      }
+      return NextResponse.json([])
     }
 
     // Helper to pick the best image field

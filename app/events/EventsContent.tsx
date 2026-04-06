@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation"
 import { EventCard, TimelineMarker, ScrollIndicator } from "@/components/EventComponents"
 import Hero from "@/components/Hero"
 import HeroCard from "@/components/HeroCard"
-import PastEventsGrid from "@/components/PastEventsGrid"
-import UpcomingEventsGrid from "@/components/UpcomingEventsGrid"
+import PastEventsGrid from "./PastEventsGrid"
+import UpcomingEventsGrid from "./UpcomingEventsGrid"
 import { useAnimatedNumber } from "@/lib/useAnimatedNumber"
 
 export const dynamic = 'force-dynamic'

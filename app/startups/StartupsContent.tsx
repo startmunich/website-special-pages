@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import type { Company } from "@/lib/types"
-import StartupCard from "@/components/StartupCard"
+import StartupCard from "./StartupCard"
 import Hero from "@/components/Hero"
 import HeroCard from "@/components/HeroCard"
 import CTA from "@/components/CTA"

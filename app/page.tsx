@@ -8,7 +8,8 @@
  * initial HTML render — no client-side fetch or flash of missing content.
  */
 import type { Metadata } from 'next'
-import HomeClient, { type Partner, type Startup } from './home/HomeClient'
+import HomeClient from './home/HomeClient'
+import type { Partner, Startup } from '@/lib/types'
 
 export const metadata: Metadata = {
   title: 'START Munich – Student Entrepreneurship Community',

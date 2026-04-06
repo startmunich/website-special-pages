@@ -13,25 +13,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Script from 'next/script'
 import { useAnimatedNumber, useInView } from '@/lib/hooks'
-
-// ── Types ───────────────────────────────────────────────────────────────────────
-
-export interface Partner {
-  id: string
-  name: string
-  category: string
-  logoUrl: string
-  featured?: boolean
-}
-
-export interface Startup {
-  id: string
-  name: string
-  logoUrl: string
-  isSpotlight?: boolean
-  isYCombinator?: boolean
-  isEWOR?: boolean
-}
+import type { Partner, Startup } from '@/lib/types'
 
 // ── Images ──────────────────────────────────────────────────────────────────────
 
