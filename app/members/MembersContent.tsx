@@ -296,7 +296,13 @@ export default function MembersPage() {
     return () => document.removeEventListener('mousedown', handleOutsideClick)
   }, [handleOutsideClick])
 
-  const defaultBatches = ['Winter 2021', 'Winter 2022', 'Summer 2022']
+  const defaultBatches = [
+    'Winter 2025', 'Summer 2025',
+    'Winter 2024', 'Summer 2024',
+    'Winter 2023', 'Summer 2023',
+    'Winter 2022', 'Summer 2022',
+    'Winter 2021',
+  ]
   const allBatches = Array.from(new Set([...members.map(m => m.batch), ...defaultBatches]))
     .filter(Boolean).sort().reverse()
 
