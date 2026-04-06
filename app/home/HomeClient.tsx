@@ -222,7 +222,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                   What is <span className="outline-text">START Munich</span>?
                 </h2>
                 <p className="text-gray-300 text-lg leading-relaxed mb-4">
-                  With over 70 active members and 500+ alumni, START Munich is one of Germany’s leading student-run entrepreneurship initiatives. Founded in 2003, our mission is to build  
+                  With over 70 active members and 600+ alumni, START Munich is one of Germany’s leading student-run entrepreneurship initiatives. Founded in 2003, our mission is to build  
                   <span className="text-brand-pink font-semibold"> a community of students who dare to build, innovate, and lead.</span>
                 </p>
                 <p className="text-gray-300 text-lg leading-relaxed mb-6">
@@ -261,7 +261,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                     <div className="text-gray-400 text-sm uppercase tracking-wider">Founding Year</div>
                   </div>
                   <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
-                    <div className="text-4xl sm:text-5xl font-black text-white mb-2">500<span className="text-brand-pink">+</span></div>
+                    <div className="text-4xl sm:text-5xl font-black text-white mb-2">600<span className="text-brand-pink">+</span></div>
                     <div className="text-gray-400 text-sm uppercase tracking-wider">Alumni</div>
                   </div>
                   <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
@@ -561,7 +561,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                     <div className="text-gray-400 text-sm">Countries</div>
                   </div>
                   <div>
-                    <div className="text-5xl sm:text-6xl font-black text-white">+500</div>
+                    <div className="text-5xl sm:text-6xl font-black text-white">+1800</div>
                     <div className="text-gray-400 text-sm">Members</div>
                   </div>
                 </div>

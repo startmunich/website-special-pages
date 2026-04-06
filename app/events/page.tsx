@@ -300,7 +300,7 @@ export default function EventsPage() {
 
           {/* Featured Event Spotlight */}
           <div className="mb-24">
-            <div className="relative overflow-hidden rounded-[1.75rem] border border-[#9c27b0]/30 shadow-2xl shadow-[#9c27b0]/10">
+            <div className="relative overflow-hidden rounded-[1.75rem] border border-[#e35733]/30 shadow-2xl shadow-[#e35733]/10">
               {/* Background image */}
               <div className="absolute inset-0">
                 <img
@@ -316,8 +316,8 @@ export default function EventsPage() {
                 <div className="flex-1">
                   {/* Badges */}
                   <div className="flex flex-wrap items-center gap-3 mb-5">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#9c27b0]/25 border border-[#9c27b0]/50 text-[#ce93d8] text-xs font-bold uppercase tracking-widest">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#ce93d8] animate-pulse"></span>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#e35733]/25 border border-[#e35733]/50 text-[#f0896a] text-xs font-bold uppercase tracking-widest">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#f0896a] animate-pulse"></span>
                       Upcoming Event
                     </span>
                     <span className="px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-white/60 text-xs font-bold uppercase tracking-widest">
@@ -327,7 +327,7 @@ export default function EventsPage() {
 
                   <h2 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
                     Munich<br />
-                    <span className="text-[#ce93d8]">Hacking Legal</span>
+                    <span className="text-[#f0896a]">Hacking Legal</span>
                   </h2>
 
                   <p className="text-gray-300 text-base md:text-lg leading-relaxed max-w-xl mb-6">
@@ -339,7 +339,7 @@ export default function EventsPage() {
                       href="https://www.hacking-legal.org/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#9c27b0] hover:bg-[#ab47bc] text-white font-bold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#9c27b0]/40"
+                      className="group inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#e35733] hover:bg-[#c24520] text-white font-bold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#e35733]/40"
                     >
                       <span>Learn More</span>
                       <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -732,7 +732,7 @@ export default function EventsPage() {
                       onClick={
                         event.id === 'legal-hack' ? () => window.open('https://www.hacking-legal.org/', '_blank')
                         : event.id === 'rtsh' ? () => window.open('https://hack.startmunich.de/events/rtsh', '_blank')
-                        : event.id === 'rtss' ? () => window.open('https://www.startmunich.de/events/rtss', '_blank')
+                        : event.id === 'rtss' ? () => window.open('https://summit.startmunich.de/events/rtss', '_blank')
                         : event.id === 'start-labs' ? () => window.open('https://www.startmunich.de', '_blank')
                         : undefined
                       }
