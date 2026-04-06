@@ -226,7 +226,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 {/* Academic Excellence Card */}
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
                   <div className="flex items-center justify-center gap-8 mb-3">
-                    <Image src="/partners/Logo_of_the_Technical_University_of_Munich.svg" alt="TUM" width={120} height={40} className="h-10 w-auto opacity-80" unoptimized />
+                    <Image src="/forPartners/Logo_of_the_Technical_University_of_Munich.svg" alt="TUM" width={120} height={40} className="h-10 w-auto opacity-80" unoptimized />
                     <span className="text-white/30 text-2xl font-light">×</span>
                     <Image src="/home/LMU_Muenchen_Logo.svg" alt="LMU" width={120} height={40} className="h-10 w-auto opacity-80" unoptimized />
                   </div>

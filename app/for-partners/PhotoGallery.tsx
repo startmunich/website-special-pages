@@ -6,60 +6,60 @@ import Image from 'next/image'
 const eventPhotos = [
   {
     id: "ep1",
-    url: "/partners/partnerEvents/RTSH-opt.jpg",
+    url: "/forPartners/partnerEvents/RTSH-opt.jpg",
     caption: "Road to START Hack 26",
     href: "/events/rtsh"
   },
   {
     id: "ep2",
-    url: "/partners/partnerEvents/RTSH2-opt.jpg",
+    url: "/forPartners/partnerEvents/RTSH2-opt.jpg",
     caption: "Road to START Hack 26",
     href: "/events/rtsh"
   },
   {
     id: "ep3",
-    url: "/partners/partnerEvents/RTSS1-opt.jpg",
+    url: "/forPartners/partnerEvents/RTSS1-opt.jpg",
     caption: "Road to START Summit 26",
     href: "/events/rtss"
   },
   {
     id: "ep4",
-    url: "/partners/partnerEvents/RTSS2-opt.jpg",
+    url: "/forPartners/partnerEvents/RTSS2-opt.jpg",
     caption: "Road to START Summit 26",
     href: "/events/rtss"
   },
   {
     id: "ep5",
-    url: "/partners/partnerEvents/PitchUNetwork-opt.jpg",
+    url: "/forPartners/partnerEvents/PitchUNetwork-opt.jpg",
     caption: "Pitch & Network"
   },
   {
     id: "ep6",
-    url: "/partners/partnerEvents/MHL1-opt.jpg",
+    url: "/forPartners/partnerEvents/MHL1-opt.jpg",
     caption: "Munich Hacking Legal 25",
     href: "/events/leagel-hack"
   },
   {
     id: "ep7",
-    url: "/partners/partnerEvents/MHL2-opt.jpg",
+    url: "/forPartners/partnerEvents/MHL2-opt.jpg",
     caption: "Munich Hacking Legal 25",
     href: "/events/leagel-hack"
   },
   {
     id: "ep8",
-    url: "/partners/partnerEvents/IsarUnfiltered-opt.jpg",
+    url: "/forPartners/partnerEvents/IsarUnfiltered-opt.jpg",
     caption: "Isar Unfiltered",
     href: "/events/iu/home"
   },
   {
     id: "ep9",
-    url: "/partners/partnerEvents/IsarUnfiltered2-opt.jpg",
+    url: "/forPartners/partnerEvents/IsarUnfiltered2-opt.jpg",
     caption: "Isar Unfiltered",
     href: "/events/iu/home"
   },
   {
     id: "ep10",
-    url: "/partners/partnerEvents/FounderFailTails-opt.jpg",
+    url: "/forPartners/partnerEvents/FounderFailTails-opt.jpg",
     caption: "Founder Fail Tales",
     href: "/events/founder-fail-tales-4"
   }
