@@ -73,15 +73,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="flex flex-col min-h-screen bg-brand-dark-blue">
         <Navigation />
-        <div className="bg-brand-pink overflow-hidden py-1.5">
-          <div className="animate-scroll-slow whitespace-nowrap">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <span key={i} className="text-white text-xs sm:text-sm tracking-wide mx-8">
-                Summer Applications are Open from 10 of April to 24 of April
-              </span>
-            ))}
-          </div>
-        </div>
         <main className="flex-grow">
           {children}
         </main>

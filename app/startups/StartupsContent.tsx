@@ -146,7 +146,7 @@ export default function StartupsPage() {
   }, [selectedCategory, selectedYear, selectedProgram, searchQuery])
 
   // Calculate total statistics
-  const totalStartups = companies.length
+  const totalStartups = 100
 
   // Get spotlight startups (show all featured startups)
   const spotlightStartups = companies.filter(company => company.isSpotlight)
@@ -655,7 +655,7 @@ export default function StartupsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pb-16">
           <CTA
             title="Want to Start Your Own Journey?"
-            description={<>Join START Munich and get the support, network, and resources you need to turn your idea into reality. Our community has helped launch {companies.length}+ startups — yours could be next.</>}
+            description={<>Join START Munich and get the support, network, and resources you need to turn your idea into reality. Our community has helped launch 100+ startups — yours could be next.</>}
             buttons={[
               { label: "Discover the Member Journey", href: "/member-journey" },
               { label: "Apply Now", href: "/join-start/2026", variant: "secondary" }
