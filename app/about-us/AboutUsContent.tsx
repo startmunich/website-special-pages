@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useInView, useAnimatedNumber } from '@/lib/hooks'
 import Hero from '@/components/Hero'
 import HeroCard from '@/components/HeroCard'
+import CTA from '@/components/CTA'
 
 const executiveBoard = [
   { name: "Ali Serag El Din", role: "President", photo: "/aboutUs/Board/Ali-opt.png", linkedinUrl: "https://www.linkedin.com/in/ali-serag-el-din/" },
@@ -321,6 +322,20 @@ export default function AboutUsPage() {
         </div>
       </section>
       )}
+
+      {/* ═══ CTA ═══ */}
+      <section className="pb-28 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <CTA
+            title="Want to Learn More About Us?"
+            description="Discover how you can grow with START Munich — whether as a member shaping your entrepreneurial journey or as a partner connecting with Munich's most ambitious talents."
+            buttons={[
+              { label: "Discover the Member Journey", href: "/member-journey" },
+              { label: "Become a Partner", href: "/for-partners", variant: "secondary" }
+            ]}
+          />
+        </div>
+      </section>
     </main>
   )
 }

@@ -432,7 +432,7 @@ export default function MembersPage() {
 
             <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-700 delay-150 ${analyticsView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
               {/* Gender */}
-              <div className="bg-white/5 border border-white/10 rounded-3xl p-8 hover:border-brand-pink/30 transition-all duration-300">
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 rounded-xl bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center">
                     <svg className="w-5 h-5 text-brand-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -464,7 +464,7 @@ export default function MembersPage() {
               </div>
 
               {/* Study Fields */}
-              <div className="bg-white/5 border border-white/10 rounded-3xl p-8 hover:border-brand-pink/30 transition-all duration-300">
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 rounded-xl bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center">
                     <svg className="w-5 h-5 text-brand-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -484,7 +484,7 @@ export default function MembersPage() {
               </div>
 
               {/* Universities */}
-              <div className="bg-white/5 border border-white/10 rounded-3xl p-8 hover:border-brand-pink/30 transition-all duration-300">
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 rounded-xl bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center">
                     <svg className="w-5 h-5 text-brand-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
