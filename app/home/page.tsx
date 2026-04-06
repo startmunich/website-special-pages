@@ -42,7 +42,7 @@ async function fetchFeaturedPartners(): Promise<Partner[]> {
                (featured === true || featured === 1 || String(featured).toLowerCase() === 'true')
       })
       .map((r: any) => {
-        const logos: any[] = r.Logo || []
+        const logos: any[] = r.LogoNoBackground || []
         // Some partners have two images uploaded; always use the last one so that
         // a newer/preferred logo can be added as a second upload without removing the original.
         const logo = logos.length > 0 ? logos[logos.length - 1] : null

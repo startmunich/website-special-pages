@@ -540,7 +540,7 @@ export default function MembersPage() {
                           <a key={i} href={member.linkedinUrl || '#'} target={member.linkedinUrl ? '_blank' : undefined} rel={member.linkedinUrl ? 'noopener noreferrer' : undefined} className={`relative${member.linkedinUrl ? ' cursor-pointer' : ' cursor-default'}`}>
                             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-white/5 border border-white/10">
                               {member.profileImage ? (
-                                <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 15vw" className="object-cover object-top" />
+                                <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 15vw" className="object-cover object-top" referrerPolicy="no-referrer" />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center text-white/20 text-3xl font-black">
                                   {member.name === 'N/A' ? 'N/A' : getInitials(member.name)}
@@ -568,7 +568,7 @@ export default function MembersPage() {
                           <a key={i} href={member.linkedinUrl || '#'} target={member.linkedinUrl ? '_blank' : undefined} rel={member.linkedinUrl ? 'noopener noreferrer' : undefined} className={`relative${member.linkedinUrl ? ' cursor-pointer' : ' cursor-default'}`}>
                             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-white/5 border border-white/10">
                               {member.profileImage ? (
-                                <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 15vw" className="object-cover object-top" />
+                                <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 15vw" className="object-cover object-top" referrerPolicy="no-referrer" />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center text-white/20 text-3xl font-black">
                                   {member.name === 'N/A' ? 'N/A' : getInitials(member.name)}
@@ -677,7 +677,7 @@ export default function MembersPage() {
                             >
                               <div className="relative w-full h-full">
                                 {member.profileImage ? (
-                                  <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 33vw, 10vw" className="object-cover" />
+                                  <Image src={member.profileImage} alt={member.name} fill sizes="(max-width: 640px) 33vw, 10vw" className="object-cover" referrerPolicy="no-referrer" />
                                 ) : (
                                   <div className="w-full h-full flex items-center justify-center bg-white/5">
                                     <span className="text-white/50 text-2xl font-black tracking-wider">

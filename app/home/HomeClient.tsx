@@ -185,7 +185,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                   <img
                     src={partner.logoUrl}
                     alt={partner.name}
-                    className="h-[48px] w-auto max-w-[200px] object-contain"
+                    className="h-[48px] w-auto max-w-[200px] object-contain grayscale"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement
                       target.style.display = 'none'
@@ -479,7 +479,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               const renderCard = (card: typeof allCards[0]) => (
                 <Link key={card.href} href={card.href} target="_blank" className="group relative">
                   <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
-                    <img src={card.img} alt={card.alt} loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={card.img} alt={card.alt} loading="lazy" referrerPolicy="no-referrer" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                     <div className="absolute bottom-6 left-6 right-6">
                       {card.label && <div className="text-white/60 text-xs uppercase tracking-wider mb-2">{card.label}</div>}
