@@ -50,13 +50,13 @@ export default function LegalNoticePage() {
               <div>
                 <h3 className="text-xl font-black text-white mb-3">Liability for Content</h3>
                 <p className="text-gray-300 text-lg leading-relaxed">
-                  The content of our pages was created with the utmost care. However, we cannot guarantee the correctness, completeness, or topicality of the content. According to &sect; 7 (1) DDG, as a service provider, we are responsible for our own content on these pages in accordance with general laws. According to &sect; 7 DDG and Articles 4 to 6 of the Digital Services Act (DSA), however, we are not obliged to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity. Obligations to remove or block the use of information in accordance with general laws remain unaffected. However, liability in this respect is only possible from the time of knowledge of a concrete violation of the law. As soon as we become aware of such infringements, we will remove this content immediately.
+                  The content of our pages was created with the utmost care. However, we cannot guarantee the correctness, completeness, or topicality of the content. According to &sect; 7 (1) DDG, as a service provider, we are responsible for our own content on these pages in accordance with general laws. According to &sect; 7 DDG and Article 8 of the Digital Services Act (DSA), however, we are not obliged to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity. Obligations to remove or block the use of information in accordance with general laws remain unaffected. However, liability in this respect is only possible from the time of knowledge of a concrete violation of the law. As soon as we become aware of such infringements, we will remove this content immediately.
                 </p>
               </div>
 
               <div>
                 <h3 className="text-xl font-black text-white mb-3">Liability for Links</h3>
-                <p className="text-gray-300 text-lg leading-relaxed">
+                <p className="text-gray-300 text-lg leading-relaxed"> 
                   Our website contains links to third-party websites over whose content we have no control. Therefore, we cannot take any responsibility for those external contents. The respective provider or operator of the websites is always responsible for its content. The linked websites were checked for possible legal infringements at the time of the linking. Illegal contents were not identifiable at the time of the linking. However, a permanent control of the content of the linked websites is not reasonable without concrete evidence of an infringement. We will remove such links immediately upon becoming aware of any violations of the law.
                 </p>
               </div>
