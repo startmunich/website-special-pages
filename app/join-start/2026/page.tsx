@@ -57,9 +57,41 @@ export default function JoinStart2026Page() {
         <div className="absolute inset-0 bg-brand-dark-blue/60" />
 
         {/* Page content */}
-        <div className="relative z-10 flex min-h-screen flex-col">
-          {/* Top — big title + CTA */}
-          <div className="flex flex-1 flex-col justify-end gap-8 px-6 pb-10 pt-24 md:flex-row md:items-end md:justify-between md:px-16 md:pb-16 lg:px-24">
+        <div className="relative z-10 flex min-h-screen flex-col-reverse md:flex-col">
+          {/* Countdown section — bottom on mobile, centered on desktop */}
+          <div className="flex flex-col items-center px-4 pb-12 md:flex-1 md:justify-center md:pb-0">
+            <p className="text-sm tracking-[0.3em] text-white/80 uppercase md:text-lg">
+              Want to join Start?
+            </p>
+            <p className="mt-2 text-xl font-bold tracking-wide text-white uppercase md:text-3xl">
+              Applications close in
+            </p>
+            <div
+              className="mt-6 flex items-start gap-1 md:mt-10 md:gap-4"
+              style={{ opacity: mounted ? 1 : 0, transition: 'opacity 0.4s ease' }}
+            >
+              {units.map((unit, i) => (
+                <div key={unit.label} className="flex items-start gap-1 md:gap-4">
+                  <div className="flex flex-col items-center">
+                    <span className="text-4xl font-black tabular-nums text-[#d0006f] sm:text-5xl md:text-7xl lg:text-8xl">
+                      {pad(unit.value)}
+                    </span>
+                    <span className="mt-1 text-[8px] tracking-[0.15em] text-white/50 uppercase sm:text-[10px] md:text-xs md:tracking-[0.2em]">
+                      {unit.label}
+                    </span>
+                  </div>
+                  {i < units.length - 1 && (
+                    <span className="text-4xl font-black text-[#d0006f] sm:text-5xl md:text-7xl lg:text-8xl">
+                      :
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Title + CTA — top on mobile, bottom on desktop */}
+          <div className="flex flex-col gap-8 px-6 pb-10  md:flex-row md:items-end md:justify-between md:px-16 md:pb-16 md:pt-0 lg:px-24" style={{"alignItems": "center"}}>
             {/* Left — big title */}
             <h1 className="text-5xl font-black leading-[0.9] text-white sm:text-6xl md:text-8xl lg:text-9xl">
               JOIN
@@ -88,38 +120,6 @@ export default function JoinStart2026Page() {
               >
                 Apply now
               </a>
-            </div>
-          </div>
-
-          {/* Bottom — countdown */}
-          <div className="flex flex-col items-center px-4 pb-12 md:pb-16">
-            <p className="text-sm tracking-[0.3em] text-white/80 uppercase md:text-lg">
-              Want to join Start?
-            </p>
-            <p className="mt-2 text-xl font-bold tracking-wide text-white uppercase md:text-3xl">
-              Applications close in
-            </p>
-            <div
-              className="mt-6 flex items-start gap-1 md:mt-10 md:gap-4"
-              style={{ opacity: mounted ? 1 : 0, transition: 'opacity 0.4s ease' }}
-            >
-              {units.map((unit, i) => (
-                <div key={unit.label} className="flex items-start gap-1 md:gap-4">
-                  <div className="flex flex-col items-center">
-                    <span className="text-4xl font-black tabular-nums text-[#d0006f] sm:text-5xl md:text-7xl lg:text-8xl">
-                      {pad(unit.value)}
-                    </span>
-                    <span className="mt-1 text-[8px] tracking-[0.15em] text-white/50 uppercase sm:text-[10px] md:text-xs md:tracking-[0.2em]">
-                      {unit.label}
-                    </span>
-                  </div>
-                  {i < units.length - 1 && (
-                    <span className="text-4xl font-black text-[#d0006f] sm:text-5xl md:text-7xl lg:text-8xl">
-                      :
-                    </span>
-                  )}
-                </div>
-              ))}
             </div>
           </div>
         </div>
