@@ -85,7 +85,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
     useAnimatedNumber(facts[3].value, !factsView.visible, 1800),
   ]
   const animatedCapital = useAnimatedNumber(3, !factsView.visible, 1800)
-  const animatedStartups70 = useAnimatedNumber(70, !factsView.visible, 1800)
+  const animatedStartups70 = useAnimatedNumber(100, !factsView.visible, 1800)
   const animatedUnicorn = useAnimatedNumber(1, !factsView.visible, 1200)
 
   return (
