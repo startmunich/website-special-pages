@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
-const TARGET_DATE = new Date('2026-04-26T23:59:59').getTime()
+const TARGET_DATE = new Date('2026-04-26T23:59:59+02:00').getTime()
 
 function pad(n: number) {
   return String(n).padStart(2, '0')
@@ -42,9 +42,9 @@ export default function JoinStart2026Page() {
   ]
 
   return (
-    <main className="bg-brand-dark-blue">
+    <div className="bg-brand-dark-blue">
       {/* Hero section */}
-      <section className="relative min-h-screen overflow-hidden">
+      <section className="relative min-h-[calc(100vh-5rem)] overflow-hidden">
         {/* Background image — blurry & black-and-white */}
         <Image
           src="/join-start-2026-bg.png"
@@ -57,7 +57,7 @@ export default function JoinStart2026Page() {
         <div className="absolute inset-0 bg-brand-dark-blue/60" />
 
         {/* Page content */}
-        <div className="relative z-10 flex min-h-screen flex-col-reverse md:flex-col">
+        <div className="relative z-10 flex min-h-[calc(100vh-5rem)] flex-col-reverse md:flex-col">
           {/* Countdown section — bottom on mobile, centered on desktop */}
           <div className="flex flex-col items-center px-4 pb-12 md:flex-1 md:justify-center md:pb-0">
             <p className="text-sm tracking-[0.3em] text-white/80 uppercase md:text-lg">
@@ -91,7 +91,7 @@ export default function JoinStart2026Page() {
           </div>
 
           {/* Title + CTA — top on mobile, bottom on desktop */}
-          <div className="flex flex-col gap-8 px-6 pb-10  md:flex-row md:items-end md:justify-between md:px-16 md:pb-16 md:pt-0 lg:px-24" style={{"alignItems": "center"}}>
+          <div className="flex flex-col items-center gap-8 px-6 pb-10 md:flex-row md:items-end md:justify-between md:px-16 md:pb-16 md:pt-0 lg:px-24">
             {/* Left — big title */}
             <h1 className="text-5xl font-black leading-[0.9] text-white sm:text-6xl md:text-8xl lg:text-9xl">
               JOIN
@@ -113,7 +113,7 @@ export default function JoinStart2026Page() {
                 big thing.
               </p>
               <a
-                href="https://tally.so/r/join-start-munich"
+                href="https://tally.so/r/eqL4yQ"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 inline-block rounded-full bg-[#d0006f] px-8 py-3 text-sm font-bold text-white transition hover:bg-[#d0006f]/80"
@@ -127,7 +127,7 @@ export default function JoinStart2026Page() {
 
       {/* YouTube video section */}
       <section id="video" className="scroll-mt-8 px-6 py-12 md:px-16 md:py-20 lg:px-24">
-    
+
         <div className="relative w-full overflow-hidden rounded-xl" style={{ paddingBottom: '56.25%' }}>
           <iframe
             src="https://www.youtube.com/embed/T63USk9W_IY"
@@ -136,6 +136,82 @@ export default function JoinStart2026Page() {
             allowFullScreen
             className="absolute inset-0 h-full w-full"
           />
+        </div>
+      </section>
+
+      {/* Events */}
+      <section className="py-12 md:py-20">
+        <div className="px-6 md:px-16 lg:px-24">
+          <h2 className="text-3xl font-black text-brand-pink md:text-4xl lg:text-5xl">
+            Got Questions? Let&apos;s Talk.
+          </h2>
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/70 md:text-base">
+            Curious about START Munich or unsure about the application process?
+            Join one of our upcoming info sessions — online or in person — and get
+            all your questions answered. Meet the team, learn what we&apos;re all
+            about, and find out how you can become part of our entrepreneurial
+            community.
+          </p>
+        </div>
+
+        <div className="mt-12 flex gap-5 overflow-x-auto px-6 pb-4 md:px-16 lg:px-24 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          {[
+            { title: 'YC Event', desc: 'START Munich', date: 'Wednesday, 15th April 2026', time: null, img: '/join-start/yc-event.jpg', link: null, linkLabel: null },
+            { title: 'START & Friends Run Club – Sunset Run', desc: 'START & Friends', date: 'Thursday, 16th April 2026', time: '18:30', img: '/join-start/sunset-run.png', link: 'https://luma.com/omtnj23y', linkLabel: 'Register now' },
+            { title: 'Female Entrepreneurship Summit', desc: 'YFN x START Munich', date: 'Saturday, 18th April 2026', time: null, img: '/join-start/fes.png', link: 'https://www.youngfounders.network/fes', linkLabel: 'More information' },
+            { title: 'Founder Fail Tales', desc: 'Vol. 5', date: 'Tuesday, 21st April 2026', time: null, img: '/partners/partnerEvents/FounderFailTails-opt.jpg', link: null, linkLabel: null },
+            { title: 'Why Start? Info Session', desc: 'Real people. Real journeys. Real reasons to START.', date: 'Thursday, 23rd April 2026', time: null, img: '/join-start/info-session-2026.png', link: 'https://luma.com/t5r7vw10', linkLabel: 'Register now' },
+            { title: 'Student Initiative Showcase', desc: 'START Munich', date: 'Friday, 24th April 2026', time: null, img: '/join-start/student-club-fair.jpg', link: null, linkLabel: null },
+            { title: 'Online Info Event', desc: 'You are temporarily not in Munich? We got you.', date: 'Friday, 24th April 2026', time: null, img: '/join-start/online-info.jpg', link: null, linkLabel: null },
+            { title: 'START & Friends Run Club – Coffee Run with LAP', desc: 'START & Friends', date: 'Saturday, 25th April 2026', time: '11:00', img: '/join-start/coffee-run-lap.png', link: 'https://luma.com/qb2g0cph', linkLabel: 'Register now' },
+          ].map((event) => (
+            <div
+              key={event.title}
+              className="flex w-72 flex-none flex-col overflow-hidden rounded-lg md:w-80"
+              style={{ border: '1px solid rgba(255,255,255,0.08)' }}
+            >
+              {/* Top — image */}
+              <div className="relative aspect-square w-full">
+                <Image
+                  src={event.img}
+                  alt={event.title}
+                  fill
+                  sizes="320px"
+                  className="object-cover"
+                />
+              </div>
+
+              {/* Middle — text */}
+              <div className="flex flex-1 flex-col px-5 py-5">
+                <h3 className="text-lg font-black uppercase text-brand-pink">
+                  {event.title}
+                </h3>
+                <p className="mt-1 text-sm text-white/50">{event.desc}</p>
+                <p className="mt-2 text-sm font-bold text-white">
+                  {event.date}
+                  {event.time && <><br />{event.time}</>}
+                </p>
+
+                {/* Bottom — CTA */}
+                <div className="mt-auto pt-5">
+                  {event.link ? (
+                    <a
+                      href={event.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full rounded-sm bg-[#d0006f] px-6 py-2.5 text-center text-sm font-bold uppercase tracking-wide text-white transition hover:bg-[#d0006f]/80"
+                    >
+                      {event.linkLabel}
+                    </a>
+                  ) : (
+                    <span className="block w-full cursor-not-allowed rounded-sm bg-white/20 px-6 py-2.5 text-center text-sm font-bold uppercase tracking-wide text-white/40">
+                      Registration opens soon
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -267,65 +343,6 @@ export default function JoinStart2026Page() {
         </p>
       </section>
 
-      {/* Info Sessions */}
-      <section className="px-6 py-12 md:px-16 md:py-20 lg:px-24">
-        <h2 className="text-3xl font-black text-brand-pink md:text-4xl lg:text-5xl">
-          Got Questions? Let&apos;s Talk.
-        </h2>
-        <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/70 md:text-base">
-          Curious about START Munich or unsure about the application process?
-          Join one of our upcoming info sessions — online or in person — and get
-          all your questions answered. Meet the team, learn what we&apos;re all
-          about, and find out how you can become part of our entrepreneurial
-          community.
-        </p>
-
-        {/* Event list */}
-        <div className="mt-12 flex flex-col gap-6">
-          {[
-            { title: 'YC Event', desc: 'START Munich', date: 'Wednesday, 15th April 2026', time: null, img: '/join-start/yc-event.jpg' },
-            { title: 'Running Club (Sunset Run)', desc: 'START & Friends', date: 'Thursday, 16th April 2026', time: '19:00', img: '/join-start/running-club.jpg' },
-            { title: 'Female Entrepreneurship Summit', desc: 'START Munich', date: 'Saturday, 18th April 2026', time: null, img: '/home/heroBackground/isar-opt.jpg' },
-            { title: 'Founder Fail Tales', desc: 'Vol. 5', date: 'Tuesday, 21st April 2026', time: null, img: '/partners/partnerEvents/FounderFailTails-opt.jpg' },
-            { title: 'Why Start? Info Session', desc: 'Real people. Real journeys. Real reasons to START.', date: 'Thursday, 23rd April 2026', time: null, img: '/join-start/info-session.jpg' },
-            { title: 'Student Initiative Showcase', desc: 'START Munich', date: 'Thursday, 24th April 2026', time: null, img: '/join-start/initiative-showcase.jpg' },
-            { title: 'Online Info Event', desc: 'You are temporarily not in Munich? We got you.', date: 'Friday, 24th April 2026', time: null, img: '/join-start/online-info.jpg' },
-            { title: 'Running Club (Coffee Run)', desc: 'START & Friends', date: 'Saturday, 25th April 2026', time: '11:00', img: '/join-start/running-club.jpg' },
-          ].map((event) => (
-            <div
-              key={event.title}
-              className="flex flex-col-reverse overflow-hidden rounded-lg bg-brand-dark-blue md:flex-row md:items-stretch"
-              style={{ border: '1px solid rgba(255,255,255,0.08)' }}
-            >
-              {/* Left — text */}
-              <div className="flex flex-1 flex-col px-5 py-6 md:px-8 md:py-8">
-                <h3 className="text-xl font-black uppercase text-brand-pink md:text-2xl">
-                  {event.title}
-                </h3>
-                <p className="mt-1 text-md text-white/50">{event.desc}</p>
-                <p className="mt-2 text-sm font-bold text-white md:text-base">
-                  {event.date}
-                  {event.time && <><br />{event.time}</>}
-                </p>
-                <span className="mt-5 inline-block w-fit cursor-not-allowed rounded-sm bg-white/20 px-6 py-2.5 text-sm font-bold uppercase tracking-wide text-white/40">
-                  Registration opens soon
-                </span>
-              </div>
-
-              {/* Right — image */}
-              <div className="relative aspect-[2/1] w-full md:aspect-[3/2] md:w-2/5">
-                <Image
-                  src={event.img}
-                  alt={event.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 40vw"
-                  className="object-cover"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    </main>
+    </div>
   )
 }
