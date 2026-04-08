@@ -41,6 +41,7 @@ interface Board {
   name: string
   year: string
   imageUrl: string
+  imageObjectPosition?: string
   executiveBoard: BoardMember[]
   departmentBoard: BoardMember[]
 }
@@ -81,7 +82,7 @@ export default function MembersPage() {
       ],
     },
     {
-      id: '24-25', name: 'Board 24-25', year: '2024-2025', imageUrl: '',
+      id: '24-25', name: 'Board 24-25', year: '2024-2025', imageUrl: '/ourMembers/boads/board25.jpg',
       executiveBoard: [
         { name: 'SIMON BURMER', role: 'CFO', imageUrl: '/ourMembers/hero-opt.png', linkedinUrl: 'https://www.linkedin.com/in/simon-burmer/' },
         { name: 'ALI SERAG EL DIN', role: 'President', imageUrl: '/ourMembers/hero-opt.png', linkedinUrl: 'https://www.linkedin.com/in/ali-serag-el-din/' },
@@ -604,7 +605,7 @@ export default function MembersPage() {
                   >
                     <div className="relative overflow-hidden h-52">
                       {board.imageUrl ? (
-                        <Image src={board.imageUrl} alt={board.name} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <Image src={board.imageUrl} alt={board.name} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-105 transition-transform duration-500" style={{ objectPosition: board.imageObjectPosition ?? 'center' }} />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-white/5 to-white/[0.02] flex items-center justify-center">
                           <span className="text-white/10 text-6xl font-black tracking-tight">{board.year}</span>

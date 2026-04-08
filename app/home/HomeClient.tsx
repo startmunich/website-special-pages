@@ -212,14 +212,14 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               {/* Left - Text Content */}
               <div>
                 <h2 className="text-4xl sm:text-5xl font-black text-white mb-6">
-                  What is <span className="outline-text">START Munich</span>?
+                  What is <span className="outline-text">START Munich</span>
                 </h2>
                 <p className="text-gray-300 text-lg leading-relaxed mb-4">
                   With over 70 active members and 600+ alumni, START Munich is one of Germany’s leading student-run entrepreneurship initiatives. Founded in 2003, our mission is to build  
-                  <span className="text-brand-pink font-semibold"> a community of students who dare to build, innovate, and lead.</span>
+                  <span className=" font-semibold"> a community of students who dare to build, innovate, and lead.</span>
                 </p>
                 <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                  At START Munich, <span className="text-brand-pink font-semibold">  aspiring and active entrepreneurs come together </span> to connect, collaborate, and grow. Together with our talented members, we host events such as pitch nights and founder talks, connect with industry partners and investors, or run hands-on programs that bridge academia with entrepreneurship.
+                  At START Munich, <span className="font-semibold">  aspiring and active entrepreneurs come together </span> to connect, collaborate, and grow. Together with our talented members, we host events such as pitch nights and founder talks, connect with industry partners and investors, or run hands-on programs that bridge academia with entrepreneurship.
                 </p>
 
                 <div className="flex flex-wrap gap-4 mt-8">

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useInView, useAnimatedNumber } from '@/lib/hooks'
 import Hero from '@/components/Hero'
@@ -22,13 +22,37 @@ const departmentBoard = [
 ]
 
 const advisoryBoard = [
-  { name: "Advisory Member 1", role: "CEO, Company", bio: "Brings 20+ years of experience in scaling tech companies across Europe. Advises on corporate strategy and international expansion.", photo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=500&fit=crop&crop=face" },
-  { name: "Advisory Member 2", role: "Founder, Startup", bio: "Serial entrepreneur with three successful exits. Mentors early-stage founders on product-market fit and fundraising.", photo: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=500&fit=crop&crop=face" },
-  { name: "Advisory Member 3", role: "Partner, VC Fund", bio: "Leads early-stage investments in deep tech and SaaS. Connects our startups with the European investor network.", photo: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=400&h=500&fit=crop&crop=face" },
-  { name: "Advisory Member 4", role: "Professor, TUM", bio: "Chair of Entrepreneurship at TU Munich. Bridges academic research with real-world startup building.", photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face" },
-  { name: "Advisory Member 5", role: "Managing Director", bio: "Runs one of Munich's leading accelerator programs. Expert in go-to-market strategy and corporate partnerships.", photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=500&fit=crop&crop=face" },
-  { name: "Advisory Member 6", role: "Angel Investor", bio: "Backed 40+ startups across fintech, healthtech, and mobility. Offers hands-on support in the critical first 18 months.", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face" },
-  { name: "Advisory Member 7", role: "COO, Scale-up", bio: "Operational leader who scaled a Munich startup from 10 to 500 employees. Advises on hiring, culture, and processes.", photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop&crop=face" },
+  {
+    name: "Dr. Jennifer Kaiser-Steiner",
+    role: "Learning & Exchange Center, UnternehmerTUM",
+    bio: "Dr. Jennifer Kaiser-Steiner leads the Learning & Exchange Center at UnternehmerTUM, Europe's largest entrepreneurship hub. She supports startup factories and innovation ecosystems in strengthening their professionalism by sharing best practices and establishing KPI-driven performance frameworks. Previously, she worked as a personal advisor to a member of the German Bundestag, where she contributed to legislative initiatives. Jennifer earned her doctorate in economics from the University of the Federal Armed Forces, with a research focus on corporate innovation.",
+    photo: "/aboutUs/AdvBoard/Jennifer.jpg",
+  },
+  {
+    name: "Prof. Dr. Bettina Maisch",
+    role: "Head of Entrepreneurship Education, SCE",
+    bio: "Prof. Dr. Bettina Maisch is Head of Entrepreneurship Education and Qualification at the Strascheg Center for Entrepreneurship (SCE). Her work focuses on Entrepreneurial Life Design, Design Thinking, and Innovation Management to empower individuals and organizations to develop and implement innovative ideas. She combines academic research with hands-on, iterative approaches to (Corporate) Entrepreneurship and venture creation.",
+    photo: "/aboutUs/AdvBoard/Maisch.jpg",
+  },
+  {
+    name: "Felix Haas",
+    role: "Co-founder, 10x Founders VC",
+    bio: "Felix Haas is a German entrepreneur, investor, and serial founder, having co-founded START Munich in 2003, the ticketing platform amiando, the identity verification company IDnow, and the startup venture firm 10x Founders VC. He has invested in over 50 tech startups, co-hosts Germany's leading founders' conference Bits & Pretzels, and is a founding partner of FLEX Capital, recognized for mentoring founders and driving innovation in the startup ecosystem.",
+    photo: "/aboutUs/AdvBoard/Felix.png",
+    objectPosition: "center",
+  },
+  {
+    name: "Jean Paul Buján",
+    role: "Former Vice President",
+    bio: null,
+    photo: "/aboutUs/AdvBoard/JP-opt.png",
+  },
+  {
+    name: "Fabian Rieht",
+    role: "Former President",
+    bio: null,
+    photo: "/aboutUs/AdvBoard/Fabian-opt.png",
+  },
 ]
 
 const missionPartners = [
@@ -41,7 +65,42 @@ const missionPartners = [
   ], image: "/aboutUs/missionPartner/CDTM.png", image2: "/aboutUs/missionPartner/mandm.jpeg" },
 ]
 
-const showAdvisoryBoard = process.env.NEXT_PUBLIC_SHOW_ADVISORY_BOARD === 'true'
+type AdvisoryMember = typeof advisoryBoard[number]
+
+function AdvisorDetail({ member, onClose }: { member: AdvisoryMember, onClose: () => void }) {
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setVisible(true))
+    return () => cancelAnimationFrame(id)
+  }, [])
+
+  const t = () =>
+    `transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`
+
+  return (
+    <div className={`bg-white/[0.03] border border-white/10 rounded-2xl p-6 lg:p-8 flex items-start gap-6 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+      <div className={`hidden sm:block relative flex-shrink-0 w-20 h-24 rounded-xl overflow-hidden border-2 border-brand-pink ${t()}`} style={{ transitionDelay: '0ms' }}>
+        <Image src={member.photo} alt={member.name} fill sizes="80px" className="object-cover object-top" />
+      </div>
+      <div className="flex-1">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h3 className={`text-xl lg:text-2xl font-black text-white uppercase tracking-tight ${t()}`} style={{ transitionDelay: '100ms' }}>{member.name}</h3>
+            <p className={`text-brand-pink text-sm font-semibold mt-1 ${t()}`} style={{ transitionDelay: '200ms' }}>{member.role}</p>
+          </div>
+          <button onClick={onClose} className="text-white/30 hover:text-white transition-colors flex-shrink-0">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <p className={`text-gray-400 text-sm lg:text-base leading-relaxed mt-4 ${t()}`} style={{ transitionDelay: '300ms' }}>{member.bio}</p>
+      </div>
+    </div>
+  )
+}
+
+const showAdvisoryBoard = true
 
 export default function AboutUsPage() {
   const [selectedAdvisor, setSelectedAdvisor] = useState<number | null>(0)
@@ -270,23 +329,40 @@ export default function AboutUsPage() {
       {showAdvisoryBoard && (
       <section className="pt-4 pb-28 px-4 sm:px-6 lg:px-8" ref={advView.ref}>
         <div className="max-w-7xl mx-auto">
-          <div className={`flex items-center gap-3 mb-12 transition-all duration-700 ${advView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <div className="w-6 h-px bg-brand-pink" />
-            <span className="text-brand-pink text-sm font-bold tracking-[0.35em] uppercase">Advisory Board</span>
-            <div className="w-6 h-px bg-white/20" />
-            <span className="text-gray-500 text-base lg:text-lg leading-relaxed">Seasoned entrepreneurs and industry leaders who sharpen our direction.</span>
+          <div className={`mb-10 transition-all duration-700 ${advView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-6 h-px bg-brand-pink" />
+              <span className="text-brand-pink text-sm font-bold tracking-[0.35em] uppercase">Advisory Board</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+              {[
+                { icon: "M13 10V3L4 14h7v7l9-11h-7z", text: "Support and enable our long-term vision" },
+                { icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z", text: "Connect us with key ecosystem players" },
+                { icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z", text: "Advise us on strategic decisions" },
+              ].map(({ icon, text }) => (
+                <div key={text} className="flex items-center gap-3 bg-white/[0.03] border border-white/10 rounded-xl px-5 py-4">
+                  <div className="w-8 h-8 rounded-lg bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-brand-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d={icon} />
+                    </svg>
+                  </div>
+                  <span className="text-gray-300 text-sm">{text}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* 7-column thumbnail grid */}
-          <div className={`grid grid-cols-4 sm:grid-cols-7 gap-3 lg:gap-4 transition-all duration-700 delay-200 ${advView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          {/* thumbnail grid */}
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 lg:gap-4">
             {advisoryBoard.map((member, i) => (
               <button
                 key={i}
-                onClick={() => setSelectedAdvisor(selectedAdvisor === i ? null : i)}
-                className={`group text-left transition-all duration-300 ${selectedAdvisor === i ? 'scale-[0.97]' : ''}`}
+                onClick={() => member.bio ? setSelectedAdvisor(selectedAdvisor === i ? null : i) : undefined}
+                className={`group text-left transition-all duration-700 ${advView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${!member.bio ? 'cursor-default' : ''} ${selectedAdvisor === i ? 'scale-[0.97]' : ''}`}
+                style={{ transitionDelay: `${200 + i * 100}ms` }}
               >
                 <div className={`relative aspect-[3/4] rounded-xl overflow-hidden border-2 transition-colors duration-300 ${selectedAdvisor === i ? 'border-brand-pink' : 'border-white/10 hover:border-white/30'}`}>
-                  <Image src={member.photo} alt={member.name} fill sizes="(max-width: 768px) 25vw, 12vw" className="object-cover object-top" />
+                  <Image src={member.photo} alt={member.name} fill sizes="(max-width: 768px) 33vw, 15vw" className="object-cover" style={{ objectPosition: 'objectPosition' in member ? member.objectPosition : 'top' }} />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#05112a]/80 via-transparent to-transparent" />
                 </div>
                 <p className={`font-bold uppercase text-xs tracking-wide leading-tight mt-2 transition-colors ${selectedAdvisor === i ? 'text-brand-pink' : 'text-white'}`}>{member.name}</p>
@@ -296,27 +372,9 @@ export default function AboutUsPage() {
           </div>
 
           {/* Expandable detail panel */}
-          <div className={`overflow-hidden transition-all duration-500 ease-in-out ${selectedAdvisor !== null ? 'max-h-[300px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}`}>
-            {selectedAdvisor !== null && (
-              <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 lg:p-8 flex items-start gap-6">
-                <div className="hidden sm:block relative flex-shrink-0 w-20 h-24 rounded-xl overflow-hidden border-2 border-brand-pink">
-                  <Image src={advisoryBoard[selectedAdvisor].photo} alt={advisoryBoard[selectedAdvisor].name} fill sizes="80px" className="object-cover object-top" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <h3 className="text-xl lg:text-2xl font-black text-white uppercase tracking-tight">{advisoryBoard[selectedAdvisor].name}</h3>
-                      <p className="text-brand-pink text-sm font-semibold mt-1">{advisoryBoard[selectedAdvisor].role}</p>
-                    </div>
-                    <button onClick={() => setSelectedAdvisor(null)} className="text-white/30 hover:text-white transition-colors flex-shrink-0">
-                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                  </div>
-                  <p className="text-gray-400 text-sm lg:text-base leading-relaxed mt-4">{advisoryBoard[selectedAdvisor].bio}</p>
-                </div>
-              </div>
+          <div className={`overflow-hidden transition-all duration-500 ease-in-out ${selectedAdvisor !== null ? 'max-h-[400px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}`}>
+            {selectedAdvisor !== null && advisoryBoard[selectedAdvisor].bio && (
+              <AdvisorDetail key={selectedAdvisor} member={advisoryBoard[selectedAdvisor]} onClose={() => setSelectedAdvisor(null)} />
             )}
           </div>
         </div>
