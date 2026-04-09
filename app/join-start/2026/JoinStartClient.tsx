@@ -21,15 +21,19 @@ export default function JoinStartClient() {
   })
   const [mounted, setMounted] = useState(false)
   const [isLive, setIsLive] = useState(false)
+  const [isClosed, setIsClosed] = useState(false)
 
   const searchParams = useSearchParams()
   const isBeta = searchParams.get('beta') === 'true'
 
   useEffect(() => {
     setMounted(true)
-    setIsLive(isBeta || Date.now() >= LAUNCH_DATE)
     const update = () => {
-      const diff = Math.max(0, TARGET_DATE - Date.now())
+      const now = Date.now()
+      const rawDiff = TARGET_DATE - now
+      const diff = Math.max(0, rawDiff)
+      setIsLive(isBeta || now >= LAUNCH_DATE)
+      setIsClosed(rawDiff <= 0)
       setTimeLeft({
         days: Math.floor(diff / (1000 * 60 * 60 * 24)),
         hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
@@ -40,7 +44,7 @@ export default function JoinStartClient() {
     update()
     const interval = setInterval(update, 1000)
     return () => clearInterval(interval)
-  }, [])
+  }, [isBeta])
 
   const units = [
     { value: timeLeft.days, label: 'Days' },
@@ -49,17 +53,15 @@ export default function JoinStartClient() {
     { value: timeLeft.seconds, label: 'Seconds' },
   ]
 
-  if (!mounted) return null
-
-  if (!isLive) {
+  if (!mounted || !isLive) {
     return (
-      <main className="min-h-screen bg-brand-dark-blue text-white">
+      <div className="min-h-screen bg-brand-dark-blue text-white">
         <Hero
           backgroundImage="/memberJourney/hero-opt.png"
           title={<>JOIN <span className="outline-text">START MUNICH</span></>}
           description="Applications for 2026 will open soon. Stay tuned."
         />
-      </main>
+      </div>
     )
   }
 
@@ -150,7 +152,7 @@ export default function JoinStartClient() {
       {/* YouTube video section */}
       <section id="video" className="scroll-mt-8 px-6 py-12 md:px-16 md:py-20 lg:px-24">
 
-        <div className="relative w-full overflow-hidden rounded-xl" style={{ paddingBottom: '56.25%' }}>
+        <div className="relative aspect-video w-full overflow-hidden rounded-xl">
           <iframe
             src="https://www.youtube.com/embed/T63USk9W_IY"
             title="START Munich Application Video"
@@ -189,8 +191,7 @@ export default function JoinStartClient() {
           ].map((event) => (
             <div
               key={event.title}
-              className="flex w-72 flex-none flex-col overflow-hidden rounded-lg md:w-80"
-              style={{ border: '1px solid rgba(255,255,255,0.08)' }}
+              className="flex w-72 flex-none flex-col overflow-hidden rounded-lg border border-white/[0.08] md:w-80"
             >
               {/* Top — image */}
               <div className="relative aspect-square w-full">
@@ -344,7 +345,7 @@ export default function JoinStartClient() {
 
       {/* Jumpstart Into Entrepreneurship */}
       <section className="px-6 py-12 md:px-16 md:py-20 lg:px-24">
-        <div className="relative aspect-[4/1] px-12 w-full overflow-hidden rounded-lg">
+        <div className="relative aspect-[4/1] w-full overflow-hidden rounded-lg">
           <Image
             src="/join-start/jumpstart.png"
             alt="Jumpstart Into Entrepreneurship"
