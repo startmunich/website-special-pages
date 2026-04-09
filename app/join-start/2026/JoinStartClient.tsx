@@ -181,10 +181,10 @@ export default function JoinStartClient() {
             { title: 'YC Event', desc: 'START Munich', date: 'Wednesday, 15th April 2026', time: null, img: '/join-start/yc-event.jpg', link: null, linkLabel: null },
             { title: 'START & Friends Run Club – Sunset Run', desc: 'START & Friends', date: 'Thursday, 16th April 2026', time: '18:30', img: '/join-start/sunset-run.png', link: 'https://luma.com/omtnj23y', linkLabel: 'Register now' },
             { title: 'Female Entrepreneurship Summit', desc: 'YFN x START Munich', date: 'Saturday, 18th April 2026', time: null, img: '/join-start/fes.png', link: 'https://www.youngfounders.network/fes', linkLabel: 'More information' },
-            { title: 'Founder Fail Tales', desc: 'Vol. 5', date: 'Tuesday, 21st April 2026', time: null, img: '/partners/partnerEvents/FounderFailTails-opt.jpg', link: null, linkLabel: null },
+            { title: 'Founder Fail Tales', desc: 'Vol. 5', date: 'Tuesday, 21st April 2026', time: null, img: '/forPartners/partnerEvents/FounderFailTails-opt.jpg', link: null, linkLabel: null },
             { title: 'Why Start? Info Session', desc: 'Real people. Real journeys. Real reasons to START.', date: 'Thursday, 23rd April 2026', time: null, img: '/join-start/info-session-2026.png', link: 'https://luma.com/t5r7vw10', linkLabel: 'Register now' },
             { title: 'Student Initiative Showcase', desc: 'START Munich', date: 'Friday, 24th April 2026', time: null, img: '/join-start/student-club-fair.jpg', link: null, linkLabel: null },
-            { title: 'Online Info Event', desc: 'You are temporarily not in Munich? We got you.', date: 'Friday, 24th April 2026', time: null, img: '/join-start/online-info.jpg', link: null, linkLabel: null },
+            { title: 'Online Info Event', desc: 'You are temporarily not in Munich? We got you.', date: 'Friday, 24th April 2026', time: null, img: '/join-start/online-info-2026.jpeg', link: null, linkLabel: null },
             { title: 'START & Friends Run Club – Coffee Run with LAP', desc: 'START & Friends', date: 'Saturday, 25th April 2026', time: '11:00', img: '/join-start/coffee-run-lap.png', link: 'https://luma.com/qb2g0cph', linkLabel: 'Register now' },
           ].map((event) => (
             <div
