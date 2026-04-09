@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Hero from '@/components/Hero'
+import JoinStartClient from './JoinStartClient'
 
 export const metadata: Metadata = {
   title: 'Join START Munich 2026',
@@ -15,13 +15,5 @@ export const metadata: Metadata = {
 }
 
 export default function JoinStart2026Page() {
-  return (
-    <main className="min-h-screen bg-brand-dark-blue text-white">
-      <Hero
-        backgroundImage="/memberJourney/hero-opt.png"
-        title={<>JOIN <span className="outline-text">START MUNICH</span></>}
-        description="Applications for 2026 will open soon. Stay tuned."
-      />
-    </main>
-  )
+  return <JoinStartClient />
 }
