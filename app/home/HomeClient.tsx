@@ -446,7 +446,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 },
                 {
                   href: "https://www.linkedin.com/feed/update/urn:li:share:7440016138719272960",
-                  img: "https://media.licdn.com/dms/image/v2/D5622AQEh2lg_lhQjww/feedshare-shrink_1280/B56Z0A_QNzI0AU-/0/1773838075010?e=1775692800&v=beta&t=idyNOcgAy--nvZREVm78rmAppAX0uJFuOWEjrUVjIfg",
+                  img: "https://media.licdn.com/dms/image/v2/D5622AQEh2lg_lhQjww/feedshare-shrink_800/B56Z0A_QNzI0Ak-/0/1773838075010?e=1777507200&v=beta&t=L9oNLtmDh68DzOSN7-lEUIML3D6euhlPh8c2Ki40eME",
                   alt: "START Labs MedTech Edition",
                   label: "Upcoming Event",
                   title: "START Labs: MedTech Edition",
@@ -454,7 +454,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 },
                 {
                   href: "https://www.linkedin.com/feed/update/urn:li:share:7435353728989229056",
-                  img: "https://media.licdn.com/dms/image/v2/D4D22AQGajz8OPW6FFw/feedshare-shrink_1280/B4DZy.u0TJHIAc-/0/1772726470218?e=1775692800&v=beta&t=eNeBZE_T126RQMQfvEIfT926mx6D_VxTvIOeZ18p1_0",
+                  img: "https://media.licdn.com/dms/image/v2/D4D22AQGajz8OPW6FFw/feedshare-shrink_800/B4DZy.u0TJHIAg-/0/1772726470218?e=1777507200&v=beta&t=fTP2Nb-ox-_uLga7NxDGiO9UIR1v3a6Dd4zPa8LNjpY",
                   alt: "START Goes Bay Area",
                   label: "START Goes",
                   title: "BAY AREA",
@@ -463,7 +463,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 },
                 {
                   href: "https://www.linkedin.com/feed/update/urn:li:share:7435603494218166272",
-                  img: "https://media.licdn.com/dms/image/v2/D4E22AQHk1X_AF4bZ4Q/feedshare-shrink_2048_1536/B4EZzCR.lKJEAk-/0/1772786019035?e=1775692800&v=beta&t=u5vZe8YnuTVmKWbQdOIHbEa626sXld9zhbR71XaQxZk",
+                  img: "https://media.licdn.com/dms/image/v2/D4E22AQHk1X_AF4bZ4Q/feedshare-shrink_800/B4EZzCR.lKJEAg-/0/1772786019035?e=1777507200&v=beta&t=TYYUhQIvipVvAcWeL4KbHIeF5KL-maptiLn8P3nX9LQ",
                   alt: "Lio raises €30M",
                   title: "Lio raises €30M",
                   desc: "Huge congratulations to START Munich alumni!",
