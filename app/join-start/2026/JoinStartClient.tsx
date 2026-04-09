@@ -178,10 +178,10 @@ export default function JoinStartClient() {
 
         <div className="mt-12 flex gap-5 overflow-x-auto px-6 pb-4 md:px-16 lg:px-24 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {[
-            { title: 'YC Event', desc: 'START Munich', date: 'Wednesday, 15th April 2026', time: null, img: '/join-start/yc-event.jpg', link: null, linkLabel: null },
+            //{ title: 'YC Event', desc: 'START Munich', date: 'Wednesday, 15th April 2026', time: null, img: '/join-start/yc-event.jpg', link: null, linkLabel: null },
             { title: 'START & Friends Run Club – Sunset Run', desc: 'START & Friends', date: 'Thursday, 16th April 2026', time: '18:30', img: '/join-start/sunset-run.png', link: 'https://luma.com/omtnj23y', linkLabel: 'Register now' },
             { title: 'Female Entrepreneurship Summit', desc: 'YFN x START Munich', date: 'Saturday, 18th April 2026', time: null, img: '/join-start/fes.png', link: 'https://www.youngfounders.network/fes', linkLabel: 'More information' },
-            { title: 'Founder Fail Tales', desc: 'Vol. 5', date: 'Tuesday, 21st April 2026', time: null, img: '/forPartners/partnerEvents/FounderFailTails-opt.jpg', link: null, linkLabel: null },
+            { title: 'Founder Fail Tales', desc: 'Vol. 5', date: 'Tuesday, 21st April 2026', time: null, img: '/join-start/founder-fail-tales.png', link: 'https://luma.com/fp1fd6qv', linkLabel: 'Register now' },
             { title: 'Why Start? Info Session', desc: 'Real people. Real journeys. Real reasons to START.', date: 'Thursday, 23rd April 2026', time: null, img: '/join-start/info-session-2026.png', link: 'https://luma.com/t5r7vw10', linkLabel: 'Register now' },
             { title: 'Student Initiative Showcase', desc: 'START Munich', date: 'Friday, 24th April 2026', time: null, img: '/join-start/student-club-fair.jpg', link: null, linkLabel: null },
             { title: 'Online Info Event', desc: 'You are temporarily not in Munich? We got you.', date: 'Friday, 24th April 2026', time: null, img: '/join-start/online-info-2026.jpeg', link: null, linkLabel: null },
