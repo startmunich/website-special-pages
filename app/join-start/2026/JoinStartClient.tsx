@@ -21,15 +21,19 @@ export default function JoinStartClient() {
   })
   const [mounted, setMounted] = useState(false)
   const [isLive, setIsLive] = useState(false)
+  const [isClosed, setIsClosed] = useState(false)
 
   const searchParams = useSearchParams()
   const isBeta = searchParams.get('beta') === 'true'
 
   useEffect(() => {
     setMounted(true)
-    setIsLive(isBeta || Date.now() >= LAUNCH_DATE)
     const update = () => {
-      const diff = Math.max(0, TARGET_DATE - Date.now())
+      const now = Date.now()
+      const rawDiff = TARGET_DATE - now
+      const diff = Math.max(0, rawDiff)
+      setIsLive(isBeta || now >= LAUNCH_DATE)
+      setIsClosed(rawDiff <= 0)
       setTimeLeft({
         days: Math.floor(diff / (1000 * 60 * 60 * 24)),
         hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
@@ -40,7 +44,7 @@ export default function JoinStartClient() {
     update()
     const interval = setInterval(update, 1000)
     return () => clearInterval(interval)
-  }, [])
+  }, [isBeta])
 
   const units = [
     { value: timeLeft.days, label: 'Days' },
@@ -49,17 +53,15 @@ export default function JoinStartClient() {
     { value: timeLeft.seconds, label: 'Seconds' },
   ]
 
-  if (!mounted) return null
-
-  if (!isLive) {
+  if (!mounted || !isLive) {
     return (
-      <main className="min-h-screen bg-brand-dark-blue text-white">
+      <div className="min-h-screen bg-brand-dark-blue text-white">
         <Hero
           backgroundImage="/memberJourney/hero-opt.png"
           title={<>JOIN <span className="outline-text">START MUNICH</span></>}
           description="Applications for 2026 will open soon. Stay tuned."
         />
-      </main>
+      </div>
     )
   }
 
@@ -138,9 +140,9 @@ export default function JoinStartClient() {
                 href="https://tally.so/r/eqL4yQ"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-block rounded-full bg-[#d0006f] px-8 py-3 text-sm font-bold text-white transition hover:bg-[#d0006f]/80"
+                className="mt-6 inline-flex items-center justify-center rounded-xl bg-brand-pink px-8 py-3 font-bold text-white transition-all duration-1000 hover:shadow-[0_0_30px_rgba(208,0,111,0.4)]"
               >
-                Apply now
+                Apply Now
               </a>
             </div>
           </div>
@@ -150,7 +152,7 @@ export default function JoinStartClient() {
       {/* YouTube video section */}
       <section id="video" className="scroll-mt-8 px-6 py-12 md:px-16 md:py-20 lg:px-24">
 
-        <div className="relative w-full overflow-hidden rounded-xl" style={{ paddingBottom: '56.25%' }}>
+        <div className="relative aspect-video w-full overflow-hidden rounded-xl">
           <iframe
             src="https://www.youtube.com/embed/T63USk9W_IY"
             title="START Munich Application Video"
@@ -178,19 +180,18 @@ export default function JoinStartClient() {
 
         <div className="mt-12 flex gap-5 overflow-x-auto px-6 pb-4 md:px-16 lg:px-24 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {[
-            { title: 'YC Event', desc: 'START Munich', date: 'Wednesday, 15th April 2026', time: null, img: '/join-start/yc-event.jpg', link: null, linkLabel: null },
+            //{ title: 'YC Event', desc: 'START Munich', date: 'Wednesday, 15th April 2026', time: null, img: '/join-start/yc-event.jpg', link: null, linkLabel: null },
             { title: 'START & Friends Run Club – Sunset Run', desc: 'START & Friends', date: 'Thursday, 16th April 2026', time: '18:30', img: '/join-start/sunset-run.png', link: 'https://luma.com/omtnj23y', linkLabel: 'Register now' },
             { title: 'Female Entrepreneurship Summit', desc: 'YFN x START Munich', date: 'Saturday, 18th April 2026', time: null, img: '/join-start/fes.png', link: 'https://www.youngfounders.network/fes', linkLabel: 'More information' },
-            { title: 'Founder Fail Tales', desc: 'Vol. 5', date: 'Tuesday, 21st April 2026', time: null, img: '/partners/partnerEvents/FounderFailTails-opt.jpg', link: null, linkLabel: null },
+            { title: 'Founder Fail Tales', desc: 'Vol. 5', date: 'Tuesday, 21st April 2026', time: null, img: '/join-start/founder-fail-tales.png', link: 'https://luma.com/fp1fd6qv', linkLabel: 'Register now' },
             { title: 'Why Start? Info Session', desc: 'Real people. Real journeys. Real reasons to START.', date: 'Thursday, 23rd April 2026', time: null, img: '/join-start/info-session-2026.png', link: 'https://luma.com/t5r7vw10', linkLabel: 'Register now' },
             { title: 'Student Initiative Showcase', desc: 'START Munich', date: 'Friday, 24th April 2026', time: null, img: '/join-start/student-club-fair.jpg', link: null, linkLabel: null },
-            { title: 'Online Info Event', desc: 'You are temporarily not in Munich? We got you.', date: 'Friday, 24th April 2026', time: null, img: '/join-start/online-info.jpg', link: null, linkLabel: null },
+            { title: 'Online Info Event', desc: 'You are temporarily not in Munich? We got you.', date: 'Friday, 24th April 2026', time: null, img: '/join-start/online-info-2026.png', link: 'https://luma.com/4q4m43v3', linkLabel: 'Register now' },
             { title: 'START & Friends Run Club – Coffee Run with LAP', desc: 'START & Friends', date: 'Saturday, 25th April 2026', time: '11:00', img: '/join-start/coffee-run-lap.png', link: 'https://luma.com/qb2g0cph', linkLabel: 'Register now' },
           ].map((event) => (
             <div
               key={event.title}
-              className="flex w-72 flex-none flex-col overflow-hidden rounded-lg md:w-80"
-              style={{ border: '1px solid rgba(255,255,255,0.08)' }}
+              className="flex w-72 flex-none flex-col overflow-hidden rounded-lg border border-white/[0.08] md:w-80"
             >
               {/* Top — image */}
               <div className="relative aspect-square w-full">
@@ -344,7 +345,7 @@ export default function JoinStartClient() {
 
       {/* Jumpstart Into Entrepreneurship */}
       <section className="px-6 py-12 md:px-16 md:py-20 lg:px-24">
-        <div className="relative aspect-[4/1] px-12 w-full overflow-hidden rounded-lg">
+        <div className="relative aspect-[4/1] w-full overflow-hidden rounded-lg">
           <Image
             src="/join-start/jumpstart.png"
             alt="Jumpstart Into Entrepreneurship"
