@@ -138,9 +138,9 @@ export default function JoinStartClient() {
                 href="https://tally.so/r/eqL4yQ"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-block rounded-full bg-[#d0006f] px-8 py-3 text-sm font-bold text-white transition hover:bg-[#d0006f]/80"
+                className="mt-6 inline-flex items-center justify-center rounded-xl bg-brand-pink px-8 py-3 font-bold text-white transition-all duration-1000 hover:shadow-[0_0_30px_rgba(208,0,111,0.4)]"
               >
-                Apply now
+                Apply Now
               </a>
             </div>
           </div>
