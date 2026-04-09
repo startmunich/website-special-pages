@@ -353,26 +353,26 @@ export default function AboutUsPage() {
           </div>
 
           {/* thumbnail grid */}
-          <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 lg:gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 lg:gap-4 items-start">
             {advisoryBoard.map((member, i) => (
               <button
                 key={i}
                 onClick={() => member.bio ? setSelectedAdvisor(selectedAdvisor === i ? null : i) : undefined}
-                className={`group text-left transition-all duration-700 ${advView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${!member.bio ? 'cursor-default' : ''} ${selectedAdvisor === i ? 'scale-[0.97]' : ''}`}
-                style={{ transitionDelay: `${200 + i * 100}ms` }}
+                className={`group text-left w-full transition-all duration-700 ${advView.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${!member.bio ? 'cursor-default' : ''} ${selectedAdvisor === i ? 'scale-[0.97]' : ''}`}
+                style={{}}
               >
                 <div className={`relative aspect-[3/4] rounded-xl overflow-hidden border-2 transition-colors duration-300 ${selectedAdvisor === i ? 'border-brand-pink' : 'border-white/10 hover:border-white/30'}`}>
-                  <Image src={member.photo} alt={member.name} fill sizes="(max-width: 768px) 33vw, 15vw" className="object-cover" style={{ objectPosition: 'objectPosition' in member ? member.objectPosition : 'top' }} />
+                  <Image src={member.photo} alt={member.name} fill sizes="(max-width: 640px) 33vw, 15vw" className="object-cover" style={{ objectPosition: 'objectPosition' in member ? member.objectPosition : 'top' }} />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#05112a]/80 via-transparent to-transparent" />
                 </div>
-                <p className={`font-bold uppercase text-xs tracking-wide leading-tight mt-2 transition-colors ${selectedAdvisor === i ? 'text-brand-pink' : 'text-white'}`}>{member.name}</p>
-                <p className="text-gray-500 text-[10px] uppercase tracking-wider mt-0.5">{member.role}</p>
+                <p className={`font-bold uppercase text-xs tracking-wide leading-tight mt-2 transition-colors line-clamp-2 ${selectedAdvisor === i ? 'text-brand-pink' : 'text-white'}`}>{member.name}</p>
+                <p className="text-gray-500 text-[10px] uppercase tracking-wider mt-0.5 line-clamp-2">{member.role}</p>
               </button>
             ))}
           </div>
 
           {/* Expandable detail panel */}
-          <div className={`overflow-hidden transition-all duration-500 ease-in-out ${selectedAdvisor !== null ? 'max-h-[400px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}`}>
+          <div className={`overflow-hidden transition-all duration-500 ease-in-out ${selectedAdvisor !== null ? 'max-h-[800px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}`}>
             {selectedAdvisor !== null && advisoryBoard[selectedAdvisor].bio && (
               <AdvisorDetail key={selectedAdvisor} member={advisoryBoard[selectedAdvisor]} onClose={() => setSelectedAdvisor(null)} />
             )}
