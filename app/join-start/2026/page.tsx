@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import JoinStartClient from './JoinStartClient'
 
+const LAUNCH_DATE = new Date('2026-04-10T00:00:00+02:00').getTime()
+
 export const metadata: Metadata = {
   title: 'Join START Munich 2026',
   description:
@@ -14,6 +16,14 @@ export const metadata: Metadata = {
   },
 }
 
-export default function JoinStart2026Page() {
-  return <JoinStartClient />
+interface JoinStart2026PageProps {
+  searchParams?: Promise<{ beta?: string }>
+}
+
+export default async function JoinStart2026Page({ searchParams }: JoinStart2026PageProps) {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined
+  const isBeta = resolvedSearchParams?.beta === 'true'
+  const isLive = isBeta || Date.now() >= LAUNCH_DATE
+
+  return <JoinStartClient isLive={isLive} />
 }

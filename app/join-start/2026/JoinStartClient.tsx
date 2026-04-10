@@ -1,13 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Hero from '@/components/Hero'
 import HeroCard from '@/components/HeroCard'
 import UpcomingEventTile from '@/components/UpcomingEventTile'
 
-const LAUNCH_DATE = new Date('2026-04-10T00:00:00+02:00').getTime()
 const TARGET_DATE = new Date('2026-04-26T23:59:59+02:00').getTime()
 
 function pad(n: number) {
@@ -87,7 +85,11 @@ const applyEvents = [
   },
 ]
 
-export default function JoinStartClient() {
+interface JoinStartClientProps {
+  isLive: boolean
+}
+
+export default function JoinStartClient({ isLive }: JoinStartClientProps) {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -95,10 +97,7 @@ export default function JoinStartClient() {
     seconds: 0,
   })
   const [mounted, setMounted] = useState(false)
-  const [isLive, setIsLive] = useState(false)
   const [isClosed, setIsClosed] = useState(false)
-  const searchParams = useSearchParams()
-  const isBeta = searchParams.get('beta') === 'true'
 
   useEffect(() => {
     setMounted(true)
@@ -106,7 +105,6 @@ export default function JoinStartClient() {
       const now = Date.now()
       const rawDiff = TARGET_DATE - now
       const diff = Math.max(0, rawDiff)
-      setIsLive(isBeta || now >= LAUNCH_DATE)
       setIsClosed(rawDiff <= 0)
       setTimeLeft({
         days: Math.floor(diff / (1000 * 60 * 60 * 24)),
@@ -118,7 +116,7 @@ export default function JoinStartClient() {
     update()
     const interval = setInterval(update, 1000)
     return () => clearInterval(interval)
-  }, [isBeta])
+  }, [])
 
   const units = [
     { value: timeLeft.days, label: 'Days' },
@@ -127,7 +125,7 @@ export default function JoinStartClient() {
     { value: timeLeft.seconds, label: 'Seconds' },
   ]
 
-  if (!mounted || !isLive) {
+  if (!isLive) {
     return (
       <div className="min-h-screen bg-brand-dark-blue text-white">
         <Hero
