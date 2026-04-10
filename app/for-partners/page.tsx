@@ -161,7 +161,6 @@ export default async function ForPartnersPage() {
         {/* Hero Section */}
         <Hero
           backgroundImage="/forPartners/hero-opt.jpg"
-          hideChildrenOnMobile
           title={
             <>
               FOR

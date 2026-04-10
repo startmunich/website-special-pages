@@ -253,7 +253,6 @@ export default function MemberJourneyPage() {
   const isDraggingTimeline = useRef(false)
   const dragStartX = useRef(0)
   const dragStartScrollLeft = useRef(0)
-  const [scrollProgress, setScrollProgress] = useState(0)
   const [hoveredEventId, setHoveredEventId] = useState<string | null>(null)
   const [lockedEventId, setLockedEventId] = useState<string | null>(null)
   const [isMoreHovered, setIsMoreHovered] = useState(false)
@@ -313,23 +312,6 @@ export default function MemberJourneyPage() {
   useEffect(() => {
     setLoading(false)
   }, [])
-
-  useEffect(() => {
-    const slider = timelineSliderRef.current
-    if (!slider || loading) return
-
-    const updateScroll = () => {
-      const maxScroll = slider.scrollWidth - slider.clientWidth
-      const progress = maxScroll > 0 ? (slider.scrollLeft / maxScroll) * 100 : 0
-      setScrollProgress(progress)
-    }
-
-    slider.addEventListener('scroll', updateScroll)
-    updateScroll()
-    setTimeout(updateScroll, 100)
-
-    return () => slider.removeEventListener('scroll', updateScroll)
-  }, [loading])
 
   // Auto-rotate events every 5 seconds
   useEffect(() => {
@@ -451,7 +433,7 @@ export default function MemberJourneyPage() {
           <div className="relative group/timeline">
             <div
               ref={timelineSliderRef}
-              className="overflow-x-auto scrollbar-hide pb-1 cursor-grab active:cursor-grabbing max-w-7xl mx-auto"
+              className="overflow-x-auto scrollbar-hide pb-1 select-none cursor-grab active:cursor-grabbing max-w-7xl mx-auto"
               onMouseDown={(e) => {
                 isDraggingTimeline.current = true
                 dragStartX.current = e.pageX - (timelineSliderRef.current?.offsetLeft ?? 0)
@@ -511,7 +493,7 @@ export default function MemberJourneyPage() {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <ScrollIndicator sliderRef={timelineSliderRef} scrollProgress={scrollProgress} />
+              <ScrollIndicator sliderRef={timelineSliderRef} />
             </div>
           </div>
         </div>

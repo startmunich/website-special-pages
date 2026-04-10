@@ -110,7 +110,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
           <div className="animate-scroll-slow whitespace-nowrap">
             {Array.from({ length: 12 }).map((_, i) => (
               <span key={i} className="text-white text-xs sm:text-sm tracking-wide mx-8">
-                Summer Applications are Open from 10 of April to 26 of April
+                Summer Applications are open from 10 of April to 26 of April
               </span>
             ))}
           </div>

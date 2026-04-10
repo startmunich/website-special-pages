@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
+import UpcomingEventTile from '@/components/UpcomingEventTile'
 
 interface LumaEventWrapper {
   api_id: string
@@ -116,38 +117,14 @@ export default function UpcomingEventsGrid() {
           }
 
           return (
-            <a
+            <UpcomingEventTile
               key={eventWrapper.api_id}
               href={event.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`group relative bg-white/5 rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/40 flex flex-col ${hiddenOnMobile ? 'hidden sm:flex' : ''}`}
-            >
-              {/* Inset rounded image */}
-              <div className="p-3 pb-0">
-                <div className="relative overflow-hidden rounded-xl bg-black/20">
-                  {event.cover_url ? (
-                    <img
-                      src={event.cover_url}
-                      alt={event.name}
-                      className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-700 ease-out"
-                    />
-                  ) : (
-                    <div className="h-36 bg-gradient-to-br from-[#1a1a3e] to-[#0a0a2e] rounded-xl" />
-                  )}
-                </div>
-              </div>
-
-              {/* Text content area */}
-              <div className="px-4 pt-4 pb-5 flex-1 flex flex-col">
-                <h3 className="text-sm font-bold text-white mb-1 leading-snug line-clamp-2">
-                  {event.name}
-                </h3>
-                {formattedDate && (
-                  <p className="text-gray-400 text-xs font-semibold mb-1.5">{formattedDate}</p>
-                )}
-              </div>
-            </a>
+              title={event.name}
+              date={formattedDate}
+              imageUrl={event.cover_url}
+              hiddenClassName={hiddenOnMobile ? 'hidden sm:flex' : ''}
+            />
           )
         })}
       </div>

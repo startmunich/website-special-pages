@@ -104,7 +104,6 @@ export default function EventsPage() {
   const sliderRef = useRef<HTMLDivElement>(null)
   const sliderSectionRef = useRef<HTMLDivElement>(null)
   const dragState = useRef({ isDragging: false, startX: 0, scrollLeft: 0 })
-  const [scrollProgress, setScrollProgress] = useState(0)
   const [hoveredEvent, setHoveredEvent] = useState<string | null>(null)
 
   useEffect(() => {
@@ -114,23 +113,6 @@ export default function EventsPage() {
   // Use animated number hook for statistics (faster animation - 800ms)
   const animatedHackathons = useAnimatedNumber(4, loading, 800)
   const animatedPublicEvents = useAnimatedNumber(10, loading, 800)
-
-  useEffect(() => {
-    const slider = sliderRef.current
-    if (!slider || loading) return
-
-    const updateScroll = () => {
-      const maxScroll = slider.scrollWidth - slider.clientWidth
-      const progress = maxScroll > 0 ? (slider.scrollLeft / maxScroll) * 100 : 0
-      setScrollProgress(progress)
-    }
-
-    slider.addEventListener('scroll', updateScroll)
-    updateScroll()
-    setTimeout(updateScroll, 100)
-
-    return () => slider.removeEventListener('scroll', updateScroll)
-  }, [loading])
 
   const handleDrag = {
     start: (e: React.MouseEvent) => {
@@ -709,7 +691,7 @@ export default function EventsPage() {
               onMouseUp={handleDrag.end}
               onMouseMove={handleDrag.move}
               onMouseLeave={handleDrag.end}
-              className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth py-4 px-1 cursor-grab active:cursor-grabbing"
+              className="flex gap-6 overflow-x-auto scrollbar-hide py-4 px-1 select-none cursor-grab active:cursor-grabbing"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {/* Main Events Group */}
@@ -762,7 +744,7 @@ export default function EventsPage() {
               </div>
             </div>
 
-            <ScrollIndicator sliderRef={sliderRef} scrollProgress={scrollProgress} />
+            <ScrollIndicator sliderRef={sliderRef} />
 
             {/* Gradient Fade Edges */}
             <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#00002c] to-transparent pointer-events-none rounded-r-[1.75rem]"></div>
