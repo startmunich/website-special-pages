@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Hero from '@/components/Hero'
+import HeroCard from '@/components/HeroCard'
+import UpcomingEventTile from '@/components/UpcomingEventTile'
 
 const LAUNCH_DATE = new Date('2026-04-10T00:00:00+02:00').getTime()
 const TARGET_DATE = new Date('2026-04-26T23:59:59+02:00').getTime()
@@ -11,6 +13,79 @@ const TARGET_DATE = new Date('2026-04-26T23:59:59+02:00').getTime()
 function pad(n: number) {
   return String(n).padStart(2, '0')
 }
+
+const applyEvents = [
+  {
+    id: 'sunset-run',
+    name: 'START & Friends Run Club – Sunset Run',
+    description: 'Join us for an easy sunset run, meet the team, and chat about what START Munich is like beyond the application.',
+    month: 'Thursday, 16th April 2026\n18:30',
+    image: '/join-start/sunset-run.png',
+    category: 'START & Friends',
+    ctaHref: 'https://luma.com/omtnj23y',
+    ctaLabel: 'Register now',
+  },
+  {
+    id: 'fes',
+    name: 'Female Entrepreneurship Summit',
+    description: 'Meet ambitious builders, hear from inspiring voices, and connect with the wider entrepreneurial community around START.',
+    month: 'Saturday, 18th April 2026',
+    image: '/join-start/fes.png',
+    category: 'YFN x START Munich',
+    ctaHref: 'https://www.youngfounders.network/fes',
+    ctaLabel: 'More information',
+  },
+  {
+    id: 'fail-tales',
+    name: 'Founder Fail Tales',
+    description: 'Hear honest stories from founders, meet the START community, and get a feel for the culture we build around learning fast.',
+    month: 'Tuesday, 21st April 2026',
+    image: '/join-start/founder-fail-tales.png',
+    category: 'Vol. 5',
+    ctaHref: 'https://luma.com/fp1fd6qv',
+    ctaLabel: 'Register now',
+  },
+  {
+    id: 'info-session',
+    name: 'Why Start? Info Session',
+    description: 'Meet the team, ask application questions, and learn how START members build projects, friendships, and careers together.',
+    month: 'Thursday, 23rd April 2026',
+    image: '/join-start/info-session-2026.png',
+    category: 'Info Session',
+    ctaHref: 'https://luma.com/t5r7vw10',
+    ctaLabel: 'Register now',
+  },
+  {
+    id: 'showcase',
+    name: 'Student Initiative Showcase',
+    description: 'Stop by our booth, meet the people behind START Munich, and get quick answers about the application and community.',
+    month: 'Friday, 24th April 2026',
+    image: '/join-start/student-club-fair.jpg',
+    category: 'START Munich',
+    ctaHref: undefined,
+    ctaLabel: 'Registration opens soon',
+  },
+  {
+    id: 'online-info',
+    name: 'Online Info Event',
+    description: 'Can’t make it to Munich? Join online, meet the team remotely, and ask everything you want to know about applying.',
+    month: 'Friday, 24th April 2026',
+    image: '/join-start/online-info-2026.jpeg',
+    category: 'Online Event',
+    ctaHref: 'https://luma.com/4q4m43v3',
+    ctaLabel: 'Register now',
+  },
+  {
+    id: 'coffee-run',
+    name: 'START & Friends Run Club – Coffee Run with LAP',
+    description: 'Start your Saturday with a relaxed run, coffee, and casual conversations with START members and friends of the community.',
+    month: 'Saturday, 25th April 2026\n11:00',
+    image: '/join-start/coffee-run-lap.png',
+    category: 'START & Friends',
+    ctaHref: 'https://luma.com/qb2g0cph',
+    ctaLabel: 'Register now',
+  },
+]
 
 export default function JoinStartClient() {
   const [timeLeft, setTimeLeft] = useState({
@@ -22,7 +97,6 @@ export default function JoinStartClient() {
   const [mounted, setMounted] = useState(false)
   const [isLive, setIsLive] = useState(false)
   const [isClosed, setIsClosed] = useState(false)
-
   const searchParams = useSearchParams()
   const isBeta = searchParams.get('beta') === 'true'
 
@@ -69,89 +143,81 @@ export default function JoinStartClient() {
     <div className="bg-brand-dark-blue">
       {/* Hero section */}
       <section className="relative min-h-[calc(100vh-5rem)] overflow-hidden">
-        {/* Background image — blurry & black-and-white */}
         <Image
           src="/join-start-2026-bg.png"
           alt=""
           fill
           priority
           sizes="100vw"
-          className="object-cover grayscale blur-sm scale-105"
+          className="object-cover scale-105"
         />
-        <div className="absolute inset-0 bg-brand-dark-blue/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-dark-blue/95 via-brand-dark-blue/80 to-brand-dark-blue/70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-blue via-brand-dark-blue/30 to-transparent" />
+        <div className="absolute top-24 right-[12%] h-72 w-72 rounded-full bg-sky-400/10 blur-[120px]" />
+        <div className="absolute bottom-16 left-[8%] h-80 w-80 rounded-full bg-brand-pink/10 blur-[120px]" />
 
-        {/* Page content */}
-        <div className="relative z-10 flex min-h-[calc(100vh-5rem)] flex-col-reverse md:flex-col">
-          {/* Countdown section — bottom on mobile, centered on desktop */}
-          <div className="flex flex-col items-center px-4 pb-12 md:flex-1 md:justify-center md:pb-0">
-            <p className="text-sm tracking-[0.3em] text-white/80 uppercase md:text-lg">
-              Want to join Start?
-            </p>
-            <p className="mt-2 text-xl font-bold tracking-wide text-white uppercase md:text-3xl">
-              Applications close in
-            </p>
-            <div
-              className="mt-6 flex items-start gap-1 md:mt-10 md:gap-4"
-              style={{ opacity: mounted ? 1 : 0, transition: 'opacity 0.4s ease' }}
-            >
-              {units.map((unit, i) => (
-                <div key={unit.label} className="flex items-start gap-1 md:gap-4">
-                  <div className="flex flex-col items-center">
-                    <span className="text-4xl font-black tabular-nums text-[#d0006f] sm:text-5xl md:text-7xl lg:text-8xl">
+        <div className="relative z-10 flex min-h-[calc(100vh-5rem)] items-center">
+          <div className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 md:py-16 lg:px-8">
+            <div className="grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_440px] xl:items-center xl:gap-14">
+            <div className="max-w-2xl">
+              <h1 className="text-5xl font-black leading-[0.9] text-white sm:text-6xl md:text-8xl lg:text-[8.5rem]">
+                JOIN
+                <br />
+                <span className="outline-text">START</span>
+                <br />
+                MUNICH
+              </h1>
+              <p className="mt-8 max-w-xl text-base leading-relaxed text-gray-200 sm:text-lg">
+                Become part of Germany&apos;s leading student-run entrepreneurship
+                initiative. At START Munich, you&apos;ll gain hands-on experience,
+                connect with top-tier founders and investors, and build with one
+                of Munich&apos;s most ambitious student communities.
+              </p>
+            </div>
+
+            <HeroCard className="w-full border-sky-300/20 bg-sky-500/10 shadow-[0_20px_60px_rgba(8,47,73,0.35)] xl:ml-auto xl:max-w-[440px]">
+              <p className="text-center text-xs font-bold uppercase tracking-[0.35em] text-white/75 sm:text-sm">
+                Applications close in
+              </p>
+              <div
+                className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 xl:gap-3"
+                style={{ opacity: mounted ? 1 : 0, transition: 'opacity 0.4s ease' }}
+              >
+                {units.map((unit) => (
+                  <div
+                    key={unit.label}
+                    className="rounded-2xl border border-white/10 bg-brand-dark-blue/40 px-3 py-4 text-center sm:px-4 sm:py-5 xl:px-3"
+                  >
+                    <span className="block text-[2.65rem] font-black tabular-nums text-white sm:text-[3rem] xl:text-[2.4rem]">
                       {pad(unit.value)}
                     </span>
-                    <span className="mt-1 text-[8px] tracking-[0.15em] text-white/50 uppercase sm:text-[10px] md:text-xs md:tracking-[0.2em]">
+                    <span className="mt-2 block text-[10px] uppercase tracking-[0.06em] text-white/55 sm:text-[11px] xl:text-[10px]">
                       {unit.label}
                     </span>
                   </div>
-                  {i < units.length - 1 && (
-                    <span className="text-4xl font-black text-[#d0006f] sm:text-5xl md:text-7xl lg:text-8xl">
-                      :
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Title + CTA — top on mobile, bottom on desktop */}
-          <div className="flex flex-col items-center gap-8 px-6 pb-10 md:flex-row md:items-end md:justify-between md:px-16 md:pb-16 md:pt-0 lg:px-24">
-            {/* Left — big title */}
-            <h1 className="text-5xl font-black leading-[0.9] text-white sm:text-6xl md:text-8xl lg:text-9xl">
-              JOIN
-              <br />
-              START
-              <br />
-              MUNICH
-            </h1>
-
-            {/* Right — CTA section */}
-            <div className="max-w-md md:text-right">
-              <h2 className="text-lg font-bold uppercase tracking-wide text-white">
-                Where Visionaries and Innovators Thrive
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-white/70">
-                Become part of Germany&apos;s leading student-run entrepreneurship
-                initiative. At START Munich, you&apos;ll gain hands-on experience,
-                connect with top-tier founders and investors, and build the next
-                big thing.
+                ))}
+              </div>
+              <p className="mt-6 text-center text-sm leading-relaxed text-white/70">
+                Don&apos;t miss your chance to join the next generation of builders,
+                operators, and founders at START Munich.
               </p>
               <a
                 href="https://tally.so/r/eqL4yQ"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center justify-center rounded-xl bg-brand-pink px-8 py-3 font-bold text-white transition-all duration-1000 hover:shadow-[0_0_30px_rgba(208,0,111,0.4)]"
+                className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-brand-pink px-8 py-3 font-bold text-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(208,0,111,0.4)]"
               >
                 Start Application
               </a>
+            </HeroCard>
             </div>
           </div>
         </div>
       </section>
 
       {/* YouTube video section */}
-      <section id="video" className="scroll-mt-8 px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <div className="max-w-7xl mx-auto">
+      <section id="video" className="scroll-mt-8 py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative aspect-video w-full overflow-hidden rounded-xl">
           <iframe
             src="https://www.youtube.com/embed/T63USk9W_IY"
@@ -176,69 +242,26 @@ export default function JoinStartClient() {
           </p>
         </div>
 
-        <div className="max-w-7xl mx-auto mt-12 flex gap-5 overflow-x-auto px-4 sm:px-6 lg:px-8 pb-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          {[
-            //{ title: 'YC Event', desc: 'START Munich', date: 'Wednesday, 15th April 2026', time: null, img: '/join-start/yc-event.jpg', link: null, linkLabel: null },
-            { title: 'START & Friends Run Club – Sunset Run', desc: 'START & Friends', date: 'Thursday, 16th April 2026', time: '18:30', img: '/join-start/sunset-run.png', link: 'https://luma.com/omtnj23y', linkLabel: 'Register now' },
-            { title: 'Female Entrepreneurship Summit', desc: 'YFN x START Munich', date: 'Saturday, 18th April 2026', time: null, img: '/join-start/fes.png', link: 'https://www.youngfounders.network/fes', linkLabel: 'More information' },
-            { title: 'Founder Fail Tales', desc: 'Vol. 5', date: 'Tuesday, 21st April 2026', time: null, img: '/join-start/founder-fail-tales.png', link: 'https://luma.com/fp1fd6qv', linkLabel: 'Register now' },
-            { title: 'Why Start? Info Session', desc: 'Real people. Real journeys. Real reasons to START.', date: 'Thursday, 23rd April 2026', time: null, img: '/join-start/info-session-2026.png', link: 'https://luma.com/t5r7vw10', linkLabel: 'Register now' },
-            { title: 'Student Initiative Showcase', desc: 'START Munich', date: 'Friday, 24th April 2026', time: null, img: '/join-start/student-club-fair.jpg', link: null, linkLabel: null },
-            { title: 'Online Info Event', desc: 'You are temporarily not in Munich? We got you.', date: 'Friday, 24th April 2026', time: null, img: '/join-start/online-info-2026.jpeg', link: 'https://luma.com/4q4m43v3', linkLabel: 'Register now' },
-            { title: 'START & Friends Run Club – Coffee Run with LAP', desc: 'START & Friends', date: 'Saturday, 25th April 2026', time: '11:00', img: '/join-start/coffee-run-lap.png', link: 'https://luma.com/qb2g0cph', linkLabel: 'Register now' },
-          ].map((event) => (
-            <div
-              key={event.title}
-              className="flex w-72 flex-none flex-col overflow-hidden rounded-lg border border-white/[0.08] md:w-80"
-            >
-              {/* Top — image */}
-              <div className="relative aspect-square w-full">
-                <Image
-                  src={event.img}
-                  alt={event.title}
-                  fill
-                  sizes="320px"
-                  className="object-cover"
-                />
-              </div>
-
-              {/* Middle — text */}
-              <div className="flex flex-1 flex-col px-5 py-5">
-                <h3 className="text-lg font-black uppercase text-brand-pink">
-                  {event.title}
-                </h3>
-                <p className="mt-1 text-sm text-white/50">{event.desc}</p>
-                <p className="mt-2 text-sm font-bold text-white">
-                  {event.date}
-                  {event.time && <><br />{event.time}</>}
-                </p>
-
-                {/* Bottom — CTA */}
-                <div className="mt-auto pt-5">
-                  {event.link ? (
-                    <a
-                      href={event.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block w-full rounded-sm bg-[#d0006f] px-6 py-2.5 text-center text-sm font-bold uppercase tracking-wide text-white transition hover:bg-[#d0006f]/80"
-                    >
-                      {event.linkLabel}
-                    </a>
-                  ) : (
-                    <span className="block w-full cursor-not-allowed rounded-sm bg-white/20 px-6 py-2.5 text-center text-sm font-bold uppercase tracking-wide text-white/40">
-                      Registration opens soon
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
+        <div className="max-w-7xl mx-auto mt-12 flex gap-6 overflow-x-auto px-4 pb-4 scrollbar-hide sm:px-6 lg:px-8" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          {applyEvents.map((event, index) => (
+            <UpcomingEventTile
+              key={event.id}
+              title={event.name}
+              date={event.month}
+              imageUrl={event.image}
+              description={event.description}
+              className="flex h-[35.5rem] w-[86vw] max-w-[320px] flex-none flex-col self-stretch sm:w-[300px] lg:w-[320px]"
+              ctaHref={event.ctaHref}
+              ctaLabel={event.ctaLabel}
+              ctaDisabledLabel="Registration opens soon"
+            />
           ))}
         </div>
       </section>
 
       {/* What Makes START Unique */}
-      <section className="px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-black uppercase text-brand-pink sm:text-4xl md:text-5xl lg:text-6xl">
           What Makes Start Unique
         </h2>
@@ -344,8 +367,8 @@ export default function JoinStartClient() {
       </section>
 
       {/* Jumpstart Into Entrepreneurship */}
-      <section className="px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative aspect-[4/1] w-full overflow-hidden rounded-lg">
           <Image
             src="/join-start/jumpstart.png"

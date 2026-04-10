@@ -16,6 +16,9 @@ export interface EventCardProps {
   isFlagship?: boolean
   className?: string
   onClick?: () => void
+  ctaLabel?: string
+  ctaHref?: string
+  ctaDisabledLabel?: string
 }
 
 export const EventCard = ({
@@ -25,7 +28,10 @@ export const EventCard = ({
   setHoveredEvent,
   isFlagship = false,
   className = '',
-  onClick
+  onClick,
+  ctaLabel,
+  ctaHref,
+  ctaDisabledLabel
 }: EventCardProps) => {
   const isHovered = hoveredEvent === event.id
 
@@ -71,11 +77,29 @@ export const EventCard = ({
         <h3 className="text-lg font-black text-white mb-1 leading-tight">
           {event.name}
         </h3>
-        <p className="text-white/40 text-xs font-medium mb-2">{event.month}</p>
+        <p className="text-white/40 text-xs font-medium mb-2 whitespace-pre-line">{event.month}</p>
         <p className="text-gray-400 text-sm leading-relaxed flex-1">
           {event.description}
         </p>
-        {onClick && (
+        {ctaLabel ? (
+          <div className="mt-4 pt-4 border-t border-white/10">
+            {ctaHref ? (
+              <a
+                href={ctaHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="block w-full rounded-full bg-[#d0006f] px-6 py-3 text-center text-sm font-bold uppercase tracking-wide text-white transition hover:bg-[#d0006f]/80 hover:shadow-lg hover:shadow-[#d0006f]/30"
+              >
+                {ctaLabel}
+              </a>
+            ) : (
+              <span className="block w-full cursor-not-allowed rounded-full bg-white/10 px-6 py-3 text-center text-sm font-bold uppercase tracking-wide text-white/40">
+                {ctaDisabledLabel ?? ctaLabel}
+              </span>
+            )}
+          </div>
+        ) : onClick && (
           <div className="mt-4 pt-3 border-t border-white/10 flex items-center gap-1.5 text-white/50 text-xs font-medium">
             <span>Learn more</span>
             <svg className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
