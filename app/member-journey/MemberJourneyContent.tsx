@@ -924,7 +924,8 @@ export default function MemberJourneyPage() {
             title="Ready to Join?"
             description="Start your entrepreneurial journey with START Munich today. Apply to become a member and experience our vibrant community."
             buttons={[
-              { label: "Apply Now", href: "/apply" },
+              { label: "Apply Now", href: "/apply", variant: "secondary" },
+              { label: "Contact People Department", href: "https://tally.so/r/mZNxV0", variant: "secondary" },
               { label: "Learn More", href: "/about-us", variant: "secondary" }
             ]}
           />

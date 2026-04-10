@@ -106,7 +106,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
       <main className="min-h-screen bg-brand-dark-blue text-white overflow-x-hidden">
 
         {/* ═══════════════════════════ APPLICATION BANNER ═══════════════════════════ */}
-        <div className="bg-brand-pink overflow-hidden py-1.5">
+        <Link href="/apply" className="block bg-brand-pink overflow-hidden py-1.5 cursor-pointer hover:brightness-110 transition-all">
           <div className="animate-scroll-slow whitespace-nowrap">
             {Array.from({ length: 12 }).map((_, i) => (
               <span key={i} className="text-white text-xs sm:text-sm tracking-wide mx-8">
@@ -114,7 +114,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               </span>
             ))}
           </div>
-        </div>
+        </Link>
 
         {/* ═══════════════════════════ HERO — FULLSCREEN CROSSFADE ═══════════════════════════ */}
         <section className="relative w-full overflow-hidden h-[calc(100vh-5rem)] flex items-center">
