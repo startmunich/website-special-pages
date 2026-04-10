@@ -17,7 +17,7 @@ const applyEvents = [
   {
     id: 'yc-stories',
     name: 'YC Stories',
-    description: 'Hear first-hand stories from Y Combinator founders, meet the START community, and get inspired by the journeys behind some of the world’s most ambitious startups.',
+    description: 'Bringing the San Francisco and Y Combinator mindset to Munich through real stories from people who have built inside it.',
     month: 'Wednesday, 15th April 2026\n18:30',
     image: '/join-start/yc-stories.jpeg',
     category: 'Vorhölzer Rooftop',
