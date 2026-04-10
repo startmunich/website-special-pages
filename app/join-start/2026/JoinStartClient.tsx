@@ -15,11 +15,21 @@ function pad(n: number) {
 
 const applyEvents = [
   {
+    id: 'yc-stories',
+    name: 'YC Stories',
+    description: 'Bringing the San Francisco and Y Combinator mindset to Munich through real stories from people who have built inside it.',
+    month: 'Wednesday, 15th April 2026\n18:30',
+    image: '/join-start/yc-stories.jpeg',
+    category: 'Vorhölzer Rooftop',
+    ctaHref: 'https://luma.com/zk3rcyn1',
+    ctaLabel: 'Register now',
+  },
+  {
     id: 'sunset-run',
     name: 'START & Friends Run Club – Sunset Run',
     description: 'Join us for an easy sunset run, meet the team, and chat about what START Munich is like beyond the application.',
     month: 'Thursday, 16th April 2026\n18:30',
-    image: '/join-start/sunset-run.png',
+    image: '/join-start/sunset-run.jpeg',
     category: 'START & Friends',
     ctaHref: 'https://luma.com/omtnj23y',
     ctaLabel: 'Register now',
@@ -39,7 +49,7 @@ const applyEvents = [
     name: 'Founder Fail Tales',
     description: 'Hear honest stories from founders, meet the START community, and get a feel for the culture we build around learning fast.',
     month: 'Tuesday, 21st April 2026',
-    image: '/join-start/founder-fail-tales.png',
+    image: '/join-start/founder-fail-tales.jpeg',
     category: 'Vol. 5',
     ctaHref: 'https://luma.com/fp1fd6qv',
     ctaLabel: 'Register now',
