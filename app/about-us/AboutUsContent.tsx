@@ -388,7 +388,8 @@ export default function AboutUsPage() {
             title="Want to Learn More About Us?"
             description="Discover how you can grow with START Munich — whether as a member shaping your entrepreneurial journey or as a partner connecting with Munich's most ambitious talents."
             buttons={[
-              { label: "Discover the Member Journey", href: "/member-journey" },
+              { label: "Our Member Journey", href: "/member-journey", variant: "secondary" },
+              { label: "Contact Us", href: "https://tally.so/r/w7WY0a", variant: "secondary" },
               { label: "Become a Partner", href: "/for-partners", variant: "secondary" }
             ]}
           />

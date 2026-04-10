@@ -50,7 +50,7 @@ const recurringEvents: RecurringEvent[] = [
     id: "legal-hack",
     name: "Munich Hacking Legal",
     description: "A unique hackathon focused on building legal tech solutions that address real challenges in the legal industry, combining technology with regulatory expertise.",
-    month: "March",
+    month: "April",
     frequency: "Once per year",
     icon: "code",
     image: "/events/eventCards/legal-opt.jpg",
@@ -454,7 +454,7 @@ export default function EventsPage() {
 
                   <TimelineMarker
                     eventId="legal-hack"
-                    left={calculateTimelinePosition(3, 15)}
+                    left={calculateTimelinePosition(4, 5)}
                     color="#9c27b0"
                     label="Legal Hack"
                     position="bottom"
@@ -476,10 +476,10 @@ export default function EventsPage() {
 
                   <TimelineMarker
                     eventId="fail-tales"
-                    left={calculateTimelinePosition(4, 15)}
+                    left={calculateTimelinePosition(4, 25)}
                     color="#4a90e2"
                     label="Fail Tales"
-                    position="top"
+                    position="bottom"
                     hoveredEvent={hoveredEvent}
                     onHover={handleTimelineMarkerHover}
                     onLeave={() => setHoveredEvent(null)}
@@ -490,7 +490,7 @@ export default function EventsPage() {
                     left={calculateTimelinePosition(5, 1)}
                     color="#ff9800"
                     label="START Labs"
-                    position="bottom"
+                    position="top"
                     hoveredEvent={hoveredEvent}
                     onHover={handleTimelineMarkerHover}
                     onLeave={() => setHoveredEvent(null)}
@@ -588,19 +588,15 @@ export default function EventsPage() {
                   </div>
 
                   <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.04]">
-                    <div className="w-14 flex-shrink-0 text-gray-400 text-sm font-bold">Mar</div>
-                    <button
-                      onClick={() => scrollToEventMobile('legal-hack')}
-                      className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-                    >
-                      <div className="w-3 h-3 bg-[#9c27b0] rounded-full flex-shrink-0"></div>
-                      <span className="text-sm text-white">Legal Hack</span>
-                    </button>
-                  </div>
-
-                  <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.04]">
                     <div className="w-14 flex-shrink-0 text-gray-400 text-sm font-bold">Apr</div>
                     <div className="flex flex-col gap-2">
+                      <button
+                        onClick={() => scrollToEventMobile('legal-hack')}
+                        className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                      >
+                        <div className="w-3 h-3 bg-[#9c27b0] rounded-full flex-shrink-0"></div>
+                        <span className="text-sm text-white">Legal Hack</span>
+                      </button>
                       <button
                         onClick={() => scrollToEventMobile('info-event')}
                         className="flex items-center gap-2 hover:opacity-80 transition-opacity"

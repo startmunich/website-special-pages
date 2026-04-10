@@ -106,7 +106,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
       <main className="min-h-screen bg-brand-dark-blue text-white overflow-x-hidden">
 
         {/* ═══════════════════════════ APPLICATION BANNER ═══════════════════════════ */}
-        <div className="bg-brand-pink overflow-hidden py-1.5">
+        <Link href="/apply" className="block bg-brand-pink overflow-hidden py-1.5 cursor-pointer hover:brightness-110 transition-all">
           <div className="animate-scroll-slow whitespace-nowrap">
             {Array.from({ length: 12 }).map((_, i) => (
               <span key={i} className="text-white text-xs sm:text-sm tracking-wide mx-8">
@@ -114,7 +114,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               </span>
             ))}
           </div>
-        </div>
+        </Link>
 
         {/* ═══════════════════════════ HERO — FULLSCREEN CROSSFADE ═══════════════════════════ */}
         <section className="relative w-full overflow-hidden h-[calc(100vh-5rem)] flex items-center">
@@ -366,8 +366,8 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-brand-dark-blue to-transparent z-10" />
               <div className="animate-scroll-nonstop">
                 {[...featuredStartups, ...featuredStartups].map((startup, i) => (
-                  <div key={`${startup.id}-${i}`} className="inline-flex items-center justify-center mx-6 flex-shrink-0">
-                    <div className="bg-white rounded-xl p-4 w-36 h-20 flex items-center justify-center hover:border-brand-pink/30 transition-all duration-300">
+                  <Link key={`${startup.id}-${i}`} href="/startups" className="inline-flex items-center justify-center mx-6 flex-shrink-0">
+                    <div className="bg-white rounded-xl p-4 w-36 h-20 flex items-center justify-center hover:border-brand-pink/30 hover:scale-105 transition-all duration-300">
                       <img
                         src={startup.logoUrl}
                         alt={startup.name}
@@ -380,7 +380,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                         }}
                       />
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -576,7 +576,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-brand-dark-blue to-transparent z-10" />
 
                 <div className="mt-12 text-right animate-scroll-vertical">
-                  {['BERLIN', 'BARCELONA', 'HAMBURG', 'HELSINKI', 'LAUSANNE', 'LONDON', 'LIMA', 'LISBON', 'MAASTRICHT', 'MEXICO CITY', 'MILANO', 'MUNICH', 'PARIS', 'NUREMBERG', 'QUITO', 'SAO PAOLO', 'STUTTGART', 'VADUZ', 'VIENNA', 'WARSAW', 'ST. GALLEN', 'BERLIN', 'BARCELONA', 'HAMBURG', 'HELSINKI', 'LAUSANNE', 'LONDON', 'LIMA', 'LISBON', 'MAASTRICHT', 'MEXICO CITY', 'MILANO', 'MUNICH', 'PARIS', 'NUREMBERG', 'QUITO', 'SAO PAOLO', 'STUTTGART', 'VADUZ', 'VIENNA', 'WARSAW', 'ST. GALLEN'].map((city, i) => (
+                  {['BERLIN', 'BARCELONA', 'HAMBURG', 'HELSINKI', 'LAUSANNE', 'LONDON', 'LIMA', 'LISBON', 'MAASTRICHT', 'MEXICO CITY', 'MILANO', 'MUNICH', 'PARIS', 'NUREMBERG', 'QUITO', 'SÃO PAULO', 'STUTTGART', 'VADUZ', 'VIENNA', 'WARSAW', 'ST. GALLEN', 'BERLIN', 'BARCELONA', 'HAMBURG', 'HELSINKI', 'LAUSANNE', 'LONDON', 'LIMA', 'LISBON', 'MAASTRICHT', 'MEXICO CITY', 'MILANO', 'MUNICH', 'PARIS', 'NUREMBERG', 'QUITO', 'SÃO PAULO', 'STUTTGART', 'VADUZ', 'VIENNA', 'WARSAW', 'ST. GALLEN'].map((city, i) => (
                     <div
                       key={`${city}-${i}`}
                       className={`text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.2] ${city === 'MUNICH' || (i % 21) % 4 === 3 ? 'text-brand-pink' :

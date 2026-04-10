@@ -142,7 +142,7 @@ export default function JoinStartClient() {
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex items-center justify-center rounded-xl bg-brand-pink px-8 py-3 font-bold text-white transition-all duration-1000 hover:shadow-[0_0_30px_rgba(208,0,111,0.4)]"
               >
-                Apply Now
+                Start Application
               </a>
             </div>
           </div>
@@ -150,8 +150,8 @@ export default function JoinStartClient() {
       </section>
 
       {/* YouTube video section */}
-      <section id="video" className="scroll-mt-8 px-6 py-12 md:px-16 md:py-20 lg:px-24">
-
+      <section id="video" className="scroll-mt-8 px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div className="max-w-7xl mx-auto">
         <div className="relative aspect-video w-full overflow-hidden rounded-xl">
           <iframe
             src="https://www.youtube.com/embed/T63USk9W_IY"
@@ -161,24 +161,22 @@ export default function JoinStartClient() {
             className="absolute inset-0 h-full w-full"
           />
         </div>
+        </div>
       </section>
 
       {/* Events */}
       <section className="py-12 md:py-20">
-        <div className="px-6 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-black text-brand-pink md:text-4xl lg:text-5xl">
             Got Questions? Let&apos;s Talk.
           </h2>
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/70 md:text-base">
             Curious about START Munich or unsure about the application process?
-            Join one of our upcoming info sessions — online or in person — and get
-            all your questions answered. Meet the team, learn what we&apos;re all
-            about, and find out how you can become part of our entrepreneurial
-            community.
+            Join one of our upcoming events and get all your questions answered. Meet the team, learn what we're all about, and find out how you can become part of our entrepreneurial community.
           </p>
         </div>
 
-        <div className="mt-12 flex gap-5 overflow-x-auto px-6 pb-4 md:px-16 lg:px-24 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div className="max-w-7xl mx-auto mt-12 flex gap-5 overflow-x-auto px-4 sm:px-6 lg:px-8 pb-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {[
             //{ title: 'YC Event', desc: 'START Munich', date: 'Wednesday, 15th April 2026', time: null, img: '/join-start/yc-event.jpg', link: null, linkLabel: null },
             { title: 'START & Friends Run Club – Sunset Run', desc: 'START & Friends', date: 'Thursday, 16th April 2026', time: '18:30', img: '/join-start/sunset-run.png', link: 'https://luma.com/omtnj23y', linkLabel: 'Register now' },
@@ -239,7 +237,8 @@ export default function JoinStartClient() {
       </section>
 
       {/* What Makes START Unique */}
-      <section className="px-6 py-12 md:px-16 md:py-20 lg:px-24">
+      <section className="px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-black uppercase text-brand-pink sm:text-4xl md:text-5xl lg:text-6xl">
           What Makes Start Unique
         </h2>
@@ -341,10 +340,12 @@ export default function JoinStartClient() {
             </p>
           </div>
         </div>
+        </div>
       </section>
 
       {/* Jumpstart Into Entrepreneurship */}
-      <section className="px-6 py-12 md:px-16 md:py-20 lg:px-24">
+      <section className="px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div className="max-w-7xl mx-auto">
         <div className="relative aspect-[4/1] w-full overflow-hidden rounded-lg">
           <Image
             src="/join-start/jumpstart.png"
@@ -364,6 +365,17 @@ export default function JoinStartClient() {
           projects, and shape the community. Some go on to launch startups,
           everyone learns by doing.
         </p>
+        <div className="mt-8 flex justify-center">
+          <a
+            href="https://tally.so/r/eqL4yQ"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center rounded-xl bg-brand-pink px-10 py-4 text-lg font-bold text-white transition-all duration-1000 hover:shadow-[0_0_30px_rgba(208,0,111,0.4)]"
+          >
+            Start Application Now
+          </a>
+        </div>
+        </div>
       </section>
 
     </div>
