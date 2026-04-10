@@ -141,7 +141,7 @@ export default function JoinStartClient({ isLive }: JoinStartClientProps) {
     <div className="bg-brand-dark-blue">
       <Hero
         backgroundImage="/join-start-2026-bg.png"
-        className="min-h-[calc(100vh-14rem)] lg:min-h-[calc(100vh-5rem)]"
+        className="min-h-[calc(100vh-30rem)] lg:min-h-[calc(100vh-5rem)]"
         overlayOpacity="bg-gradient-to-r from-brand-dark-blue/95 via-brand-dark-blue/80 to-brand-dark-blue/70"
         imagePosition="center center"
         title={
@@ -187,7 +187,7 @@ export default function JoinStartClient({ isLive }: JoinStartClientProps) {
               </div>
             ))}
           </div>
-          <p className="mt-6 text-center text-sm leading-relaxed text-white/70">
+          <p className="mt-6 hidden text-center text-sm leading-relaxed text-white/70 sm:block">
             Don&apos;t miss your chance to join START Munich. Applications only
             open once per semester.
           </p>
