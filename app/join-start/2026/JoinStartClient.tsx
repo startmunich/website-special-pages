@@ -97,15 +97,11 @@ export default function JoinStartClient({ isLive }: JoinStartClientProps) {
     seconds: 0,
   })
   const [mounted, setMounted] = useState(false)
-  const [isClosed, setIsClosed] = useState(false)
 
   useEffect(() => {
     setMounted(true)
     const update = () => {
-      const now = Date.now()
-      const rawDiff = TARGET_DATE - now
-      const diff = Math.max(0, rawDiff)
-      setIsClosed(rawDiff <= 0)
+      const diff = Math.max(0, TARGET_DATE - Date.now())
       setTimeLeft({
         days: Math.floor(diff / (1000 * 60 * 60 * 24)),
         hours: Math.floor((diff / (1000 * 60 * 60)) % 24),

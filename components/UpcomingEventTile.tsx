@@ -1,3 +1,5 @@
+import { cn } from '@/lib/utils'
+
 interface UpcomingEventTileProps {
   href?: string
   title: string
@@ -76,7 +78,7 @@ export default function UpcomingEventTile({
     </>
   )
 
-  const classes = `group relative bg-white/5 rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/40 flex flex-col ${hiddenClassName} ${className}`.trim()
+  const classes = cn('group relative bg-white/5 rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/40 flex flex-col', hiddenClassName, className)
 
   if (href) {
     return (
