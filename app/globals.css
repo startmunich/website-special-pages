@@ -319,7 +319,7 @@
   .labs-page {
     /* Backgrounds */
     --labs-bg: #000000;
-    --labs-bg-card: rgba(0, 0, 0, 0.4);
+    --labs-bg-card: #111111;
 
     /* Borders */
     --labs-border: rgba(255, 255, 255, 0.1);
@@ -344,7 +344,6 @@
   /* Labs Utility Classes */
   .labs-card {
     background: var(--labs-bg-card);
-    border: 1px solid var(--labs-border);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
