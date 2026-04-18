@@ -35,7 +35,7 @@ export default function Navigation() {
       <div className="mx-auto px-10 lg:px-20">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/home" className="flex items-center hover:opacity-80 transition-opacity">
+          <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
             <Image
               src="/startlogo.svg"
               alt="START Munich"
@@ -48,7 +48,7 @@ export default function Navigation() {
           {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center space-x-8">
             <Link
-              href="/home"
+              href="/"
               className="text-white font-bold text-base hover:text-brand-pink transition-colors uppercase tracking-wide"
             >
               HOME
@@ -115,7 +115,7 @@ export default function Navigation() {
                       </span>
                     </Link>
                     <Link
-                      href="/jobs"
+                      href="https://jobs.startmunich.de/jobs"
                       onClick={() => setIsCommunityOpen(false)}
                       className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
                     >
@@ -243,7 +243,7 @@ export default function Navigation() {
           <div className="lg:hidden fixed inset-0 z-50 bg-brand-dark-blue flex flex-col overflow-y-auto">
             {/* Header row with logo and close button */}
             <div className="flex items-center justify-between px-10 h-20 shrink-0">
-              <Link href="/home" className="flex items-center hover:opacity-80 transition-opacity" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link href="/" className="flex items-center hover:opacity-80 transition-opacity" onClick={() => setIsMobileMenuOpen(false)}>
                 <Image
                   src="/startlogo.svg"
                   alt="START Munich"
@@ -266,7 +266,7 @@ export default function Navigation() {
             {/* Menu items */}
             <div className="flex flex-col px-10 py-6 space-y-1 border-t border-white/10 grow">
               <Link
-                href="/home"
+                href="/"
                 className="block py-4 text-white font-bold text-lg hover:text-brand-pink transition-colors uppercase tracking-wide border-b border-white/10"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -314,7 +314,7 @@ export default function Navigation() {
                       Our Members
                     </Link>
                     <Link
-                      href="/jobs"
+                      href="https://jobs.startmunich.de/jobs"
                       className="block pl-4 py-2.5 text-white/80 text-base font-semibold hover:text-brand-pink transition-colors"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >

@@ -142,6 +142,12 @@
     width: max-content;
   }
 
+  .animate-scroll-slow {
+    display: inline-flex;
+    animation: scroll 60s linear infinite;
+    width: max-content;
+  }
+
   .animate-scroll-reverse {
     display: inline-flex;
     animation: scroll-reverse 30s linear infinite;
@@ -287,5 +293,39 @@
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      max-height: 0;
+    }
+    to {
+      opacity: 1;
+      max-height: 300px;
+    }
+  }
+
+  details > div {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details[open] .faq-icon {
+    transform: rotate(45deg);
   }
 }

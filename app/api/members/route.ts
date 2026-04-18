@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { mockMembers } from '@/lib/mockMembers'
 
 export const revalidate = 3600;
 
@@ -63,8 +62,8 @@ export async function GET() {
   
   // If members table is not configured, return mock data
   if (!NOCODB_API_TOKEN || !NOCODB_MEMBERS_TABLE_ID) {
-    console.log('Members table not configured in NocoDB, using mock data');
-    return NextResponse.json(mockMembers);
+    console.log('Members table not configured in NocoDB');
+    return NextResponse.json([]);
   }
 
   try {

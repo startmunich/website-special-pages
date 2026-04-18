@@ -44,10 +44,10 @@ export async function GET() {
 
     const data = await response.json()
 
-    // Filter to only include future events (after now)
+    // Filter to only include future, non-private events
     const upcomingEvents = (data.entries || []).filter((entry: any) => {
       const eventDate = new Date(entry.event.start_at)
-      return eventDate >= now
+      return eventDate >= now && entry.event.visibility !== 'private'
     })
 
     console.log('Luma API response received')

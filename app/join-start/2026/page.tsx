@@ -1,13 +1,29 @@
-import Hero from '@/components/Hero'
+import type { Metadata } from 'next'
+import JoinStartClient from './JoinStartClient'
 
-export default function JoinStart2026Page() {
-  return (
-    <main className="min-h-screen bg-brand-dark-blue text-white">
-      <Hero
-        backgroundImage="/memberJourney/hero.png"
-        title={<>JOIN <span className="outline-text">START MUNICH</span></>}
-        description="Applications for 2026 will open soon. Stay tuned."
-      />
-    </main>
-  )
+const LAUNCH_DATE = new Date('2026-04-10T00:00:00+02:00').getTime()
+
+export const metadata: Metadata = {
+  title: 'Join START Munich 2026',
+  description:
+    'Apply to become a START Munich member in 2026. Join Munich\'s leading student entrepreneurship community at TUM, LMU, and HM.',
+  alternates: { canonical: 'https://www.startmunich.de/join-start/2026' },
+  openGraph: {
+    url: 'https://www.startmunich.de/join-start/2026',
+    title: 'Join START Munich 2026',
+    description:
+      'Apply to become a START Munich member in 2026. Join Munich\'s leading student entrepreneurship community at TUM, LMU, and HM.',
+  },
+}
+
+interface JoinStart2026PageProps {
+  searchParams?: Promise<{ beta?: string }>
+}
+
+export default async function JoinStart2026Page({ searchParams }: JoinStart2026PageProps) {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined
+  const isBeta = resolvedSearchParams?.beta === 'true'
+  const isLive = isBeta || Date.now() >= LAUNCH_DATE
+
+  return <JoinStartClient isLive={isLive} />
 }

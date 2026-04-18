@@ -4,11 +4,7 @@ import { cn } from "@/lib/utils"
 interface HeroProps {
     backgroundImage: string
     title: React.ReactNode
-    description: string
-    topBadge?: React.ReactNode
-    backgroundAccents?: React.ReactNode
-    leftSlot?: React.ReactNode
-    centerOverlay?: React.ReactNode
+    description: React.ReactNode
     children?: React.ReactNode
     className?: string
     contentClassName?: string
@@ -19,18 +15,15 @@ interface HeroProps {
     overlayOpacity?: string
     hideChildrenOnMobile?: boolean
     imagePosition?: string
+    childrenWrapperClassName?: string
 }
 
 export default function Hero({
     backgroundImage,
     title,
     description,
-    topBadge,
-    backgroundAccents,
-    leftSlot,
-    centerOverlay,
     children,
-    className = "h-[650px]", // Before it was "h-[600px]"
+    className = "min-h-[70vh]",
     contentClassName,
     titleClassName,
     descriptionClassName,
@@ -38,7 +31,8 @@ export default function Hero({
     rightColumnClassName,
     overlayOpacity = "bg-brand-dark-blue/70",
     hideChildrenOnMobile = false,
-    imagePosition = "center 45%"
+    imagePosition = "center 45%",
+    childrenWrapperClassName
 }: HeroProps) {
     return (
         <>
@@ -57,33 +51,22 @@ export default function Hero({
                     <div className={cn("absolute inset-0", overlayOpacity)}></div>
                 </div>
 
-                {backgroundAccents ? <div className="absolute inset-0 h-full pointer-events-none">{backgroundAccents}</div> : null}
-
                 {/* Content Overlay */}
-                <div className={cn("relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 h-full flex items-center", contentClassName)}>
-                    {centerOverlay ? (
-                        <div className="hidden lg:block absolute left-[55%] top-[44%] -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none">
-                            {centerOverlay}
-                        </div>
-                    ) : null}
-
-                    <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 w-full">
+                <div className="relative flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 flex items-center">
+                    <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-8 lg:gap-12 w-full">
                         {/* Left Side - Text */}
-                        <div className={cn("flex-1 max-w-2xl text-left", leftColumnClassName)}>
-                            {topBadge ? <div className="mb-8">{topBadge}</div> : null}
-
-                            <h1 className={cn("text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 animate-[flyInFromTop_0.6s_ease-out]", titleClassName)}>
+                        <div className="flex-1 max-w-full lg:max-w-3xl text-left">
+                            <h1 className={cn("text-6xl sm:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 animate-[flyInFromTop_0.6s_ease-out]", titleClassName)}>
                                 {title}
                             </h1>
-                            <p className={cn("text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed", descriptionClassName)}>
+                            <div className={cn("text-lg sm:text-xl text-gray-300 leading-relaxed", descriptionClassName)}>
                                 {description}
-                            </p>
-                            {leftSlot ? <div className="mt-6">{leftSlot}</div> : null}
+                            </div>
                         </div>
 
                         {/* Right Side - Custom Content */}
                         {children && (
-                            <div className={cn("hidden lg:flex flex-col gap-6 min-w-[280px] mt-6 lg:mt-11 ml-auto", rightColumnClassName)}>
+                            <div className={cn("hidden lg:flex flex-col gap-6 min-w-[280px] mt-6 lg:mt-11 ml-auto", childrenWrapperClassName)}>
                                 {children}
                             </div>
                         )}
@@ -93,8 +76,8 @@ export default function Hero({
 
             {/* Mobile - Cards below hero */}
             {children && !hideChildrenOnMobile && (
-                <div className="lg:hidden mt-1">
-                    <div className="max-w-7xl mx-auto px-4 py-6">
+                <div className="lg:hidden -mt-1">
+                    <div className="max-w-7xl mx-auto px-4 pt-2 pb-6">
                         {children}
                     </div>
                 </div>

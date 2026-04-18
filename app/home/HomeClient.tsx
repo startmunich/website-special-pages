@@ -13,37 +13,19 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Script from 'next/script'
 import { useAnimatedNumber, useInView } from '@/lib/hooks'
-
-// ── Types ───────────────────────────────────────────────────────────────────────
-
-export interface Partner {
-  id: string
-  name: string
-  category: string
-  logoUrl: string
-  featured?: boolean
-}
-
-export interface Startup {
-  id: string
-  name: string
-  logoUrl: string
-  isSpotlight?: boolean
-  isYCombinator?: boolean
-  isEWOR?: boolean
-}
+import type { Partner, Startup } from '@/lib/types'
 
 // ── Images ──────────────────────────────────────────────────────────────────────
 
 const heroImages = [
-  "/home/heroBackground/sprint.jpg",
-  "/home/heroBackground/isar.jpg",
-  "/home/heroBackground/legal.jpg",
-  "/home/heroBackground/background2.jpg",
-  "/home/heroBackground/background.jpg",
-  "/home/heroBackground/background1.jpeg",
-  "/home/heroBackground/rtsh.jpeg",
-  "/home/heroBackground/background4.png",
+  "/home/heroBackground/sprint-opt.jpg",
+  "/home/heroBackground/isar-opt.jpg",
+  "/home/heroBackground/legal-opt.jpg",
+  "/home/heroBackground/background2-opt.jpg",
+  "/home/heroBackground/background-opt.jpg",
+  "/home/heroBackground/background1-opt.jpeg",
+  "/home/heroBackground/rtsh-opt.jpeg",
+  "/home/heroBackground/background4-opt.png",
 ]
 
 // ── Data ────────────────────────────────────────────────────────────────────────
@@ -103,7 +85,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
     useAnimatedNumber(facts[3].value, !factsView.visible, 1800),
   ]
   const animatedCapital = useAnimatedNumber(3, !factsView.visible, 1800)
-  const animatedStartups70 = useAnimatedNumber(70, !factsView.visible, 1800)
+  const animatedStartups70 = useAnimatedNumber(100, !factsView.visible, 1800)
   const animatedUnicorn = useAnimatedNumber(1, !factsView.visible, 1200)
 
   return (
@@ -122,6 +104,17 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
       </Script>
 
       <main className="min-h-screen bg-brand-dark-blue text-white overflow-x-hidden">
+
+        {/* ═══════════════════════════ APPLICATION BANNER ═══════════════════════════ */}
+        <Link href="/apply" className="block bg-brand-pink overflow-hidden py-1.5 cursor-pointer hover:brightness-110 transition-all">
+          <div className="animate-scroll-slow whitespace-nowrap">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <span key={i} className="text-white text-xs sm:text-sm tracking-wide mx-8">
+                Summer Applications are open from 10 of April to 26 of April
+              </span>
+            ))}
+          </div>
+        </Link>
 
         {/* ═══════════════════════════ HERO — FULLSCREEN CROSSFADE ═══════════════════════════ */}
         <section className="relative w-full overflow-hidden h-[calc(100vh-5rem)] flex items-center">
@@ -152,16 +145,24 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
 
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div className="max-w-2xl">
-<h1 className={`text-7xl sm:text-8xl lg:text-9xl font-black tracking-tight leading-[0.9] mb-8 transition-all duration-1000 delay-200 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <h1 className={`text-7xl sm:text-8xl lg:text-9xl font-black tracking-tight leading-[0.9] mb-8 transition-all duration-1000 delay-200 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 <span className="text-white drop-shadow-lg">DARE.</span><br />
                 <span className="outline-text drop-shadow-lg">BUILD.</span><br />
                 <span className="text-white drop-shadow-lg">BELONG.</span>
               </h1>
 
-              <p className={`text-lg sm:text-xl text-gray-200 max-w-lg mb-10 leading-relaxed transition-all duration-1000 delay-400 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                START Munich is the largest student-run entrepreneurship community at TU Munich.
+              <p className={`text-lg sm:text-xl text-gray-200 max-w-lg mb-6 leading-relaxed transition-all duration-1000 delay-400 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                START Munich is the largest student-run entrepreneurship community in Munich.
                 We empower the next generation of founders to dare, build, and belong.
               </p>
+              {Date.now() >= new Date('2026-04-10T00:00:00+02:00').getTime() && (
+                <Link
+                  href="/join-start/2026"
+                  className={`inline-flex items-center justify-center px-8 py-3 bg-brand-pink text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(208,0,111,0.4)] transition-all duration-1000 delay-500 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                >
+                  Apply Now
+                </Link>
+              )}
 
             </div>
 
@@ -181,11 +182,11 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
             <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-brand-dark-blue to-transparent z-10" />
             <div className="animate-scroll">
               {[...brandPartners, ...brandPartners].map((partner, i) => (
-                <div key={`${partner.id}-${i}`} className="inline-flex items-center justify-center mx-12 w-32 h-12">
+                <div key={`${partner.id}-${i}`} className="inline-flex items-center justify-center mx-9 h-[54px] opacity-80 hover:opacity-100 hover:-translate-y-px transition-all duration-200">
                   <img
                     src={partner.logoUrl}
                     alt={partner.name}
-                    className="w-full h-10 object-contain bg-white rounded p-1"
+                    className="h-[48px] w-auto max-w-[200px] object-contain grayscale"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement
                       target.style.display = 'none'
@@ -204,7 +205,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
             {/* Group Photo */}
             <div className="relative rounded-3xl overflow-hidden mb-16 h-[300px] sm:h-[400px] lg:h-[500px]">
               <Image
-                src="/home/Landing_Team_1.jpeg"
+                src="/home/Landing_Team_1-opt.jpeg"
                 alt="START Munich Community"
                 fill
                 loading="lazy"
@@ -219,14 +220,14 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               {/* Left - Text Content */}
               <div>
                 <h2 className="text-4xl sm:text-5xl font-black text-white mb-6">
-                  What is <span className="outline-text">START Munich</span>?
+                  What is <span className="outline-text">START Munich</span>
                 </h2>
                 <p className="text-gray-300 text-lg leading-relaxed mb-4">
-                  With over 70 active members and 500+ alumni, START Munich empowers the next generation of entrepreneurs. Founded in 2003, our mission is to create{' '}
-                  <span className="text-brand-pink font-semibold">a community of students who dare to build, innovate, and lead</span>, fostering both groundbreaking ventures and meaningful connections across industries.
+                  With over 70 active members and 600+ alumni, START Munich is one of Germany’s leading student-run entrepreneurship initiatives. Founded in 2003, our mission is to build  
+                  <span className=" font-semibold"> a community of students who dare to build, innovate, and lead.</span>
                 </p>
-                <p className="text-gray-300 leading-relaxed mb-6">
-                  Together with our highly-talented members, we launch ambitious startups, connect founders with industry partners and investors, host flagship events like pitch nights and founder talks, and run hands-on programs that bridge academic excellence with entrepreneurial success.
+                <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                  At START Munich, <span className="font-semibold">  aspiring and active entrepreneurs come together </span> to connect, collaborate, and grow. Together with our talented members, we host events such as pitch nights and founder talks, connect with industry partners and investors, or run hands-on programs that bridge academia with entrepreneurship.
                 </p>
 
                 <div className="flex flex-wrap gap-4 mt-8">
@@ -244,7 +245,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 {/* Academic Excellence Card */}
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
                   <div className="flex items-center justify-center gap-8 mb-3">
-                    <Image src="/partners/Logo_of_the_Technical_University_of_Munich.svg" alt="TUM" width={120} height={40} className="h-10 w-auto opacity-80" unoptimized />
+                    <Image src="/forPartners/Logo_of_the_Technical_University_of_Munich.svg" alt="TUM" width={120} height={40} className="h-10 w-auto opacity-80" unoptimized />
                     <span className="text-white/30 text-2xl font-light">×</span>
                     <Image src="/home/LMU_Muenchen_Logo.svg" alt="LMU" width={120} height={40} className="h-10 w-auto opacity-80" unoptimized />
                   </div>
@@ -252,22 +253,22 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 </div>
 
                 <div className="grid grid-cols-2 gap-6">
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
-                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">70<span className="text-brand-pink">+</span></div>
-                  <div className="text-gray-400 text-sm uppercase tracking-wider">Active Members</div>
-                </div>
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
-                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">2003</div>
-                  <div className="text-gray-400 text-sm uppercase tracking-wider">Founding Year</div>
-                </div>
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
-                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">500<span className="text-brand-pink">+</span></div>
-                  <div className="text-gray-400 text-sm uppercase tracking-wider">Alumni</div>
-                </div>
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
-                  <div className="text-4xl sm:text-5xl font-black text-white mb-2">65<span className="text-brand-pink">%</span></div>
-                  <div className="text-gray-400 text-sm uppercase tracking-wider">STEM</div>
-                </div>
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
+                    <div className="text-4xl sm:text-5xl font-black text-white mb-2">70<span className="text-brand-pink">+</span></div>
+                    <div className="text-gray-400 text-sm uppercase tracking-wider">Active Members</div>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
+                    <div className="text-4xl sm:text-5xl font-black text-white mb-2">2003</div>
+                    <div className="text-gray-400 text-sm uppercase tracking-wider">Founding Year</div>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
+                    <div className="text-4xl sm:text-5xl font-black text-white mb-2">600<span className="text-brand-pink">+</span></div>
+                    <div className="text-gray-400 text-sm uppercase tracking-wider">Alumni</div>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 transition-all">
+                    <div className="text-4xl sm:text-5xl font-black text-white mb-2">65<span className="text-brand-pink">%</span></div>
+                    <div className="text-gray-400 text-sm uppercase tracking-wider">STEM</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -365,8 +366,8 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-brand-dark-blue to-transparent z-10" />
               <div className="animate-scroll-nonstop">
                 {[...featuredStartups, ...featuredStartups].map((startup, i) => (
-                  <div key={`${startup.id}-${i}`} className="inline-flex items-center justify-center mx-6 flex-shrink-0">
-                    <div className="bg-white rounded-xl p-4 w-36 h-20 flex items-center justify-center hover:border-brand-pink/30 transition-all duration-300">
+                  <Link key={`${startup.id}-${i}`} href="/startups" className="inline-flex items-center justify-center mx-6 flex-shrink-0">
+                    <div className="bg-white rounded-xl p-4 w-36 h-20 flex items-center justify-center hover:border-brand-pink/30 hover:scale-105 transition-all duration-300">
                       <img
                         src={startup.logoUrl}
                         alt={startup.name}
@@ -379,7 +380,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                         }}
                       />
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -404,11 +405,11 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 sm:self-end sm:mb-1">
                   <Link href="https://www.linkedin.com/company/start-munich/" target="_blank" className="group flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full hover:border-brand-pink/50 hover:bg-brand-pink/10 transition-all duration-300">
-                    <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
                     <span className="text-white text-sm font-medium group-hover:text-brand-pink transition-colors">LinkedIn</span>
                   </Link>
                   <Link href="https://www.instagram.com/start.munich/" target="_blank" className="group flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full hover:border-brand-pink/50 hover:bg-brand-pink/10 transition-all duration-300">
-                    <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
                     <span className="text-white text-sm font-medium group-hover:text-brand-pink transition-colors">Instagram</span>
                   </Link>
                 </div>
@@ -453,7 +454,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 },
                 {
                   href: "https://www.linkedin.com/feed/update/urn:li:share:7440016138719272960",
-                  img: "https://media.licdn.com/dms/image/v2/D5622AQEh2lg_lhQjww/feedshare-shrink_1280/B56Z0A_QNzI0AU-/0/1773838075010?e=1775692800&v=beta&t=idyNOcgAy--nvZREVm78rmAppAX0uJFuOWEjrUVjIfg",
+                  img: "https://media.licdn.com/dms/image/v2/D5622AQEh2lg_lhQjww/feedshare-shrink_800/B56Z0A_QNzI0Ak-/0/1773838075010?e=1777507200&v=beta&t=L9oNLtmDh68DzOSN7-lEUIML3D6euhlPh8c2Ki40eME",
                   alt: "START Labs MedTech Edition",
                   label: "Upcoming Event",
                   title: "START Labs: MedTech Edition",
@@ -461,7 +462,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 },
                 {
                   href: "https://www.linkedin.com/feed/update/urn:li:share:7435353728989229056",
-                  img: "https://media.licdn.com/dms/image/v2/D4D22AQGajz8OPW6FFw/feedshare-shrink_1280/B4DZy.u0TJHIAc-/0/1772726470218?e=1775692800&v=beta&t=eNeBZE_T126RQMQfvEIfT926mx6D_VxTvIOeZ18p1_0",
+                  img: "https://media.licdn.com/dms/image/v2/D4D22AQGajz8OPW6FFw/feedshare-shrink_800/B4DZy.u0TJHIAg-/0/1772726470218?e=1777507200&v=beta&t=fTP2Nb-ox-_uLga7NxDGiO9UIR1v3a6Dd4zPa8LNjpY",
                   alt: "START Goes Bay Area",
                   label: "START Goes",
                   title: "BAY AREA",
@@ -470,7 +471,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 },
                 {
                   href: "https://www.linkedin.com/feed/update/urn:li:share:7435603494218166272",
-                  img: "https://media.licdn.com/dms/image/v2/D4E22AQHk1X_AF4bZ4Q/feedshare-shrink_2048_1536/B4EZzCR.lKJEAk-/0/1772786019035?e=1775692800&v=beta&t=u5vZe8YnuTVmKWbQdOIHbEa626sXld9zhbR71XaQxZk",
+                  img: "https://media.licdn.com/dms/image/v2/D4E22AQHk1X_AF4bZ4Q/feedshare-shrink_800/B4EZzCR.lKJEAg-/0/1772786019035?e=1777507200&v=beta&t=TYYUhQIvipVvAcWeL4KbHIeF5KL-maptiLn8P3nX9LQ",
                   alt: "Lio raises €30M",
                   title: "Lio raises €30M",
                   desc: "Huge congratulations to START Munich alumni!",
@@ -479,7 +480,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               const renderCard = (card: typeof allCards[0]) => (
                 <Link key={card.href} href={card.href} target="_blank" className="group relative">
                   <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
-                    <img src={card.img} alt={card.alt} loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={card.img} alt={card.alt} loading="lazy" referrerPolicy="no-referrer" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                     <div className="absolute bottom-6 left-6 right-6">
                       {card.label && <div className="text-white/60 text-xs uppercase tracking-wider mb-2">{card.label}</div>}
@@ -553,7 +554,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 {/* Stats */}
                 <div className="flex gap-8 sm:gap-16 relative z-10">
                   <div>
-                    <div className="text-5xl sm:text-6xl font-black text-white">21</div>
+                    <div className="text-5xl sm:text-6xl font-black text-white">22</div>
                     <div className="text-gray-400 text-sm">Cities</div>
                   </div>
                   <div>
@@ -561,7 +562,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                     <div className="text-gray-400 text-sm">Countries</div>
                   </div>
                   <div>
-                    <div className="text-5xl sm:text-6xl font-black text-white">+500</div>
+                    <div className="text-5xl sm:text-6xl font-black text-white">+1800</div>
                     <div className="text-gray-400 text-sm">Members</div>
                   </div>
                 </div>
@@ -575,15 +576,14 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-brand-dark-blue to-transparent z-10" />
 
                 <div className="mt-12 text-right animate-scroll-vertical">
-                  {['BERLIN', 'BARCELONA', 'HAMBURG', 'HELSINKI', 'LAUSANNE', 'LONDON', 'LIMA', 'LISBON', 'MAASTRICHT', 'MEXICO CITY', 'MILANO', 'MÜNCHEN', 'PARIS', 'NÜRNBERG', 'QUITO', 'SAO PAOLO', 'STUTTGART', 'VADUZ', 'VIENNA', 'WARSAW', 'ST. GALLEN', 'BERLIN', 'BARCELONA', 'HAMBURG', 'HELSINKI', 'LAUSANNE', 'LONDON', 'LIMA', 'LISBON', 'MAASTRICHT', 'MEXICO CITY', 'MILANO', 'MÜNCHEN', 'PARIS', 'NÜRNBERG', 'QUITO', 'SAO PAOLO', 'STUTTGART', 'VADUZ', 'VIENNA', 'WARSAW', 'ST. GALLEN'].map((city, i) => (
+                  {['BERLIN', 'BARCELONA', 'HAMBURG', 'HELSINKI', 'LAUSANNE', 'LONDON', 'LIMA', 'LISBON', 'MAASTRICHT', 'MEXICO CITY', 'MILANO', 'MUNICH', 'PARIS', 'NUREMBERG', 'QUITO', 'SÃO PAULO', 'STUTTGART', 'VADUZ', 'VIENNA', 'WARSAW', 'ST. GALLEN', 'BERLIN', 'BARCELONA', 'HAMBURG', 'HELSINKI', 'LAUSANNE', 'LONDON', 'LIMA', 'LISBON', 'MAASTRICHT', 'MEXICO CITY', 'MILANO', 'MUNICH', 'PARIS', 'NUREMBERG', 'QUITO', 'SÃO PAULO', 'STUTTGART', 'VADUZ', 'VIENNA', 'WARSAW', 'ST. GALLEN'].map((city, i) => (
                     <div
                       key={`${city}-${i}`}
-                      className={`text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.2] ${
-                        city === 'MÜNCHEN' || (i % 21) % 4 === 3 ? 'text-brand-pink' :
-                        (i % 21) % 4 === 0 ? 'bg-gradient-to-r from-gray-400 to-gray-200 bg-clip-text text-transparent' :
-                        (i % 21) % 4 === 1 ? 'text-white' :
-                        'bg-gradient-to-r from-gray-500 to-gray-300 bg-clip-text text-transparent'
-                      }`}
+                      className={`text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.2] ${city === 'MUNICH' || (i % 21) % 4 === 3 ? 'text-brand-pink' :
+                          (i % 21) % 4 === 0 ? 'bg-gradient-to-r from-gray-400 to-gray-200 bg-clip-text text-transparent' :
+                            (i % 21) % 4 === 1 ? 'text-white' :
+                              'bg-gradient-to-r from-gray-500 to-gray-300 bg-clip-text text-transparent'
+                        }`}
                     >
                       {city}
                     </div>
@@ -608,7 +608,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 <p className="text-gray-300 text-lg leading-relaxed mb-6">
                   START Munich is the largest student-run entrepreneurship initiative in Munich, empowering the next generation of founders through education, networking, and hands-on experience.
                 </p>
-                <p className="text-gray-400 leading-relaxed mb-8">
+                <p className="text-gray-300 text-lg leading-relaxed mb-8">
                   We believe in the power of student-driven innovation and provide a platform where bold ideas can become reality.
                 </p>
 
@@ -631,7 +631,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               <div className="relative">
                 <div className="rounded-3xl overflow-hidden border-2 border-white/10 relative h-[500px] lg:h-[600px]">
                   <Image
-                    src="/home/good.png"
+                    src="/home/good-opt.png"
                     alt="START Munich Event"
                     fill
                     loading="lazy"

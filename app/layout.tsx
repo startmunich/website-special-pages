@@ -14,33 +14,30 @@ export const metadata: Metadata = {
     template: "%s | START Munich",
   },
   description:
-    "START Munich is the largest student-run entrepreneurship community at TU Munich. We empower the next generation of founders to dare, build, and belong.",
+    "START Munich is the largest student-run entrepreneurship community in Munich. We empower the next generation of founders to dare, build, and belong.",
   metadataBase: new URL("https://www.startmunich.de"),
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     url: "https://www.startmunich.de",
     siteName: "START Munich",
     title: "START Munich",
     description:
-      "START Munich is the largest student-run entrepreneurship community at TU Munich. We empower the next generation of founders to dare, build, and belong.",
+      "START Munich is the largest student-run entrepreneurship community in Munich. We empower the next generation of founders to dare, build, and belong.",
     images: [
       {
-        url: "/startIcon.png",
-        width: 512,
-        height: 512,
+        url: "/START_munich_black-01.png",
+        width: 1920,
+        height: 1120,
         alt: "START Munich Logo",
       },
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "START Munich – Europe's Student Entrepreneurship Community",
     description:
-      "The largest student-run entrepreneurship community at TU Munich.",
-    images: ["/startIcon.png"],
+      "The largest student-run entrepreneurship community in Munich.",
+    images: ["/START_munich_black-01.png"],
   },
   icons: {
     icon: [

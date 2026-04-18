@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 
 // Event Card Component
 export interface EventCardProps {
@@ -16,6 +16,9 @@ export interface EventCardProps {
   isFlagship?: boolean
   className?: string
   onClick?: () => void
+  ctaLabel?: string
+  ctaHref?: string
+  ctaDisabledLabel?: string
 }
 
 export const EventCard = ({
@@ -25,7 +28,10 @@ export const EventCard = ({
   setHoveredEvent,
   isFlagship = false,
   className = '',
-  onClick
+  onClick,
+  ctaLabel,
+  ctaHref,
+  ctaDisabledLabel
 }: EventCardProps) => {
   const isHovered = hoveredEvent === event.id
 
@@ -71,11 +77,29 @@ export const EventCard = ({
         <h3 className="text-lg font-black text-white mb-1 leading-tight">
           {event.name}
         </h3>
-        <p className="text-white/40 text-xs font-medium mb-2">{event.month}</p>
+        <p className="text-white/40 text-xs font-medium mb-2 whitespace-pre-line">{event.month}</p>
         <p className="text-gray-400 text-sm leading-relaxed flex-1">
           {event.description}
         </p>
-        {onClick && (
+        {ctaLabel ? (
+          <div className="mt-4 pt-4 border-t border-white/10">
+            {ctaHref ? (
+              <a
+                href={ctaHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="block w-full rounded-full bg-[#d0006f] px-6 py-3 text-center text-sm font-bold uppercase tracking-wide text-white transition hover:bg-[#d0006f]/80 hover:shadow-lg hover:shadow-[#d0006f]/30"
+              >
+                {ctaLabel}
+              </a>
+            ) : (
+              <span className="block w-full cursor-not-allowed rounded-full bg-white/10 px-6 py-3 text-center text-sm font-bold uppercase tracking-wide text-white/40">
+                {ctaDisabledLabel ?? ctaLabel}
+              </span>
+            )}
+          </div>
+        ) : onClick && (
           <div className="mt-4 pt-3 border-t border-white/10 flex items-center gap-1.5 text-white/50 text-xs font-medium">
             <span>Learn more</span>
             <svg className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -213,20 +237,81 @@ export const TimelineMarker = ({
 
 // Scroll Indicator Component
 export interface ScrollIndicatorProps {
-  sliderRef: React.RefObject<HTMLDivElement>
-  scrollProgress: number
+  sliderRef: React.RefObject<HTMLDivElement | null>
+  scrollProgress?: number
 }
 
-export const ScrollIndicator = ({ sliderRef, scrollProgress }: ScrollIndicatorProps) => (
-  <div className="relative h-1.5 bg-white/[0.06] rounded-full mt-8 overflow-hidden">
+export const ScrollIndicator = ({ sliderRef }: ScrollIndicatorProps) => {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const isDragging = useRef(false)
+  const [thumbState, setThumbState] = useState({ width: 30, left: 0 })
+
+  const updateThumb = useCallback(() => {
+    const slider = sliderRef.current
+    if (!slider) return
+    const { scrollLeft, scrollWidth, clientWidth } = slider
+    const maxScroll = scrollWidth - clientWidth
+    if (maxScroll <= 0) {
+      setThumbState({ width: 100, left: 0 })
+      return
+    }
+    const ratio = clientWidth / scrollWidth
+    const progress = scrollLeft / maxScroll
+    setThumbState({
+      width: ratio * 100,
+      left: progress * (1 - ratio) * 100,
+    })
+  }, [sliderRef])
+
+  useEffect(() => {
+    const slider = sliderRef.current
+    if (!slider) return
+
+    slider.addEventListener('scroll', updateThumb)
+    updateThumb()
+
+    const observer = new ResizeObserver(updateThumb)
+    observer.observe(slider)
+
+    return () => {
+      slider.removeEventListener('scroll', updateThumb)
+      observer.disconnect()
+    }
+  }, [sliderRef, updateThumb])
+
+  const scrollToRatio = (clientX: number) => {
+    const track = trackRef.current
+    const slider = sliderRef.current
+    if (!track || !slider) return
+    const rect = track.getBoundingClientRect()
+    const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
+    slider.scrollLeft = ratio * (slider.scrollWidth - slider.clientWidth)
+  }
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDragging.current = true
+    scrollToRatio(e.clientX)
+    const onMove = (ev: MouseEvent) => { if (isDragging.current) scrollToRatio(ev.clientX) }
+    const onUp = () => { isDragging.current = false; window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp) }
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup', onUp)
+  }
+
+  return (
     <div
-      className="absolute h-full rounded-full transition-all duration-200"
-      style={{
-        background: 'linear-gradient(to right, #d0006f, rgb(236, 72, 153), #d0006f)',
-        opacity: 0.5,
-        width: `${sliderRef.current ? (sliderRef.current.clientWidth / sliderRef.current.scrollWidth) * 100 : 30}%`,
-        left: `${sliderRef.current ? scrollProgress * (1 - sliderRef.current.clientWidth / sliderRef.current.scrollWidth) : 0}%`
-      }}
-    />
-  </div>
-)
+      ref={trackRef}
+      className="relative h-1.5 bg-white/[0.06] rounded-full mt-8 overflow-hidden cursor-pointer"
+      onMouseDown={handleMouseDown}
+    >
+      <div
+        className="absolute h-full rounded-full pointer-events-none"
+        style={{
+          background: 'linear-gradient(to right, #d0006f, rgb(236, 72, 153), #d0006f)',
+          opacity: 0.5,
+          width: `${thumbState.width}%`,
+          left: `${thumbState.left}%`,
+        }}
+      />
+    </div>
+  )
+}
