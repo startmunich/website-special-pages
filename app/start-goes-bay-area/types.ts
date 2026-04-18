@@ -41,6 +41,7 @@ export interface BayAreaDetailedDay {
 export interface BayAreaHost {
     name: string
     logoPath?: string
+    websiteUrl?: string
 }
 
 export interface BayAreaTeamMember {

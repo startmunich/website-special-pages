@@ -2,25 +2,20 @@
 
 import { useEffect, useRef, useState } from 'react'
 import CTA from '@/components/CTA'
-import BayAreaYearTabs from './BayAreaYearTabs'
 import BayAreaCompanyLogoCarousel from './BayAreaCompanyLogoCarousel'
+import BayAreaYearTabs from './BayAreaYearTabs'
+import BayAreaYearPreview from './BayAreaYearPreview'
 import Hero from '@/components/Hero'
 import HeroCard from '@/components/HeroCard'
 import {
     bayAreaOverviewItems,
-    bayAreaYearContent,
 } from '@/lib/startGoesBayAreaData'
 import { useAnimatedNumber } from '@/lib/useAnimatedNumber'
-import type { BayAreaYearId } from '../types'
 
-const HERO_BACKGROUND_BY_YEAR: Record<BayAreaYearId, string> = {
-    '2025': '/bayarea/years/2025.jpg',
-    '2026': '/bayarea/years/2026.png',
-    '2027': '/bayarea/years/2026.png',
-}
+const HERO_BACKGROUND = '/bayarea/years/2026.png'
 
 export default function StartGoesBayAreaContent() {
-    const [activeYear, setActiveYear] = useState<BayAreaYearId>('2026')
+    const [activeYear, setActiveYear] = useState<'2025' | '2026'>('2026')
     const [showStickyYearSelector, setShowStickyYearSelector] = useState(false)
     const [hasLoaded, setHasLoaded] = useState(false)
     const heroSectionRef = useRef<HTMLDivElement | null>(null)
@@ -51,21 +46,20 @@ export default function StartGoesBayAreaContent() {
 
     const renderYearSelectorButtons = () => (
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-            {bayAreaYearContent.map((year) => {
-                const isActive = year.id === activeYear
+            {(['2025', '2026'] as const).map((year) => {
+                const isActive = year === activeYear
 
                 return (
                     <button
-                        key={year.id}
+                        key={year}
                         type="button"
-                        onClick={() => setActiveYear(year.id)}
+                        onClick={() => setActiveYear(year)}
                         className={`border rounded-full font-bold uppercase tracking-wide transition-colors backdrop-blur-sm px-5 py-2.5 text-sm sm:px-6 sm:text-base ${isActive
                             ? 'bg-brand-pink text-white border-brand-pink'
                             : 'bg-white/10 text-gray-100 border-white/25 hover:bg-white/20'
                             }`}
                     >
-                        {year.label}
-                        {year.isPreview ? <span className="ml-2 text-[10px] opacity-80">Preview</span> : null}
+                        {year}
                     </button>
                 )
             })}
@@ -85,9 +79,10 @@ export default function StartGoesBayAreaContent() {
     return (
         <main className="min-h-screen bg-brand-dark-blue">
             {stickyYearSelector}
+
             <div ref={heroSectionRef}>
                 <Hero
-                    backgroundImage={HERO_BACKGROUND_BY_YEAR[activeYear]}
+                    backgroundImage={HERO_BACKGROUND}
                     titleClassName={hasLoaded ? 'animate-[flyInFromTop_0.6s_ease-out]' : 'animate-none'}
                     title={
                         <>
@@ -122,6 +117,9 @@ export default function StartGoesBayAreaContent() {
                 </Hero>
             </div>
 
+            <div className="pt-8 lg:pt-20">
+                <BayAreaYearPreview yearLabel="2027" imageUrl="/bayarea/years/2026.png" />
+            </div>
             <BayAreaCompanyLogoCarousel />
 
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
@@ -146,9 +144,7 @@ export default function StartGoesBayAreaContent() {
                 </div>
             </section>
 
-            <section className="pb-20">
-                <BayAreaYearTabs activeYear={activeYear} />
-            </section>
+            <BayAreaYearTabs activeYear={activeYear} />
 
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
                 <div className="mb-10">

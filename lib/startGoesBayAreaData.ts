@@ -1,16 +1,9 @@
 import type {
     BayAreaCompanyLogo,
-    BayAreaHeroStat,
     BayAreaOverviewItem,
     BayAreaYearContent,
     BayAreaVisit,
 } from '@/app/start-goes-bay-area/types'
-
-export const bayAreaHeroHighlights: BayAreaHeroStat[] = [
-    { label: 'Duration', value: '2 Weeks' },
-    { label: 'Location', value: 'SF Bay Area' },
-    { label: 'Curated Members', value: '20' },
-]
 
 export const bayAreaOverviewItems: BayAreaOverviewItem[] = [
     {
@@ -328,12 +321,12 @@ export const bayAreaYearContent: BayAreaYearContent[] = [
         ],
         hostsIntro: 'Hosts and ecosystem touchpoints documented in the 2025 program.',
         hosts: [
-            { name: 'Netlify' },
-            { name: 'Boost VC' },
-            { name: 'Uncork Capital' },
-            { name: 'a16z' },
-            { name: 'Start2 Group' },
-            { name: 'UC Berkeley' },
+            { name: 'Netlify', websiteUrl: 'https://www.netlify.com/' },
+            { name: 'Boost VC', websiteUrl: 'https://www.boost.vc/' },
+            { name: 'Uncork Capital', websiteUrl: 'https://uncork.vc/' },
+            { name: 'a16z', websiteUrl: 'https://a16z.com/' },
+            { name: 'Start2 Group', websiteUrl: 'https://www.start2.group/' },
+            { name: 'UC Berkeley', websiteUrl: 'https://www.berkeley.edu/' },
         ],
         teamIntro: 'Core organizers who launched the first Bay Area year.',
         teamMembers: [
@@ -347,7 +340,7 @@ export const bayAreaYearContent: BayAreaYearContent[] = [
     {
         id: '2026',
         label: '2026',
-        groupPictureUrl: '/batch.jpeg',
+        groupPictureUrl: '/ourMembers/batches_group_pictures/WS25.JPG',
         highlightVisits: [
             { name: 'Google X', context: 'Mountain View', logoPath: '/bayarea/logos/google-x.svg', websiteUrl: 'https://x.company/' },
             { name: 'Y Combinator', context: 'San Francisco', logoPath: '/bayarea/logos/y-combinator.svg', websiteUrl: 'https://www.ycombinator.com/' },
@@ -774,29 +767,29 @@ export const bayAreaYearContent: BayAreaYearContent[] = [
                 ],
             },
         ],
-        hostsIntro: 'Selected hosts and ecosystem touchpoints from the 2026 trip plan.',
+        hostsIntro: 'A curated look at the startups, teams, and organizations we visited across the Bay Area.',
         hosts: [
-            { name: 'GACC West', logoPath: '/bayarea/logos/gacc-west.svg' },
-            { name: 'Start2 Group', logoPath: '/bayarea/logos/start2-group.svg' },
-            { name: 'CodeRabbit', logoPath: '/bayarea/logos/coderabbit.svg' },
-            { name: 'Nvidia', logoPath: '/bayarea/logos/nvidia.svg' },
-            { name: 'WindBorne Systems', logoPath: '/bayarea/logos/windborne-systems.svg' },
+            { name: 'GACC West', logoPath: '/bayarea/logos/gacc-west.svg', websiteUrl: 'https://www.gaccwest.com/' },
+            { name: 'Start2 Group', logoPath: '/bayarea/logos/start2-group.svg', websiteUrl: 'https://www.start2.group/' },
+            { name: 'CodeRabbit', logoPath: '/bayarea/logos/coderabbit.svg', websiteUrl: 'https://coderabbit.ai/' },
+            { name: 'Nvidia', logoPath: '/bayarea/logos/nvidia.svg', websiteUrl: 'https://www.nvidia.com/' },
+            { name: 'WindBorne Systems', logoPath: '/bayarea/logos/windborne-systems.svg', websiteUrl: 'https://www.windbornesystems.com/' },
             { name: 'Sebastian Thrun Session' },
-            { name: 'Maschmeyer Group', logoPath: '/bayarea/logos/maschmeyer-group.svg' },
-            { name: 'Coherence Neuro', logoPath: '/bayarea/logos/coherence-neuro.svg' },
-            { name: 'Rippling', logoPath: '/bayarea/logos/rippling.svg' },
-            { name: 'Stanford University', logoPath: '/bayarea/logos/stanford-university.svg' },
+            { name: 'Maschmeyer Group', logoPath: '/bayarea/logos/maschmeyer-group.svg', websiteUrl: 'https://www.maschmeyergroup.com/' },
+            { name: 'Coherence Neuro', logoPath: '/bayarea/logos/coherence-neuro.svg', websiteUrl: 'https://www.coherenceneuro.com/' },
+            { name: 'Rippling', logoPath: '/bayarea/logos/rippling.svg', websiteUrl: 'https://www.rippling.com/' },
+            { name: 'Stanford University', logoPath: '/bayarea/logos/stanford-university.svg', websiteUrl: 'https://www.stanford.edu/' },
             { name: 'The Residency', logoPath: '/bayarea/logos/the-residency.svg' },
-            { name: 'Google X', logoPath: '/bayarea/logos/google-x.svg' },
-            { name: 'Inflammatix', logoPath: '/bayarea/logos/inflammatix.svg' },
-            { name: 'Sofar Ocean', logoPath: '/bayarea/logos/sofar-ocean.svg' },
-            { name: 'Magrathea', logoPath: '/bayarea/logos/magrathea.svg' },
-            { name: 'Y Combinator', logoPath: '/bayarea/logos/y-combinator.svg' },
-            { name: 'Boost VC', logoPath: '/bayarea/logos/boost-vc.svg' },
-            { name: 'Pillsbury', logoPath: '/bayarea/logos/pillsbury.svg' },
-            { name: 'Founders Inc', logoPath: '/bayarea/logos/founders-inc.svg' },
-            { name: 'satlyt.ai', logoPath: '/bayarea/logos/satlyt-ai.svg' },
-            { name: 'Savor', logoPath: '/bayarea/logos/savor.svg' },
+            { name: 'Google X', logoPath: '/bayarea/logos/google-x.svg', websiteUrl: 'https://x.company/' },
+            { name: 'Inflammatix', logoPath: '/bayarea/logos/inflammatix.svg', websiteUrl: 'https://www.inflammatix.com/' },
+            { name: 'Sofar Ocean', logoPath: '/bayarea/logos/sofar-ocean.svg', websiteUrl: 'https://www.sofarocean.com/' },
+            { name: 'Magrathea', logoPath: '/bayarea/logos/magrathea.svg', websiteUrl: 'https://www.magratheametals.com/' },
+            { name: 'Y Combinator', logoPath: '/bayarea/logos/y-combinator.svg', websiteUrl: 'https://www.ycombinator.com/' },
+            { name: 'Boost VC', logoPath: '/bayarea/logos/boost-vc.svg', websiteUrl: 'https://www.boost.vc/' },
+            { name: 'Pillsbury', logoPath: '/bayarea/logos/pillsbury.svg', websiteUrl: 'https://www.pillsburylaw.com/' },
+            { name: 'Founders Inc', logoPath: '/bayarea/logos/founders-inc.svg', websiteUrl: 'https://foundersinc.com/' },
+            { name: 'satlyt.ai', logoPath: '/bayarea/logos/satlyt-ai.svg', websiteUrl: 'https://satlyt.ai/' },
+            { name: 'Savor', logoPath: '/bayarea/logos/savor.svg', websiteUrl: 'https://www.savor.it/' },
         ],
         teamIntro: 'Team members referenced in the planning data for this Bay Area year.',
         teamMembers: [
@@ -811,7 +804,7 @@ export const bayAreaYearContent: BayAreaYearContent[] = [
         id: '2027',
         label: '2027',
         isPreview: true,
-        groupPictureUrl: '/batch.jpeg',
+        groupPictureUrl: '/ourMembers/batches_group_pictures/WS25.JPG',
         highlightVisits: [
             { name: 'Frontier AI & Robotics Teams', context: 'In Scoping', logoPath: '/startlogo.svg' },
             { name: 'Early-Stage Founder Communities', context: 'In Outreach', logoPath: '/startlogo.svg' },
@@ -884,10 +877,11 @@ const collectYearCompanyLogos = (year: BayAreaYearContent): BayAreaCompanyLogo[]
         }))
 
     const hostLogos: BayAreaCompanyLogo[] = year.hosts
-        .filter((host): host is { name: string; logoPath: string } => Boolean(host.logoPath))
+        .filter((host): host is { name: string; logoPath: string; websiteUrl?: string } => Boolean(host.logoPath))
         .map((host) => ({
             name: host.name,
             logoPath: host.logoPath,
+            websiteUrl: host.websiteUrl,
         }))
 
     return [...highlightLogos, ...detailedVisitLogos, ...hostLogos]

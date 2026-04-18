@@ -3,6 +3,7 @@ interface MemberCardProps {
     imageUrl: string
     role: string
     linkedinUrl?: string
+    compact?: boolean
 }
 
 export default function MemberCard({
@@ -10,13 +11,14 @@ export default function MemberCard({
     imageUrl,
     role,
     linkedinUrl,
+    compact = false,
 }: MemberCardProps) {
     const content = (
         <div className="relative overflow-hidden transition-all duration-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg hover:scale-105 cursor-pointer group h-full">
             <img
                 src={imageUrl}
                 alt={name}
-                className="w-full h-64 object-cover"
+                className={compact ? 'w-full h-40 object-cover' : 'w-full h-64 object-cover'}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#00002c]/60 via-[#00002c]/20 to-transparent"></div>
 
@@ -30,9 +32,9 @@ export default function MemberCard({
                 </div>
             )}
 
-            <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
-                <h4 className="font-bold text-white text-sm mb-1">{name}</h4>
-                <p className="text-pink-300 text-xs font-semibold uppercase tracking-wide">{role}</p>
+            <div className={compact ? 'absolute bottom-0 left-0 right-0 p-3 text-center' : 'absolute bottom-0 left-0 right-0 p-4 text-center'}>
+                <h4 className={compact ? 'font-bold text-white text-xs mb-1' : 'font-bold text-white text-sm mb-1'}>{name}</h4>
+                <p className={compact ? 'text-pink-300 text-[10px] font-semibold uppercase tracking-wide' : 'text-pink-300 text-xs font-semibold uppercase tracking-wide'}>{role}</p>
             </div>
         </div>
     )
