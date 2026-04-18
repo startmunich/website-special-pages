@@ -10,6 +10,7 @@ import {
     bayAreaOverviewItems,
     bayAreaYearContent,
 } from '@/lib/startGoesBayAreaData'
+import { useAnimatedNumber } from '@/lib/useAnimatedNumber'
 import type { BayAreaYearId } from '../types'
 
 const HERO_BACKGROUND_BY_YEAR: Record<BayAreaYearId, string> = {
@@ -21,7 +22,14 @@ const HERO_BACKGROUND_BY_YEAR: Record<BayAreaYearId, string> = {
 export default function StartGoesBayAreaContent() {
     const [activeYear, setActiveYear] = useState<BayAreaYearId>('2026')
     const [showStickyYearSelector, setShowStickyYearSelector] = useState(false)
+    const [hasLoaded, setHasLoaded] = useState(false)
     const heroSectionRef = useRef<HTMLDivElement | null>(null)
+    const animatedStartupVisits = useAnimatedNumber(20, !hasLoaded, 800)
+    const animatedParticipants = useAnimatedNumber(20, !hasLoaded, 800)
+
+    useEffect(() => {
+        setHasLoaded(true)
+    }, [])
 
     useEffect(() => {
         const target = heroSectionRef.current
@@ -80,6 +88,7 @@ export default function StartGoesBayAreaContent() {
             <div ref={heroSectionRef}>
                 <Hero
                     backgroundImage={HERO_BACKGROUND_BY_YEAR[activeYear]}
+                    titleClassName={hasLoaded ? 'animate-[flyInFromTop_0.6s_ease-out]' : 'animate-none'}
                     title={
                         <>
                             START GOES
@@ -93,7 +102,7 @@ export default function StartGoesBayAreaContent() {
                         <HeroCard>
                             <div className="flex items-baseline justify-center gap-2 mb-3">
                                 <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
-                                    20
+                                    {Math.floor(animatedStartupVisits)}
                                 </span>
                                 <span className="text-xl lg:text-3xl font-bold text-[#d0006f]">+</span>
                             </div>
@@ -103,7 +112,7 @@ export default function StartGoesBayAreaContent() {
                         <HeroCard>
                             <div className="flex items-baseline justify-center gap-2 mb-3">
                                 <span className="text-4xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-300 transition">
-                                    20
+                                    {Math.floor(animatedParticipants)}
                                 </span>
                                 <span className="text-xl lg:text-3xl font-bold text-[#d0006f]">+</span>
                             </div>
