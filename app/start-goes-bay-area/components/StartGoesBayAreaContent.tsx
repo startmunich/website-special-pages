@@ -79,12 +79,7 @@ export default function StartGoesBayAreaContent() {
         </div>
     )
 
-    const heroYearSelector = (
-        <div ref={yearSelectorRef} className="mt-3">
-            <p className="text-xs font-bold text-gray-300 uppercase tracking-widest mb-3">Select Program Year</p>
-            {renderYearSelectorButtons()}
-        </div>
-    )
+    const heroYearSelectorSentinel = <div ref={yearSelectorRef} aria-hidden="true" className="h-px w-px" />
 
     const stickyYearSelector = (
         <div
@@ -116,7 +111,7 @@ export default function StartGoesBayAreaContent() {
                     </>
                 }
                 description="A selective international exchange program by START Munich connecting entrepreneurial talent from Europe with the San Francisco Bay Area innovation ecosystem."
-                leftSlot={heroYearSelector}
+                leftSlot={heroYearSelectorSentinel}
             >
                 <div className="flex flex-col gap-6">
                     {bayAreaHeroHighlights.map((stat) => (
