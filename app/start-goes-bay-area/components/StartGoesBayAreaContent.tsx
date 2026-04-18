@@ -96,18 +96,6 @@ export default function StartGoesBayAreaContent() {
         </div>
     )
 
-    const heroYearStamp = (
-        <div
-            key={activeYear}
-            aria-hidden="true"
-            className="relative inline-flex w-fit items-center justify-center rotate-[-16deg] rounded-full border-2 border-brand-pink px-3 py-1.5 md:px-4 md:py-2 animate-[yearStampIn_460ms_cubic-bezier(0.16,1,0.3,1)]"
-        >
-            <span className="block text-center text-5xl md:text-7xl font-black leading-none tracking-[0.08em] text-brand-pink drop-shadow-[0_6px_14px_rgba(0,0,0,0.55)]">
-                {activeYear}
-            </span>
-        </div>
-    )
-
     return (
         <main className="min-h-screen bg-brand-dark-blue">
             {stickyYearSelector}
@@ -129,7 +117,6 @@ export default function StartGoesBayAreaContent() {
                 }
                 description="A selective international exchange program by START Munich connecting entrepreneurial talent from Europe with the San Francisco Bay Area innovation ecosystem."
                 leftSlot={heroYearSelector}
-                centerOverlay={heroYearStamp}
             >
                 <div className="flex flex-col gap-6">
                     {bayAreaHeroHighlights.map((stat) => (
