@@ -24,6 +24,11 @@ const HOSTS_COPY = 'A curated look at the startups, teams, and organizations we 
 const TEAM_COPY = 'The organizing team behind this Bay Area year.'
 const HERO_IMAGE_2026 = '/bayarea/years/2026.png'
 
+const getLogoChipClassName = (theme?: 'light' | 'dark') =>
+    theme === 'dark'
+        ? 'border-white/15 bg-slate-900/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_8px_20px_rgba(2,6,23,0.35)]'
+        : 'border-black/5 bg-white/[0.92] shadow-[inset_0_1px_0_rgba(255,255,255,0.75),0_8px_18px_rgba(15,23,42,0.12)]'
+
 const parseNumericStat = (value: string) => {
     const match = value.match(/\d+/)
     if (!match || match.index === undefined) {
@@ -269,22 +274,26 @@ export default function BayAreaYearTabs({ activeYear }: BayAreaYearTabsProps) {
                                                 aria-label={`${host.name} website`}
                                             >
                                                 {host.logoPath && (
-                                                    <img
-                                                        src={host.logoPath}
-                                                        alt={`${host.name} logo`}
-                                                        className="h-10 w-auto max-w-[90px] object-contain flex-shrink-0 transition-transform duration-300 group-hover:scale-[1.02]"
-                                                    />
+                                                    <div className={`flex h-12 w-full items-center justify-center rounded-xl border px-2 ${getLogoChipClassName(host.logoTheme)}`}>
+                                                        <img
+                                                            src={host.logoPath}
+                                                            alt={`${host.name} logo`}
+                                                            className="h-9 w-auto max-w-[90px] object-contain flex-shrink-0 transition-transform duration-300 group-hover:scale-[1.02]"
+                                                        />
+                                                    </div>
                                                 )}
                                                 <p className="text-sm font-bold text-gray-100 uppercase tracking-wide line-clamp-2">{host.name}</p>
                                             </a>
                                         ) : (
                                             <>
                                                 {host.logoPath && (
-                                                    <img
-                                                        src={host.logoPath}
-                                                        alt={`${host.name} logo`}
-                                                        className="h-10 w-auto max-w-[90px] object-contain flex-shrink-0 transition-transform duration-300 group-hover:scale-[1.02]"
-                                                    />
+                                                    <div className={`flex h-12 w-full items-center justify-center rounded-xl border px-2 ${getLogoChipClassName(host.logoTheme)}`}>
+                                                        <img
+                                                            src={host.logoPath}
+                                                            alt={`${host.name} logo`}
+                                                            className="h-9 w-auto max-w-[90px] object-contain flex-shrink-0 transition-transform duration-300 group-hover:scale-[1.02]"
+                                                        />
+                                                    </div>
                                                 )}
                                                 <p className="text-sm font-bold text-gray-100 uppercase tracking-wide line-clamp-2">{host.name}</p>
                                             </>

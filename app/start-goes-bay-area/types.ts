@@ -26,6 +26,7 @@ export interface BayAreaVisit {
     personLinkedInUrl?: string
     note?: string
     logoPath?: string
+    logoTheme?: 'light' | 'dark'
 }
 
 export type BayAreaWeekGroup = 'Week 1' | 'Week 2'
@@ -42,6 +43,7 @@ export interface BayAreaHost {
     name: string
     logoPath?: string
     websiteUrl?: string
+    logoTheme?: 'light' | 'dark'
 }
 
 export interface BayAreaTeamMember {
@@ -54,12 +56,14 @@ export interface BayAreaHighlightVisit {
     context: string
     logoPath?: string
     websiteUrl?: string
+    logoTheme?: 'light' | 'dark'
 }
 
 export interface BayAreaCompanyLogo {
     name: string
     logoPath: string
     websiteUrl?: string
+    logoTheme?: 'light' | 'dark'
 }
 
 export interface BayAreaYearContent {

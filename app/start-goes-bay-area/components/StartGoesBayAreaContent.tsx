@@ -7,12 +7,39 @@ import BayAreaYearTabs from './BayAreaYearTabs'
 import BayAreaYearPreview from './BayAreaYearPreview'
 import Hero from '@/components/Hero'
 import HeroCard from '@/components/HeroCard'
-import {
-    bayAreaOverviewItems,
-} from '@/lib/startGoesBayAreaData'
 import { useAnimatedNumber } from '@/lib/useAnimatedNumber'
 
 const HERO_BACKGROUND = '/bayarea/years/2026.png'
+
+const OVERVIEW_PILLARS = [
+    {
+        title: 'Who It Is For',
+        subtitle: 'Student builders ready to level up fast.',
+        points: [
+            'Entrepreneurial students with strong drive',
+            'People who learn by doing and shipping',
+            'Applicants who want to build global ambition',
+        ],
+    },
+    {
+        title: 'What You Will Do',
+        subtitle: 'Two intense weeks in the Bay Area.',
+        points: [
+            'Visit startups, VCs, and operator teams',
+            'Join candid sessions with founders and experts',
+            'Work in teams on an internal moonshot sprint',
+        ],
+    },
+    {
+        title: 'What You Take Home',
+        subtitle: 'Clarity, network, and execution momentum.',
+        points: [
+            'A sharper founder and product mindset',
+            'Direct connections across the ecosystem',
+            'Concrete ideas to execute after the program',
+        ],
+    },
+] as const
 
 export default function StartGoesBayAreaContent() {
     const [activeYear, setActiveYear] = useState<'2025' | '2026'>('2026')
@@ -127,18 +154,36 @@ export default function StartGoesBayAreaContent() {
                     <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Program</span>
                     <h3 className="text-4xl sm:text-5xl font-black text-white mt-3">OVERVIEW</h3>
                     <p className="text-gray-400 text-lg">
-                        Built from our 2026 trip plan: high-intensity learning, direct ecosystem access, and execution-focused outcomes.
+                        Two intense weeks to learn from top founders and investors, then apply it to your own ideas.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {bayAreaOverviewItems.map((item) => (
+                    {OVERVIEW_PILLARS.map((item, index) => (
                         <article
                             key={item.title}
-                            className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-brand-pink/30 hover:bg-white/[0.07] transition-all duration-300"
+                            className="group relative bg-white/[0.06] border border-white/10 rounded-3xl p-6 sm:p-7 transition-all duration-300 hover:border-brand-pink/35 hover:bg-white/[0.09]"
                         >
-                            <h3 className="text-lg font-bold text-white mb-3">{item.title}</h3>
-                            <p className="text-sm text-gray-300 leading-relaxed">{item.description}</p>
+                            <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-pink/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 mb-5" />
+
+                            <div className="flex items-center gap-3 mb-4">
+                                <span className="text-4xl font-black text-white/20 leading-none tabular-nums">0{index + 1}</span>
+                                <div className="h-px flex-1 bg-gradient-to-r from-white/20 to-transparent" />
+                            </div>
+
+                            <h4 className="text-xl font-black text-white mb-2 group-hover:text-brand-pink transition-colors duration-300">
+                                {item.title}
+                            </h4>
+                            <p className="text-sm text-gray-300 mb-5 leading-relaxed">{item.subtitle}</p>
+
+                            <div className="space-y-2.5">
+                                {item.points.map((point) => (
+                                    <div key={point} className="flex items-start gap-3">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-brand-pink mt-2 flex-shrink-0" />
+                                        <p className="text-sm text-gray-300 leading-relaxed">{point}</p>
+                                    </div>
+                                ))}
+                            </div>
                         </article>
                     ))}
                 </div>
