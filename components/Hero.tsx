@@ -49,6 +49,8 @@ export default function Hero({
                         style={{ objectPosition: imagePosition }}
                     />
                     <div className={cn("absolute inset-0", overlayOpacity)}></div>
+                    {/* Bottom fade to blue */}
+                    <div className="absolute inset-x-0 bottom-0 h-1/6 bg-gradient-to-b from-transparent to-brand-dark-blue"></div>
                 </div>
 
                 {/* Content Overlay */}
