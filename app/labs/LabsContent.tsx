@@ -33,7 +33,7 @@ function Label({
 // Section Header Component - Large centered section titles
 function SectionHeader({ children }: { children: React.ReactNode }) {
    return (
-      <div className='text-center mb-20'>
+      <div className='text-center mb-10'>
          <span
             className='font-mono uppercase tracking-[0.15em]'
             style={{
@@ -79,7 +79,7 @@ function LabsNavigation() {
                   {/* Desktop Navigation */}
                   <nav className='hidden md:flex items-center gap-8'>
                      <a
-                        href='#manifesto'
+                        href='#about'
                         className='font-mono uppercase tracking-[0.15em] transition-all duration-200'
                         style={{ color: '#888888', fontSize: '10px' }}
                         onMouseEnter={(e) =>
@@ -224,7 +224,7 @@ function HeroSection() {
                   {/* CTA */}
                   <div className='mb-6'>
                      <a
-                        href='https://tally.so/r/n9Axzp'
+                        href='https://tally.so/r/rjdeQM'
                         target='_blank'
                         rel='noopener'
                         className='group relative inline-block font-mono text-xs font-semibold uppercase tracking-[0.15em] px-12 py-4 border overflow-hidden transition-all duration-300'
@@ -322,7 +322,8 @@ function OrganizedBySection() {
 function ProblemSection() {
    return (
       <section
-         className='labs-reveal relative py-32 overflow-hidden'
+         id='about'
+         className='labs-reveal relative py-32 overflow-hidden scroll-mt-20'
          style={{
             background: 'var(--labs-bg)',
          }}
@@ -336,14 +337,14 @@ function ProblemSection() {
                className='absolute top-1/4 left-0 w-[500px] h-[500px] rounded-full blur-[120px]'
                style={{
                   background:
-                     'radial-gradient(circle, rgba(236,72,153,0.35) 0%, transparent 70%)',
+                     'radial-gradient(circle, rgba(45,212,191,0.15) 0%, transparent 70%)',
                }}
             ></div>
             <div
                className='absolute bottom-1/4 right-0 w-[500px] h-[500px] rounded-full blur-[120px]'
                style={{
                   background:
-                     'radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%)',
+                     'radial-gradient(circle, rgba(45,212,191,0.12) 0%, transparent 70%)',
                }}
             ></div>
          </div>
@@ -351,7 +352,7 @@ function ProblemSection() {
          <div className='max-w-[1400px] mx-auto px-6 md:px-12 relative z-10'>
             <div className='max-w-5xl mx-auto'>
                {/* Section Header */}
-               <div className='text-center mb-20'>
+               <div className='text-center mb-10'>
                   <span
                      className='font-mono uppercase tracking-[0.15em]'
                      style={{ fontSize: '16px', color: 'var(--labs-accent)' }}
@@ -394,85 +395,85 @@ function ProblemSection() {
                {/* Two-card grid */}
                <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-20'>
                   <div
-                     className='labs-reveal group p-10 bg-white/5 backdrop-blur-sm border border-t-2 relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(45,212,191,0.15)] cursor-default'
+                     className='labs-reveal group p-10 bg-white/[0.03] border-l-2 relative overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(45,212,191,0.08)] cursor-default'
                      style={{
-                        borderTopColor: 'var(--labs-accent)',
-                        borderColor: 'rgba(255,255,255,0.1)',
+                        borderLeftColor: 'var(--labs-accent)',
+                        borderTop: '1px solid rgba(255,255,255,0.05)',
+                        borderRight: '1px solid rgba(255,255,255,0.05)',
+                        borderBottom: '1px solid rgba(255,255,255,0.05)',
                      }}
                   >
-                     <div className='relative z-10'>
-                        <div className='mb-6'>
-                           <span
-                              className='font-mono uppercase tracking-[0.15em] transition-colors duration-300 group-hover:text-[var(--labs-accent)]'
-                              style={{
-                                 fontSize: '12px',
-                                 color: 'var(--labs-accent)',
-                              }}
-                           >
-                              // On one side
-                           </span>
-                        </div>
-                        <div
-                           className='labs-heading mb-4 transition-colors duration-300 group-hover:text-[var(--labs-accent)]'
+                     <div className='mb-6'>
+                        <span
+                           className='font-mono uppercase tracking-[0.15em]'
                            style={{
-                              fontSize: 'var(--labs-size-heading-sm)',
-                              color: 'var(--labs-text-primary)',
+                              fontSize: '10px',
+                              color: 'var(--labs-accent)',
                            }}
                         >
-                           Healthcare organizations
-                        </div>
-                        <div
-                           className='font-mono leading-relaxed transition-colors duration-300 group-hover:text-[var(--labs-text-primary)]'
-                           style={{
-                              fontSize: '12px',
-                              color: 'var(--labs-text-body)',
-                           }}
-                        >
-                           Real problems. No bandwidth, no time, no angle to
-                           solve them.
-                        </div>
+                           // On one side
+                        </span>
                      </div>
+                     <h3
+                        className='font-bold uppercase mb-3 transition-colors duration-300 group-hover:text-[var(--labs-accent)]'
+                        style={{
+                           fontSize: '18px',
+                           color: 'var(--labs-text-primary)',
+                        }}
+                     >
+                        Healthcare organizations
+                     </h3>
+                     <p
+                        className='font-mono leading-relaxed'
+                        style={{
+                           fontSize: '12px',
+                           color: 'var(--labs-text-body)',
+                        }}
+                     >
+                        Real problems. No bandwidth, no time, no angle to solve
+                        them.
+                     </p>
                   </div>
 
                   <div
-                     className='labs-reveal group p-10 bg-white/5 backdrop-blur-sm border border-t-2 relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(45,212,191,0.15)] cursor-default'
+                     className='labs-reveal group p-10 bg-white/[0.03] border-l-2 relative overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(45,212,191,0.08)] cursor-default'
                      style={{
-                        borderTopColor: 'var(--labs-accent)',
-                        borderColor: 'rgba(255,255,255,0.1)',
+                        borderLeftColor: 'var(--labs-accent)',
+                        borderTop: '1px solid rgba(255,255,255,0.05)',
+                        borderRight: '1px solid rgba(255,255,255,0.05)',
+                        borderBottom: '1px solid rgba(255,255,255,0.05)',
                         transitionDelay: '100ms',
                      }}
                   >
-                     <div className='relative z-10'>
-                        <div className='mb-6'>
-                           <span
-                              className='font-mono uppercase tracking-[0.15em] transition-colors duration-300 group-hover:text-[var(--labs-accent)]'
-                              style={{
-                                 fontSize: '12px',
-                                 color: 'var(--labs-accent)',
-                              }}
-                           >
-                              // On the other
-                           </span>
-                        </div>
-                        <div
-                           className='labs-heading mb-4 transition-colors duration-300 group-hover:text-[var(--labs-accent)]'
+                     <div className='mb-6'>
+                        <span
+                           className='font-mono uppercase tracking-[0.15em]'
                            style={{
-                              fontSize: 'var(--labs-size-heading-sm)',
-                              color: 'var(--labs-text-primary)',
+                              fontSize: '10px',
+                              color: 'var(--labs-accent)',
                            }}
                         >
-                           Ambitious builders
-                        </div>
-                        <div
-                           className='font-mono leading-relaxed transition-colors duration-300 group-hover:text-[var(--labs-text-primary)]'
-                           style={{
-                              fontSize: '12px',
-                              color: 'var(--labs-text-body)',
-                           }}
-                        >
-                           Real skills. No problem worth their time.
-                        </div>
+                           // On the other
+                        </span>
                      </div>
+                     <h3
+                        className='font-bold uppercase mb-3 transition-colors duration-300 group-hover:text-[var(--labs-accent)]'
+                        style={{
+                           fontSize: '18px',
+                           color: 'var(--labs-text-primary)',
+                        }}
+                     >
+                        Ambitious builders
+                     </h3>
+                     <p
+                        className='font-mono leading-relaxed'
+                        style={{
+                           fontSize: '12px',
+                           color: 'var(--labs-text-body)',
+                        }}
+                     >
+                        Real skills. No problem worth their time.
+                     </p>
                   </div>
                </div>
 
@@ -506,77 +507,72 @@ function JourneyTimelineSection() {
       {
          week: 'Week 01',
          weekNum: 1,
-         tag: 'Kickoff',
+         tag: 'Onboarding',
          emoji: '🚀',
          title: 'Onboarding day',
-         desc: "Meet your clinical partners. Understand the challenge firsthand. From day one, you're a founder — not a participant.",
+         desc: "Meet your partners. Understand the challenge firsthand. From day one, you're a founder, not just a participant.",
          details: [
-            'Meet your clinical partners',
-            'Understand the challenge',
-            'Form your founding team',
+            'Meet your team & partners',
+            'Deep dive into the challenge',
             'Set your 8-week goals',
          ],
-         image: '/labs/images/partner.jpg',
+         image: '/labs/images/timeline/onboarding.JPG',
       },
       {
          week: 'Week 02',
          weekNum: 2,
          tag: 'Experts',
          emoji: '🔥',
-         title: 'Roast Session 1',
-         desc: "Founders, clinicians, and healthcare operators who've built in this space. Ask them anything.",
+         title: 'Roast Session #1',
+         desc: "Founders, clinicians, healthcare operators who've built in this space. Ask them anything.",
          details: [
             'Get brutally honest feedback',
             'Meet industry founders',
-            'Ask anything about MedTech',
             'Refine your approach',
          ],
-         image: '/labs/images/dino.png',
+         image: '/labs/images/timeline/roast-session-1.JPG',
       },
       {
          week: 'Week 04',
          weekNum: 4,
-         tag: 'Milestone',
+         tag: 'Midterm',
          emoji: '🎯',
          title: 'Midterm pitch',
-         desc: 'Present your progress to clinical partners. Pivot or persevere based on real feedback. No grades. Real consequences.',
+         desc: 'Present your progress to your partners. Pivot or persevere based on real feedback. No grades. Real consequences.',
          details: [
-            'Present to clinical partners',
-            'Get real feedback, not grades',
+            'Present to partners',
+            'Get real feedback',
             'Decide: pivot or persevere',
-            'Adjust your roadmap',
          ],
-         image: '/labs/images/labsbanner.JPG',
+         image: '/labs/images/timeline/midterm.JPG',
       },
       {
          week: 'Week 06',
          weekNum: 6,
          tag: 'Experts',
          emoji: '💡',
-         title: 'Roast Session 2',
+         title: 'Roast Session #2',
          desc: 'Deep dive with industry experts. Get tactical advice on your biggest challenges.',
          details: [
             'Deep dive with experts',
-            'Solve your biggest blockers',
             'Get tactical advice',
             'Fine-tune your MVP',
          ],
-         image: '/labs/images/rocket.png',
+         image: '/labs/images/timeline/roast-session-2.jpeg',
       },
       {
          week: 'Week 08',
          weekNum: 8,
          tag: 'Final',
          emoji: '🏆',
-         title: 'Demo day',
+         title: 'Final Pitch',
          desc: 'Present your MVP to partners, clinicians, and a live audience. Real stakes. No safety net.',
          details: [
             'Present your MVP',
             'Live audience + partners',
             'Real stakes, no safety net',
-            'Launch or iterate',
          ],
-         image: '/labs/images/demoday.jpg',
+         image: '/labs/images/timeline/final.JPG',
          isLast: true,
       },
    ];
@@ -590,7 +586,7 @@ function JourneyTimelineSection() {
          }}
       >
          {/* Anchor for navigation */}
-         <div id='program' className='absolute -top-20'></div>
+         <div className='absolute -top-20'></div>
 
          {/* Noise texture */}
          <NoiseTexture noiseOpacity={0.25} />
@@ -609,7 +605,7 @@ function JourneyTimelineSection() {
          <div className='max-w-[1400px] mx-auto px-6 md:px-12 relative z-10'>
             <div className='max-w-5xl mx-auto'>
                {/* Section Header */}
-               <div className='text-center mb-16'>
+               <div className='text-center mb-10'>
                   <span
                      className='font-mono uppercase tracking-[0.15em]'
                      style={{ fontSize: '16px', color: 'var(--labs-accent)' }}
@@ -628,8 +624,8 @@ function JourneyTimelineSection() {
                   Your Roadmap to Launch
                </h2>
 
-            {/* Timeline */}
-            <div className='relative'>
+               {/* Timeline */}
+               <div className='relative'>
                   {/* Timeline line */}
                   <div className='relative h-[2px] mb-20 rounded-full'>
                      {/* Accent line with subtle gradient */}
@@ -663,7 +659,7 @@ function JourneyTimelineSection() {
                                              : 'text-[var(--labs-text-body)]'
                                        }`}
                                        style={{
-                                          fontSize: '13px',
+                                          fontSize: 'clamp(10px, 2vw, 13px)',
                                        }}
                                     >
                                        {item.week}
@@ -688,9 +684,10 @@ function JourneyTimelineSection() {
                                  {/* Tag label below */}
                                  <div className='absolute top-4 left-1/2 -translate-x-1/2 whitespace-nowrap text-center'>
                                     <div
-                                       className='font-mono text-[9px] uppercase tracking-[0.1em]'
+                                       className='font-mono uppercase tracking-[0.1em]'
                                        style={{
                                           color: 'var(--labs-text-meta)',
+                                          fontSize: 'clamp(7px, 1.5vw, 9px)',
                                        }}
                                     >
                                        {item.tag}
@@ -706,7 +703,7 @@ function JourneyTimelineSection() {
                   <div className='min-h-[420px] relative'>
                      {/* Click prompt when nothing expanded */}
                      {expandedWeek === null && (
-                        <div className='absolute inset-0 flex items-center justify-center'>
+                        <div className='absolute top-12 left-0 right-0 text-center'>
                            <p
                               className='font-mono'
                               style={{
@@ -740,9 +737,9 @@ function JourneyTimelineSection() {
                                        borderColor: 'rgba(255,255,255,0.05)',
                                     }}
                                  >
-                                    <div className='grid md:grid-cols-3 gap-8'>
-                                       {/* Left: Image */}
-                                       <div className='md:col-span-1'>
+                                    <div className='grid md:grid-cols-2 gap-8'>
+                                       {/* Left: Image - Larger */}
+                                       <div>
                                           <div
                                              className='aspect-[4/3] overflow-hidden border'
                                              style={{
@@ -758,9 +755,10 @@ function JourneyTimelineSection() {
                                           </div>
                                        </div>
 
-                                       {/* Middle: Title and description */}
-                                       <div className='md:col-span-1'>
-                                          <div className='mb-3'>
+                                       {/* Right: All text stacked vertically */}
+                                       <div className='flex flex-col'>
+                                          {/* Week and tag */}
+                                          <div className='mb-4'>
                                              <span
                                                 className='font-mono text-[10px] uppercase tracking-[0.15em]'
                                                 style={{
@@ -770,8 +768,10 @@ function JourneyTimelineSection() {
                                                 {item.week} · {item.tag}
                                              </span>
                                           </div>
+
+                                          {/* Title */}
                                           <h3
-                                             className='font-bold uppercase mb-3'
+                                             className='font-bold uppercase mb-4'
                                              style={{
                                                 fontSize:
                                                    'clamp(20px, 2.5vw, 24px)',
@@ -780,8 +780,10 @@ function JourneyTimelineSection() {
                                           >
                                              {item.title}
                                           </h3>
+
+                                          {/* Description */}
                                           <p
-                                             className='font-mono leading-relaxed'
+                                             className='font-mono leading-relaxed mb-6'
                                              style={{
                                                 fontSize: '13px',
                                                 color: 'var(--labs-text-body)',
@@ -789,39 +791,41 @@ function JourneyTimelineSection() {
                                           >
                                              {item.desc}
                                           </p>
-                                       </div>
 
-                                       {/* Right: What happens */}
-                                       <div className='md:col-span-1'>
-                                          <div
-                                             className='font-mono text-[10px] uppercase tracking-[0.15em] mb-3'
-                                             style={{
-                                                color: 'var(--labs-text-meta)',
-                                             }}
-                                          >
-                                             What happens
-                                          </div>
-                                          <div className='space-y-2'>
-                                             {item.details.map((detail, i) => (
-                                                <div
-                                                   key={i}
-                                                   className='flex items-start gap-2 font-mono'
-                                                   style={{
-                                                      fontSize: '12px',
-                                                      color: 'var(--labs-text-body)',
-                                                   }}
-                                                >
-                                                   <span
-                                                      className='mt-[2px]'
-                                                      style={{
-                                                         color: 'var(--labs-accent)',
-                                                      }}
-                                                   >
-                                                      •
-                                                   </span>
-                                                   <span>{detail}</span>
-                                                </div>
-                                             ))}
+                                          {/* What happens */}
+                                          <div>
+                                             <div
+                                                className='font-mono text-[10px] uppercase tracking-[0.15em] mb-3'
+                                                style={{
+                                                   color: 'var(--labs-text-meta)',
+                                                }}
+                                             >
+                                                What happens
+                                             </div>
+                                             <div className='space-y-2'>
+                                                {item.details.map(
+                                                   (detail, i) => (
+                                                      <div
+                                                         key={i}
+                                                         className='flex items-start gap-2 font-mono'
+                                                         style={{
+                                                            fontSize: '12px',
+                                                            color: 'var(--labs-text-body)',
+                                                         }}
+                                                      >
+                                                         <span
+                                                            className='mt-[2px]'
+                                                            style={{
+                                                               color: 'var(--labs-accent)',
+                                                            }}
+                                                         >
+                                                            •
+                                                         </span>
+                                                         <span>{detail}</span>
+                                                      </div>
+                                                   ),
+                                                )}
+                                             </div>
                                           </div>
                                        </div>
                                     </div>
@@ -885,7 +889,7 @@ function WhyItWorksSection() {
          <div className='max-w-[1400px] mx-auto px-6 md:px-12 relative z-10'>
             <div className='max-w-5xl mx-auto'>
                {/* Section Header */}
-               <div className='text-center mb-16'>
+               <div className='text-center mb-10'>
                   <span
                      className='font-mono uppercase tracking-[0.15em]'
                      style={{ fontSize: '16px', color: 'var(--labs-accent)' }}
@@ -909,7 +913,7 @@ function WhyItWorksSection() {
                   {principles.map((principle, index) => (
                      <div
                         key={index}
-                        className='labs-reveal group p-8 bg-white border-l-2 transition-all duration-300 hover:-translate-y-1 cursor-default'
+                        className='labs-reveal group p-8 bg-white border-l-2 transition-all duration-300 hover:-translate-y-0.5 cursor-default'
                         style={{
                            borderLeftColor: 'var(--labs-accent)',
                            borderTop: '1px solid rgba(0,0,0,0.06)',
@@ -970,21 +974,21 @@ function WhatsDifferentSection() {
          number: '01',
          title: '8 WEEKS',
          desc: 'Not 6 months. Not a semester. 8 intense weeks to build, test, iterate, and sell.',
-         stat: '56 days to prove it',
+         stat: '56 days to prove yourself',
          icon: '⏱️',
       },
       {
          number: '02',
          title: 'STUDENT-RUN',
          desc: 'Built by students, for students. No corporate sponsors dictating direction. Just founders helping founders.',
-         stat: '0% equity taken',
+         stat: 'No BS environment',
          icon: '🤝',
       },
       {
          number: '03',
          title: 'REAL PROBLEMS',
-         desc: 'Sourced directly from hospitals, clinics, and healthcare organizations. Problems that exist right now.',
-         stat: 'From actual hospitals',
+         desc: 'Sourced directly from hospitals healthcare organizations, and startups. Problems that exist right now.',
+         stat: 'From actual partners',
          icon: '🏥',
       },
       {
@@ -998,6 +1002,7 @@ function WhatsDifferentSection() {
 
    return (
       <section
+         id='program'
          className='labs-reveal relative py-32 overflow-hidden'
          style={{
             background: 'var(--labs-bg)',
@@ -1020,7 +1025,7 @@ function WhatsDifferentSection() {
          <div className='max-w-[1400px] mx-auto px-6 md:px-12 relative z-10'>
             <div className='max-w-5xl mx-auto'>
                {/* Section Header */}
-               <div className='text-center mb-16'>
+               <div className='text-center mb-10'>
                   <span
                      className='font-mono uppercase tracking-[0.15em]'
                      style={{ fontSize: '16px', color: 'var(--labs-accent)' }}
@@ -1044,13 +1049,12 @@ function WhatsDifferentSection() {
                   {specs.map((spec, index) => (
                      <div
                         key={index}
-                        className='labs-reveal group p-10 bg-white/[0.03] border-l-2 transition-all duration-300 hover:-translate-y-1 cursor-default relative overflow-hidden'
+                        className='labs-reveal group p-10 bg-white/[0.03] border-l-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(45,212,191,0.08)] cursor-default relative overflow-hidden'
                         style={{
                            borderLeftColor: 'var(--labs-accent)',
                            borderTop: '1px solid rgba(255,255,255,0.05)',
                            borderRight: '1px solid rgba(255,255,255,0.05)',
                            borderBottom: '1px solid rgba(255,255,255,0.05)',
-                           transitionDelay: `${index * 100}ms`,
                         }}
                      >
                         {/* Subtle background number */}
@@ -1062,20 +1066,9 @@ function WhatsDifferentSection() {
                         </div>
 
                         {/* Icon */}
-                        <div className='text-3xl mb-4 opacity-60'>
+                        {/* <div className='text-3xl mb-4 opacity-60'>
                            {spec.icon}
-                        </div>
-
-                        {/* Number badge */}
-                        <div
-                           className='inline-block font-mono text-[10px] uppercase tracking-[0.15em] px-2 py-1 mb-3 border'
-                           style={{
-                              color: 'var(--labs-text-meta)',
-                              borderColor: 'rgba(255,255,255,0.1)',
-                           }}
-                        >
-                           {spec.number}
-                        </div>
+                        </div> */}
 
                         {/* Title */}
                         <h3
@@ -1262,9 +1255,9 @@ function ProofCalloutSection() {
                      </p>
                   </div>
 
-                  <div className='grid grid-cols-3 gap-6'>
+                  <div className='grid grid-cols-1 sm:grid-cols-3 gap-6'>
                      <div
-                        className='labs-reveal group p-6 text-center transition-all duration-300 hover:-translate-y-1 border labs-card'
+                        className='labs-reveal group p-6 text-center transition-all duration-300 hover:-translate-y-0.5 border labs-card'
                         style={{
                            transitionDelay: '0ms',
                         }}
@@ -1283,7 +1276,7 @@ function ProofCalloutSection() {
                         </div>
                      </div>
                      <div
-                        className='labs-reveal group p-6 text-center transition-all duration-300 hover:-translate-y-1 border labs-card'
+                        className='labs-reveal group p-6 text-center transition-all duration-300 hover:-translate-y-0.5 border labs-card'
                         style={{
                            transitionDelay: '100ms',
                         }}
@@ -1302,7 +1295,7 @@ function ProofCalloutSection() {
                         </div>
                      </div>
                      <div
-                        className='labs-reveal group p-6 text-center transition-all duration-300 hover:-translate-y-1 border labs-card'
+                        className='labs-reveal group p-6 text-center transition-all duration-300 hover:-translate-y-0.5 border labs-card'
                         style={{
                            transitionDelay: '200ms',
                         }}
@@ -1414,7 +1407,7 @@ function CriteriaSection() {
                <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-8'>
                   {/* Apply If */}
                   <div
-                     className='labs-reveal p-8 bg-white/[0.02] border-l-2 transition-all duration-300 hover:-translate-y-1'
+                     className='labs-reveal group p-10 bg-white/[0.03] border-l-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(16,185,129,0.08)] cursor-default relative overflow-hidden'
                      style={{
                         borderLeftColor: '#10b981',
                         borderTop: '1px solid rgba(255,255,255,0.05)',
@@ -1422,19 +1415,27 @@ function CriteriaSection() {
                         borderBottom: '1px solid rgba(255,255,255,0.05)',
                      }}
                   >
+                     <div className='mb-6'>
+                        <span
+                           className='font-mono uppercase tracking-[0.15em]'
+                           style={{
+                              fontSize: '10px',
+                              color: '#10b981',
+                           }}
+                        >
+                           Apply if
+                        </span>
+                     </div>
+                     <h3
+                        className='font-bold uppercase mb-4 transition-colors duration-300 group-hover:text-[#10b981]'
+                        style={{
+                           fontSize: '18px',
+                           color: 'var(--labs-text-primary)',
+                        }}
+                     >
+                        You should apply
+                     </h3>
                      <div>
-                        <div className='mb-6'>
-                           <div
-                              className='font-mono uppercase tracking-[0.15em] mb-2'
-                              style={{
-                                 fontSize: '10px',
-                                 color: '#10b981',
-                              }}
-                           >
-                              Apply if
-                           </div>
-                        </div>
-
                         <div className='space-y-5'>
                            <div>
                               <div
@@ -1507,7 +1508,7 @@ function CriteriaSection() {
 
                   {/* Don't Apply If */}
                   <div
-                     className='labs-reveal p-8 bg-white/[0.02] border-l-2 transition-all duration-300 hover:-translate-y-1'
+                     className='labs-reveal group p-10 bg-white/[0.03] border-l-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(239,68,68,0.08)] cursor-default relative overflow-hidden'
                      style={{
                         borderLeftColor: '#ef4444',
                         borderTop: '1px solid rgba(255,255,255,0.05)',
@@ -1516,19 +1517,27 @@ function CriteriaSection() {
                         transitionDelay: '100ms',
                      }}
                   >
+                     <div className='mb-6'>
+                        <span
+                           className='font-mono uppercase tracking-[0.15em]'
+                           style={{
+                              fontSize: '10px',
+                              color: '#ef4444',
+                           }}
+                        >
+                           Don't apply if
+                        </span>
+                     </div>
+                     <h3
+                        className='font-bold uppercase mb-4 transition-colors duration-300 group-hover:text-[#ef4444]'
+                        style={{
+                           fontSize: '18px',
+                           color: 'var(--labs-text-primary)',
+                        }}
+                     >
+                        You shouldn't apply
+                     </h3>
                      <div>
-                        <div className='mb-6'>
-                           <div
-                              className='font-mono uppercase tracking-[0.15em] mb-2'
-                              style={{
-                                 fontSize: '10px',
-                                 color: '#ef4444',
-                              }}
-                           >
-                              Don't apply if
-                           </div>
-                        </div>
-
                         <div className='space-y-5'>
                            <div>
                               <div
@@ -1601,7 +1610,7 @@ function CriteriaSection() {
                {/* Edge Cases + Visual */}
                {/* <div className='grid grid-cols-1 md:grid-cols-2 gap-6'> */}
                {/* <div
-                     className='labs-reveal group border-l-2 pl-8 labs-card p-8 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--labs-accent)]'
+                     className='labs-reveal group border-l-2 pl-8 labs-card p-8 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--labs-accent)]'
                      style={{ borderColor: 'var(--labs-border)' }}
                   >
                      <div
@@ -1614,7 +1623,7 @@ function CriteriaSection() {
                         // Don't fit these boxes? You might be exactly who we
                         need.{' '}
                         <a
-                           href='https://tally.so/r/n9Axzp'
+                           href='https://tally.so/r/rjdeQM'
                            target='_blank'
                            rel='noopener'
                            style={{ color: 'var(--labs-accent)' }}
@@ -1732,7 +1741,7 @@ function ProofSection() {
                      ].map((img, i) => (
                         <div
                            key={i}
-                           className='flex-shrink-0 w-[400px] h-[250px] relative group overflow-hidden border'
+                           className='flex-shrink-0 w-[280px] sm:w-[350px] md:w-[400px] h-[180px] sm:h-[220px] md:h-[250px] relative group overflow-hidden border'
                            style={{ borderColor: 'var(--labs-border)' }}
                         >
                            <img
@@ -1879,7 +1888,7 @@ function HowToApplySection() {
 
                {/* CTA */}
                <a
-                  href='https://tally.so/r/n9Axzp'
+                  href='https://tally.so/r/rjdeQM'
                   target='_blank'
                   rel='noopener'
                   className='group relative inline-block font-mono text-xs font-semibold uppercase tracking-[0.15em] px-12 py-4 border overflow-hidden transition-all duration-300'
@@ -1913,7 +1922,7 @@ function ApplySection() {
          }}
       >
          {/* Animated background gradient blobs */}
-         <div className='absolute inset-0 pointer-events-none z-[1]'>
+         {/* <div className='absolute inset-0 pointer-events-none z-[1]'>
             <div
                className='absolute top-1/2 left-1/4 w-96 h-96 rounded-full blur-[120px] animate-blob'
                style={{
@@ -1935,11 +1944,11 @@ function ApplySection() {
                      'radial-gradient(circle, rgba(234,179,8,0.25) 0%, transparent 70%)',
                }}
             ></div>
-         </div>
+         </div> */}
 
          {/* Rocket image - prominent but tasteful */}
          <div className='absolute inset-0 pointer-events-none'>
-            <div className='absolute right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] opacity-[0.03]'>
+            <div className='absolute right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] opacity-[0.1]'>
                <img
                   src='/labs/images/rocket.png'
                   alt=''
@@ -1962,7 +1971,7 @@ function ApplySection() {
                </h2>
 
                <a
-                  href='https://tally.so/r/n9Axzp'
+                  href='https://tally.so/r/rjdeQM'
                   target='_blank'
                   rel='noopener'
                   className='group relative inline-block font-mono text-xs font-semibold uppercase tracking-[0.15em] px-12 py-4 border overflow-hidden transition-all duration-300'
@@ -1990,17 +1999,17 @@ function FAQSection() {
    const [openIndex, setOpenIndex] = useState<number | null>(null);
 
    const faqs = [
-      {
-         q: 'Do I need an idea to apply?',
-         a: (
-            <>
-               <span style={{ color: 'var(--labs-accent)' }}>No.</span> The
-               challenges come directly from hospitals, clinicians, researchers,
-               and health-tech partners. We've already scoped the real problems.
-               You bring the skills.
-            </>
-         ),
-      },
+      // {
+      //    q: 'Do I need an idea to apply?',
+      //    a: (
+      //       <>
+      //          <span style={{ color: 'var(--labs-accent)' }}>No.</span> The
+      //          challenges come directly from hospitals, clinicians, researchers,
+      //          and health-tech partners. We've already scoped the real problems.
+      //          You bring the skills.
+      //       </>
+      //    ),
+      // },
       {
          q: 'Is this paid?',
          a: (
@@ -2076,7 +2085,7 @@ function FAQSection() {
          q: 'Can I do it next to studying?',
          a: (
             <>
-               Yes — but be realistic. If you're taking 6+ courses and a working
+               Yes, but be realistic. If you're taking 6+ courses and a working
                student job, it might be a stretch. The{' '}
                <span style={{ color: 'var(--labs-accent)' }}>
                   more time you put in, the more you get out
@@ -2117,21 +2126,21 @@ function FAQSection() {
                className='absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full blur-[120px]'
                style={{
                   background:
-                     'radial-gradient(circle, rgba(251,146,60,0.3) 0%, transparent 70%)',
+                     'radial-gradient(circle, rgba(45,212,191,0.06) 0%, transparent 70%)',
                }}
             ></div>
             <div
                className='absolute bottom-1/3 right-1/4 w-[500px] h-[500px] rounded-full blur-[120px]'
                style={{
                   background:
-                     'radial-gradient(circle, rgba(45,212,191,0.3) 0%, transparent 70%)',
+                     'radial-gradient(circle, rgba(45,212,191,0.08) 0%, transparent 70%)',
                }}
             ></div>
             <div
                className='absolute top-1/2 left-1/2 w-[400px] h-[400px] rounded-full blur-[120px]'
                style={{
                   background:
-                     'radial-gradient(circle, rgba(167,139,250,0.28) 0%, transparent 70%)',
+                     'radial-gradient(circle, rgba(45,212,191,0.05) 0%, transparent 70%)',
                }}
             ></div>
          </div>
@@ -2141,12 +2150,12 @@ function FAQSection() {
                {/* Section Header */}
                <SectionHeader>// Frequently asked</SectionHeader>
 
-               <h2
+               {/* <h2
                   className='labs-heading mb-8'
                   style={{ fontSize: 'var(--labs-size-heading-md)' }}
                >
                   Got questions?
-               </h2>
+               </h2> */}
 
                {/* Featured image */}
                <div
@@ -2334,9 +2343,9 @@ export default function LabsContent() {
             <HeroSection />
             <OrganizedBySection />
             <ProblemSection />
-            <JourneyTimelineSection />
-            <WhyItWorksSection />
             <WhatsDifferentSection />
+            <JourneyTimelineSection />
+            {/* <WhyItWorksSection /> */}
             {/* <TheExperienceSection /> */}
             {/* <ProofCalloutSection /> */}
             <CriteriaSection />
