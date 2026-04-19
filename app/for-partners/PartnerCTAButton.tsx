@@ -12,7 +12,7 @@ export default function PartnerCTAButton({ href, className, children }: PartnerC
   return (
     <a
       href={href}
-      onClick={() => posthog.capture('partner_contact_clicked')}
+      onClick={() => posthog.capture('partner_contact_clicked', {href}, {send_instantly: true})}
       className={className}
     >
       {children}

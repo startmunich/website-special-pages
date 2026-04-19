@@ -98,6 +98,12 @@ const recurringEvents: RecurringEvent[] = [
     category: "Pitch Event"
   }
 ]
+const EVENT_EXTERNAL_URLS: Record<string, string> = {
+  'legal-hack': 'https://www.hacking-legal.org/',
+  'rtsh': 'https://hack.startmunich.de/events/rtsh',
+  'rtss': 'https://summit.startmunich.de/events/rtss',
+  'start-labs': 'https://www.startmunich.de',
+}
 
 export default function EventsPage() {
   const router = useRouter()
@@ -710,11 +716,10 @@ export default function EventsPage() {
                       isFlagship={true}
                       className="h-full"
                       onClick={
-                        event.id === 'legal-hack' ? () => { posthog.capture('event_card_clicked', { event_id: event.id, event_name: event.name }); window.open('https://www.hacking-legal.org/', '_blank') }
-                        : event.id === 'rtsh' ? () => { posthog.capture('event_card_clicked', { event_id: event.id, event_name: event.name }); window.open('https://hack.startmunich.de/events/rtsh', '_blank') }
-                        : event.id === 'rtss' ? () => { posthog.capture('event_card_clicked', { event_id: event.id, event_name: event.name }); window.open('https://summit.startmunich.de/events/rtss', '_blank') }
-                        : event.id === 'start-labs' ? () => { posthog.capture('event_card_clicked', { event_id: event.id, event_name: event.name }); window.open('https://www.startmunich.de', '_blank') }
-                        : undefined
+                        EVENT_EXTERNAL_URLS[event.id] ? () => {
+                          posthog.capture('event_card_clicked', {event_id: event.id, event_name: event.name});
+                          window.open(EVENT_EXTERNAL_URLS[event.id], '_blank');
+                        } : undefined
                       }
                     />
                   ))}
