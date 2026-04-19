@@ -498,40 +498,80 @@ function ProblemSection() {
    );
 }
 
-// How It Works Section (combines Manifesto, About, and Program)
-function HowItWorksSection() {
-   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+// Section 1: The 8-Week Journey (Timeline Hero)
+function JourneyTimelineSection() {
+   const [expandedWeek, setExpandedWeek] = useState<number | null>(null);
 
    const timelineItems = [
       {
          week: 'Week 01',
+         weekNum: 1,
          tag: 'Kickoff',
+         emoji: '🚀',
          title: 'Onboarding day',
          desc: "Meet your clinical partners. Understand the challenge firsthand. From day one, you're a founder — not a participant.",
+         details: [
+            'Meet your clinical partners',
+            'Understand the challenge',
+            'Form your founding team',
+            'Set your 8-week goals',
+         ],
       },
       {
          week: 'Week 02',
+         weekNum: 2,
          tag: 'Experts',
+         emoji: '🔥',
          title: 'Roast Session 1',
          desc: "Founders, clinicians, and healthcare operators who've built in this space. Ask them anything.",
+         details: [
+            'Get brutally honest feedback',
+            'Meet industry founders',
+            'Ask anything about MedTech',
+            'Refine your approach',
+         ],
       },
       {
          week: 'Week 04',
+         weekNum: 4,
          tag: 'Milestone',
+         emoji: '🎯',
          title: 'Midterm pitch',
          desc: 'Present your progress to clinical partners. Pivot or persevere based on real feedback. No grades. Real consequences.',
+         details: [
+            'Present to clinical partners',
+            'Get real feedback, not grades',
+            'Decide: pivot or persevere',
+            'Adjust your roadmap',
+         ],
       },
       {
          week: 'Week 06',
+         weekNum: 6,
          tag: 'Experts',
+         emoji: '💡',
          title: 'Roast Session 2',
          desc: 'Deep dive with industry experts. Get tactical advice on your biggest challenges.',
+         details: [
+            'Deep dive with experts',
+            'Solve your biggest blockers',
+            'Get tactical advice',
+            'Fine-tune your MVP',
+         ],
       },
       {
          week: 'Week 08',
+         weekNum: 8,
          tag: 'Final',
+         emoji: '🏆',
          title: 'Demo day',
          desc: 'Present your MVP to partners, clinicians, and a live audience. Real stakes. No safety net.',
+         details: [
+            'Present your MVP',
+            'Live audience + partners',
+            'Real stakes, no safety net',
+            'Launch or iterate',
+         ],
          isLast: true,
       },
    ];
@@ -541,8 +581,7 @@ function HowItWorksSection() {
          id='manifesto'
          className='labs-reveal relative py-32 overflow-hidden scroll-mt-20'
          style={{
-            background: '#ffffff',
-            borderColor: 'rgba(0,0,0,0.1)',
+            background: 'var(--labs-bg)',
          }}
       >
          {/* Anchor for navigation */}
@@ -564,7 +603,7 @@ function HowItWorksSection() {
                className='absolute top-1/2 right-1/4 w-96 h-96 rounded-full blur-[120px] animate-blob animation-delay-2000'
                style={{
                   background:
-                     'radial-gradient(circle, rgba(139,92,246,0.3) 0%, transparent 70%)',
+                     'radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%)',
                }}
             ></div>
             <div
@@ -576,408 +615,581 @@ function HowItWorksSection() {
             ></div>
          </div>
 
-         {/* Decorative side accent - large section number */}
-         <div className='hidden lg:block absolute left-6 top-32 opacity-[0.02] pointer-events-none select-none'>
-            <div
-               className='font-display font-black text-[240px] leading-none'
-               style={{ color: '#000000' }}
-            >
-               02
+         <div className='max-w-[1400px] mx-auto px-6 md:px-12 relative z-10'>
+            <div className='max-w-5xl mx-auto'>
+               {/* Section Header */}
+               <div className='text-center mb-12'>
+                  <span
+                     className='font-mono uppercase tracking-[0.15em]'
+                     style={{ fontSize: '16px', color: 'var(--labs-accent)' }}
+                  >
+                     // The 8-Week Journey
+                  </span>
+               </div>
+
+               {/* Main Heading */}
+               <h2
+                  className='labs-heading text-center mb-20'
+                  style={{
+                     fontSize: 'clamp(40px, 6vw, 80px)',
+                     lineHeight: '1',
+                     color: 'var(--labs-text-primary)',
+                  }}
+               >
+                  YOUR ROADMAP TO LAUNCH
+               </h2>
+
+               {/* Timeline - Horizontal with nodes */}
+               <div className='relative mb-20'>
+                  {/* Timeline line */}
+                  <div className='relative h-[2px] bg-white/10 mb-24'>
+                     {/* Solid accent line */}
+                     <div
+                        className='absolute inset-0 h-full'
+                        style={{
+                           background: 'var(--labs-accent)',
+                        }}
+                     ></div>
+
+                     {/* Timeline nodes */}
+                     <div className='absolute inset-0 flex justify-between px-0'>
+                        {timelineItems.map((item, index) => {
+                           const isExpanded = expandedWeek === index;
+
+                           return (
+                              <button
+                                 key={index}
+                                 onClick={() =>
+                                    setExpandedWeek(
+                                       isExpanded ? null : index,
+                                    )
+                                 }
+                                 className='group relative flex flex-col items-center'
+                              >
+                                 {/* Week label above */}
+                                 <div
+                                    className='absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap text-center'
+                                 >
+                                    <div
+                                       className={`font-mono font-semibold transition-colors duration-300 mb-1 ${
+                                          isExpanded
+                                             ? 'text-[var(--labs-accent)]'
+                                             : 'text-[var(--labs-text-body)] group-hover:text-[var(--labs-text-primary)]'
+                                       }`}
+                                       style={{
+                                          fontSize: '14px',
+                                       }}
+                                    >
+                                       {item.week}
+                                    </div>
+                                    <div
+                                       className='font-mono text-[10px] uppercase tracking-wider'
+                                       style={{
+                                          color: 'var(--labs-text-meta)',
+                                       }}
+                                    >
+                                       {item.tag}
+                                    </div>
+                                 </div>
+
+                                 {/* Node dot */}
+                                 <div
+                                    className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer relative ${
+                                       isExpanded
+                                          ? 'scale-[2]'
+                                          : 'group-hover:scale-150'
+                                    }`}
+                                    style={{
+                                       background: isExpanded
+                                          ? 'var(--labs-accent)'
+                                          : 'rgba(255,255,255,0.4)',
+                                       marginTop: '-6px',
+                                    }}
+                                 ></div>
+                              </button>
+                           );
+                        })}
+                     </div>
+                  </div>
+
+                  {/* Expanded card details */}
+                  <div className='min-h-[300px]'>
+                     {timelineItems.map((item, index) => {
+                        const isExpanded = expandedWeek === index;
+
+                        return (
+                           <div
+                              key={index}
+                              className={`transition-all duration-500 ${
+                                 isExpanded
+                                    ? 'opacity-100 translate-y-0'
+                                    : 'opacity-0 translate-y-4 absolute pointer-events-none'
+                              }`}
+                           >
+                              {isExpanded && (
+                                 <div
+                                    className='p-12 bg-white/5 backdrop-blur-sm border-2 border-t-4 transition-all duration-500'
+                                    style={{
+                                       borderTopColor:
+                                          'var(--labs-accent)',
+                                       borderColor: 'rgba(255,255,255,0.1)',
+                                    }}
+                                 >
+                                    <div className='grid md:grid-cols-2 gap-12'>
+                                       {/* Left: Title and description */}
+                                       <div>
+                                          <div className='mb-4'>
+                                             <Label
+                                                style={{
+                                                   color: 'var(--labs-accent)',
+                                                }}
+                                             >
+                                                {item.week} · {item.tag}
+                                             </Label>
+                                          </div>
+                                          <h3
+                                             className='font-black uppercase mb-4'
+                                             style={{
+                                                fontSize:
+                                                   'clamp(24px, 3vw, 32px)',
+                                                color: 'var(--labs-text-primary)',
+                                             }}
+                                          >
+                                             {item.title}
+                                          </h3>
+                                          <p
+                                             className='font-mono leading-relaxed'
+                                             style={{
+                                                fontSize: '14px',
+                                                color: 'var(--labs-text-body)',
+                                             }}
+                                          >
+                                             {item.desc}
+                                          </p>
+                                       </div>
+
+                                       {/* Right: What happens */}
+                                       <div>
+                                          <div
+                                             className='font-mono text-xs uppercase tracking-wider mb-4'
+                                             style={{
+                                                color: 'var(--labs-text-meta)',
+                                             }}
+                                          >
+                                             What happens:
+                                          </div>
+                                          <div className='space-y-3'>
+                                             {item.details.map(
+                                                (detail, i) => (
+                                                   <div
+                                                      key={i}
+                                                      className='flex items-start gap-3 font-mono'
+                                                      style={{
+                                                         fontSize: '13px',
+                                                         color: 'var(--labs-text-body)',
+                                                      }}
+                                                   >
+                                                      <span
+                                                         style={{
+                                                            color: 'var(--labs-accent)',
+                                                         }}
+                                                      >
+                                                         →
+                                                      </span>
+                                                      <span>{detail}</span>
+                                                   </div>
+                                                ),
+                                             )}
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              )}
+                           </div>
+                        );
+                     })}
+                  </div>
+
+                  {/* Click prompt when nothing expanded */}
+                  {expandedWeek === null && (
+                     <div className='text-center'>
+                        <p
+                           className='font-mono animate-pulse'
+                           style={{
+                              fontSize: '12px',
+                              color: 'var(--labs-text-meta)',
+                           }}
+                        >
+                           Click any week to see details →
+                        </p>
+                     </div>
+                  )}
+               </div>
             </div>
+         </div>
+      </section>
+   );
+}
+
+// Section 2: Why START Labs Works (Principles + Proof)
+function WhyItWorksSection() {
+   const principles = [
+      {
+         emoji: '⚡',
+         title: 'ACTUAL STAKES',
+         desc: 'When clinicians depend on what you build, you stop theorizing and start shipping.',
+         stat: 'Real users, real feedback',
+      },
+      {
+         emoji: '💰',
+         title: 'REAL CUSTOMERS',
+         desc: "You're selling from day one. Not pitching to judges. Not theorizing in workshops.",
+         stat: 'First revenue in 8 weeks',
+      },
+      {
+         emoji: '🔄',
+         title: 'FAST FEEDBACK',
+         desc: 'Weekly check-ins, expert roasts, midterm pivots, demo day pressure. Compress years into weeks.',
+         stat: '5 major milestones',
+      },
+   ];
+
+   return (
+      <section
+         className='labs-reveal relative py-32 overflow-hidden'
+         style={{
+            background: '#ffffff',
+         }}
+      >
+         {/* Noise texture */}
+         <NoiseTexture noiseOpacity={0.15} className='opacity-30' />
+
+         {/* Gradient blobs */}
+         <div className='absolute inset-0 pointer-events-none z-[1]'>
+            <div
+               className='absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full blur-[120px]'
+               style={{
+                  background:
+                     'radial-gradient(circle, rgba(45,212,191,0.25) 0%, transparent 70%)',
+               }}
+            ></div>
+            <div
+               className='absolute bottom-1/3 right-1/4 w-[500px] h-[500px] rounded-full blur-[120px]'
+               style={{
+                  background:
+                     'radial-gradient(circle, rgba(168,85,247,0.2) 0%, transparent 70%)',
+               }}
+            ></div>
          </div>
 
          <div className='max-w-[1400px] mx-auto px-6 md:px-12 relative z-10'>
             <div className='max-w-5xl mx-auto'>
                {/* Section Header */}
-               <SectionHeader>// How it works</SectionHeader>
+               <div className='text-center mb-12'>
+                  <span
+                     className='font-mono uppercase tracking-[0.15em]'
+                     style={{ fontSize: '16px', color: 'var(--labs-accent)' }}
+                  >
+                     // Why START Labs Works
+                  </span>
+               </div>
 
                {/* Main Heading */}
-               <h2 className='labs-heading text-[clamp(32px,5vw,56px)] leading-[1.1] mb-16'>
-                  <span className='block' style={{ color: '#000000' }}>
-                     8 weeks.
-                  </span>
-                  <span className='block' style={{ color: '#666666' }}>
-                     Real stakes.
-                  </span>
-                  <span className='block' style={{ color: '#666666' }}>
-                     Real startup.
-                  </span>
+               <h2
+                  className='labs-heading text-center mb-20'
+                  style={{
+                     fontSize: 'clamp(36px, 5vw, 64px)',
+                     lineHeight: '1.1',
+                     color: '#000000',
+                  }}
+               >
+                  3 THINGS THAT MAKE THIS REAL
                </h2>
 
-               {/* Manifesto paragraphs */}
-               <div className='max-w-3xl mx-auto mb-20 space-y-6'>
-                  <p
-                     className='font-mono leading-relaxed'
-                     style={{
-                        fontSize: '13px',
-                        color: '#555555',
-                     }}
-                  >
-                     When a clinician depends on what you build, you stop
-                     theorizing and start shipping. When real users break your
-                     prototype, you learn more in a week than a year of
-                     lectures. Not workshops. Actual stakes.
-                  </p>
-
-                  <p
-                     className='font-mono leading-relaxed'
-                     style={{
-                        fontSize: '13px',
-                        color: '#555555',
-                     }}
-                  >
-                     This isn't a pitch competition. It's not an accelerator.
-                     It's not a hackathon. You're building a company — selling
-                     to real customers from day one.
-                  </p>
-
-                  <p
-                     className='font-mono leading-relaxed'
-                     style={{
-                        fontSize: '13px',
-                        color: '#555555',
-                     }}
-                  >
-                     At the end of 8 weeks, you either have a startup with
-                     paying customers, or you don't. That's the only metric that
-                     matters.
-                  </p>
-               </div>
-
-               {/* Core Specs - With watermark numbers and enhanced hover */}
-               <div className='mb-6 labs-reveal'>
-                  <Label>// Core Specs</Label>
-               </div>
-               <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-20'>
-                  <div
-                     className='labs-reveal group p-10 bg-gray-50 border border-t-2 relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(45,212,191,0.15)] cursor-default'
-                     style={{
-                        borderTopColor: 'var(--labs-accent)',
-                        borderColor: 'rgba(0,0,0,0.08)',
-                        transitionDelay: '0ms',
-                     }}
-                  >
+               {/* 3 Principle Cards */}
+               <div className='grid grid-cols-1 md:grid-cols-3 gap-8 mb-20'>
+                  {principles.map((principle, index) => (
                      <div
-                        className='absolute left-0 top-0 font-display font-black text-[120px] leading-none opacity-[0.04] pointer-events-none select-none transition-all duration-500 group-hover:opacity-[0.08] group-hover:scale-110'
-                        style={{ color: 'var(--labs-accent)' }}
+                        key={index}
+                        className='labs-reveal group p-10 bg-gray-50 border border-t-4 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_12px_40px_rgba(45,212,191,0.2)] cursor-default'
+                        style={{
+                           borderTopColor: 'var(--labs-accent)',
+                           borderColor: 'rgba(0,0,0,0.08)',
+                           transitionDelay: `${index * 100}ms`,
+                        }}
                      >
-                        01
-                     </div>
-                     <div className='relative z-10'>
-                        <div
+                        {/* Emoji */}
+                        <div className='text-5xl mb-6 transition-transform duration-300 group-hover:scale-110'>
+                           {principle.emoji}
+                        </div>
+
+                        {/* Title */}
+                        <h3
                            className='font-black uppercase mb-4 transition-colors duration-300 group-hover:text-[var(--labs-accent)]'
                            style={{
-                              fontSize: 'var(--labs-size-heading-sm)',
+                              fontSize: 'clamp(18px, 2vw, 22px)',
                               color: '#000000',
                            }}
                         >
-                           8 Weeks
-                        </div>
-                        <div
-                           className='font-mono leading-relaxed transition-colors duration-300 group-hover:text-[#000000]'
-                           style={{ fontSize: '12px', color: '#555555' }}
-                        >
-                           Not 6 months. Not a semester. 8 intense weeks to
-                           build, test, iterate, and sell. If you can't ship
-                           something meaningful in 8 weeks, you won't ship it in
-                           8 months.
-                        </div>
-                     </div>
-                  </div>
+                           {principle.title}
+                        </h3>
 
-                  <div
-                     className='labs-reveal group p-10 bg-gray-50 border border-t-2 relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(45,212,191,0.15)] cursor-default'
-                     style={{
-                        borderTopColor: 'var(--labs-accent)',
-                        borderColor: 'rgba(0,0,0,0.08)',
-                        transitionDelay: '100ms',
-                     }}
-                  >
-                     <div
-                        className='absolute left-0 top-0 font-display font-black text-[120px] leading-none opacity-[0.04] pointer-events-none select-none transition-all duration-500 group-hover:opacity-[0.08] group-hover:scale-110'
-                        style={{ color: 'var(--labs-accent)' }}
-                     >
-                        02
-                     </div>
-                     <div className='relative z-10'>
-                        <div
-                           className='font-black uppercase mb-4 transition-colors duration-300 group-hover:text-[var(--labs-accent)]'
+                        {/* Description */}
+                        <p
+                           className='font-mono leading-relaxed mb-6 transition-colors duration-300 group-hover:text-[#000000]'
                            style={{
-                              fontSize: 'var(--labs-size-heading-sm)',
-                              color: '#000000',
+                              fontSize: '13px',
+                              color: '#555555',
                            }}
                         >
-                           Student-Run
-                        </div>
-                        <div
-                           className='font-mono leading-relaxed transition-colors duration-300 group-hover:text-[#000000]'
-                           style={{ fontSize: '12px', color: '#555555' }}
-                        >
-                           Built by students, for students. No corporate
-                           sponsors dictating direction. No professors grading
-                           deliverables. Just founders helping founders build
-                           real companies.
-                        </div>
-                     </div>
-                  </div>
+                           {principle.desc}
+                        </p>
 
-                  <div
-                     className='labs-reveal group p-10 bg-gray-50 border border-t-2 relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(45,212,191,0.15)] cursor-default'
-                     style={{
-                        borderTopColor: 'var(--labs-accent)',
-                        borderColor: 'rgba(0,0,0,0.08)',
-                        transitionDelay: '200ms',
-                     }}
-                  >
-                     <div
-                        className='absolute left-0 top-0 font-display font-black text-[120px] leading-none opacity-[0.04] pointer-events-none select-none transition-all duration-500 group-hover:opacity-[0.08] group-hover:scale-110'
-                        style={{ color: 'var(--labs-accent)' }}
-                     >
-                        03
-                     </div>
-                     <div className='relative z-10'>
+                        {/* Stat */}
                         <div
-                           className='font-black uppercase mb-4 transition-colors duration-300 group-hover:text-[var(--labs-accent)]'
+                           className='font-mono text-xs uppercase tracking-wider transition-colors duration-300'
                            style={{
-                              fontSize: 'var(--labs-size-heading-sm)',
-                              color: '#000000',
+                              color: 'var(--labs-accent)',
                            }}
                         >
-                           Real Problems
-                        </div>
-                        <div
-                           className='font-mono leading-relaxed transition-colors duration-300 group-hover:text-[#000000]'
-                           style={{ fontSize: '12px', color: '#555555' }}
-                        >
-                           Sourced directly from hospitals, clinics, and
-                           healthcare organizations. Problems that exist right
-                           now, in the real world, with real consequences if
-                           nobody solves them.
+                           {principle.stat}
                         </div>
                      </div>
-                  </div>
-
-                  <div
-                     className='labs-reveal group p-10 bg-gray-50 border border-t-2 relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(45,212,191,0.15)] cursor-default'
-                     style={{
-                        borderTopColor: 'var(--labs-accent)',
-                        borderColor: 'rgba(0,0,0,0.08)',
-                        transitionDelay: '300ms',
-                     }}
-                  >
-                     <div
-                        className='absolute left-0 top-0 font-display font-black text-[120px] leading-none opacity-[0.04] pointer-events-none select-none transition-all duration-500 group-hover:opacity-[0.08] group-hover:scale-110'
-                        style={{ color: 'var(--labs-accent)' }}
-                     >
-                        04
-                     </div>
-                     <div className='relative z-10'>
-                        <div
-                           className='font-black uppercase mb-4 transition-colors duration-300 group-hover:text-[var(--labs-accent)]'
-                           style={{
-                              fontSize: 'var(--labs-size-heading-sm)',
-                              color: '#000000',
-                           }}
-                        >
-                           Your Startup
-                        </div>
-                        <div
-                           className='font-mono leading-relaxed transition-colors duration-300 group-hover:text-[#000000]'
-                           style={{ fontSize: '12px', color: '#555555' }}
-                        >
-                           You build it. You own it. 100% of the equity. We're
-                           not taking a cut. We're not "partnering." This is
-                           your company.
-                        </div>
-                     </div>
-                  </div>
+                  ))}
                </div>
 
-               {/* Timeline - Alternating Design */}
-               <div className='mb-12 labs-reveal'>
-                  <Label>// Program Timeline</Label>
+               {/* Proof Bar */}
+               <div
+                  className='labs-reveal p-8 border-y-2 text-center'
+                  style={{
+                     borderColor: 'var(--labs-accent)',
+                     background: 'rgba(45,212,191,0.05)',
+                  }}
+               >
+                  <div
+                     className='font-mono font-bold mb-2'
+                     style={{
+                        fontSize: 'clamp(14px, 1.5vw, 18px)',
+                        color: '#000000',
+                     }}
+                  >
+                     GovTech Edition 2025:{' '}
+                     <span style={{ color: 'var(--labs-accent)' }}>
+                        3 startups
+                     </span>{' '}
+                     •{' '}
+                     <span style={{ color: 'var(--labs-accent)' }}>
+                        8 weeks
+                     </span>{' '}
+                     •{' '}
+                     <span style={{ color: 'var(--labs-accent)' }}>
+                        1 Bavarian Award
+                     </span>
+                  </div>
+                  <a
+                     href='#proof'
+                     className='font-mono text-xs uppercase tracking-wider transition-opacity duration-300 hover:opacity-70'
+                     style={{ color: '#555555' }}
+                  >
+                     View past projects →
+                  </a>
                </div>
-               <div className='relative'>
-                  {/* Center line */}
-                  <div
-                     className='hidden md:block absolute left-1/2 top-0 bottom-0 w-px -ml-px'
-                     style={{ background: 'rgba(0,0,0,0.1)' }}
-                  ></div>
+            </div>
+         </div>
+      </section>
+   );
+}
 
-                  {/* Mobile line */}
-                  <div
-                     className='md:hidden absolute left-6 top-0 bottom-0 w-px'
-                     style={{ background: 'rgba(0,0,0,0.1)' }}
-                  ></div>
+// Section 3: What's Different (Core Specs Enhanced)
+function WhatsDifferentSection() {
+   const specs = [
+      {
+         number: '01',
+         title: '8 WEEKS',
+         desc: 'Not 6 months. Not a semester. 8 intense weeks to build, test, iterate, and sell.',
+         stat: '56 days to prove it',
+         icon: '⏱️',
+      },
+      {
+         number: '02',
+         title: 'STUDENT-RUN',
+         desc: 'Built by students, for students. No corporate sponsors dictating direction. Just founders helping founders.',
+         stat: '0% equity taken',
+         icon: '🤝',
+      },
+      {
+         number: '03',
+         title: 'REAL PROBLEMS',
+         desc: 'Sourced directly from hospitals, clinics, and healthcare organizations. Problems that exist right now.',
+         stat: 'From actual hospitals',
+         icon: '🏥',
+      },
+      {
+         number: '04',
+         title: 'YOUR STARTUP',
+         desc: "You build it. You own it. 100% of the equity. We're not taking a cut. This is your company.",
+         stat: '100% yours',
+         icon: '🚀',
+      },
+   ];
 
-                  {timelineItems.map((item, index) => {
-                     const isLeft = index % 2 === 0;
-                     return (
+   return (
+      <section
+         className='labs-reveal relative py-32 overflow-hidden'
+         style={{
+            background: 'var(--labs-bg)',
+         }}
+      >
+         {/* Noise texture */}
+         <NoiseTexture noiseOpacity={0.25} />
+
+         {/* Gradient blobs */}
+         <div className='absolute inset-0 pointer-events-none z-[1]'>
+            <div
+               className='absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full blur-[140px] animate-blob'
+               style={{
+                  background:
+                     'radial-gradient(circle, rgba(45,212,191,0.3) 0%, transparent 70%)',
+               }}
+            ></div>
+            <div
+               className='absolute bottom-1/4 left-1/4 w-[600px] h-[600px] rounded-full blur-[140px] animate-blob animation-delay-2000'
+               style={{
+                  background:
+                     'radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%)',
+               }}
+            ></div>
+            <div
+               className='absolute top-1/2 left-1/2 w-[500px] h-[500px] rounded-full blur-[140px] animate-blob animation-delay-4000'
+               style={{
+                  background:
+                     'radial-gradient(circle, rgba(251,146,60,0.25) 0%, transparent 70%)',
+               }}
+            ></div>
+         </div>
+
+         <div className='max-w-[1400px] mx-auto px-6 md:px-12 relative z-10'>
+            <div className='max-w-5xl mx-auto'>
+               {/* Section Header */}
+               <div className='text-center mb-12'>
+                  <span
+                     className='font-mono uppercase tracking-[0.15em]'
+                     style={{ fontSize: '16px', color: 'var(--labs-accent)' }}
+                  >
+                     // What's Different
+                  </span>
+               </div>
+
+               {/* Main Heading */}
+               <h2
+                  className='labs-heading text-center mb-20'
+                  style={{
+                     fontSize: 'clamp(40px, 6vw, 80px)',
+                     lineHeight: '1',
+                     color: 'var(--labs-text-primary)',
+                  }}
+               >
+                  YOU KEEP EVERYTHING
+               </h2>
+
+               {/* 2x2 Grid of Specs */}
+               <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
+                  {specs.map((spec, index) => (
+                     <div
+                        key={index}
+                        className='labs-reveal group relative p-12 bg-white/5 backdrop-blur-sm border-2 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_16px_50px_rgba(45,212,191,0.25)] cursor-default'
+                        style={{
+                           borderColor: 'rgba(255,255,255,0.1)',
+                           transitionDelay: `${index * 100}ms`,
+                        }}
+                     >
+                        {/* Large background number */}
                         <div
-                           key={index}
-                           className={`labs-reveal group relative pb-24 ${item.isLast ? 'pb-0' : ''}`}
-                           style={{ transitionDelay: `${index * 80}ms` }}
-                           onMouseEnter={() => setHoveredIndex(index)}
-                           onMouseLeave={() => setHoveredIndex(null)}
+                           className='absolute right-4 bottom-4 font-display font-black text-[140px] leading-none opacity-[0.03] pointer-events-none select-none transition-all duration-500 group-hover:opacity-[0.08]'
+                           style={{ color: '#ffffff' }}
                         >
-                           {/* Desktop Layout */}
-                           <div className='hidden md:block'>
-                              <div className='grid grid-cols-2 gap-12 items-start relative'>
-                                 {/* Left side content (for even indices) */}
-                                 {isLeft && (
-                                    <div className='text-right pr-8'>
-                                       <div
-                                          className='p-8 bg-gray-50 border group-hover:border-[var(--labs-accent)] transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_8px_30px_rgba(45,212,191,0.15)] border-l-2'
-                                          style={{
-                                             borderLeftColor:
-                                                hoveredIndex === index
-                                                   ? 'var(--labs-accent)'
-                                                   : 'transparent',
-                                             borderColor: 'rgba(0,0,0,0.08)',
-                                          }}
-                                       >
-                                          <div className='mb-3'>
-                                             <Label className='transition-colors duration-300 group-hover:text-[var(--labs-accent)]'>
-                                                {item.week} · {item.tag}
-                                             </Label>
-                                          </div>
-                                          <h3
-                                             className='font-black uppercase mb-3 transition-colors duration-300 group-hover:text-[var(--labs-accent)]'
-                                             style={{
-                                                fontSize:
-                                                   'var(--labs-size-heading-sm)',
-                                                color: '#000000',
-                                             }}
-                                          >
-                                             {item.title}
-                                          </h3>
-                                          <p
-                                             className='font-mono leading-relaxed transition-colors duration-300 group-hover:text-[#000000]'
-                                             style={{
-                                                fontSize: '12px',
-                                                color: '#555555',
-                                             }}
-                                          >
-                                             {item.desc}
-                                          </p>
-                                       </div>
-                                    </div>
-                                 )}
+                           {spec.number}
+                        </div>
 
-                                 {/* Empty space when content is on opposite side */}
-                                 {!isLeft && <div></div>}
+                        {/* Gradient number overlay on hover */}
+                        <div
+                           className='absolute right-4 bottom-4 font-display font-black text-[140px] leading-none opacity-0 pointer-events-none select-none transition-all duration-500 group-hover:opacity-[0.15]'
+                           style={{
+                              background:
+                                 'linear-gradient(135deg, #2DD4BF 0%, #A855F7 100%)',
+                              WebkitBackgroundClip: 'text',
+                              WebkitTextFillColor: 'transparent',
+                              backgroundClip: 'text',
+                           }}
+                        >
+                           {spec.number}
+                        </div>
 
-                                 {/* Right side content (for odd indices) */}
-                                 {!isLeft && (
-                                    <div className='text-left pl-8'>
-                                       <div
-                                          className='p-8 bg-gray-50 border group-hover:border-[var(--labs-accent)] transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_8px_30px_rgba(45,212,191,0.15)] border-l-2'
-                                          style={{
-                                             borderLeftColor:
-                                                hoveredIndex === index
-                                                   ? 'var(--labs-accent)'
-                                                   : 'transparent',
-                                             borderColor: 'rgba(0,0,0,0.08)',
-                                          }}
-                                       >
-                                          <div className='mb-3'>
-                                             <Label className='transition-colors duration-300 group-hover:text-[var(--labs-accent)]'>
-                                                {item.week} · {item.tag}
-                                             </Label>
-                                          </div>
-                                          <h3
-                                             className='font-black uppercase mb-3 transition-colors duration-300 group-hover:text-[var(--labs-accent)]'
-                                             style={{
-                                                fontSize:
-                                                   'var(--labs-size-heading-sm)',
-                                                color: '#000000',
-                                             }}
-                                          >
-                                             {item.title}
-                                          </h3>
-                                          <p
-                                             className='font-mono leading-relaxed transition-colors duration-300 group-hover:text-[#000000]'
-                                             style={{
-                                                fontSize: '12px',
-                                                color: '#555555',
-                                             }}
-                                          >
-                                             {item.desc}
-                                          </p>
-                                       </div>
-                                    </div>
-                                 )}
-
-                                 {/* Center dot */}
-                                 <div className='absolute left-1/2 top-0 w-3 h-3 -ml-[6px]'>
-                                    <div
-                                       className='absolute inset-0 rounded-full border-2 transition-all duration-300 group-hover:scale-150 group-hover:border-[var(--labs-accent)] group-hover:bg-[var(--labs-accent)]'
-                                       style={{
-                                          borderColor: '#CCCCCC',
-                                          background: '#ffffff',
-                                       }}
-                                    ></div>
-                                    <div
-                                       className='absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping'
-                                       style={{
-                                          background: 'var(--labs-accent)',
-                                       }}
-                                    ></div>
-                                 </div>
-                              </div>
+                        {/* Content */}
+                        <div className='relative z-10'>
+                           {/* Icon */}
+                           <div className='text-5xl mb-6 transition-transform duration-300 group-hover:scale-110'>
+                              {spec.icon}
                            </div>
 
-                           {/* Mobile Layout */}
-                           <div className='md:hidden pl-16'>
-                              <div
-                                 className='p-6 bg-gray-50 border group-hover:border-[var(--labs-accent)] transition-all duration-300 border-l-2'
-                                 style={{
-                                    borderLeftColor:
-                                       hoveredIndex === index
-                                          ? 'var(--labs-accent)'
-                                          : 'transparent',
-                                    borderColor: 'rgba(0,0,0,0.08)',
-                                 }}
-                              >
-                                 <div className='mb-2'>
-                                    <Label className='transition-colors duration-300 group-hover:text-[var(--labs-accent)]'>
-                                       {item.week} · {item.tag}
-                                    </Label>
-                                 </div>
-                                 <h3
-                                    className='font-black uppercase mb-2 transition-colors duration-300 group-hover:text-[var(--labs-accent)]'
-                                    style={{
-                                       fontSize: 'var(--labs-size-heading-sm)',
-                                       color: '#000000',
-                                    }}
-                                 >
-                                    {item.title}
-                                 </h3>
-                                 <p
-                                    className='font-mono leading-relaxed transition-colors duration-300 group-hover:text-[#000000]'
-                                    style={{
-                                       fontSize: '12px',
-                                       color: '#555555',
-                                    }}
-                                 >
-                                    {item.desc}
-                                 </p>
-                              </div>
+                           {/* Number badge */}
+                           <div
+                              className='inline-block font-mono text-xs uppercase tracking-wider px-3 py-1 mb-4 border transition-colors duration-300'
+                              style={{
+                                 color: 'var(--labs-text-meta)',
+                                 borderColor: 'rgba(255,255,255,0.2)',
+                              }}
+                           >
+                              {spec.number}
+                           </div>
 
-                              {/* Mobile dot */}
-                              <div className='absolute left-6 top-0 w-3 h-3 -ml-[6px]'>
-                                 <div
-                                    className='absolute inset-0 rounded-full border-2 transition-all duration-300 group-hover:scale-150 group-hover:border-[var(--labs-accent)] group-hover:bg-[var(--labs-accent)]'
-                                    style={{
-                                       borderColor: '#CCCCCC',
-                                       background: '#ffffff',
-                                    }}
-                                 ></div>
-                              </div>
+                           {/* Title */}
+                           <h3
+                              className='font-black uppercase mb-4 transition-colors duration-500 group-hover:text-[var(--labs-accent)]'
+                              style={{
+                                 fontSize: 'clamp(20px, 2.5vw, 28px)',
+                                 color: 'var(--labs-text-primary)',
+                              }}
+                           >
+                              {spec.title}
+                           </h3>
+
+                           {/* Description */}
+                           <p
+                              className='font-mono leading-relaxed mb-6 transition-colors duration-300 group-hover:text-[var(--labs-text-primary)]'
+                              style={{
+                                 fontSize: '14px',
+                                 color: 'var(--labs-text-body)',
+                              }}
+                           >
+                              {spec.desc}
+                           </p>
+
+                           {/* Stat badge */}
+                           <div
+                              className='inline-flex items-center gap-2 font-mono font-bold text-xs uppercase tracking-wider px-4 py-2 rounded-full transition-all duration-300'
+                              style={{
+                                 color: 'var(--labs-accent)',
+                                 background: 'rgba(45,212,191,0.1)',
+                                 border: '1px solid var(--labs-accent)',
+                              }}
+                           >
+                              <span>✓</span>
+                              <span>{spec.stat}</span>
                            </div>
                         </div>
-                     );
-                  })}
+
+                        {/* Hover border gradient */}
+                        <div
+                           className='absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none'
+                           style={{
+                              background:
+                                 'linear-gradient(135deg, rgba(45,212,191,0.3) 0%, rgba(168,85,247,0.3) 100%)',
+                              mixBlendMode: 'screen',
+                           }}
+                        ></div>
+                     </div>
+                  ))}
                </div>
             </div>
          </div>
@@ -2204,7 +2416,9 @@ export default function LabsContent() {
             <HeroSection />
             <OrganizedBySection />
             <ProblemSection />
-            <HowItWorksSection />
+            <JourneyTimelineSection />
+            <WhyItWorksSection />
+            <WhatsDifferentSection />
             {/* <TheExperienceSection /> */}
             <ProofCalloutSection />
             <CriteriaSection />
