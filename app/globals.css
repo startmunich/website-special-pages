@@ -299,4 +299,190 @@
   details[open] .faq-icon {
     transform: rotate(45deg);
   }
+
+  /* ========================================
+     LABS PAGE STYLES - Design System
+     ======================================== */
+
+  /* Hide main site Navigation and Footer on /labs page */
+  body:has(.labs-page) > nav,
+  body:has(.labs-page) > footer {
+    display: none !important;
+  }
+
+  /* Remove flex-grow from main on /labs page to prevent extra spacing */
+  body:has(.labs-page) > main {
+    flex-grow: 0 !important;
+  }
+
+  /* Labs Color System - Simplified */
+  .labs-page {
+    /* Backgrounds */
+    --labs-bg: #000000;
+    --labs-bg-card: #111111;
+
+    /* Borders */
+    --labs-border: rgba(255, 255, 255, 0.1);
+
+    /* Text - Only 3 colors */
+    --labs-text-primary: #ffffff;      /* Headings */
+    --labs-text-body: #888888;         /* Body text */
+    --labs-text-meta: #555555;         /* Labels, metadata */
+
+    /* Accent */
+    --labs-accent: #2dd4bf;
+
+    /* Font Sizes - Clear hierarchy */
+    --labs-size-meta: 10px;      /* Labels, metadata */
+    --labs-size-body: 14px;      /* Body text */
+    --labs-size-heading-sm: 24px; /* Small headings */
+    --labs-size-heading-md: 32px; /* Medium headings */
+    --labs-size-heading-lg: 48px; /* Large headings */
+  }
+
+
+  /* Labs Utility Classes */
+  .labs-card {
+    background: var(--labs-bg-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .labs-heading {
+    font-family: Avenirnextltpro, sans-serif;
+    color: var(--labs-text-primary);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+
+  .labs-body {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--labs-text-body);
+    font-size: var(--labs-size-body);
+  }
+
+  .labs-meta {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--labs-text-meta);
+    font-size: var(--labs-size-meta);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  /* CTA Button - Reusable component */
+  .labs-cta-button {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 16px 48px;
+    background: transparent;
+    border: 1px solid;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .labs-cta-button:hover {
+    background: rgba(45, 212, 191, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(45, 212, 191, 0.15);
+  }
+
+  .labs-cta-button-small {
+    font-size: var(--labs-size-meta);
+    padding: 10px 24px;
+  }
+
+
+  /* Manifesto Lines - Enhanced */
+  .labs-manifesto-line {
+    padding: 12px 0;
+    border-left: 2px solid transparent;
+    padding-left: 20px;
+    margin-left: -20px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+
+  .labs-manifesto-line::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--labs-accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .labs-manifesto-line:hover {
+    background: linear-gradient(90deg, rgba(45, 212, 191, 0.03) 0%, transparent 100%);
+    padding-left: 24px;
+  }
+
+  .labs-manifesto-line:hover::before {
+    transform: scaleY(1);
+  }
+
+  /* Reveal animation for scroll - More subtle */
+  .labs-reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .labs-reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Timeline Styles */
+  .labs-timeline-dot {
+    transition: all 0.25s ease;
+  }
+
+  .labs-timeline-active .labs-timeline-dot {
+    background: var(--labs-text-body) !important;
+    border-color: var(--labs-text-body) !important;
+    transform: scale(1.15);
+  }
+
+  .labs-timeline-active .labs-timeline-title {
+    color: var(--labs-text-primary) !important;
+  }
+
+  /* FAQ Styles - Industrial Accordion */
+  .labs-faq-item {
+    position: relative;
+  }
+
+
+  /* Labs: Carousel scroll */
+  .carousel-scroll {
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    scrollbar-color: #2a2a2a transparent;
+  }
+
+  .carousel-scroll::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .carousel-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .carousel-scroll::-webkit-scrollbar-thumb {
+    background: #2a2a2a;
+    border-radius: 999px;
+  }
+
+  .carousel-scroll::-webkit-scrollbar-thumb:hover {
+    background: #3a3a3a;
+  }
 }
