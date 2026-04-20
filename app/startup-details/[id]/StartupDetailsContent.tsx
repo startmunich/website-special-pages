@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, use } from "react"
+import posthog from "posthog-js"
 import Link from "next/link"
 import { notFound, useRouter } from "next/navigation"
 import type { Company } from "@/lib/types"
@@ -110,6 +111,7 @@ export default function StartupDetailsPage({ params }: { params: Promise<{ id: s
                     href={`https://${company.website}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => posthog.capture('startup_website_clicked', { startup_id: company.id, startup_name: company.name, website: company.website })}
                     className="inline-flex items-center gap-2 text-[#d0006f] hover:text-pink-400 font-medium transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

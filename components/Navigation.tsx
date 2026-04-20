@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from 'react'
+import posthog from 'posthog-js'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -205,6 +206,7 @@ export default function Navigation() {
             <div className="flex rounded overflow-hidden gap-[2px] bg-brand-dark-blue">
               <Link
                 href="/apply"
+                onClick={() => posthog.capture('nav_apply_clicked', { location: 'desktop' })}
                 className="bg-white text-brand-dark-blue px-4 py-1.5 font-bold text-sm hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase tracking-wide"
               >
                 APPLY NOW
@@ -213,6 +215,7 @@ export default function Navigation() {
                 href="https://jobs.startmunich.de/jobs"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => posthog.capture('nav_jobs_clicked', { location: 'desktop' })}
                 className="bg-white text-brand-dark-blue px-4 py-1.5 font-bold text-sm hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase tracking-wide"
               >
                 JOBS
@@ -382,7 +385,7 @@ export default function Navigation() {
                 <Link
                   href="/apply"
                   className="flex-1 text-center bg-white text-brand-dark-blue px-6 py-4 font-black text-base hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => { setIsMobileMenuOpen(false); posthog.capture('nav_apply_clicked', { location: 'mobile' }) }}
                 >
                   APPLY NOW
                 </Link>
@@ -391,7 +394,7 @@ export default function Navigation() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 text-center bg-white text-brand-dark-blue px-6 py-4 font-black text-base hover:bg-brand-pink hover:text-white transition-all duration-300 uppercase"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => { setIsMobileMenuOpen(false); posthog.capture('nav_jobs_clicked', { location: 'mobile' }) }}
                 >
                   JOBS
                 </a>

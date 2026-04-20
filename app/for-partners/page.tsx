@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import Hero from "@/components/Hero"
 import HeroCard from "@/components/HeroCard"
 import PhotoGallery from './PhotoGallery'
+import PartnerCTAButton from './PartnerCTAButton'
 import { getAllPartners } from '@/lib/partners'
 
 export const metadata: Metadata = {
@@ -184,7 +185,7 @@ export default async function ForPartnersPage() {
             <p className="text-brand-pink text-sm font-semibold mb-4">Head of Partnerships</p>
 
             {/* Contact Button */}
-            <a
+            <PartnerCTAButton
               href="https://tally.so/r/3xpGQG"
               className="group/btn inline-flex items-center gap-2 px-6 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50 w-full justify-center"
             >
@@ -202,7 +203,7 @@ export default async function ForPartnersPage() {
                 />
               </svg>
               <span>Get in Touch</span>
-            </a>
+            </PartnerCTAButton>
           </HeroCard>
         </Hero>
 
@@ -492,12 +493,12 @@ export default async function ForPartnersPage() {
                       Join our network of leading companies and get in touch with ambitious students from TUM, LMU, and other Munich universities.
                     </p>
                     <div className="flex justify-center">
-                      <a
+                      <PartnerCTAButton
                         href="https://tally.so/r/3xpGQG"
                         className="px-10 py-4 bg-brand-pink hover:bg-brand-pink/90 text-white font-bold rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/50 text-lg"
                       >
                         Get in Touch
-                      </a>
+                      </PartnerCTAButton>
                     </div>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import posthog from 'posthog-js'
 import Image from 'next/image'
 import Hero from '@/components/Hero'
 import HeroCard from '@/components/HeroCard'
@@ -225,6 +226,7 @@ export default function JoinStartClient({ isLive }: JoinStartClientProps) {
             href="https://tally.so/r/eqL4yQ"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => posthog.capture('application_started', { location: 'hero_card' })}
             className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-brand-pink px-8 py-3 font-bold text-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(208,0,111,0.4)]"
           >
             Start Application
@@ -280,6 +282,7 @@ export default function JoinStartClient({ isLive }: JoinStartClientProps) {
                 ctaHref={event.ctaHref}
                 ctaLabel={event.ctaLabel}
                 ctaDisabledLabel="Registration opens soon"
+                onCtaClick={() => posthog.capture('application_event_registration_clicked', { event_id: event.id, event_name: event.name })}
               />
             ))}
           </div>
@@ -421,6 +424,7 @@ export default function JoinStartClient({ isLive }: JoinStartClientProps) {
             href="https://tally.so/r/eqL4yQ"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => posthog.capture('application_started', { location: 'bottom_cta' })}
             className="inline-flex items-center justify-center rounded-xl bg-brand-pink px-10 py-4 text-lg font-bold text-white transition-all duration-1000 hover:shadow-[0_0_30px_rgba(208,0,111,0.4)]"
           >
             Start Application Now
