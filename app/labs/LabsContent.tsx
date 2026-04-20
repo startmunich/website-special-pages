@@ -118,7 +118,7 @@ function LabsNavigation() {
                         FAQ
                      </a>
                      <a
-                        href='#apply'
+                        href='https://tally.so/r/rjdeQM'
                         className='group relative inline-block font-mono text-xs uppercase tracking-widest px-6 py-2 border overflow-hidden transition-all duration-300'
                         style={{
                            borderColor: 'var(--labs-accent)',
