@@ -9,6 +9,7 @@ interface UpcomingEventTileProps {
   ctaLabel?: string
   ctaHref?: string
   ctaDisabledLabel?: string
+  onCtaClick?: () => void
   className?: string
   hiddenClassName?: string
 }
@@ -22,6 +23,7 @@ export default function UpcomingEventTile({
   ctaLabel,
   ctaHref,
   ctaDisabledLabel = 'Registration opens soon',
+  onCtaClick,
   className = '',
   hiddenClassName = '',
 }: UpcomingEventTileProps) {
@@ -62,7 +64,7 @@ export default function UpcomingEventTile({
                 href={ctaHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => { e.stopPropagation(); onCtaClick?.() }}
                 className="block w-full rounded-xl bg-[#d0006f] px-5 py-3 text-center text-xs font-bold uppercase tracking-wide text-white transition hover:bg-[#d0006f]/80 hover:shadow-lg hover:shadow-[#d0006f]/30"
               >
                 {ctaLabel}

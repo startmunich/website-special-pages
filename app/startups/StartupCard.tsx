@@ -1,4 +1,6 @@
+"use client";
 import { useRouter } from 'next/navigation'
+import posthog from 'posthog-js'
 
 interface Founder {
   name: string
@@ -40,6 +42,7 @@ export default function StartupCard({
   const router = useRouter()
 
   const handleCardClick = () => {
+    posthog.capture('startup_card_clicked', { startup_id: id, startup_name: name, category: category })
     sessionStorage.setItem('startups-scroll', String(window.scrollY))
     router.push(`/startup-details/${id}`)
   }
