@@ -9,7 +9,7 @@
  */
 import type { Metadata } from 'next'
 import HomeClient from './home/HomeClient'
-import type { Partner, Startup } from '@/lib/types'
+import type { Partner, Startup, NewsItem } from '@/lib/types'
 
 export const metadata: Metadata = {
   title: 'START Munich – Student Entrepreneurship Community',
@@ -31,6 +31,7 @@ const NOCODB_API_TOKEN = process.env.NOCODB_API_TOKEN
 const NOCODB_BASE_URL = process.env.NOCODB_BASE_URL || 'https://ndb.startmunich.de'
 const NOCODB_PARTNERS_TABLE_ID = process.env.NOCODB_PARTNERS_TABLE_ID
 const NOCODB_STARTUPS_TABLE_ID = process.env.NOCODB_STARTUPS_TABLE_ID
+const NOCODB_NEWS_TABLE_ID = process.env.NOCODB_NEWS_TABLE_ID
 
 async function fetchFeaturedPartners(): Promise<Partner[]> {
   if (!NOCODB_API_TOKEN || !NOCODB_PARTNERS_TABLE_ID) return []
@@ -99,10 +100,43 @@ async function fetchFeaturedStartups(): Promise<Startup[]> {
   }
 }
 
+async function fetchNews(): Promise<NewsItem[]> {
+  if (!NOCODB_API_TOKEN || !NOCODB_NEWS_TABLE_ID) return []
+  try {
+    const res = await fetch(
+      `${NOCODB_BASE_URL}/api/v2/tables/${NOCODB_NEWS_TABLE_ID}/records?limit=100`,
+      {
+        headers: { 'xc-token': NOCODB_API_TOKEN, 'Content-Type': 'application/json' },
+        next: { revalidate: 3600 },
+      }
+    )
+    if (!res.ok) return []
+    const data = await res.json()
+    return (data.list || [])
+      .sort((a: any, b: any) => (a.Order ?? Infinity) - (b.Order ?? Infinity))
+      .map((r: any) => {
+      let imageUrl = ''
+      if (r.Image && Array.isArray(r.Image) && r.Image[0]?.signedPath) {
+        imageUrl = `${NOCODB_BASE_URL}/${r.Image[0].signedPath}`
+      }
+      return {
+        id: r.Id || r.id || String(Math.random()),
+        title: r.Title || '',
+        description: r.Desciption || r.Description || '',
+        url: r.URL || r.Url || '',
+        imageUrl,
+      }
+    })
+  } catch {
+    return []
+  }
+}
+
 export default async function HomePage() {
-  const [partners, startups] = await Promise.all([
+  const [partners, startups, news] = await Promise.all([
     fetchFeaturedPartners(),
     fetchFeaturedStartups(),
+    fetchNews(),
   ])
 
   const organizationJsonLd = {
@@ -126,7 +160,7 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
       />
-      <HomeClient initialPartners={partners} initialStartups={startups} />
+      <HomeClient initialPartners={partners} initialStartups={startups} initialNews={news} />
     </>
   )
 }
