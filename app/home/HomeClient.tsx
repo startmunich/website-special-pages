@@ -13,7 +13,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Script from 'next/script'
 import { useAnimatedNumber, useInView } from '@/lib/hooks'
-import type { Partner, Startup } from '@/lib/types'
+import type { Partner, Startup, NewsItem } from '@/lib/types'
 
 // ── Images ──────────────────────────────────────────────────────────────────────
 
@@ -42,9 +42,10 @@ const facts = [
 interface HomeClientProps {
   initialPartners: Partner[]
   initialStartups: Startup[]
+  initialNews: NewsItem[]
 }
 
-export default function HomeClient({ initialPartners, initialStartups }: HomeClientProps) {
+export default function HomeClient({ initialPartners, initialStartups, initialNews }: HomeClientProps) {
   const [loaded, setLoaded] = useState(false)
   const [heroIdx, setHeroIdx] = useState(0)
   const [turningIdx, setTurningIdx] = useState(0)
@@ -418,7 +419,7 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
               {/* Page counter + navigation arrows — hidden on mobile */}
               <div className="hidden md:flex items-center gap-3 flex-shrink-0">
                 <span className="text-sm text-gray-500 tabular-nums">
-                  {String(Math.floor(newsIndex / 3) + 1).padStart(2, '0')} / {String(Math.ceil(4 / 3)).padStart(2, '0')}
+                  {String(Math.floor(newsIndex / 3) + 1).padStart(2, '0')} / {String(Math.ceil(initialNews.length / 3)).padStart(2, '0')}
                 </span>
                 <button
                   onClick={() => setNewsIndex(Math.max(0, newsIndex - 3))}
@@ -430,8 +431,8 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                   </svg>
                 </button>
                 <button
-                  onClick={() => setNewsIndex(Math.min(1, newsIndex + 3))}
-                  disabled={newsIndex + 3 >= 4}
+                  onClick={() => setNewsIndex(Math.min(Math.max(0, initialNews.length - 3), newsIndex + 3))}
+                  disabled={newsIndex + 3 >= initialNews.length}
                   className="w-12 h-12 rounded-full bg-brand-pink hover:bg-brand-pink/80 text-white flex items-center justify-center transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -443,49 +444,18 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
 
             {/* News Cards */}
             {(() => {
-              const allCards = [
-                {
-                  href: "https://www.linkedin.com/posts/startmunich_munichhackinglegal2026-lastday-applynow-activity-7443899749373661184-tqwt",
-                  img: "https://media.licdn.com/dms/image/v2/D4E22AQESvkyVu0PRPA/feedshare-shrink_2048_1536/B4EZ0cfsf4J0Ag-/0/1774299564314?e=2147483647&v=beta&t=i-WTYHK8gEwKZ8p-h-m91ibVlmnHImCFdoKl-bSa6MY",
-                  alt: "Munich Hacking Legal",
-                  label: "Event",
-                  title: "Munich Hacking Legal",
-                  desc: "Apply now for Munich Hacking Legal 2026!",
-                },
-                {
-                  href: "https://www.linkedin.com/feed/update/urn:li:share:7440016138719272960",
-                  img: "https://media.licdn.com/dms/image/v2/D5622AQEh2lg_lhQjww/feedshare-shrink_800/B56Z0A_QNzI0Ak-/0/1773838075010?e=1777507200&v=beta&t=L9oNLtmDh68DzOSN7-lEUIML3D6euhlPh8c2Ki40eME",
-                  alt: "START Labs MedTech Edition",
-                  label: "Upcoming Event",
-                  title: "START Labs: MedTech Edition",
-                  desc: "Something is coming. Block your calendar.",
-                },
-                {
-                  href: "https://www.linkedin.com/feed/update/urn:li:share:7435353728989229056",
-                  img: "https://media.licdn.com/dms/image/v2/D4D22AQGajz8OPW6FFw/feedshare-shrink_800/B4DZy.u0TJHIAg-/0/1772726470218?e=1777507200&v=beta&t=fTP2Nb-ox-_uLga7NxDGiO9UIR1v3a6Dd4zPa8LNjpY",
-                  alt: "START Goes Bay Area",
-                  label: "START Goes",
-                  title: "BAY AREA",
-                  desc: "Our STARTies explore the San Francisco startup ecosystem.",
-                  titleClass: "text-white font-black text-2xl mb-2",
-                },
-                {
-                  href: "https://www.linkedin.com/feed/update/urn:li:share:7435603494218166272",
-                  img: "https://media.licdn.com/dms/image/v2/D4E22AQHk1X_AF4bZ4Q/feedshare-shrink_800/B4EZzCR.lKJEAg-/0/1772786019035?e=1777507200&v=beta&t=TYYUhQIvipVvAcWeL4KbHIeF5KL-maptiLn8P3nX9LQ",
-                  alt: "Lio raises €30M",
-                  title: "Lio raises €30M",
-                  desc: "Huge congratulations to START Munich alumni!",
-                },
-              ]
-              const renderCard = (card: typeof allCards[0]) => (
-                <Link key={card.href} href={card.href} target="_blank" className="group relative">
+              const renderCard = (item: NewsItem) => (
+                <Link key={item.id} href={item.url} target="_blank" className="group relative">
                   <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
-                    <img src={card.img} alt={card.alt} loading="lazy" referrerPolicy="no-referrer" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    {item.imageUrl ? (
+                      <img src={item.imageUrl} alt={item.title} loading="lazy" referrerPolicy="no-referrer" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    ) : (
+                      <div className="absolute inset-0 bg-gradient-to-br from-brand-pink/30 to-purple-900/50" />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                     <div className="absolute bottom-6 left-6 right-6">
-                      {card.label && <div className="text-white/60 text-xs uppercase tracking-wider mb-2">{card.label}</div>}
-                      <div className={card.titleClass || "text-white font-bold text-xl mb-1"}>{card.title}</div>
-                      <p className="text-white/70 text-sm">{card.desc}</p>
+                      <div className="text-white font-bold text-xl mb-1">{item.title}</div>
+                      <p className="text-white/70 text-sm">{item.description}</p>
                     </div>
                     <div className="absolute top-6 right-6 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -499,12 +469,12 @@ export default function HomeClient({ initialPartners, initialStartups }: HomeCli
                 <>
                   {/* Desktop: paginated 3-column grid */}
                   <div className="hidden md:grid md:grid-cols-3 gap-6">
-                    {allCards.slice(newsIndex, newsIndex + 3).map(renderCard)}
+                    {initialNews.slice(newsIndex, newsIndex + 3).map(renderCard)}
                   </div>
                   {/* Mobile: stacked with show more */}
                   <div className="flex flex-col gap-6 md:hidden">
-                    {(showAllNews ? allCards : allCards.slice(0, 3)).map(renderCard)}
-                    {!showAllNews && (
+                    {(showAllNews ? initialNews : initialNews.slice(0, 3)).map(renderCard)}
+                    {!showAllNews && initialNews.length > 3 && (
                       <button
                         onClick={() => setShowAllNews(true)}
                         className="w-full py-4 border border-white/20 rounded-2xl text-white/70 font-medium hover:border-brand-pink/50 hover:text-white transition-all duration-300"
