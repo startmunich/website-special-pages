@@ -6,6 +6,7 @@ import HeroCard from "@/components/HeroCard"
 import PhotoGallery from './PhotoGallery'
 import PartnerCTAButton from './PartnerCTAButton'
 import { getAllPartners } from '@/lib/partners'
+import { OG_IMAGES } from '@/lib/metadata'
 
 export const metadata: Metadata = {
   title: 'Partner With Us',
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
     title: 'Partner With Us | START Munich',
     description:
       'Partner with START Munich to reach top talent from TUM, LMU, and HM. Sponsor events, host workshops, and recruit Munich\'s most ambitious student entrepreneurs.',
+    images: OG_IMAGES,
   },
 }
 

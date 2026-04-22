@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import JoinStartClient from './JoinStartClient'
+import { OG_IMAGES } from '@/lib/metadata'
 
 const LAUNCH_DATE = new Date('2026-04-10T00:00:00+02:00').getTime()
 
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
     title: 'Join START Munich 2026',
     description:
       'Apply to become a START Munich member in 2026. Join Munich\'s leading student entrepreneurship community at TUM, LMU, and HM.',
+    images: OG_IMAGES,
   },
 }
 

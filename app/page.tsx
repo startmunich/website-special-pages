@@ -10,6 +10,7 @@
 import type { Metadata } from 'next'
 import HomeClient from './home/HomeClient'
 import type { Partner, Startup, NewsItem } from '@/lib/types'
+import { OG_IMAGES } from '@/lib/metadata'
 
 export const metadata: Metadata = {
   title: 'START Munich – Student Entrepreneurship Community',
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
     title: 'START Munich – Student Entrepreneurship Community',
     description:
       'START Munich is the largest student-run entrepreneurship community in Munich. We empower the next generation of founders to dare, build, and belong.',
+    images: OG_IMAGES,
   },
 }
 
