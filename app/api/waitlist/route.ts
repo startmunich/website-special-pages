@@ -7,6 +7,8 @@ const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY;
 
 const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const TURNSTILE_TIMEOUT_MS = 5_000;
+const NOCODB_TIMEOUT_MS = 8_000;
 
 async function verifyTurnstile(token: string, remoteIp: string | null): Promise<boolean> {
   if (!TURNSTILE_SECRET_KEY) return false;
@@ -15,7 +17,11 @@ async function verifyTurnstile(token: string, remoteIp: string | null): Promise<
     params.set('secret', TURNSTILE_SECRET_KEY);
     params.set('response', token);
     if (remoteIp) params.set('remoteip', remoteIp);
-    const res = await fetch(TURNSTILE_VERIFY_URL, { method: 'POST', body: params });
+    const res = await fetch(TURNSTILE_VERIFY_URL, {
+      method: 'POST',
+      body: params,
+      signal: AbortSignal.timeout(TURNSTILE_TIMEOUT_MS),
+    });
     if (!res.ok) return false;
     const data = (await res.json()) as { success?: boolean; 'error-codes'?: string[] };
     if (!data.success) {
@@ -34,6 +40,7 @@ async function emailAlreadyOnWaitlist(email: string): Promise<boolean> {
   const res = await fetch(url, {
     headers: { 'xc-token': NOCODB_API_TOKEN as string, 'Content-Type': 'application/json' },
     cache: 'no-store',
+    signal: AbortSignal.timeout(NOCODB_TIMEOUT_MS),
   });
   if (!res.ok) {
     throw new Error(`NocoDB lookup failed: ${res.status} ${res.statusText}`);
@@ -93,6 +100,7 @@ export async function POST(request: Request) {
           Email: email,
           SignedUpAt: new Date().toISOString(),
         }),
+        signal: AbortSignal.timeout(NOCODB_TIMEOUT_MS),
       }
     );
 
