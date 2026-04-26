@@ -9,6 +9,7 @@ import UpcomingEventTile from '@/components/UpcomingEventTile'
 import { ScrollIndicator } from '@/components/EventComponents'
 
 const TARGET_DATE = new Date('2026-04-26T23:59:59+02:00').getTime()
+const CLOSE_DATE = new Date('2026-04-27T00:00:00+02:00').getTime()
 
 function pad(n: number) {
   return String(n).padStart(2, '0')
@@ -99,9 +100,10 @@ const applyEvents = [
 
 interface JoinStartClientProps {
   isLive: boolean
+  isClosed: boolean
 }
 
-export default function JoinStartClient({ isLive }: JoinStartClientProps) {
+export default function JoinStartClient({ isLive, isClosed }: JoinStartClientProps) {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -109,8 +111,39 @@ export default function JoinStartClient({ isLive }: JoinStartClientProps) {
     seconds: 0,
   })
   const [mounted, setMounted] = useState(false)
+  const [closedNow, setClosedNow] = useState(isClosed)
+  const [waitlistEmail, setWaitlistEmail] = useState('')
+  const [waitlistStatus, setWaitlistStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [waitlistMessage, setWaitlistMessage] = useState<string | null>(null)
   const eventsSliderRef = useRef<HTMLDivElement>(null)
   const dragState = useRef({ isDragging: false, startX: 0, scrollLeft: 0 })
+
+  const handleWaitlistSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (waitlistStatus === 'submitting') return
+    setWaitlistStatus('submitting')
+    setWaitlistMessage(null)
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: waitlistEmail }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        setWaitlistStatus('error')
+        setWaitlistMessage(data?.error || 'Something went wrong. Please try again.')
+        return
+      }
+      posthog.capture('waitlist_signup', { location: 'join_start_2026_closed' })
+      setWaitlistStatus('success')
+      setWaitlistMessage("You're on the list. We'll be in touch when applications reopen.")
+      setWaitlistEmail('')
+    } catch {
+      setWaitlistStatus('error')
+      setWaitlistMessage('Something went wrong. Please try again.')
+    }
+  }
 
   useEffect(() => {
     setMounted(true)
@@ -122,6 +155,7 @@ export default function JoinStartClient({ isLive }: JoinStartClientProps) {
         minutes: Math.floor((diff / (1000 * 60)) % 60),
         seconds: Math.floor((diff / 1000) % 60),
       })
+      if (Date.now() >= CLOSE_DATE) setClosedNow(true)
     }
     update()
     const interval = setInterval(update, 1000)
@@ -155,6 +189,80 @@ export default function JoinStartClient({ isLive }: JoinStartClientProps) {
     { value: timeLeft.minutes, label: 'Minutes' },
     { value: timeLeft.seconds, label: 'Seconds' },
   ]
+
+  if (closedNow) {
+    return (
+      <div className="min-h-screen bg-brand-dark-blue text-white">
+        <section className="relative overflow-hidden">
+          <div className="absolute inset-0">
+            <Image
+              src="/join-start-2026-bg.png"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+              style={{ objectPosition: 'center center' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-brand-dark-blue/95 via-brand-dark-blue/80 to-brand-dark-blue/70" />
+            <div className="absolute inset-x-0 bottom-0 h-1/6 bg-gradient-to-b from-transparent to-brand-dark-blue" />
+          </div>
+
+          <div className="relative mx-auto flex min-h-[calc(100vh-5rem)] max-w-5xl flex-col justify-center px-4 py-20 sm:px-6 lg:px-8">
+            <h1 className="text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+              JOIN BOLD,
+              <br />
+              <span className="outline-text">STAY AHEAD</span>
+            </h1>
+
+            <form
+              className="mt-10 flex w-full max-w-2xl flex-col overflow-hidden rounded-md sm:flex-row"
+              onSubmit={handleWaitlistSubmit}
+            >
+              <label htmlFor="waitlist-email" className="sr-only">
+                Email address
+              </label>
+              <input
+                id="waitlist-email"
+                type="email"
+                required
+                value={waitlistEmail}
+                onChange={(e) => setWaitlistEmail(e.target.value)}
+                disabled={waitlistStatus === 'submitting' || waitlistStatus === 'success'}
+                placeholder="Email address"
+                className="flex-1 bg-white px-5 py-3 text-sm text-brand-dark-blue placeholder:text-gray-400 focus:outline-none disabled:opacity-70 sm:text-base"
+              />
+              <button
+                type="submit"
+                disabled={waitlistStatus === 'submitting' || waitlistStatus === 'success'}
+                className="bg-brand-pink px-6 py-3 text-xs font-bold uppercase tracking-wide text-white transition-all duration-300 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70 sm:text-sm"
+              >
+                {waitlistStatus === 'submitting'
+                  ? 'Submitting...'
+                  : waitlistStatus === 'success'
+                  ? "You're on the list"
+                  : '> Join the waiting list'}
+              </button>
+            </form>
+            {waitlistMessage && (
+              <p
+                className={`mt-3 max-w-2xl text-xs sm:text-sm ${
+                  waitlistStatus === 'success' ? 'text-emerald-300' : 'text-red-300'
+                }`}
+                role={waitlistStatus === 'error' ? 'alert' : 'status'}
+              >
+                {waitlistMessage}
+              </p>
+            )}
+
+            <p className="mt-8 max-w-2xl text-xs font-bold uppercase tracking-wide text-white/90 sm:text-sm">
+              Our application for the summer semester 2026 phase ended on Sunday, April 26th. Stay tuned for the next phase that will open in October 2026.
+            </p>
+          </div>
+        </section>
+      </div>
+    )
+  }
 
   if (!isLive) {
     return (
