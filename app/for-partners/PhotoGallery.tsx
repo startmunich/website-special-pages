@@ -8,13 +8,13 @@ const eventPhotos = [
     id: "ep1",
     url: "/forPartners/partnerEvents/RTSH-opt.jpg",
     caption: "Road to START Hack 26",
-    href: "/events/rtsh"
+    href: "/eventpage/rtsh"
   },
   {
     id: "ep2",
     url: "/forPartners/partnerEvents/RTSH2-opt.jpg",
     caption: "Road to START Hack 26",
-    href: "/events/rtsh"
+    href: "/eventpage/rtsh"
   },
   {
     id: "ep3",
