@@ -197,10 +197,8 @@ export default function Navigation() {
                         Munich Hacking Legal
                       </span>
                     </a>
-                    <a
-                      href="https://summit.startmunich.de/events/rtss"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <Link
+                      href="/eventpage/rtss"
                       onClick={() => setIsEventsOpen(false)}
                       className="group block px-6 py-2.5 text-white/70 text-sm font-semibold hover:bg-brand-pink hover:text-white transition-all duration-200"
                     >
@@ -210,11 +208,9 @@ export default function Navigation() {
                         </svg>
                         Road to START Summit
                       </span>
-                    </a>
-                    <a
-                      href="https://hack.startmunich.de/events/rtsh"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    </Link>
+                    <Link
+                      href="/eventpage/rtsh"
                       onClick={() => setIsEventsOpen(false)}
                       className="group block px-6 py-2.5 text-white/70 text-sm font-semibold hover:bg-brand-pink hover:text-white transition-all duration-200"
                     >
@@ -224,7 +220,7 @@ export default function Navigation() {
                         </svg>
                         Road to START Hack
                       </span>
-                    </a>
+                    </Link>
                     <Link
                       href="/labs"
                       onClick={() => setIsEventsOpen(false)}
@@ -464,24 +460,20 @@ export default function Navigation() {
                     >
                       Munich Hacking Legal
                     </a>
-                    <a
-                      href="https://summit.startmunich.de/events/rtss"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <Link
+                      href="/eventpage/rtss"
                       className="block pl-4 py-2 text-white/50 text-sm font-medium hover:text-brand-pink transition-colors"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Road to START Summit
-                    </a>
-                    <a
-                      href="https://hack.startmunich.de/events/rtsh"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    </Link>
+                    <Link
+                      href="/eventpage/rtsh"
                       className="block pl-4 py-2 text-white/50 text-sm font-medium hover:text-brand-pink transition-colors"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Road to START Hack
-                    </a>
+                    </Link>
                     <Link
                       href="/labs"
                       className="block pl-4 py-2 text-white/50 text-sm font-medium hover:text-brand-pink transition-colors"

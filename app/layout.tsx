@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import "./globals.css"
-import Navigation from "@/components/Navigation"
-import Footer from "@/components/Footer"
+import SiteChrome from "@/components/SiteChrome"
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -72,11 +71,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="flex flex-col min-h-screen bg-brand-dark-blue">
-        <Navigation />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   )
