@@ -8,7 +8,7 @@
  * server-side by the parent `page.tsx` (ISR, 1-hour revalidation). This means
  * no client-side data fetching is needed and logos appear instantly on load.
  */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Script from 'next/script'
@@ -55,8 +55,12 @@ export default function HomeClient({ initialPartners, initialStartups, initialNe
   const [turningIdx, setTurningIdx] = useState(0)
   const [brandPartners] = useState<Partner[]>(initialPartners)
   const [featuredStartups] = useState<Startup[]>(initialStartups)
-  const [newsIndex, setNewsIndex] = useState(0)
+  const [newsScrollX, setNewsScrollX] = useState(0)
   const [showAllNews, setShowAllNews] = useState(false)
+  const newsSectionRef = useRef<HTMLElement>(null)
+  const newsTrackRef = useRef<HTMLDivElement>(null)
+  const newsContainerRef = useRef<HTMLDivElement>(null)
+  const newsScrollXRef = useRef(0)
   const [now, setNow] = useState(() => Date.now())
   const applicationsClosed = now >= APPLICATIONS_CLOSED_AT
   const applicationsOpen = now >= APPLICATIONS_OPENED_AT && !applicationsClosed
@@ -91,6 +95,50 @@ export default function HomeClient({ initialPartners, initialStartups, initialNe
     const t = setInterval(() => setTurningIdx(p => (p + 1) % turningPhrases.length), 2500)
     return () => clearInterval(t)
   }, [turningPhrases.length])
+
+  // Horizontal scroll for news section (desktop) — intercept wheel events
+  useEffect(() => {
+    const section = newsSectionRef.current
+    const track = newsTrackRef.current
+    const container = newsContainerRef.current
+    if (!section || !track || !container) return
+
+    const getOverflow = () => track.scrollWidth - container.clientWidth
+
+    const onWheel = (e: WheelEvent) => {
+      if (window.innerWidth < 768) return
+
+      const rect = section.getBoundingClientRect()
+      const sectionVisible = rect.top < window.innerHeight && rect.bottom > 0
+      if (!sectionVisible) return
+
+      const overflow = getOverflow()
+      if (overflow <= 0) return
+
+      const currentX = newsScrollXRef.current
+      const isScrollingDown = e.deltaY > 0
+      const isScrollingUp = e.deltaY < 0
+
+      // Start capturing when section reaches the middle of the viewport
+      const midTrigger = rect.top <= window.innerHeight / 2
+
+      if (isScrollingDown && midTrigger && currentX < overflow) {
+        e.preventDefault()
+        const next = Math.min(overflow, currentX + Math.abs(e.deltaY))
+        newsScrollXRef.current = next
+        setNewsScrollX(next)
+      } else if (isScrollingUp && currentX > 0) {
+        // Scrolling up while cards are shifted — reverse horizontal scroll first
+        e.preventDefault()
+        const next = Math.max(0, currentX - Math.abs(e.deltaY))
+        newsScrollXRef.current = next
+        setNewsScrollX(next)
+      }
+    }
+
+    window.addEventListener('wheel', onWheel, { passive: false })
+    return () => window.removeEventListener('wheel', onWheel)
+  }, [initialNews.length])
 
   const animatedValues = [
     useAnimatedNumber(facts[0].value, !factsView.visible, 1800),
@@ -410,56 +458,91 @@ export default function HomeClient({ initialPartners, initialStartups, initialNe
         </section>
 
         {/* ═══════════════════════════ LATEST NEWS ═══════════════════════════ */}
-        <section className="py-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Desktop: horizontal scroll driven by vertical scroll (sticky) */}
+        {/* Mobile: simple stacked cards */}
+
+        {/* ── Desktop: horizontal scroll on wheel ── */}
+        <section
+          ref={newsSectionRef}
+          className="hidden md:block relative py-28 px-4 sm:px-6 lg:px-8"
+        >
+          <div className="max-w-7xl mx-auto w-full">
+              {/* Header */}
+              <div className="flex items-end justify-between mb-12">
+                <div className="flex items-center gap-6">
+                  <div>
+                    <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Stay Updated</span>
+                    <h2 className="text-5xl sm:text-6xl font-black text-white mt-3">LATEST NEWS</h2>
+                  </div>
+                  <div className="flex items-center gap-3 self-end mb-1">
+                    <Link href="https://www.linkedin.com/company/start-munich/" target="_blank" className="group flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full hover:border-brand-pink/50 hover:bg-brand-pink/10 transition-all duration-300">
+                      <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+                      <span className="text-white text-sm font-medium group-hover:text-brand-pink transition-colors">LinkedIn</span>
+                    </Link>
+                    <Link href="https://www.instagram.com/start.munich/" target="_blank" className="group flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full hover:border-brand-pink/50 hover:bg-brand-pink/10 transition-all duration-300">
+                      <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
+                      <span className="text-white text-sm font-medium group-hover:text-brand-pink transition-colors">Instagram</span>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Horizontally scrolling cards — stays inside max-w-7xl */}
+              <div ref={newsContainerRef} className="overflow-hidden">
+                <div
+                  ref={newsTrackRef}
+                  className="flex gap-6 will-change-transform"
+                  style={{ transform: `translateX(-${newsScrollX}px)` }}
+                >
+                  {initialNews.map((item) => (
+                    <Link key={item.id} href={item.url} target="_blank" className="group relative flex-shrink-0 w-[380px]">
+                      <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
+                        {item.imageUrl ? (
+                          <img src={item.imageUrl} alt={item.title} loading="lazy" referrerPolicy="no-referrer" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        ) : (
+                          <div className="absolute inset-0 bg-gradient-to-br from-brand-pink/30 to-purple-900/50" />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                        <div className="absolute bottom-6 left-6 right-6">
+                          <div className="text-white font-bold text-xl mb-1">{item.title}</div>
+                          <p className="text-white/70 text-sm">{item.description}</p>
+                        </div>
+                        <div className="absolute top-6 right-6 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+          </div>
+        </section>
+
+        {/* ── Mobile: simple stacked cards ── */}
+        <section className="md:hidden py-28 px-4 sm:px-6 relative overflow-hidden">
           <div className="max-w-7xl mx-auto">
-            {/* Header with social links on left + navigation arrows on right */}
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
+            <div className="mb-12">
               <div className="flex items-center gap-6">
                 <div>
                   <span className="text-brand-pink text-sm font-bold tracking-[0.3em] uppercase">Stay Updated</span>
-                  <h2 className="text-5xl sm:text-6xl font-black text-white mt-3">LATEST NEWS</h2>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 sm:self-end sm:mb-1">
-                  <Link href="https://www.linkedin.com/company/start-munich/" target="_blank" className="group flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full hover:border-brand-pink/50 hover:bg-brand-pink/10 transition-all duration-300">
-                    <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
-                    <span className="text-white text-sm font-medium group-hover:text-brand-pink transition-colors">LinkedIn</span>
-                  </Link>
-                  <Link href="https://www.instagram.com/start.munich/" target="_blank" className="group flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full hover:border-brand-pink/50 hover:bg-brand-pink/10 transition-all duration-300">
-                    <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
-                    <span className="text-white text-sm font-medium group-hover:text-brand-pink transition-colors">Instagram</span>
-                  </Link>
+                  <h2 className="text-5xl font-black text-white mt-3">LATEST NEWS</h2>
                 </div>
               </div>
-
-              {/* Page counter + navigation arrows — hidden on mobile */}
-              <div className="hidden md:flex items-center gap-3 flex-shrink-0">
-                <span className="text-sm text-gray-500 tabular-nums">
-                  {String(Math.floor(newsIndex / 3) + 1).padStart(2, '0')} / {String(Math.ceil(initialNews.length / 3)).padStart(2, '0')}
-                </span>
-                <button
-                  onClick={() => setNewsIndex(Math.max(0, newsIndex - 3))}
-                  disabled={newsIndex === 0}
-                  className="w-12 h-12 rounded-full border-2 border-white/20 hover:border-brand-pink hover:bg-brand-pink text-white flex items-center justify-center transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-                <button
-                  onClick={() => setNewsIndex(Math.min(Math.max(0, initialNews.length - 3), newsIndex + 3))}
-                  disabled={newsIndex + 3 >= initialNews.length}
-                  className="w-12 h-12 rounded-full bg-brand-pink hover:bg-brand-pink/80 text-white flex items-center justify-center transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+              <div className="flex items-center gap-3 mt-4">
+                <Link href="https://www.linkedin.com/company/start-munich/" target="_blank" className="group flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full hover:border-brand-pink/50 hover:bg-brand-pink/10 transition-all duration-300">
+                  <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+                  <span className="text-white text-sm font-medium group-hover:text-brand-pink transition-colors">LinkedIn</span>
+                </Link>
+                <Link href="https://www.instagram.com/start.munich/" target="_blank" className="group flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full hover:border-brand-pink/50 hover:bg-brand-pink/10 transition-all duration-300">
+                  <svg className="w-4 h-4 text-white group-hover:text-brand-pink transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
+                  <span className="text-white text-sm font-medium group-hover:text-brand-pink transition-colors">Instagram</span>
+                </Link>
               </div>
             </div>
-
-            {/* News Cards */}
-            {(() => {
-              const renderCard = (item: NewsItem) => (
+            <div className="flex flex-col gap-6">
+              {(showAllNews ? initialNews : initialNews.slice(0, 3)).map((item) => (
                 <Link key={item.id} href={item.url} target="_blank" className="group relative">
                   <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
                     {item.imageUrl ? (
@@ -479,28 +562,16 @@ export default function HomeClient({ initialPartners, initialStartups, initialNe
                     </div>
                   </div>
                 </Link>
-              )
-              return (
-                <>
-                  {/* Desktop: paginated 3-column grid */}
-                  <div className="hidden md:grid md:grid-cols-3 gap-6">
-                    {initialNews.slice(newsIndex, newsIndex + 3).map(renderCard)}
-                  </div>
-                  {/* Mobile: stacked with show more */}
-                  <div className="flex flex-col gap-6 md:hidden">
-                    {(showAllNews ? initialNews : initialNews.slice(0, 3)).map(renderCard)}
-                    {!showAllNews && initialNews.length > 3 && (
-                      <button
-                        onClick={() => setShowAllNews(true)}
-                        className="w-full py-4 border border-white/20 rounded-2xl text-white/70 font-medium hover:border-brand-pink/50 hover:text-white transition-all duration-300"
-                      >
-                        Show more
-                      </button>
-                    )}
-                  </div>
-                </>
-              )
-            })()}
+              ))}
+              {!showAllNews && initialNews.length > 3 && (
+                <button
+                  onClick={() => setShowAllNews(true)}
+                  className="w-full py-4 border border-white/20 rounded-2xl text-white/70 font-medium hover:border-brand-pink/50 hover:text-white transition-all duration-300"
+                >
+                  Show more
+                </button>
+              )}
+            </div>
           </div>
         </section>
 
