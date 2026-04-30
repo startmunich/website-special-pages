@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import AboutUsContent from './AboutUsContent'
+import { OG_IMAGES } from '@/lib/metadata'
 
 export const metadata: Metadata = {
   title: 'About Us',
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
     title: 'About Us | START Munich',
     description:
       'Meet the team behind START Munich. Learn about our mission, vision, and the passionate students driving Munich\'s leading entrepreneurship community since 2003.',
+    images: OG_IMAGES,
   },
 }
 

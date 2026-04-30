@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import MembersContent from './MembersContent'
+import { OG_IMAGES } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
     title: 'Members | START Munich',
     description:
       'Meet START Munich members — 70+ active members and 600+ alumni from TUM, LMU, and HM building the companies of tomorrow.',
+    images: OG_IMAGES,
   },
 }
 

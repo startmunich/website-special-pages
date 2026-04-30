@@ -7,11 +7,14 @@ import Image from 'next/image'
 
 export default function Navigation() {
   const [isCommunityOpen, setIsCommunityOpen] = useState(false)
+  const [isEventsOpen, setIsEventsOpen] = useState(false)
   const [isPartnerOpen, setIsPartnerOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobileCommunityOpen, setIsMobileCommunityOpen] = useState(false)
+  const [isMobileEventsOpen, setIsMobileEventsOpen] = useState(false)
   const [isMobilePartnerOpen, setIsMobilePartnerOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const eventsDropdownRef = useRef<HTMLDivElement>(null)
   const partnerDropdownRef = useRef<HTMLDivElement>(null)
 
   // Close dropdown when clicking outside
@@ -19,6 +22,9 @@ export default function Navigation() {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsCommunityOpen(false)
+      }
+      if (eventsDropdownRef.current && !eventsDropdownRef.current.contains(event.target as Node)) {
+        setIsEventsOpen(false)
       }
       if (partnerDropdownRef.current && !partnerDropdownRef.current.contains(event.target as Node)) {
         setIsPartnerOpen(false)
@@ -141,12 +147,100 @@ export default function Navigation() {
               OUR STARTUPS
             </Link>
 
-            <Link
-              href="/events"
-              className="text-white font-bold text-base hover:text-brand-pink transition-colors uppercase tracking-wide"
+            {/* Events Dropdown */}
+            <div
+              ref={eventsDropdownRef}
+              className="relative"
             >
-              EVENTS
-            </Link>
+              <button
+                onClick={() => setIsEventsOpen(!isEventsOpen)}
+                className="text-white font-bold text-base hover:text-brand-pink transition-colors uppercase tracking-wide flex items-center space-x-1"
+              >
+                <span>EVENTS</span>
+                <svg
+                  className={`w-4 h-4 transition-transform ${isEventsOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {isEventsOpen && (
+                <div className="absolute top-full left-0 mt-3 w-64 bg-brand-dark-blue border border-white/20 shadow-2xl rounded-xl overflow-hidden animate-fadeIn">
+                  <div className="py-2">
+                    <Link
+                      href="/events"
+                      onClick={() => setIsEventsOpen(false)}
+                      className="group block px-6 py-3.5 text-white text-base font-bold hover:bg-brand-pink transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-4 h-4 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        All Events
+                      </span>
+                    </Link>
+                    <div className="mx-4 my-1 border-t border-white/15" />
+                    <a
+                      href="https://www.hacking-legal.org/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsEventsOpen(false)}
+                      className="group block px-6 py-2.5 text-white/70 text-sm font-semibold hover:bg-brand-pink hover:text-white transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-3.5 h-3.5 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        Munich Hacking Legal
+                      </span>
+                    </a>
+                    <a
+                      href="https://summit.startmunich.de/events/rtss"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsEventsOpen(false)}
+                      className="group block px-6 py-2.5 text-white/70 text-sm font-semibold hover:bg-brand-pink hover:text-white transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-3.5 h-3.5 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        Road to START Summit
+                      </span>
+                    </a>
+                    <a
+                      href="https://hack.startmunich.de/events/rtsh"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsEventsOpen(false)}
+                      className="group block px-6 py-2.5 text-white/70 text-sm font-semibold hover:bg-brand-pink hover:text-white transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-3.5 h-3.5 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        Road to START Hack
+                      </span>
+                    </a>
+                    <Link
+                      href="/labs"
+                      onClick={() => setIsEventsOpen(false)}
+                      className="group block px-6 py-2.5 text-white/70 text-sm font-semibold hover:bg-brand-pink hover:text-white transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-3.5 h-3.5 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        START Labs
+                      </span>
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Partner Dropdown */}
             <div
@@ -335,13 +429,69 @@ export default function Navigation() {
                 OUR STARTUPS
               </Link>
 
-              <Link
-                href="/events"
-                className="block py-4 text-white font-bold text-lg hover:text-brand-pink transition-colors uppercase tracking-wide border-b border-white/10"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                EVENTS
-              </Link>
+              {/* Mobile Events Dropdown */}
+              <div className="border-b border-white/10">
+                <button
+                  onClick={() => setIsMobileEventsOpen(!isMobileEventsOpen)}
+                  className="w-full flex items-center justify-between py-4 text-white font-bold text-lg hover:text-brand-pink transition-colors uppercase tracking-wide"
+                >
+                  <span>EVENTS</span>
+                  <svg
+                    className={`w-5 h-5 transition-transform ${isMobileEventsOpen ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {isMobileEventsOpen && (
+                  <div className="pb-3 space-y-1">
+                    <Link
+                      href="/events"
+                      className="block pl-4 py-2.5 text-white/80 text-base font-semibold hover:text-brand-pink transition-colors"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      All Events
+                    </Link>
+                    <a
+                      href="https://www.hacking-legal.org/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block pl-4 py-2 text-white/50 text-sm font-medium hover:text-brand-pink transition-colors"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Munich Hacking Legal
+                    </a>
+                    <a
+                      href="https://summit.startmunich.de/events/rtss"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block pl-4 py-2 text-white/50 text-sm font-medium hover:text-brand-pink transition-colors"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Road to START Summit
+                    </a>
+                    <a
+                      href="https://hack.startmunich.de/events/rtsh"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block pl-4 py-2 text-white/50 text-sm font-medium hover:text-brand-pink transition-colors"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Road to START Hack
+                    </a>
+                    <Link
+                      href="/labs"
+                      className="block pl-4 py-2 text-white/50 text-sm font-medium hover:text-brand-pink transition-colors"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      START Labs
+                    </Link>
+                  </div>
+                )}
+              </div>
 
               {/* Mobile Partner Dropdown */}
               <div className="border-b border-white/10">
