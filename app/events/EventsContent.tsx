@@ -934,15 +934,13 @@ export default function EventsPage() {
                                                )
                                           : event.id === 'rtsh'
                                             ? () =>
-                                                 window.open(
-                                                    'https://hack.startmunich.de/events/rtsh',
-                                                    '_blank',
+                                                 router.push(
+                                                    '/eventpage/rtsh',
                                                  )
                                             : event.id === 'rtss'
                                               ? () =>
-                                                   window.open(
-                                                      'https://summit.startmunich.de/events/rtss',
-                                                      '_blank',
+                                                   router.push(
+                                                      '/eventpage/rtss',
                                                    )
                                               : event.id === 'start-labs'
                                                 ? () =>
