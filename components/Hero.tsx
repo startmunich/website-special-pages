@@ -7,11 +7,14 @@ interface HeroProps {
     description: React.ReactNode
     children?: React.ReactNode
     className?: string
+    contentClassName?: string
+    titleClassName?: string
+    descriptionClassName?: string
+    leftColumnClassName?: string
+    rightColumnClassName?: string
     overlayOpacity?: string
     hideChildrenOnMobile?: boolean
     imagePosition?: string
-    titleClassName?: string
-    descriptionClassName?: string
     childrenWrapperClassName?: string
 }
 
@@ -21,11 +24,14 @@ export default function Hero({
     description,
     children,
     className = "min-h-[70vh]",
+    contentClassName,
+    titleClassName,
+    descriptionClassName,
+    leftColumnClassName,
+    rightColumnClassName,
     overlayOpacity = "bg-brand-dark-blue/70",
     hideChildrenOnMobile = false,
     imagePosition = "center 45%",
-    titleClassName,
-    descriptionClassName,
     childrenWrapperClassName
 }: HeroProps) {
     return (
@@ -60,7 +66,7 @@ export default function Hero({
                             </div>
                         </div>
 
-                        {/* Right Side - Desktop only */}
+                        {/* Right Side - Custom Content */}
                         {children && (
                             <div className={cn("hidden lg:flex flex-col gap-6 min-w-[280px] mt-6 lg:mt-11 ml-auto", childrenWrapperClassName)}>
                                 {children}

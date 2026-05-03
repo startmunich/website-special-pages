@@ -230,7 +230,7 @@ const memberStories: MemberStory[] = [
       { src: "https://cdn.prod.website-files.com/6902359088cc8683c4db0171/69249d98617b1b96682cca65_44a5d2ba9e6004a1281eed9068c62a95_zeitai-logo-opt.png", url: "https://www.zeit.ai/" },
     ]
   },
-    {
+  {
     id: "story-2",
     name: "Joshua Cornelius",
     role: "Co-Founder",
@@ -819,9 +819,7 @@ export default function MemberJourneyPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Bay Area */}
               <a
-                href="https://www.startbayarea.com/"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/start-goes-bay-area"
                 className="group relative overflow-hidden bg-white/[0.06] backdrop-blur-sm rounded-3xl border border-white/10 hover:border-brand-pink/40 transition-all duration-500 block"
               >
                 <div className="aspect-video relative overflow-hidden rounded-t-3xl">

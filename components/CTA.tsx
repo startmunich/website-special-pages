@@ -7,6 +7,7 @@ interface CTAButton {
   label: string
   href: string
   variant?: 'primary' | 'secondary'
+  external?: boolean
 }
 
 interface CTAProps {
@@ -30,11 +31,27 @@ export default function CTA({
     const primaryClasses = "bg-[#d0006f] hover:bg-[#d0006f]/90 text-white hover:shadow-lg hover:shadow-[#d0006f]/50"
     const secondaryClasses = "border border-[#d0006f] text-[#d0006f] hover:bg-[#d0006f]/10"
 
+    const classes = `${baseClasses} ${isPrimary ? primaryClasses : secondaryClasses}`
+
+    if (button.external) {
+      return (
+        <a
+          key={index}
+          href={button.href}
+          target="_blank"
+          rel="noreferrer"
+          className={classes}
+        >
+          {button.label}
+        </a>
+      )
+    }
+
     return (
       <Link
         key={index}
         href={button.href}
-        className={`${baseClasses} ${isPrimary ? primaryClasses : secondaryClasses}`}
+        className={classes}
       >
         {button.label}
       </Link>
