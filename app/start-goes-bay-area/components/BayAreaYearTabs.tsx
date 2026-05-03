@@ -146,6 +146,7 @@ export default function BayAreaYearTabs() {
                             alt={`START Goes Bay Area ${activeContent.label}`}
                             className="absolute inset-0 h-full w-full object-cover"
                         />
+                        <div className="absolute inset-0 bg-brand-dark-blue/20" />
                     </div>
 
                     <section className="mt-12 pt-8">
