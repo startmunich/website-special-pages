@@ -8,7 +8,7 @@ export const bayAreaYearContent: BayAreaYearContent[] = [
     {
         id: '2025',
         label: '2025',
-        groupPictureUrl: '/batch.jpeg',
+        groupPictureUrl: '/bayarea/years/2025.jpg',
         highlightVisits: [
             { name: 'a16z', context: 'San Francisco', logoPath: '/bayarea/logos/a16z.svg', websiteUrl: 'https://a16z.com/' },
             { name: 'Etched', context: 'South San Francisco', logoPath: '/bayarea/logos/etched.svg', websiteUrl: 'https://www.etched.com/' },
@@ -47,7 +47,7 @@ export const bayAreaYearContent: BayAreaYearContent[] = [
     {
         id: '2026',
         label: '2026',
-        groupPictureUrl: '/ourMembers/batches_group_pictures/WS25.JPG',
+        groupPictureUrl: '/bayarea/years/2026.png',
         highlightVisits: [
             { name: 'Google X', context: 'Mountain View', logoPath: '/bayarea/logos/google-x.svg', websiteUrl: 'https://x.company/' },
             { name: 'Y Combinator', context: 'San Francisco', logoPath: '/bayarea/logos/y-combinator.svg', websiteUrl: 'https://www.ycombinator.com/' },
@@ -81,11 +81,42 @@ export const bayAreaYearContent: BayAreaYearContent[] = [
             { name: 'Savor', logoPath: '/bayarea/logos/savor.svg', websiteUrl: 'https://www.savor.it/' },
         ],
         teamMembers: [
-            { name: 'Annemarie Schimkat', role: 'Orga Team' },
-            { name: 'Christopher Hassinger', role: 'Orga Team' },
-            { name: 'Philipp Noel von Lovenberg', role: 'Orga Team' },
-            { name: 'Arian Gohari', role: 'Orga Team' },
-            { name: 'Linde Liu', role: 'Orga Team' },
+            {
+                name: 'Annemarie Schimkat',
+                role: 'Orga Team',
+                photoPath: '/bayarea/team/2026/annemarie-schimkat.jpg',
+                linkedinUrl: 'https://www.linkedin.com/in/annemarie-schimkat-b94a46259/',
+            },
+            {
+                name: 'Linde Liu',
+                role: 'Orga Team',
+                photoPath: '/bayarea/team/2026/linde-liu.jpg',
+                linkedinUrl: 'https://www.linkedin.com/in/linde-liu/',
+            },
+            {
+                name: 'Nicole Mestanza Velásquez',
+                role: 'Orga Team',
+                photoPath: '/bayarea/team/2026/nicole-mestanza-velasquez.jpg',
+                linkedinUrl: 'https://www.linkedin.com/in/nicole-mestanza-velasquez/',
+            },
+            {
+                name: 'Christopher Hassinger',
+                role: 'Orga Team',
+                photoPath: '/bayarea/team/2026/christopher-hassinger.jpg',
+                linkedinUrl: 'https://www.linkedin.com/in/christopher-hassinger/',
+            },
+            {
+                name: 'Philipp von Lovenberg',
+                role: 'Orga Team',
+                photoPath: '/bayarea/team/2026/philipp-von-lovenberg.jpg',
+                linkedinUrl: 'https://www.linkedin.com/in/philipp-von-lovenberg/',
+            },
+            {
+                name: 'Arian Gohari',
+                role: 'Orga Team',
+                photoPath: '/bayarea/team/2026/arian-gohari.jpg',
+                linkedinUrl: 'https://www.linkedin.com/in/arian-gohari/',
+            },
         ],
     },
     {

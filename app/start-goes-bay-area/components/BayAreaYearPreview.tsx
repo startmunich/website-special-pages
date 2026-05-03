@@ -30,7 +30,6 @@ export default function BayAreaYearPreview({ yearLabel, imageUrl }: BayAreaYearP
 
                         <h2 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
                             START goes Bay Area<br />
-                            <span className="text-brand-pink">{yearLabel}</span>
                         </h2>
 
                         <p className="text-gray-300 text-base md:text-lg leading-relaxed max-w-xl mb-6">

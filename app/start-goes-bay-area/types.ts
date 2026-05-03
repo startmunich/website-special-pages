@@ -15,6 +15,8 @@ export interface BayAreaHost {
 export interface BayAreaTeamMember {
     name: string
     role: string
+    photoPath?: string
+    linkedinUrl?: string
 }
 
 export interface BayAreaHighlightVisit {
