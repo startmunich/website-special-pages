@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import MemberJourneyContent from './MemberJourneyContent'
+import { OG_IMAGES } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
     title: 'Member Journey | START Munich',
     description:
       'Discover the START Munich member journey — how you grow from applicant to founder within Europe\'s most vibrant student entrepreneurship community.',
+    images: OG_IMAGES,
   },
 }
 

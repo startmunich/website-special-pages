@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import StartupDetailsContent from './StartupDetailsContent'
+import { OG_IMAGES } from '@/lib/metadata'
 
 const NOCODB_API_TOKEN = process.env.NOCODB_API_TOKEN
 const NOCODB_BASE_URL = process.env.NOCODB_BASE_URL || 'https://ndb.startmunich.de'
@@ -33,6 +34,7 @@ export async function generateMetadata(
               url: `https://www.startmunich.de/startup-details/${id}`,
               title: `${name} | START Munich`,
               description,
+              images: OG_IMAGES,
             },
           }
         }

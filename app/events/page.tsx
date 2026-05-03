@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import EventsContent from './EventsContent'
+import { OG_IMAGES } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
     title: 'Events | START Munich',
     description:
       'Discover START Munich events — hackathons, pitch competitions, startup labs, info sessions, and more. Connect with Munich\'s student entrepreneur community.',
+    images: OG_IMAGES,
   },
 }
 

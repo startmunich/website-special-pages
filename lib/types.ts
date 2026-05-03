@@ -25,6 +25,14 @@ export interface Founder {
   linkedinUrl?: string
 }
 
+export interface NewsItem {
+  id: string
+  title: string
+  description: string
+  url: string
+  imageUrl: string
+}
+
 export interface Company {
   id: number
   name: string

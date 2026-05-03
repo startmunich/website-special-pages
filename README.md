@@ -22,7 +22,12 @@ NOCODB_TABLE_ID=your_nocodb_table_id_here
 NOCODB_BASE_URL=https://ndb.startmunich.de
 NOCODB_STARTUPS_TABLE_ID=your_nocodb_table_id_here
 NOCODB_MEMBERS_TABLE_ID=your_nocodb_members_table_id_here
+NOCODB_WAITLIST_TABLE_ID=your_nocodb_waitlist_table_id_here
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=your_turnstile_site_key_here
+TURNSTILE_SECRET_KEY=your_turnstile_secret_key_here
 ```
+
+For the waitlist table and Turnstile setup, see [`docs/waitlist-nocodb-setup.md`](docs/waitlist-nocodb-setup.md).
 
 ### Where to Set Environment Variables
 
