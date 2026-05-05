@@ -47,7 +47,7 @@ export const bayAreaYearContent: BayAreaYearContent[] = [
     {
         id: '2026',
         label: '2026',
-        groupPictureUrl: '/bayarea/years/2026.png',
+        groupPictureUrl: '/bayarea/years/2026-opt.jpg',
         highlightVisits: [
             { name: 'Google X', context: 'Mountain View', logoPath: '/bayarea/logos/google-x.svg', websiteUrl: 'https://x.company/' },
             { name: 'Y Combinator', context: 'San Francisco', logoPath: '/bayarea/logos/y-combinator.svg', websiteUrl: 'https://www.ycombinator.com/' },
