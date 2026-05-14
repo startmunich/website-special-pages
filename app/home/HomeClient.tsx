@@ -46,21 +46,23 @@ const APPLICATIONS_CLOSED_AT = new Date('2026-04-27T00:00:00+02:00').getTime()
 interface HomeClientProps {
   initialPartners: Partner[]
   initialStartups: Startup[]
+  startupCount: number
   initialNews: NewsItem[]
 }
 
-export default function HomeClient({ initialPartners, initialStartups, initialNews }: HomeClientProps) {
+export default function HomeClient({ initialPartners, initialStartups, startupCount, initialNews }: HomeClientProps) {
   const [loaded, setLoaded] = useState(false)
   const [heroIdx, setHeroIdx] = useState(0)
   const [turningIdx, setTurningIdx] = useState(0)
   const [brandPartners] = useState<Partner[]>(initialPartners)
   const [featuredStartups] = useState<Startup[]>(initialStartups)
   const [newsScrollX, setNewsScrollX] = useState(0)
+  const [newsSectionHeight, setNewsSectionHeight] = useState(0)
   const [showAllNews, setShowAllNews] = useState(false)
   const newsSectionRef = useRef<HTMLElement>(null)
+  const newsStickyRef = useRef<HTMLDivElement>(null)
   const newsTrackRef = useRef<HTMLDivElement>(null)
   const newsContainerRef = useRef<HTMLDivElement>(null)
-  const newsScrollXRef = useRef(0)
   const [now, setNow] = useState(() => Date.now())
   const applicationsClosed = now >= APPLICATIONS_CLOSED_AT
   const applicationsOpen = now >= APPLICATIONS_OPENED_AT && !applicationsClosed
@@ -96,48 +98,68 @@ export default function HomeClient({ initialPartners, initialStartups, initialNe
     return () => clearInterval(t)
   }, [turningPhrases.length])
 
-  // Horizontal scroll for news section (desktop) — intercept wheel events
+  // Desktop news cards: link horizontal movement to natural page scroll.
+  // This keeps the interaction while avoiding Safari's page-locking wheel behavior.
   useEffect(() => {
     const section = newsSectionRef.current
+    const sticky = newsStickyRef.current
     const track = newsTrackRef.current
     const container = newsContainerRef.current
-    if (!section || !track || !container) return
+    if (!section || !sticky || !track || !container) return
 
-    const getOverflow = () => track.scrollWidth - container.clientWidth
+    let frame = 0
 
-    const onWheel = (e: WheelEvent) => {
-      if (window.innerWidth < 768) return
+    const getOverflow = () => Math.max(0, track.scrollWidth - container.clientWidth)
 
-      const rect = section.getBoundingClientRect()
-      const sectionVisible = rect.top < window.innerHeight && rect.bottom > 0
-      if (!sectionVisible) return
+    const updatePosition = () => {
+      if (window.innerWidth < 768) {
+        setNewsScrollX(0)
+        return
+      }
 
       const overflow = getOverflow()
-      if (overflow <= 0) return
-
-      const currentX = newsScrollXRef.current
-      const isScrollingDown = e.deltaY > 0
-      const isScrollingUp = e.deltaY < 0
-
-      // Start capturing when section reaches the middle of the viewport
-      const midTrigger = rect.top <= window.innerHeight / 2
-
-      if (isScrollingDown && midTrigger && currentX < overflow) {
-        e.preventDefault()
-        const next = Math.min(overflow, currentX + Math.abs(e.deltaY))
-        newsScrollXRef.current = next
-        setNewsScrollX(next)
-      } else if (isScrollingUp && currentX > 0) {
-        // Scrolling up while cards are shifted — reverse horizontal scroll first
-        e.preventDefault()
-        const next = Math.max(0, currentX - Math.abs(e.deltaY))
-        newsScrollXRef.current = next
-        setNewsScrollX(next)
+      if (overflow <= 0) {
+        setNewsScrollX(0)
+        return
       }
+
+      const stickyTop = 80
+      const sectionTop = section.getBoundingClientRect().top + window.scrollY
+      const start = sectionTop - stickyTop
+      const progress = (window.scrollY - start) / overflow
+      const next = Math.min(overflow, Math.max(0, progress * overflow))
+
+      setNewsScrollX(next)
     }
 
-    window.addEventListener('wheel', onWheel, { passive: false })
-    return () => window.removeEventListener('wheel', onWheel)
+    const updateMeasurements = () => {
+      setNewsSectionHeight(sticky.offsetHeight + getOverflow())
+      updatePosition()
+    }
+
+    const onScroll = () => {
+      if (frame) return
+      frame = window.requestAnimationFrame(() => {
+        frame = 0
+        updatePosition()
+      })
+    }
+
+    const resizeObserver = new ResizeObserver(updateMeasurements)
+    resizeObserver.observe(sticky)
+    resizeObserver.observe(track)
+    resizeObserver.observe(container)
+
+    updateMeasurements()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', updateMeasurements)
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame)
+      resizeObserver.disconnect()
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', updateMeasurements)
+    }
   }, [initialNews.length])
 
   const animatedValues = [
@@ -147,7 +169,7 @@ export default function HomeClient({ initialPartners, initialStartups, initialNe
     useAnimatedNumber(facts[3].value, !factsView.visible, 1800),
   ]
   const animatedCapital = useAnimatedNumber(3, !factsView.visible, 1800)
-  const animatedStartups70 = useAnimatedNumber(100, !factsView.visible, 1800)
+  const animatedStartups = useAnimatedNumber(startupCount + 30, !factsView.visible, 1800)
   const animatedUnicorn = useAnimatedNumber(1, !factsView.visible, 1200)
 
   return (
@@ -165,7 +187,7 @@ export default function HomeClient({ initialPartners, initialStartups, initialNe
         `}
       </Script>
 
-      <main className="min-h-screen bg-brand-dark-blue text-white overflow-x-hidden">
+      <main className="min-h-screen bg-brand-dark-blue text-white overflow-x-clip">
 
         {/* ═══════════════════════════ APPLICATION BANNER ═══════════════════════════ */}
         <Link href="/apply" className="block bg-brand-pink overflow-hidden py-1.5 cursor-pointer hover:brightness-110 transition-all">
@@ -379,7 +401,7 @@ export default function HomeClient({ initialPartners, initialStartups, initialNe
                       <div>
                         <div className="text-gray-500 text-xs font-medium uppercase tracking-[0.2em] mb-2">Startups</div>
                         <div className="text-5xl sm:text-6xl font-black text-white tabular-nums">
-                          {Math.round(animatedStartups70)}<span className="text-brand-pink">+</span>
+                          {Math.round(animatedStartups)}<span className="text-brand-pink">+</span>
                         </div>
                       </div>
                       <div className="w-14 h-14 rounded-xl bg-brand-pink/10 flex items-center justify-center">
@@ -458,15 +480,16 @@ export default function HomeClient({ initialPartners, initialStartups, initialNe
         </section>
 
         {/* ═══════════════════════════ LATEST NEWS ═══════════════════════════ */}
-        {/* Desktop: horizontal scroll driven by vertical scroll (sticky) */}
+        {/* Desktop: scroll-linked horizontal cards */}
         {/* Mobile: simple stacked cards */}
 
-        {/* ── Desktop: horizontal scroll on wheel ── */}
+        {/* ── Desktop: vertical scroll drives the horizontal news strip ── */}
         <section
           ref={newsSectionRef}
-          className="hidden md:block relative py-28 px-4 sm:px-6 lg:px-8"
+          className="hidden md:block relative px-4 sm:px-6 lg:px-8"
+          style={newsSectionHeight > 0 ? { height: `${newsSectionHeight}px` } : undefined}
         >
-          <div className="max-w-7xl mx-auto w-full">
+          <div ref={newsStickyRef} className="sticky top-20 max-w-7xl mx-auto w-full py-28">
               {/* Header */}
               <div className="flex items-end justify-between mb-12">
                 <div className="flex items-center gap-6">
@@ -491,11 +514,11 @@ export default function HomeClient({ initialPartners, initialStartups, initialNe
               <div ref={newsContainerRef} className="overflow-hidden">
                 <div
                   ref={newsTrackRef}
-                  className="flex gap-6 will-change-transform"
+                  className="flex w-max gap-6 will-change-transform"
                   style={{ transform: `translateX(-${newsScrollX}px)` }}
                 >
                   {initialNews.map((item) => (
-                    <Link key={item.id} href={item.url} target="_blank" className="group relative flex-shrink-0 w-[380px]">
+                    <Link key={item.id} href={item.url} target="_blank" className="group relative flex-shrink-0 w-[380px] snap-start">
                       <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
                         {item.imageUrl ? (
                           <img src={item.imageUrl} alt={item.title} loading="lazy" referrerPolicy="no-referrer" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />

@@ -35,6 +35,11 @@ const NOCODB_PARTNERS_TABLE_ID = process.env.NOCODB_PARTNERS_TABLE_ID
 const NOCODB_STARTUPS_TABLE_ID = process.env.NOCODB_STARTUPS_TABLE_ID
 const NOCODB_NEWS_TABLE_ID = process.env.NOCODB_NEWS_TABLE_ID
 
+type StartupFetchResult = {
+  featuredStartups: Startup[]
+  totalStartups: number
+}
+
 async function fetchFeaturedPartners(): Promise<Partner[]> {
   if (!NOCODB_API_TOKEN || !NOCODB_PARTNERS_TABLE_ID) return []
   try {
@@ -67,8 +72,10 @@ async function fetchFeaturedPartners(): Promise<Partner[]> {
   }
 }
 
-async function fetchFeaturedStartups(): Promise<Startup[]> {
-  if (!NOCODB_API_TOKEN || !NOCODB_STARTUPS_TABLE_ID) return []
+async function fetchFeaturedStartups(): Promise<StartupFetchResult> {
+  if (!NOCODB_API_TOKEN || !NOCODB_STARTUPS_TABLE_ID) {
+    return { featuredStartups: [], totalStartups: 0 }
+  }
   try {
     const res = await fetch(
       `${NOCODB_BASE_URL}/api/v2/tables/${NOCODB_STARTUPS_TABLE_ID}/records?limit=1000`,
@@ -77,9 +84,10 @@ async function fetchFeaturedStartups(): Promise<Startup[]> {
         next: { revalidate: 3600 },
       }
     )
-    if (!res.ok) return []
+    if (!res.ok) return { featuredStartups: [], totalStartups: 0 }
     const data = await res.json()
-    return (data.list || [])
+    const startups = data.list || []
+    const featuredStartups = startups
       .filter((r: any) =>
         r['Featured Startup']?.toLowerCase() === 'yes' ||
         r['Y Combinator Alumni']?.toLowerCase() === 'yes' ||
@@ -97,8 +105,9 @@ async function fetchFeaturedStartups(): Promise<Startup[]> {
           isEWOR: r['EWOR']?.toLowerCase() === 'yes',
         }
       })
+    return { featuredStartups, totalStartups: startups.length }
   } catch {
-    return []
+    return { featuredStartups: [], totalStartups: 0 }
   }
 }
 
@@ -135,7 +144,7 @@ async function fetchNews(): Promise<NewsItem[]> {
 }
 
 export default async function HomePage() {
-  const [partners, startups, news] = await Promise.all([
+  const [partners, startupResult, news] = await Promise.all([
     fetchFeaturedPartners(),
     fetchFeaturedStartups(),
     fetchNews(),
@@ -162,7 +171,12 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
       />
-      <HomeClient initialPartners={partners} initialStartups={startups} initialNews={news} />
+      <HomeClient
+        initialPartners={partners}
+        initialStartups={startupResult.featuredStartups}
+        startupCount={startupResult.totalStartups}
+        initialNews={news}
+      />
     </>
   )
 }

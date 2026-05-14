@@ -146,7 +146,7 @@ export default function StartupsPage() {
   }, [selectedCategory, selectedYear, selectedProgram, searchQuery])
 
   // Calculate total statistics
-  const totalStartups = 100
+  const totalStartups = companies.length + 30
 
   // Get spotlight startups (show all featured startups)
   const spotlightStartups = companies.filter(company => company.isSpotlight)

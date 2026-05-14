@@ -184,6 +184,20 @@ export default function Navigation() {
                     </Link>
                     <div className="mx-4 my-1 border-t border-white/15" />
                     <a
+                      href="https://europe-embodied.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsEventsOpen(false)}
+                      className="group block px-6 py-2.5 text-white/70 text-sm font-semibold hover:bg-brand-pink hover:text-white transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-3.5 h-3.5 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        Europe Embodied
+                      </span>
+                    </a>
+                    <a
                       href="https://www.hacking-legal.org/"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -195,6 +209,20 @@ export default function Navigation() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                         Munich Hacking Legal
+                      </span>
+                    </a>
+                    <a
+                      href="https://www.munich-startup.de/veranstaltung/isar-unfiltered/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsEventsOpen(false)}
+                      className="group block px-6 py-2.5 text-white/70 text-sm font-semibold hover:bg-brand-pink hover:text-white transition-all duration-200"
+                    >
+                      <span className="flex items-center">
+                        <svg className="w-3.5 h-3.5 mr-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        Isar Unfiltered
                       </span>
                     </a>
                     <Link
@@ -458,6 +486,15 @@ export default function Navigation() {
                       All Events
                     </Link>
                     <a
+                      href="https://europe-embodied.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block pl-4 py-2 text-white/50 text-sm font-medium hover:text-brand-pink transition-colors"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Europe Embodied
+                    </a>
+                    <a
                       href="https://www.hacking-legal.org/"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -465,6 +502,15 @@ export default function Navigation() {
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Munich Hacking Legal
+                    </a>
+                    <a
+                      href="https://www.munich-startup.de/veranstaltung/isar-unfiltered/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block pl-4 py-2 text-white/50 text-sm font-medium hover:text-brand-pink transition-colors"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Isar Unfiltered
                     </a>
                     <Link
                       href="/eventpage/rtss"

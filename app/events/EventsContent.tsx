@@ -361,15 +361,16 @@ export default function EventsPage() {
             <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 lg:pt-20'>
                {/* Featured Event Spotlight */}
                <div className='mb-24'>
-                  <div className='relative overflow-hidden rounded-[1.75rem] border border-[#e35733]/30 shadow-2xl shadow-[#e35733]/10'>
+                  <div className='relative overflow-hidden rounded-[1.75rem] border border-[#8eeeff]/30 shadow-2xl shadow-[#00d8ff]/10'>
                      {/* Background image */}
                      <div className='absolute inset-0'>
                         <img
-                           src='/events/eventCards/legal-opt.jpg'
-                           alt='Munich Hacking Legal'
-                           className='w-full h-full object-cover'
+                           src='/events/eventCards/europe-embodied-prism.png'
+                           alt='Europe Embodied'
+                           className='w-full h-full object-cover saturate-125'
                         />
-                        <div className='absolute inset-0 bg-gradient-to-r from-[#00002c]/95 via-[#00002c]/75 to-[#00002c]/30' />
+                        <div className='absolute inset-0 bg-gradient-to-r from-[#050814]/95 via-[#06101d]/80 to-[#050814]/20' />
+                        <div className='absolute inset-0 bg-[radial-gradient(circle_at_72%_36%,rgba(142,238,255,0.22),transparent_34%),radial-gradient(circle_at_58%_72%,rgba(255,63,208,0.16),transparent_30%)]' />
                      </div>
 
                      {/* Content */}
@@ -377,38 +378,41 @@ export default function EventsPage() {
                         <div className='flex-1'>
                            {/* Badges */}
                            <div className='flex flex-wrap items-center gap-3 mb-5'>
-                              <span className='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#e35733]/25 border border-[#e35733]/50 text-[#f0896a] text-xs font-bold uppercase tracking-widest'>
-                                 <span className='w-1.5 h-1.5 rounded-full bg-[#f0896a] animate-pulse'></span>
+                              <span className='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#00d8ff]/15 border border-[#8eeeff]/45 text-[#8eeeff] text-xs font-bold uppercase tracking-widest'>
+                                 <span className='w-1.5 h-1.5 rounded-full bg-[#8eeeff] animate-pulse'></span>
                                  Upcoming Event
                               </span>
                               <span className='px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-white/60 text-xs font-bold uppercase tracking-widest'>
-                                 Hackathon
+                                 Robotics Week
+                              </span>
+                              <span className='px-3 py-1.5 rounded-full bg-[#ff3fd0]/10 border border-[#ff3fd0]/25 text-[#f7b8ea] text-xs font-bold uppercase tracking-widest'>
+                                 22-26 June 2026
                               </span>
                            </div>
 
                            <h2 className='text-3xl md:text-5xl font-black text-white mb-4 leading-tight'>
-                              Munich
+                              {'// Europe'}
                               <br />
-                              <span className='text-[#f0896a]'>
-                                 Hacking Legal
+                              <span className='bg-gradient-to-r from-[#8eeeff] via-white to-[#f7b8ea] bg-clip-text text-transparent'>
+                                 Embodied
                               </span>
                            </h2>
 
                            <p className='text-gray-300 text-base md:text-lg leading-relaxed max-w-xl mb-6'>
-                              A unique hackathon focused on building legal tech
-                              solutions that address real challenges in the
-                              legal industry, combining technology with
-                              regulatory expertise.
+                              A city-wide Robotics Week in Munich bringing
+                              students, researchers, founders, and the curious
+                              together for physical AI, hackathon tracks, and
+                              the ecosystem summit.
                            </p>
 
                            <div className='flex flex-wrap items-center gap-4'>
                               <a
-                                 href='https://www.hacking-legal.org/'
+                                 href='https://europe-embodied.com/'
                                  target='_blank'
                                  rel='noopener noreferrer'
-                                 className='group inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#e35733] hover:bg-[#c24520] text-white font-bold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#e35733]/40'
+                                 className='group inline-flex items-center gap-2.5 px-7 py-3.5 bg-white hover:bg-[#dffbff] text-[#050814] font-bold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#00d8ff]/30'
                               >
-                                 <span>Learn More</span>
+                                 <span>Pre-register</span>
                                  <svg
                                     className='w-4 h-4 group-hover:translate-x-1 transition-transform'
                                     fill='none'
@@ -437,7 +441,7 @@ export default function EventsPage() {
                                        d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'
                                     />
                                  </svg>
-                                 <span>This April</span>
+                                 <span>Munich · 22-26 June 2026</span>
                               </div>
                            </div>
                         </div>
