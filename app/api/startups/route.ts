@@ -14,7 +14,11 @@ function transformNocoDBRecord(record: any): Company {
   if (memberName) {
     // Handle profile pic - NocoDB stores it as an array of attachment objects
     let profilePicUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(memberName)}&size=80&background=4f46e5&color=fff`;
-    if (record['Member Picture'] && Array.isArray(record['Member Picture']) && record['Member Picture'][0]) {
+    if (
+      record['Member Picture'] &&
+      Array.isArray(record['Member Picture']) &&
+      record['Member Picture'][0]
+    ) {
       const profilePic = record['Member Picture'][0];
       if (profilePic.signedPath) {
         profilePicUrl = `https://ndb.startmunich.de/${profilePic.signedPath}`;
@@ -28,17 +32,23 @@ function transformNocoDBRecord(record: any): Company {
       role: record['Company Role'] || 'Founder',
       batch: memberBatch.trim(),
       imageUrl: profilePicUrl,
-      linkedinUrl: record['Member Linkedin'] || undefined
+      linkedinUrl: record['Member Linkedin'] || undefined,
     });
   }
 
   const categories = record.Chategory
-    ? record.Chategory.split(',').map((c: string) => c.trim()).filter(Boolean)
+    ? record.Chategory.split(',')
+        .map((c: string) => c.trim())
+        .filter(Boolean)
     : ['Other'];
 
   // Handle company logo - NocoDB stores it as an array of attachment objects
   let logoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(record['Startup Name'] || 'Company')}&size=300&background=00002c&color=fff&bold=true&font-size=0.4`;
-  if (record['Company Logo'] && Array.isArray(record['Company Logo']) && record['Company Logo'][0]) {
+  if (
+    record['Company Logo'] &&
+    Array.isArray(record['Company Logo']) &&
+    record['Company Logo'][0]
+  ) {
     const logo = record['Company Logo'][0];
     if (logo.signedPath) {
       logoUrl = `https://ndb.startmunich.de/${logo.signedPath}`;
@@ -50,7 +60,8 @@ function transformNocoDBRecord(record: any): Company {
     name: record['Startup Name'] || 'Unnamed Startup',
     website: (record['Company Website'] || '').replace(/^https?:\/\//, ''),
     summary: record['Short Description'] || 'No description available',
-    description: record['Description Long'] || record['Short Description'] || 'No description available',
+    description:
+      record['Description Long'] || record['Short Description'] || 'No description available',
     logoUrl: logoUrl,
     foundingYear: record['Founding Year'] || new Date().getFullYear(),
     category: categories,
@@ -62,14 +73,19 @@ function transformNocoDBRecord(record: any): Company {
     supportingPrograms: record['Supporting Programs'] || undefined,
     lastUpdated: record['Last Updated'] || undefined,
     isMTZ: record['MTZ']?.toLowerCase() === 'yes' || false,
-    isEWOR: record['EWOR']?.toLowerCase() === 'yes' || false
+    isEWOR: record['EWOR']?.toLowerCase() === 'yes' || false,
   };
 }
 
 export async function GET() {
   console.log('========== FETCHING ALL STARTUPS ==========');
   console.log('🔍 Environment Variables:');
-  console.log('NOCODB_API_TOKEN:', NOCODB_API_TOKEN ? `${NOCODB_API_TOKEN.substring(0, 10)}... (${NOCODB_API_TOKEN.length} chars)` : 'NOT SET');
+  console.log(
+    'NOCODB_API_TOKEN:',
+    NOCODB_API_TOKEN
+      ? `${NOCODB_API_TOKEN.substring(0, 10)}... (${NOCODB_API_TOKEN.length} chars)`
+      : 'NOT SET',
+  );
   console.log('NOCODB_BASE_URL:', NOCODB_BASE_URL);
   console.log('NOCODB_TABLE_ID (startups):', NOCODB_TABLE_ID);
   console.log('NOCODB_MEMBERS_TABLE_ID:', process.env.NOCODB_MEMBERS_TABLE_ID);
@@ -81,10 +97,7 @@ export async function GET() {
   // Check if NocoDB is configured
   if (!NOCODB_API_TOKEN || !NOCODB_TABLE_ID) {
     console.error('NocoDB not configured - missing API token or table ID');
-    return NextResponse.json(
-      { error: 'NocoDB not configured' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'NocoDB not configured' }, { status: 500 });
   }
 
   try {
@@ -98,7 +111,7 @@ export async function GET() {
           'Content-Type': 'application/json',
         },
         next: { revalidate: 3600 },
-      }
+      },
     );
 
     if (!response.ok) {
@@ -112,12 +125,8 @@ export async function GET() {
 
     console.log(`Successfully fetched ${companies.length} startups from NocoDB`);
     return NextResponse.json(companies);
-
   } catch (error) {
     console.error('Error fetching from NocoDB:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch startups from database' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch startups from database' }, { status: 500 });
   }
 }

@@ -45,7 +45,7 @@ export async function GET() {
           'Content-Type': 'application/json',
         },
         next: { revalidate: 3600 },
-      }
+      },
     );
 
     if (!response.ok) {

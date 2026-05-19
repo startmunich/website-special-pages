@@ -1,202 +1,198 @@
-import type { Metadata } from "next"
-import Image from "next/image"
-import Link from "next/link"
-import { ArrowLeft, ExternalLink, Plus } from "lucide-react"
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowLeft, ExternalLink, Plus } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: "Road to START Hack",
+  title: 'Road to START Hack',
   description: "Munich's most entrepreneurial hackathon by START Munich.",
-  alternates: { canonical: "https://www.startmunich.de/eventpage/rtsh" },
+  alternates: { canonical: 'https://www.startmunich.de/eventpage/rtsh' },
   openGraph: {
-    url: "https://www.startmunich.de/eventpage/rtsh",
-    title: "Road to START Hack | START Munich",
+    url: 'https://www.startmunich.de/eventpage/rtsh',
+    title: 'Road to START Hack | START Munich',
     description:
-      "A 24-hour entrepreneurial hackathon where 200+ students build real products with startup challenge partners.",
+      'A 24-hour entrepreneurial hackathon where 200+ students build real products with startup challenge partners.',
     images: [
       {
-        url: "/eventpage/rtsh/hero.jpg",
+        url: '/eventpage/rtsh/hero.jpg',
         width: 1000,
         height: 1500,
-        alt: "Hackers working around a table at Road to START Hack",
+        alt: 'Hackers working around a table at Road to START Hack',
       },
     ],
   },
-}
+};
 
-const applyUrl = "https://luma.com/event/evt-IO8XSK5XUfr9IDj"
+const applyUrl = 'https://luma.com/event/evt-IO8XSK5XUfr9IDj';
 const contactUrl =
-  "https://ffd0351e.sibforms.com/serve/MUIFACn-jxeFzJuy54x_EqQKnO1eWZ5Qt-Mx6UUF5ltQuoJHVl6tN9XxVkiXXqrJDJKDz8JCns9-KomFM31L_ifaCZhEW0HUrpcxjWuR8_suYwZt6bRvweEPaR3ML2Za8pbBEJIivB6BKR9-bNz1VHdlQ3Wrz91tf0328X0lAEQX0EF7jhYlIWnVZd79YlJgz4635KQHcuV-YbH8"
+  'https://ffd0351e.sibforms.com/serve/MUIFACn-jxeFzJuy54x_EqQKnO1eWZ5Qt-Mx6UUF5ltQuoJHVl6tN9XxVkiXXqrJDJKDz8JCns9-KomFM31L_ifaCZhEW0HUrpcxjWuR8_suYwZt6bRvweEPaR3ML2Za8pbBEJIivB6BKR9-bNz1VHdlQ3Wrz91tf0328X0lAEQX0EF7jhYlIWnVZd79YlJgz4635KQHcuV-YbH8';
 
 const facts = [
   {
-    icon: "/eventpage/rtsh/icon-calendar.png",
-    text: "29-30 November 2025",
+    icon: '/eventpage/rtsh/icon-calendar.png',
+    text: '29-30 November 2025',
   },
   {
-    icon: "/eventpage/rtsh/icon-location.png",
-    text: "Munich (TUM) Main Campus",
+    icon: '/eventpage/rtsh/icon-location.png',
+    text: 'Munich (TUM) Main Campus',
   },
   {
-    icon: "/eventpage/rtsh/icon-participants.png",
-    text: "200+ hackers",
+    icon: '/eventpage/rtsh/icon-participants.png',
+    text: '200+ hackers',
   },
   {
-    icon: "/eventpage/rtsh/icon-partners.png",
-    text: "Challenge partners from 5 top DACH startups at the AI frontier",
+    icon: '/eventpage/rtsh/icon-partners.png',
+    text: 'Challenge partners from 5 top DACH startups at the AI frontier',
   },
   {
-    icon: "/eventpage/rtsh/icon-format.png",
-    text: "24-hour build sprint, team formation on site, mentor support throughout",
+    icon: '/eventpage/rtsh/icon-format.png',
+    text: '24-hour build sprint, team formation on site, mentor support throughout',
   },
   {
-    icon: "/eventpage/rtsh/icon-demo.png",
-    text: "Pitch on stage to a jury of investors and experts",
+    icon: '/eventpage/rtsh/icon-demo.png',
+    text: 'Pitch on stage to a jury of investors and experts',
   },
   {
-    icon: "/eventpage/rtsh/icon-prize.png",
-    text: "Win prizes including cash, gadgets and mentorship from VCs",
+    icon: '/eventpage/rtsh/icon-prize.png',
+    text: 'Win prizes including cash, gadgets and mentorship from VCs',
   },
-]
+];
 
 const timeline = [
-  ["Arrival and Registration", "09:00 AM - 10:00 AM"],
-  ["Welcome and Opening Remarks", "10:00 AM - 10:10 AM"],
-  ["Rules and Timings", "10:10 AM - 10:30 AM"],
-  ["Partner Introduction", "10:30 AM - 11:00 AM"],
-  ["Team Formation and Coffee", "11:00 AM - 11:45 AM"],
-  ["Presentation of the Challenges", "11:45 AM - 12:40 PM"],
-  ["Challenge Form Opens & Matchmaking", "12:30 PM"],
-  ["Hacking Starts", "1:00 PM"],
-  ["Challenge Deep Dives", "1:00 PM - 1:45 PM"],
-  ["Lunch", "2:00 PM - 3:00 PM"],
-  ["Hacking Session 1", "1:00 PM - 6:00 PM"],
-  ["Dinner", "6:00 PM - 7:30 PM"],
-  ["Hacking Session 2", "7:30 PM - 12:00 AM"],
-  ["Midnight Snack", "12:00 AM - 1:00 AM"],
-  ["Hacking Session 3 (Overnight)", "1:00 AM - 7:30 AM"],
-  ["Breakfast", "7:30 AM - 9:00 AM"],
-  ["Hacking Session 4 (Final Stretch)", "9:00 AM - 1:00 PM"],
-  ["Project Submission", "12:00 PM - 1:00 PM"],
-  ["Break", "1:00 PM - 1:15 PM"],
-  ["Project Demos and Presentations", "1:15 PM - 2:30 PM"],
-  ["Lunch", "2:30 PM - 3:15 PM"],
-  ["Finalist Presentations", "3:15 PM - 3:45 PM"],
-  ["Keynote Speaker (Judge Deliberation)", "3:45 PM - 4:00 PM"],
-  ["Awards Ceremony and Closing Remarks", "4:00 PM - 4:30 PM"],
-]
+  ['Arrival and Registration', '09:00 AM - 10:00 AM'],
+  ['Welcome and Opening Remarks', '10:00 AM - 10:10 AM'],
+  ['Rules and Timings', '10:10 AM - 10:30 AM'],
+  ['Partner Introduction', '10:30 AM - 11:00 AM'],
+  ['Team Formation and Coffee', '11:00 AM - 11:45 AM'],
+  ['Presentation of the Challenges', '11:45 AM - 12:40 PM'],
+  ['Challenge Form Opens & Matchmaking', '12:30 PM'],
+  ['Hacking Starts', '1:00 PM'],
+  ['Challenge Deep Dives', '1:00 PM - 1:45 PM'],
+  ['Lunch', '2:00 PM - 3:00 PM'],
+  ['Hacking Session 1', '1:00 PM - 6:00 PM'],
+  ['Dinner', '6:00 PM - 7:30 PM'],
+  ['Hacking Session 2', '7:30 PM - 12:00 AM'],
+  ['Midnight Snack', '12:00 AM - 1:00 AM'],
+  ['Hacking Session 3 (Overnight)', '1:00 AM - 7:30 AM'],
+  ['Breakfast', '7:30 AM - 9:00 AM'],
+  ['Hacking Session 4 (Final Stretch)', '9:00 AM - 1:00 PM'],
+  ['Project Submission', '12:00 PM - 1:00 PM'],
+  ['Break', '1:00 PM - 1:15 PM'],
+  ['Project Demos and Presentations', '1:15 PM - 2:30 PM'],
+  ['Lunch', '2:30 PM - 3:15 PM'],
+  ['Finalist Presentations', '3:15 PM - 3:45 PM'],
+  ['Keynote Speaker (Judge Deliberation)', '3:45 PM - 4:00 PM'],
+  ['Awards Ceremony and Closing Remarks', '4:00 PM - 4:30 PM'],
+];
 
 const challengePartners = [
-  { name: "BFL", logo: "/eventpage/rtsh/logo-bfl.png" },
-  { name: "AskLio", logo: "/eventpage/rtsh/logo-asklio.png" },
-  { name: "QPLIX", logo: "/eventpage/rtsh/logo-qplix.png", compact: true },
-  { name: "Oneware", logo: "/eventpage/rtsh/logo-oneware.png" },
-]
+  { name: 'BFL', logo: '/eventpage/rtsh/logo-bfl.png' },
+  { name: 'AskLio', logo: '/eventpage/rtsh/logo-asklio.png' },
+  { name: 'QPLIX', logo: '/eventpage/rtsh/logo-qplix.png', compact: true },
+  { name: 'Oneware', logo: '/eventpage/rtsh/logo-oneware.png' },
+];
 
 const ecosystemPartners = [
-  { name: "OAI", logo: "/eventpage/rtsh/logo-oai.png" },
-  { name: "Langdock", logo: "/eventpage/rtsh/logo-langdoc.png" },
-  { name: "Partner", logo: "/eventpage/rtsh/logo-white.png" },
-  { name: "Lovable", logo: "/eventpage/rtsh/logo-lovable.png" },
-  { name: "EWOR", logo: "/eventpage/rtsh/logo-ewor.png" },
-  { name: "AWS", logo: "/eventpage/rtsh/logo-aws.png", compact: true },
-]
+  { name: 'OAI', logo: '/eventpage/rtsh/logo-oai.png' },
+  { name: 'Langdock', logo: '/eventpage/rtsh/logo-langdoc.png' },
+  { name: 'Partner', logo: '/eventpage/rtsh/logo-white.png' },
+  { name: 'Lovable', logo: '/eventpage/rtsh/logo-lovable.png' },
+  { name: 'EWOR', logo: '/eventpage/rtsh/logo-ewor.png' },
+  { name: 'AWS', logo: '/eventpage/rtsh/logo-aws.png', compact: true },
+];
 
 const faqs = [
   {
-    question: "When will the Hackathon take place?",
-    answer:
-      "It’s happening on November 29–30, 2025 (Saturday–Sunday) — not much sleep for you ;)",
+    question: 'When will the Hackathon take place?',
+    answer: 'It’s happening on November 29–30, 2025 (Saturday–Sunday) — not much sleep for you ;)',
   },
   {
-    question: "What is the topic of the hackathon?",
+    question: 'What is the topic of the hackathon?',
     answer:
-      "From “Hello World” to “Hello Users”!\nThis is an entrepreneurial hackathon, meaning it’s not just about solving a random coding task. You’ll tackle real challenges from industry partners, solving actual problems that exist in the market.\nThe ultimate goal? Build something so good that you could turn it into your own startup afterwards. 💡",
+      'From “Hello World” to “Hello Users”!\nThis is an entrepreneurial hackathon, meaning it’s not just about solving a random coding task. You’ll tackle real challenges from industry partners, solving actual problems that exist in the market.\nThe ultimate goal? Build something so good that you could turn it into your own startup afterwards. 💡',
   },
   {
-    question: "Who can attend?",
+    question: 'Who can attend?',
     answer:
-      "Any student with curiosity and a spark of creativity!\nWhether you’re studying engineering, computer science, physics, math, business, or management — if you love solving real-world problems, this hackathon is for you.",
+      'Any student with curiosity and a spark of creativity!\nWhether you’re studying engineering, computer science, physics, math, business, or management — if you love solving real-world problems, this hackathon is for you.',
   },
   {
-    question: "How can I apply for the event?",
+    question: 'How can I apply for the event?',
     answer:
-      "Applications will open via Luma.\nJust fill out a short form telling us who you are, what you do, and why you want to join the hackathon. We promise it’s quick — and fun!",
+      'Applications will open via Luma.\nJust fill out a short form telling us who you are, what you do, and why you want to join the hackathon. We promise it’s quick — and fun!',
   },
   {
-    question: "Do I need to have a team in advance?",
+    question: 'Do I need to have a team in advance?',
     answer:
-      "Nope! You can apply solo. We’ll have a matchmaking session at the start of the event, so there’s plenty of time to find your dream team.",
+      'Nope! You can apply solo. We’ll have a matchmaking session at the start of the event, so there’s plenty of time to find your dream team.',
   },
   {
-    question: "What should I bring to the event?",
+    question: 'What should I bring to the event?',
     answer:
-      "Bring your laptop, charger, creativity, and a good mood.\nSleeping bag or blanket recommended (depending on your commitment to all-nighters). We’ll take care of the rest — snacks, drinks, and vibes included.",
+      'Bring your laptop, charger, creativity, and a good mood.\nSleeping bag or blanket recommended (depending on your commitment to all-nighters). We’ll take care of the rest — snacks, drinks, and vibes included.',
   },
   {
-    question: "Do you provide accommodation?",
-    answer:
-      "Not officially — but don’t worry, you won’t have much time to sleep anyway. 😉",
+    question: 'Do you provide accommodation?',
+    answer: 'Not officially — but don’t worry, you won’t have much time to sleep anyway. 😉',
   },
   {
-    question: "What size can the team be?",
+    question: 'What size can the team be?',
     answer:
-      "Teams can have 3–5 people.\nEach participant applies individually, but if you’re already a team, make sure to mention your teammates in the application form — we’ll review and accept you as a team whenever possible.",
+      'Teams can have 3–5 people.\nEach participant applies individually, but if you’re already a team, make sure to mention your teammates in the application form — we’ll review and accept you as a team whenever possible.',
   },
   {
-    question: "How do We register as a team?",
+    question: 'How do We register as a team?',
     answer:
-      "You’ll each fill out the Luma application, and there’s a special question asking if you’re applying as a team. Once you’re accepted, we’ll make sure your group sticks together.",
+      'You’ll each fill out the Luma application, and there’s a special question asking if you’re applying as a team. Once you’re accepted, we’ll make sure your group sticks together.',
   },
   {
-    question: "When will the challenges be announced?",
+    question: 'When will the challenges be announced?',
     answer:
-      "Right at the beginning of the event — on Saturday morning!\nOur five challenge partners will present their cases in two parallel sessions, so you can choose which one to attend based on your interests.",
+      'Right at the beginning of the event — on Saturday morning!\nOur five challenge partners will present their cases in two parallel sessions, so you can choose which one to attend based on your interests.',
   },
   {
-    question: "When will I know if my application has been accepted?",
+    question: 'When will I know if my application has been accepted?',
     answer:
-      "You’ll be informed well before the event — enough time to pack your stuff and mentally prepare you for the grind",
+      'You’ll be informed well before the event — enough time to pack your stuff and mentally prepare you for the grind',
   },
   {
-    question: "Will there be food?",
+    question: 'Will there be food?',
     answer:
-      "Absolutely. You won’t code on an empty stomach. We’ll provide meals and snacks throughout the event — details are a surprise 🍕",
+      'Absolutely. You won’t code on an empty stomach. We’ll provide meals and snacks throughout the event — details are a surprise 🍕',
   },
   {
-    question: "How long does the hackathon last?",
-    answer:
-      "Exactly 24 hours of hacking, plus demos, judging, and the award ceremony afterwards.",
+    question: 'How long does the hackathon last?',
+    answer: 'Exactly 24 hours of hacking, plus demos, judging, and the award ceremony afterwards.',
   },
   {
-    question: "Where will the hackathon take place?",
+    question: 'Where will the hackathon take place?',
     answer:
-      "At the Technical University of Munich (TUM) Main Campus —\n📍 Arcisstraße 21, 80333 Munich, in the Audimax Foyer.\nYes, there’s plenty of space. And yes, there’s Wi-Fi.",
+      'At the Technical University of Munich (TUM) Main Campus —\n📍 Arcisstraße 21, 80333 Munich, in the Audimax Foyer.\nYes, there’s plenty of space. And yes, there’s Wi-Fi.',
   },
   {
-    question: "Can I participate alone?",
+    question: 'Can I participate alone?',
     answer:
-      "You can apply alone, but you’ll need a team to compete. Don’t worry — we’ll help you find one!",
+      'You can apply alone, but you’ll need a team to compete. Don’t worry — we’ll help you find one!',
   },
   {
-    question: "How do I find teammates if I don’t have any?",
+    question: 'How do I find teammates if I don’t have any?',
     answer:
-      "We’ve got you covered!\nWe’re planning a pre-event at MTZ the day before the hackathon, where you can meet other participants and form teams.\nAnd on Saturday morning, there’s an extra matchmaking timeslot to make sure everyone finds their crew.",
+      'We’ve got you covered!\nWe’re planning a pre-event at MTZ the day before the hackathon, where you can meet other participants and form teams.\nAnd on Saturday morning, there’s an extra matchmaking timeslot to make sure everyone finds their crew.',
   },
   {
-    question: "Any other questions? Contact us!",
-    answer:
-      "Reach out via E-mail: f.beier@startmunich.de or j.erhard@startmunich.de",
+    question: 'Any other questions? Contact us!',
+    answer: 'Reach out via E-mail: f.beier@startmunich.de or j.erhard@startmunich.de',
   },
-]
+];
 
 function RtshButton({
   href,
   children,
-  className = "",
+  className = '',
 }: {
-  href: string
-  children: React.ReactNode
-  className?: string
+  href: string;
+  children: React.ReactNode;
+  className?: string;
 }) {
   return (
     <a
@@ -208,21 +204,19 @@ function RtshButton({
       {children}
       <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
     </a>
-  )
+  );
 }
 
 function PartnerGrid({
   title,
   partners,
 }: {
-  title: string
-  partners: { name: string; logo: string; compact?: boolean }[]
+  title: string;
+  partners: { name: string; logo: string; compact?: boolean }[];
 }) {
   return (
     <div className="space-y-8">
-      <h3 className="text-center text-xl font-bold text-[#34e1b8] sm:text-2xl">
-        {title}
-      </h3>
+      <h3 className="text-center text-xl font-bold text-[#34e1b8] sm:text-2xl">{title}</h3>
       <div className="mx-auto grid max-w-5xl grid-cols-2 items-center gap-4 sm:grid-cols-3 lg:grid-cols-4">
         {partners.map((partner) => (
           <div
@@ -236,14 +230,14 @@ function PartnerGrid({
               height={120}
               loading="eager"
               className={`h-auto w-auto object-contain ${
-                partner.compact ? "max-h-16 max-w-28" : "max-h-14 max-w-44"
+                partner.compact ? 'max-h-16 max-w-28' : 'max-h-14 max-w-44'
               }`}
             />
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 export default function RtshPage() {
@@ -301,9 +295,7 @@ export default function RtshPage() {
                     height={44}
                     className="h-10 w-10 shrink-0 object-contain"
                   />
-                  <p className="max-w-xl text-base font-bold leading-tight">
-                    {fact.text}
-                  </p>
+                  <p className="max-w-xl text-base font-bold leading-tight">{fact.text}</p>
                 </div>
               ))}
             </div>
@@ -325,14 +317,13 @@ export default function RtshPage() {
             Apply here
           </RtshButton>
           <p className="mx-auto mt-12 max-w-4xl text-base font-bold leading-relaxed">
-            Turn a simple idea into something people can click. Road to START
-            Hack brings 200 innovators from all fields and backgrounds together
-            to solve real-world challenges in just 24 hours. We help you keep
-            the scope tight, mentors jump in when you are stuck, and the room
-            stays friendly and focused. You prototype, test with people nearby,
-            and polish just enough to show it. No experience required. Bring
-            your laptop and curiosity. By the end you can say hello users for
-            real, with a demo you are proud to share and a path to keep going.
+            Turn a simple idea into something people can click. Road to START Hack brings 200
+            innovators from all fields and backgrounds together to solve real-world challenges in
+            just 24 hours. We help you keep the scope tight, mentors jump in when you are stuck, and
+            the room stays friendly and focused. You prototype, test with people nearby, and polish
+            just enough to show it. No experience required. Bring your laptop and curiosity. By the
+            end you can say hello users for real, with a demo you are proud to share and a path to
+            keep going.
           </p>
         </div>
       </section>
@@ -345,23 +336,18 @@ export default function RtshPage() {
                 How the 24 hours run.
               </h2>
               <p className="mt-7 max-w-xl text-base font-bold leading-relaxed">
-                From Saturday 09:00 check-in to Sunday 17:30 awards, you will
-                form teams, meet partners, dive into challenges, build in four
-                focused blocks with mentor support, submit at noon, demo by
-                challenge, then see the winners on stage.
+                From Saturday 09:00 check-in to Sunday 17:30 awards, you will form teams, meet
+                partners, dive into challenges, build in four focused blocks with mentor support,
+                submit at noon, demo by challenge, then see the winners on stage.
               </p>
             </div>
             <div className="grid max-w-md grid-cols-2 gap-8">
               <div>
-                <p className="text-6xl font-[900] leading-none sm:text-7xl">
-                  24H
-                </p>
+                <p className="text-6xl font-[900] leading-none sm:text-7xl">24H</p>
                 <p className="mt-3 text-xs font-bold">Of Hacking</p>
               </div>
               <div>
-                <p className="text-6xl font-[900] leading-none sm:text-7xl">
-                  +200
-                </p>
+                <p className="text-6xl font-[900] leading-none sm:text-7xl">+200</p>
                 <p className="mt-3 text-xs font-bold">Hackers</p>
               </div>
             </div>
@@ -420,7 +406,7 @@ export default function RtshPage() {
                     {faq.question}
                   </span>
                 </summary>
-                <p className="mt-5 max-w-3xl whitespace-pre-line pl-10 text-base leading-relaxed text-white/78">
+                <p className="text-white/78 mt-5 max-w-3xl whitespace-pre-line pl-10 text-base leading-relaxed">
                   {faq.answer}
                 </p>
               </details>
@@ -473,5 +459,5 @@ export default function RtshPage() {
         </div>
       </footer>
     </main>
-  )
+  );
 }

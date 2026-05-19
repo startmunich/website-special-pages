@@ -1,15 +1,17 @@
-import type { Metadata } from 'next'
-import StartupDetailsContent from './StartupDetailsContent'
-import { OG_IMAGES } from '@/lib/metadata'
+import type { Metadata } from 'next';
+import StartupDetailsContent from './StartupDetailsContent';
+import { OG_IMAGES } from '@/lib/metadata';
 
-const NOCODB_API_TOKEN = process.env.NOCODB_API_TOKEN
-const NOCODB_BASE_URL = process.env.NOCODB_BASE_URL || 'https://ndb.startmunich.de'
-const NOCODB_STARTUPS_TABLE_ID = process.env.NOCODB_STARTUPS_TABLE_ID
+const NOCODB_API_TOKEN = process.env.NOCODB_API_TOKEN;
+const NOCODB_BASE_URL = process.env.NOCODB_BASE_URL || 'https://ndb.startmunich.de';
+const NOCODB_STARTUPS_TABLE_ID = process.env.NOCODB_STARTUPS_TABLE_ID;
 
-export async function generateMetadata(
-  { params }: { params: Promise<{ id: string }> }
-): Promise<Metadata> {
-  const { id } = await params
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
 
   try {
     if (NOCODB_API_TOKEN && NOCODB_STARTUPS_TABLE_ID) {
@@ -18,14 +20,16 @@ export async function generateMetadata(
         {
           headers: { 'xc-token': NOCODB_API_TOKEN },
           next: { revalidate: 3600 },
-        }
-      )
+        },
+      );
       if (res.ok) {
-        const data = await res.json()
-        const startup = data?.list?.[0]
+        const data = await res.json();
+        const startup = data?.list?.[0];
         if (startup) {
-          const name = startup['Startup Name'] || 'Startup'
-          const description = startup['Description'] || `Learn about ${name}, a startup founded by START Munich alumni.`
+          const name = startup['Startup Name'] || 'Startup';
+          const description =
+            startup['Description'] ||
+            `Learn about ${name}, a startup founded by START Munich alumni.`;
           return {
             title: name,
             description,
@@ -36,7 +40,7 @@ export async function generateMetadata(
               description,
               images: OG_IMAGES,
             },
-          }
+          };
         }
       }
     }
@@ -48,9 +52,9 @@ export async function generateMetadata(
     title: 'Startup',
     description: 'A startup founded by START Munich alumni.',
     alternates: { canonical: `https://www.startmunich.de/startup-details/${id}` },
-  }
+  };
 }
 
 export default function StartupDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-  return <StartupDetailsContent params={params} />
+  return <StartupDetailsContent params={params} />;
 }

@@ -1,5 +1,5 @@
-import { EncryptedText } from "@/components/ui/encrypted-text";
-import React from "react";
+import { EncryptedText } from '@/components/ui/encrypted-text';
+import React from 'react';
 
 export default function EncryptedTextDemoSecond() {
   return (
