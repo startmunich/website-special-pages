@@ -62,6 +62,8 @@ export default function HomeClient({
   const [turningIdx, setTurningIdx] = useState(0);
   const [brandPartners] = useState<Partner[]>(initialPartners);
   const [featuredStartups] = useState<Startup[]>(initialStartups);
+  const [failedPartnerLogos, setFailedPartnerLogos] = useState<Set<string>>(new Set());
+  const [failedStartupLogos, setFailedStartupLogos] = useState<Set<string>>(new Set());
   const [newsScrollX, setNewsScrollX] = useState(0);
   const [newsSectionHeight, setNewsSectionHeight] = useState(0);
   const [showAllNews, setShowAllNews] = useState(false);
@@ -294,16 +296,25 @@ export default function HomeClient({
                   key={`${partner.id}-${i}`}
                   className="mx-9 inline-flex h-[54px] items-center justify-center opacity-80 transition-all duration-200 hover:-translate-y-px hover:opacity-100"
                 >
-                  <img
-                    src={partner.logoUrl}
-                    alt={partner.name}
-                    className="h-[48px] w-auto max-w-[200px] object-contain grayscale"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      target.parentElement!.innerHTML = `<span class="text-white/70 font-bold text-base sm:text-lg tracking-tight">${partner.name}</span>`;
-                    }}
-                  />
+                  {failedPartnerLogos.has(partner.id) ? (
+                    <span className="text-base font-bold tracking-tight text-white/70 sm:text-lg">
+                      {partner.name}
+                    </span>
+                  ) : (
+                    <img
+                      src={partner.logoUrl}
+                      alt={partner.name}
+                      className="h-[48px] w-auto max-w-[200px] object-contain grayscale"
+                      onError={() => {
+                        setFailedPartnerLogos((prev) => {
+                          if (prev.has(partner.id)) return prev;
+                          const next = new Set(prev);
+                          next.add(partner.id);
+                          return next;
+                        });
+                      }}
+                    />
+                  )}
                 </div>
               ))}
             </div>
@@ -567,17 +578,26 @@ export default function HomeClient({
                     className="mx-6 inline-flex flex-shrink-0 items-center justify-center"
                   >
                     <div className="flex h-20 w-36 items-center justify-center rounded-xl bg-white p-4 transition-all duration-300 hover:scale-105 hover:border-brand-pink/30">
-                      <img
-                        src={startup.logoUrl}
-                        alt={startup.name}
-                        loading="lazy"
-                        className="max-h-10 max-w-[100px] object-contain"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          target.parentElement!.innerHTML = `<span class="text-sm text-white/80 font-bold text-center">${startup.name}</span>`;
-                        }}
-                      />
+                      {failedStartupLogos.has(startup.id) ? (
+                        <span className="text-center text-sm font-bold text-brand-dark-blue">
+                          {startup.name}
+                        </span>
+                      ) : (
+                        <img
+                          src={startup.logoUrl}
+                          alt={startup.name}
+                          loading="lazy"
+                          className="max-h-10 max-w-[100px] object-contain"
+                          onError={() => {
+                            setFailedStartupLogos((prev) => {
+                              if (prev.has(startup.id)) return prev;
+                              const next = new Set(prev);
+                              next.add(startup.id);
+                              return next;
+                            });
+                          }}
+                        />
+                      )}
                     </div>
                   </Link>
                 ))}
