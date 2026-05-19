@@ -11,6 +11,8 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mjs,cjs,mdx,md}\" --cache",
     "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,mdx,md}\" --cache",
     "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "package-manager:check": "node scripts/check-pnpm-hygiene.cjs",
     "preinstall": "node scripts/enforce-pnpm.cjs",
     "prepare": "node .husky/install.mjs"
@@ -43,6 +45,7 @@
     "@commitlint/cli": "^21.0.1",
     "@commitlint/config-conventional": "^21.0.1",
     "@eslint/eslintrc": "^3.3.5",
+    "@playwright/test": "^1.60.0",
     "@types/node": "^24.12.4",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",

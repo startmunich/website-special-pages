@@ -41,7 +41,7 @@
   // Explicit whitelist — only these managers may open PRs. If Renovate later
   // gains support for a new ecosystem it will not silently start opening PRs
   // here unless we add it to this list.
-  enabledManagers: ['npm', 'github-actions'],
+  enabledManagers: ['npm', 'nvm', 'github-actions'],
 
   packageRules: [
     // npm minor + patch: grouped, auto-merged when CI is green.
@@ -62,6 +62,13 @@
     {
       matchManagers: ['github-actions'],
       groupName: 'github actions',
+      automerge: true,
+    },
+    // Node version: keep .nvmrc + CI runner version aligned. Auto-merge —
+    // if quality + e2e pass on the new version, it's good enough.
+    {
+      matchPackageNames: ['node'],
+      groupName: 'node version',
       automerge: true,
     },
     // pnpm version: keep package.json packageManager in sync. Auto-merge.
