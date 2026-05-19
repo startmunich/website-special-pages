@@ -6,35 +6,42 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "package-manager:check": "node scripts/check-pnpm-hygiene.cjs",
+    "preinstall": "node scripts/enforce-pnpm.cjs"
   },
   "dependencies": {
-    "@radix-ui/react-select": "^2.0.0",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.0",
-    "dotenv": "^17.2.3",
+    "@radix-ui/react-select": "^2.2.6",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^17.4.2",
     "lucide-react": "^0.577.0",
-    "motion": "^12.38.0",
-    "next": "^15.3.9",
-    "posthog-js": "^1.372.8",
-    "react": "^18",
-    "react-dom": "^18",
+    "motion": "^12.39.0",
+    "next": "^15.5.18",
+    "posthog-js": "^1.374.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-fast-marquee": "^1.6.5",
     "react-social-media-embed": "^2.5.18",
-    "tailwind-merge": "^3.0.0"
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
-    "@types/node": "^24.0.0",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10.4.16",
-    "eslint": "^9",
-    "eslint-config-next": "^15.3.9",
+    "@types/node": "^24.12.4",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
+    "autoprefixer": "^10.5.0",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^15.5.18",
     "postcss": "^8.5.14",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.19",
     "tailwindcss-animate": "^1.0.7",
     "ts-node": "^10.9.2",
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@10.33.3+sha512.a19744364a7e248b92657a4ca5973f9354d21caf982579674b1c539f32c7420c47138ad8b1254df07aba9bc782d9b3029e3db34d5dbff974326eb74dac8ff489"
+  "packageManager": "pnpm@10.33.3+sha512.a19744364a7e248b92657a4ca5973f9354d21caf982579674b1c539f32c7420c47138ad8b1254df07aba9bc782d9b3029e3db34d5dbff974326eb74dac8ff489",
+  "pnpm": {
+    "overrides": {
+      "postcss": "^8.5.14"
+    }
+  }
 }
